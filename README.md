@@ -68,7 +68,6 @@ SCAC formalizes a four-dimensional telemetry vector projected into the agent inf
 | [`week2_closed_loop_test.py`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/week2_closed_loop_test.py) | **Phase 2 Production Harness.** Closed-loop multi-turn kernel feedback on Euclidean distance calculations. |
 | [`local_experiments/prompt_ablation_study/`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/local_experiments/prompt_ablation_study/) | **Local Ablation Suite.** Self-contained suite reproducing 4 prompt variants and memory profiling. |
 | [`foil_runs/`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/foil_runs/) & [`foil_runs_euclidean/`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/foil_runs_euclidean/) | **Empirical Trial Code.** All 40 generated Python trial scripts captured during cloud execution. |
-| [`.agents/skills/`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/.agents/skills/) | **Agent Customizations.** Domain skills for systems benchmarking, cgroup v2 kernel telemetry, and paper writing. |
 
 ---
 

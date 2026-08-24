@@ -12,10 +12,8 @@ foil_data/*.npy
 foil_data/*.csv
 *.npy
 
-# Environment and secrets
-.env
-*.key
-*.pem
+# Local Agent custom skills and rules
+.agents/
 
 # Virtual environments
 venv/
