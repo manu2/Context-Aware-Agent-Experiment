@@ -1,0 +1,193 @@
+{
+  "protocol_version": "1.0-frozen",
+  "generated_at": "2026-08-26T04:58:00Z",
+  "total_executions": 30,
+  "task_hash": "199a60e06bcda58ec741348972ad881f50d5fa67b2f9fb6ea09f37c514ec6085",
+  "models": [
+    "claude-opus-5",
+    "gpt-5.6-sol",
+    "gemini-3.7-flash"
+  ],
+  "executions": [
+    {
+      "trial_id": "opus_rep01_A",
+      "model": "claude-opus-5",
+      "condition": "A_Blind",
+      "pair_id": "opus_pair01"
+    },
+    {
+      "trial_id": "opus_rep01_D",
+      "model": "claude-opus-5",
+      "condition": "D_2DTelemetry",
+      "pair_id": "opus_pair01"
+    },
+    {
+      "trial_id": "opus_rep02_A",
+      "model": "claude-opus-5",
+      "condition": "A_Blind",
+      "pair_id": "opus_pair02"
+    },
+    {
+      "trial_id": "opus_rep02_D",
+      "model": "claude-opus-5",
+      "condition": "D_2DTelemetry",
+      "pair_id": "opus_pair02"
+    },
+    {
+      "trial_id": "opus_rep03_A",
+      "model": "claude-opus-5",
+      "condition": "A_Blind",
+      "pair_id": "opus_pair03"
+    },
+    {
+      "trial_id": "opus_rep03_D",
+      "model": "claude-opus-5",
+      "condition": "D_2DTelemetry",
+      "pair_id": "opus_pair03"
+    },
+    {
+      "trial_id": "opus_rep04_A",
+      "model": "claude-opus-5",
+      "condition": "A_Blind",
+      "pair_id": "opus_pair04"
+    },
+    {
+      "trial_id": "opus_rep04_D",
+      "model": "claude-opus-5",
+      "condition": "D_2DTelemetry",
+      "pair_id": "opus_pair04"
+    },
+    {
+      "trial_id": "opus_rep05_A",
+      "model": "claude-opus-5",
+      "condition": "A_Blind",
+      "pair_id": "opus_pair05"
+    },
+    {
+      "trial_id": "opus_rep05_D",
+      "model": "claude-opus-5",
+      "condition": "D_2DTelemetry",
+      "pair_id": "opus_pair05"
+    },
+    {
+      "trial_id": "gpt_rep01_A",
+      "model": "gpt-5.6-sol",
+      "condition": "A_Blind",
+      "pair_id": "gpt_pair01"
+    },
+    {
+      "trial_id": "gpt_rep01_D",
+      "model": "gpt-5.6-sol",
+      "condition": "D_2DTelemetry",
+      "pair_id": "gpt_pair01"
+    },
+    {
+      "trial_id": "gpt_rep02_A",
+      "model": "gpt-5.6-sol",
+      "condition": "A_Blind",
+      "pair_id": "gpt_pair02"
+    },
+    {
+      "trial_id": "gpt_rep02_D",
+      "model": "gpt-5.6-sol",
+      "condition": "D_2DTelemetry",
+      "pair_id": "gpt_pair02"
+    },
+    {
+      "trial_id": "gpt_rep03_A",
+      "model": "gpt-5.6-sol",
+      "condition": "A_Blind",
+      "pair_id": "gpt_pair03"
+    },
+    {
+      "trial_id": "gpt_rep03_D",
+      "model": "gpt-5.6-sol",
+      "condition": "D_2DTelemetry",
+      "pair_id": "gpt_pair03"
+    },
+    {
+      "trial_id": "gpt_rep04_A",
+      "model": "gpt-5.6-sol",
+      "condition": "A_Blind",
+      "pair_id": "gpt_pair04"
+    },
+    {
+      "trial_id": "gpt_rep04_D",
+      "model": "gpt-5.6-sol",
+      "condition": "D_2DTelemetry",
+      "pair_id": "gpt_pair04"
+    },
+    {
+      "trial_id": "gpt_rep05_A",
+      "model": "gpt-5.6-sol",
+      "condition": "A_Blind",
+      "pair_id": "gpt_pair05"
+    },
+    {
+      "trial_id": "gpt_rep05_D",
+      "model": "gpt-5.6-sol",
+      "condition": "D_2DTelemetry",
+      "pair_id": "gpt_pair05"
+    },
+    {
+      "trial_id": "gemini_rep01_A",
+      "model": "gemini-3.7-flash",
+      "condition": "A_Blind",
+      "pair_id": "gemini_pair01"
+    },
+    {
+      "trial_id": "gemini_rep01_D",
+      "model": "gemini-3.7-flash",
+      "condition": "D_2DTelemetry",
+      "pair_id": "gemini_pair01"
+    },
+    {
+      "trial_id": "gemini_rep02_A",
+      "model": "gemini-3.7-flash",
+      "condition": "A_Blind",
+      "pair_id": "gemini_pair02"
+    },
+    {
+      "trial_id": "gemini_rep02_D",
+      "model": "gemini-3.7-flash",
+      "condition": "D_2DTelemetry",
+      "pair_id": "gemini_pair02"
+    },
+    {
+      "trial_id": "gemini_rep03_A",
+      "model": "gemini-3.7-flash",
+      "condition": "A_Blind",
+      "pair_id": "gemini_pair03"
+    },
+    {
+      "trial_id": "gemini_rep03_D",
+      "model": "gemini-3.7-flash",
+      "condition": "D_2DTelemetry",
+      "pair_id": "gemini_pair03"
+    },
+    {
+      "trial_id": "gemini_rep04_A",
+      "model": "gemini-3.7-flash",
+      "condition": "A_Blind",
+      "pair_id": "gemini_pair04"
+    },
+    {
+      "trial_id": "gemini_rep04_D",
+      "model": "gemini-3.7-flash",
+      "condition": "D_2DTelemetry",
+      "pair_id": "gemini_pair04"
+    },
+    {
+      "trial_id": "gemini_rep05_A",
+      "model": "gemini-3.7-flash",
+      "condition": "A_Blind",
+      "pair_id": "gemini_pair05"
+    },
+    {
+      "trial_id": "gemini_rep05_D",
+      "model": "gemini-3.7-flash",
+      "condition": "D_2DTelemetry",
+      "pair_id": "gemini_pair05"
+    }
+  ]
+}
