@@ -162,6 +162,11 @@ Comparing `claude-sonnet-5` across conditions highlights the difference between 
 * **Natural Language Heuristic ($B=500$, $77.28\text{ MB}$)**: When given unstructured advice (*"be memory efficient"*), Sonnet guessed a conservative block size of $B=500$, reducing memory but creating extra Python loop iterations.
 * **Telemetry-Conditioned Budget Optimization ($B=1000$, $122.91\text{ MB}$, in-place `np.sqrt`)**: When informed of the exact $128\text{ MB}$ RAM ceiling and $10.0\text{s}$ deadline, Sonnet did not simply minimize memory—it **maximized computational throughput** by expanding its block size to $B=1000$ (larger BLAS GEMM tiles) while synthesizing in-place arithmetic (`np.sqrt(out=dist_sq)` and `dist_sq -= 2.0*dot`) to strictly fit beneath the $128\text{ MB}$ container ceiling.
 
+### 4.4 Escaping the 1D Spatial Trap to the 2D Pareto Frontier in `gemini-3.7-flash`
+The exact same dynamic appears in `gemini-3.7-flash`:
+* **The 1D Spatial Trap ($32.03\text{ MB} / 30.0\text{s}$)**: In Variant C (conditioned strictly on `RAM limit: 128 MB`), Gemini over-optimized for the spatial dimension alone, falling into a scalar row-by-row streaming loop (`V[i+1:, :] @ v_i`). While this achieved a low memory footprint ($32.03\text{ MB}$), it created 8,000 Python loop dispatches, resulting in an unacceptable $30.0\text{s}$ execution latency.
+* **The 2D Pareto Jump ($114.84\text{ MB} / 0.46\text{s}$)**: When injected with **2D Telemetry** (disclosing both the $128\text{ MB}$ memory cap and the $10.0\text{s}$ deadline), Gemini realized that scalar streaming would breach the temporal SLA. It intentionally jumped memory usage from $32\text{ MB} \rightarrow 114.84\text{ MB}$ by synthesizing **Level-3 BLAS 2D Block Tiling** ($B=2000$), reducing execution latency from $30.0\text{s} \rightarrow \mathbf{0.46\text{s}}$ ($\mathbf{65.2\times}$ speedup) while remaining strictly within the container ceiling.
+
 ---
 
 ## 5. Conclusion & Systems Implications
