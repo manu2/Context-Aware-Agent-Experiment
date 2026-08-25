@@ -11,6 +11,8 @@ Thumbs.db
 foil_data/*.npy
 foil_data/*.csv
 *.npy
+*.txt
+!requirements.txt
 
 # Local Agent custom skills and rules
 .agents/
