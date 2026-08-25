@@ -1,9 +1,12 @@
-# Comprehensive Multi-Model Frontier Benchmark Report
+# Exploratory Multi-Model Frontier Benchmark Report (Historical Artifact)
+
+> **Methodology Notice**: This document records the initial, exploratory 4-condition prompt sensitivity trials across frontier models. The peak memory numbers in this report reflect initial Python `tracemalloc` measurements collected during the exploratory phase. For the authoritative, post-hoc OS-level MaxRSS measurements and replicated paired statistical evaluation, refer to `experiments/05_paired_statistical_trials/canonical_paired_results.json` and `paper_draft.md` Table 1.
+
 **Project:** Substrate & Self-Telemetry Conditioned Agentic Computation (SCAC / Silicon Awareness)  
 **Date:** August 2026  
 **Evaluated Frontier Models:** Google `gemini-3.7-flash`, OpenAI `gpt-5.6-sol`, Anthropic `claude-sonnet-5`, OpenAI `gpt-4o` (Legacy)  
 **Benchmark Target:** Out-of-Core High-Dimensional Euclidean Distance ($8,000 \times 1,024$ float32 matrix, `vectors.npy`, 32.8 MB)  
-**Target Sandbox Ceiling:** 128 MB RAM (`cgroup v2 MemoryMax=128M`, `MemorySwapMax=0`)
+**Target Sandbox Ceiling:** 128 MB RAM (Target Budget Threshold)
 
 ---
 
