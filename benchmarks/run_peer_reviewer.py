@@ -26,15 +26,15 @@ def audit_manuscript():
     
     # Check key empirical claims present
     claims = [
-        "Silicon Blindness",
-        "cgroup v2",
+        "Substrate-Aware",
         "128 MB",
         "gemini-3.7-flash",
         "claude-opus-5",
         "gpt-5.6-sol",
         "claude-sonnet-5",
-        "p < 0.01",
-        "First-Pass Correctness Rate"
+        "MaxRSS",
+        "Container Survivability",
+        "Pareto"
     ]
     
     print("\n[+] Verification of Key Scientific Claims & Models:")
