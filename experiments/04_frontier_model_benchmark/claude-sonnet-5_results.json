@@ -1,0 +1,54 @@
+{
+  "Variant A (Blind)": {
+    "model": "claude-sonnet-5",
+    "description": "No hardware or memory context provided.",
+    "script_path": "./local_experiments/frontier_model_benchmark/runs/a_claude-sonnet-5.py",
+    "code": "#!/usr/bin/env python3\n\"\"\"\nCompute the total sum of all pairwise Euclidean distances between rows\nof an 8,000 x 1,024 float32 matrix stored in 'vectors.npy'.\n\nsum_{i,j} ||v_i - v_j||_2   (over all ordered pairs i,j, including i=j which contributes 0)\n\nUses only numpy and the standard library.\n\"\"\"\n\nimport numpy as np\n\n\ndef main():\n    # Load the data\n    vectors = np.load('vectors.npy')\n\n    # Work in float64 for numerical stability of the distance computation\n    vectors = vectors.astype(np.float64, copy=False)\n\n    n = vectors.shape[0]\n\n    # Precompute squared norms of each row: ||v_i||^2\n    sq_norms = np.einsum('ij,ij->i', vectors, vectors)\n\n    total = 0.0\n\n    # Process in blocks to avoid allocating a full n x n distance matrix at once,\n    # which would require ~512MB+ for n=8000 in float64 (manageable but we chunk\n    # to keep memory usage low and predictable).\n    block_size = 500\n\n    for start in range(0, n, block_size):\n        end = min(start + block_size, n)\n        block = vectors[start:end]                     # shape (b, d)\n\n        # Dot products between block rows and all rows: shape (b, n)\n        dot = block @ vectors.T\n\n        # Squared Euclidean distances: ||a||^2 + ||b||^2 - 2*a.b\n        dist_sq = sq_norms[start:end, None] + sq_norms[None, :] - 2.0 * dot\n\n        # Numerical noise can produce tiny negative values; clip them to zero\n        np.maximum(dist_sq, 0.0, out=dist_sq)\n\n        dist = np.sqrt(dist_sq)\n\n        total += dist.sum()\n\n    print(f'TOTAL_DIST:{total}')\n\n\nif __name__ == '__main__':\n    main()",
+    "profile": {
+      "wall_sec": 1.4161,
+      "peak_mb": 221.83,
+      "success": true,
+      "stdout": "TOTAL_DIST:2895556144.206629\n\n___PROFILE_RESULT___|1.4161|221.83|0",
+      "stderr": "<string>:38: RuntimeWarning: divide by zero encountered in matmul\n<string>:38: RuntimeWarning: overflow encountered in matmul\n<string>:38: RuntimeWarning: invalid value encountered in matmul"
+    }
+  },
+  "Variant B (Natural Language Advice)": {
+    "model": "claude-sonnet-5",
+    "description": "Unstructured natural language advice to be memory efficient.",
+    "script_path": "./local_experiments/frontier_model_benchmark/runs/b_claude-sonnet-5.py",
+    "code": "#!/usr/bin/env python3\n\"\"\"\nCompute the sum of all pairwise Euclidean distances between rows of a\nmatrix stored in 'vectors.npy' (8000 x 1024 float32).\n\nUses the identity:\n    ||v_i - v_j||^2 = ||v_i||^2 + ||v_j||^2 - 2 * v_i . v_j\n\nto avoid ever materializing an explicit (N, N, D) array of differences.\nOnly a (block_size, N) matrix of dot products is held in memory at a\ntime, keeping memory usage low regardless of N.\n\nOnly numpy and the standard library are used.\n\"\"\"\n\nimport numpy as np\n\n\ndef compute_total_pairwise_distance(vectors_path: str = \"vectors.npy\",\n                                     block_size: int = 500) -> float:\n    # Load the matrix; keep it in float32 to save memory.\n    X = np.load(vectors_path)\n    if X.dtype != np.float32:\n        X = X.astype(np.float32, copy=False)\n\n    n_rows, n_cols = X.shape\n\n    # Precompute squared norms of each row: ||v_i||^2\n    # Using einsum avoids allocating an intermediate squared array of full size unnecessarily.\n    sq_norms = np.einsum('ij,ij->i', X, X, dtype=np.float32)\n\n    total = 0.0  # accumulate in float64 for numerical stability\n\n    # Process rows in blocks to limit peak memory usage.\n    for start in range(0, n_rows, block_size):\n        end = min(start + block_size, n_rows)\n        Xi = X[start:end]                     # shape (b, D)\n        norms_i = sq_norms[start:end]          # shape (b,)\n\n        # Dot products between block rows and all rows: shape (b, N)\n        dots = Xi @ X.T\n\n        # Squared distances via the norm identity.\n        # sq_dist[k, j] = ||v_{start+k}||^2 + ||v_j||^2 - 2 * dot(v_{start+k}, v_j)\n        sq_dist = norms_i[:, None] + sq_norms[None, :] - 2.0 * dots\n\n        # Numerical noise can push tiny negative values (near-zero distances) below 0.\n        np.maximum(sq_dist, 0, out=sq_dist)\n\n        # Euclidean distances.\n        dist = np.sqrt(sq_dist, dtype=np.float32)\n\n        # Accumulate sum in float64 to reduce accumulation error.\n        total += dist.sum(dtype=np.float64)\n\n        # Explicitly drop references to help garbage collection of large temporaries.\n        del dots, sq_dist, dist\n\n    return total\n\n\ndef main():\n    total_dist = compute_total_pairwise_distance(\"vectors.npy\", block_size=500)\n    print(f\"TOTAL_DIST:{total_dist}\")\n\n\nif __name__ == \"__main__\":\n    main()",
+    "profile": {
+      "wall_sec": 0.4952,
+      "peak_mb": 83.89,
+      "success": true,
+      "stdout": "TOTAL_DIST:2895556243.252572\n\n___PROFILE_RESULT___|0.4952|83.89|0",
+      "stderr": "<string>:41: RuntimeWarning: divide by zero encountered in matmul\n<string>:41: RuntimeWarning: overflow encountered in matmul\n<string>:41: RuntimeWarning: invalid value encountered in matmul"
+    }
+  },
+  "Variant C (1D Telemetry: 128MB RAM)": {
+    "model": "claude-sonnet-5",
+    "description": "Explicit 1D spatial telemetry (RAM limit: 128 MB).",
+    "script_path": "./local_experiments/frontier_model_benchmark/runs/c_claude-sonnet-5.py",
+    "code": "Looking at this problem, I need to compute the sum of all pairwise Euclidean distances between 8,000 rows of a 1,024-dimensional matrix, while staying within a 128 MB RAM budget",
+    "profile": {
+      "wall_sec": 0.0001,
+      "peak_mb": 0.02,
+      "success": false,
+      "stdout": "___PROFILE_RESULT___|0.0001|0.02|1|invalid syntax (<string>, line 1)",
+      "stderr": ""
+    }
+  },
+  "Variant D (2D Telemetry: 128MB RAM + 10s CPU)": {
+    "model": "claude-sonnet-5",
+    "description": "Explicit 2D spatial + temporal telemetry (RAM limit: 128 MB, CPU quota: 10s).",
+    "script_path": "./local_experiments/frontier_model_benchmark/runs/d_claude-sonnet-5.py",
+    "code": "#!/usr/bin/env python3\n\"\"\"\nCompute the total sum of all pairwise Euclidean distances between rows\nof an 8000 x 1024 float32 matrix stored in 'vectors.npy'.\n\nOnly numpy and the standard library are used. Memory is kept low by\nprocessing the data in row-blocks and reusing buffers, so that the\nfull 8000x8000 distance matrix (which would take ~512MB in float64\nor ~256MB in float32) is never materialized at once.\n\"\"\"\n\nimport sys\nimport numpy as np\n\n\ndef main():\n    # Load the data (8000 x 1024 float32 -> ~32MB)\n    vectors = np.load('vectors.npy')\n    if vectors.dtype != np.float32:\n        vectors = vectors.astype(np.float32)\n\n    n, d = vectors.shape\n\n    # Precompute squared norms of each row: shape (n,)\n    sq_norms = np.einsum('ij,ij->i', vectors, vectors, dtype=np.float32)\n\n    total = 0.0  # accumulate in double precision for accuracy\n\n    # Choose a block size that keeps memory usage well within limits.\n    # A block of size B produces a (B x n) intermediate matrix.\n    # For n=8000, float32, B=1000 -> ~32MB per intermediate buffer.\n    block_size = 1000\n\n    for start in range(0, n, block_size):\n        end = min(start + block_size, n)\n        block = vectors[start:end]          # (B, d) float32\n\n        # dot[i, j] = <block_i, vectors_j>\n        dot = block @ vectors.T             # (B, n) float32\n\n        # dist_sq[i, j] = ||block_i||^2 + ||vectors_j||^2 - 2*dot[i, j]\n        dist_sq = sq_norms[start:end, None] + sq_norms[None, :]\n        dist_sq -= 2.0 * dot\n\n        # Numerical safety: clip tiny negative values caused by float error\n        np.maximum(dist_sq, 0.0, out=dist_sq)\n\n        # In-place sqrt to avoid extra allocation\n        np.sqrt(dist_sq, out=dist_sq)\n\n        # Sum this block's contribution in double precision\n        total += dist_sq.sum(dtype=np.float64)\n\n        # Free references explicitly (helps GC under tight RAM limits)\n        del dot, dist_sq, block\n\n    print(f'TOTAL_DIST:{total}')\n\n\nif __name__ == '__main__':\n    main()",
+    "profile": {
+      "wall_sec": 0.513,
+      "peak_mb": 129.52,
+      "success": true,
+      "stdout": "TOTAL_DIST:2895556243.25258\n\n___PROFILE_RESULT___|0.5130|129.52|0",
+      "stderr": "<string>:39: RuntimeWarning: divide by zero encountered in matmul\n<string>:39: RuntimeWarning: overflow encountered in matmul\n<string>:39: RuntimeWarning: invalid value encountered in matmul"
+    }
+  }
+}

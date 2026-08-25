@@ -19,3 +19,8 @@ foil_data/*.csv
 venv/
 .venv/
 env/
+
+# Local credentials & secrets
+.env
+*.key
+credentials.json

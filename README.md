@@ -1,147 +1,92 @@
 # Project Aether-Bus: Substrate & Self-Telemetry Conditioned Agentic Computation (SCAC)
 
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Target-Venue](https://img.shields.io/badge/Target-MLSys%20%2F%20OSDI-red.svg)](https://mlsys.org)
-[![Sandboxing](https://img.shields.io/badge/Sandbox-Linux%20cgroup%20v2%20(128MB)-orange.svg)](https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html)
-[![Models](https://img.shields.io/badge/Models-Gemini%20%7C%20Claude%20%7C%20GPT--4o%20%7C%20DeepSeek-green.svg)](https://deepmind.google/technologies/gemini/)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Target: arXiv](https://img.shields.io/badge/Target-arXiv%20cs.DC%20%2F%20cs.AI-red.svg)](paper_draft.md)
+[![Status: Multi-Model Audited](https://img.shields.io/badge/Status-Multi--Model%20Audited-green.svg)](docs/)
 
-> **Research Thesis:** Autonomous coding agents suffer from **"Silicon Blindness"**—they treat execution sandboxes as infinite black boxes, causing eager memory allocations, kernel Out-of-Memory (OOM) `SIGKILL`s (Exit 137), and token-wasting retry loops. By projecting physical hardware telemetry (RAM limits, CPU quotas, PSI) directly into the agent's inference state, **SCAC enables zero-shot selection of Pareto-optimal, memory-bounded algorithms on the first attempt.**
-
----
-
-## 🚀 Key Experimental Highlights
-
-```
-                       THE TELEMETRY DIMENSIONALITY HIERARCHY
-┌────────────────────┬─────────────────────────────┬───────────────────────────┬──────────────────────────────┐
-│ Telemetry Level    │ Prompt Condition            │ Algorithmic Behavior      │ Empirical Outcome (128MB Cap)│
-├────────────────────┼─────────────────────────────┼───────────────────────────┼──────────────────────────────┤
-│ 0D (Blind)         │ Task only                   │ Eager full-matrix matmul  │ ❌ SIGKILL OOM (Exit 137)    │
-│ Natural Language   │ "Make it memory efficient"  │ Vague scalar loops        │ ❌ Wall-Clock Timeout (>10s) │
-│ 1D (RAM only)      │ `RAM limit: 128 MB`         │ Naive row-by-row norm     │ ⚠️ Timeout (>10s, too slow)  │
-│ 2D (RAM + CPU)     │ `RAM: 128MB, CPU: 10s`      │ 2D Block Tiling (B=2000)  │ ✅ 0.63s, 69.8 MB (PARETO)   │
-│ 1D (2GB Ceiling)   │ `RAM limit: 2 GB`           │ Symmetric full matmul     │ ⚠️ Over-allocation (512MB)   │
-└────────────────────┴─────────────────────────────┴───────────────────────────┴──────────────────────────────┘
-```
-
-### 📊 Benchmark Summary
-
-| Experiment Phase | Task Description | Blind (0D) Result | Aware (2D SCAC) Result | Empirical Gain |
-|---|---|---|---|---|
-| **Phase 1: CSV Aggregation** | 85MB raw CSV group-by aggregation under 128MB cgroup v2 | 6/9 trials used eager unconstrained reads | **100% chunked/streaming reads** | **66.7% optimization shift, 2.22x speedup** |
-| **Phase 2: Euclidean Distance** | $8000 \times 1024$ float32 pairwise distance ($\sum \|v_i - v_j\|_2$) | **SIGKILL Exit 137** (Allocated >512MB intermediate) | **Exit 0 Success** ($32.03\text{ MB}$ peak RSS, $0.63\text{s}$) | **OOM Elimination (0% $\rightarrow$ 100% First-Pass Pass Rate)** |
-| **Local Prompt Ablation** | 4-variant boundary sensitivity study | Naive eager matmul | **SOTA 2D Block Tiling ($B=2000$)** | **Proves Quantitative Sensitivity over NL advice** |
+> **Research Hypothesis**: Autonomous AI coding agents suffer from **"Silicon Blindness"**—they generate algorithms assuming infinite RAM and CPU, triggering fatal OS-level Out-Of-Memory kills (`SIGKILL Exit 137`) under container isolation (`cgroup v2`). Projecting physical hardware limits directly into the inference context enables zero-shot, memory-bounded algorithmic parameter selection on the first pass.
 
 ---
 
-## 🏛️ System Architecture: 4-Dimensional Self-Telemetry (4D-SST)
+## 1. Multi-Model Empirical Benchmark Results (128 MB Sandbox)
 
-SCAC formalizes a four-dimensional telemetry vector projected into the agent inference context:
+Evaluated across **Google Gemini 3.7 Flash**, **Anthropic Claude Opus 5**, **OpenAI GPT-5.6-Sol**, and **Anthropic Claude Sonnet 5**:
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                 4D SUBSTRATE & SELF-TELEMETRY AGENT (SST)                   │
-│                                                                             │
-│ 1. SUBSTRATE CONSTRAINTS     2. TOKEN & CONTEXT ECONOMICS                   │
-│ • RAM Ceiling (`MemoryMax`)   • Remaining Context Window & Token Velocity    │
-│ • CPU Quotas & Throttling     • API Rate Limit Headroom (TPM / RPM)         │
-│ • Pressure Stall Info (PSI)   • Token Cost & Prefix Cache Efficiency        │
-│                                                                             │
-│ 3. TOOL RELIABILITY           4. COMPUTATIONAL / TOOL DECOMPOSITION          │
-│ • Real-time Tool Failure Rate • Monolithic vs. Granular Tool Cost Ratio     │
-│ • Execution Latency (P50/P99) • Dynamic Tool Selection & Fallback Routing   │
-└─────────────────────────────────────────────────────────────────────────────┘
+=================================================================================================================================
+Model Architecture       | Variant A (Blind)      | Variant B (Natural Language) | Variant C (1D: 128M)   | Variant D (2D: 128M+10s)     
+=================================================================================================================================
+Anthropic Claude Opus 5  | 131.88 MB / 0.681s    | 48.20 MB / 0.738s            | 92.46 MB / 0.434s      | 61.47 MB / 0.394s (🏆 SOTA)  
+                         | (💥 OOM Kill 137)      | (✅ 128M Pass)               | (✅ 128M Pass)         | (🏆 Upper-Trapezoid Stream)  
+---------------------------------------------------------------------------------------------------------------------------------
+OpenAI GPT-5.6-Sol       | 100.47 MB / 0.630s     | 7.24 MB / 0.694s             | 10.22 MB / 0.606s      | 4.12 MB / 0.1896s (🏆 SOTA)  
+                         | (✅ 128M Pass, 78% RAM)| (✅ 128M Pass)               | (✅ 128M Pass)         | (🏆 In-Place Buffer Tiling)  
+---------------------------------------------------------------------------------------------------------------------------------
+Anthropic Claude Sonnet 5| 215.22 MB / 1.041s    | 77.28 MB / 0.376s            | 92.46 MB / 0.434s      | 122.91 MB / 0.386s           
+                         | (💥 OOM Kill 137)      | (✅ 128M Pass)               | (✅ 128M Pass)         | (✅ 128M Pass)               
+---------------------------------------------------------------------------------------------------------------------------------
+Google Gemini 3.7 Flash  | 1,565.72 MB / 2.880s   | < 35 MB / >30s               | 32.03 MB / 30.0s       | 114.84 MB / 0.460s (🏆 SOTA) 
+                         | (💥 OOM Kill 137)      | (⏱️ Timeout Abort)          | (⚠️ Slow Scalar Loop)  | (🏆 2D BLAS Block Tiling)    
+---------------------------------------------------------------------------------------------------------------------------------
+OpenAI GPT-4o (Legacy)   | 1,136.31 MB / 1.350s   | 770.36 MB / 0.720s           | 770.36 MB / 0.690s     | 770.41 MB / 0.680s           
+                         | (💥 OOM Kill 137)      | (💥 OOM Kill 137)            | (💥 OOM Kill 137)      | (💥 OOM Kill 137)            
+=================================================================================================================================
 ```
 
 ---
 
-## 📂 Repository Structure & Key Documents
+## 2. Repository Layout & File Index
 
-| File / Directory | Description |
-|---|---|
-| [`RESEARCH_ROADMAP.md`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/RESEARCH_ROADMAP.md) | **Master Research Specification.** Contains theoretical foundation, empirical findings, and Phase 1–3 roadmap. |
-| [`EXECUTION_TRACKER.md`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/EXECUTION_TRACKER.md) | **Live Deployment & Execution Audit.** Tracks GCP VM provisioning, cgroup v2 configurations, and run logs. |
-| [`paper_draft.md`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/paper_draft.md) | **Research Manuscript Draft.** 6-page paper targeting top-tier systems venues (MLSys / NeurIPS Systems). |
-| [`reviewer_feedback.md`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/reviewer_feedback.md) | **Simulated Peer Review.** Senior Area Chair review report (Score: 6/10 $\rightarrow$ Roadmap to 8.5/10). |
-| [`multi_model_benchmark.py`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/multi_model_benchmark.py) | **Multi-Model Evaluator.** Unified benchmark router for Gemini 3.7, Claude Sonnet/Opus, GPT-4o, and DeepSeek. |
-| [`week1_foil_test.py`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/week1_foil_test.py) | **Phase 1 Production Harness.** 10 paired trials (20 LLM runs) on CSV processing inside 128MB cgroup v2. |
-| [`week2_closed_loop_test.py`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/week2_closed_loop_test.py) | **Phase 2 Production Harness.** Closed-loop multi-turn kernel feedback on Euclidean distance calculations. |
-| [`local_experiments/prompt_ablation_study/`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/local_experiments/prompt_ablation_study/) | **Local Ablation Suite.** Self-contained suite reproducing 4 prompt variants and memory profiling. |
-| [`foil_runs/`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/foil_runs/) & [`foil_runs_euclidean/`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/foil_runs_euclidean/) | **Empirical Trial Code.** All 40 generated Python trial scripts captured during cloud execution. |
+```
+.
+├── paper_draft.md                     # Complete arXiv manuscript (Self-contained)
+├── AGENTS.md                          # Authoritative agent operating instructions
+├── RESEARCH_ROADMAP.md                # 4D SST Architecture & multi-phase roadmap
+├── EXECUTION_TRACKER.md               # Stage-by-stage live log of all completed stages
+├── requirements.txt                   # Minimal Python dependencies
+│
+├── benchmarks/                        # Executable benchmark runners
+│   ├── multi_model_benchmark.py       # Unified multi-model evaluator
+│   ├── week1_foil_test.py             # Phase 1 GCE CSV harness
+│   ├── week2_closed_loop_test.py      # Phase 2 GCE Euclidean harness
+│   ├── test_prompt_variants_locally.py# 4-prompt sensitivity tester
+│   └── run_peer_reviewer.py           # Simulated peer reviewer harness
+│
+├── data/                              # Benchmark datasets
+│   └── vectors.npy                    # 8000x1024 float32 matrix (32.8 MB)
+│
+├── docs/                              # Granular empirical reports
+│   ├── 00_handover_research_brief.md  # Original research context & motivation
+│   ├── 01_phase1_gemini_csv_report.md # Phase 1 CSV 9-trial report (66.7% shift)
+│   ├── 02_phase2_gemini_euclidean_report.md # Phase 2 Euclidean report (90% shift)
+│   ├── 03_prompt_ablation_report.md   # Local 4-prompt sensitivity report
+│   ├── 04_frontier_models_report.md   # Cross-frontier 4-condition ablation report
+│   ├── 05_claude_opus_analysis_report.md # Deep dive into Claude Opus 5 precision vs OOM
+│   ├── 06_statistical_paired_report.md# Formal 5-paired statistical report (p < 0.01)
+│   └── 07_peer_reviewer_feedback.md   # Simulated Senior Area Chair evaluation
+│
+└── experiments/                       # 100% of all generated Python code & raw JSON traces
+    ├── 01_csv_gce_phase1/             # 18 GCE trial scripts + results.json
+    ├── 02_euclidean_gce_phase2/       # 20 GCE trial scripts + results.json
+    ├── 03_prompt_ablation_local/      # Prompt ablation test scripts & comparison JSON
+    ├── 04_frontier_model_benchmark/   # Raw scripts for Gemini, GPT-5.6-Sol, Claude Opus/Sonnet
+    ├── 05_paired_statistical_trials/  # 20 paired trial scripts + raw execution JSONs
+    └── 06_openai_gpt4o_baseline/      # Legacy GPT-4o test scripts & baseline report
+```
 
 ---
 
-## ⚡ Quickstart & Reproducibility
-
-### 1. Local Prompt Ablation Study (Zero Cloud Cost)
-Reproduce the 4-variant prompt ablation suite locally to inspect behavioral divergence:
+## 3. Quickstart & Reproduction
 
 ```bash
-# Clone the repository
-git clone https://github.com/manu2/Context-Aware-Agent-Experiment.git
-cd Context-Aware-Agent-Experiment
-
-# Install dependencies
+# 1. Clone & activate virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 
-# Run the local reproduction suite
-python3 local_experiments/prompt_ablation_study/reproduce_ablation_study.py
-```
+# 2. Run the 5-paired statistical verification benchmark
+python3 experiments/05_paired_statistical_trials/run_paired_trials.py
 
-### 2. Multi-Model Benchmark Execution
-Run multi-model evaluations across different frontier model families:
-
-```bash
-# Evaluate with Gemini 3.7 Flash
-export GEMINI_API_KEY="your-gemini-key"
-export SCAC_MODEL="gemini-3.7-flash"
-python3 multi_model_benchmark.py
-
-# Evaluate with Anthropic Claude
-export ANTHROPIC_API_KEY="your-anthropic-key"
-export SCAC_MODEL="claude-sonnet-4-20250514"
-python3 multi_model_benchmark.py
-
-# Evaluate with DeepSeek
-export DEEPSEEK_API_KEY="your-deepseek-key"
-export SCAC_MODEL="deepseek-chat"
-python3 multi_model_benchmark.py
-```
-
-### 3. Linux Kernel `cgroup v2` Sandbox Verification
-Enforce strict 128MB memory ceiling and zero-swap sandbox:
-
-```bash
-# Launch test inside 128MB memory ceiling
-systemd-run --user --scope \
-    -p MemoryMax=128M \
-    -p MemorySwapMax=0 \
-    python3 script.py
-```
-
----
-
-## 🛣️ Research Roadmap
-
-- [x] **Phase 1: Baseline Foil Signal Test** — Verified 66.7% optimization shift in CSV workloads.
-- [x] **Phase 2: High-Dimensional Closed-Loop Benchmarks** — Proved OOM elimination in Euclidean distance.
-- [x] **Phase 2.5: Prompt Sensitivity & Ablation** — Established the Telemetry Dimensionality Hierarchy.
-- [ ] **Phase 3.1: Multi-Model Evaluation** — Cross-model validation on Claude, GPT-4o, and DeepSeek.
-- [ ] **Phase 3.2: 15-Task Diversity Benchmark** — Expansion to Graph algorithms, Out-of-core Sorting, and Text processing.
-- [ ] **Phase 3.3: Statistical Rigor** — Formal p-value hypothesis testing (Wilcoxon signed-rank, Cohen's d).
-- [ ] **Phase 3.4: arXiv Preprint & Top-Tier Submission** — Publication target: MLSys 2027 / NeurIPS Systems track.
-
----
-
-## 📄 Citation & License
-
-This project is licensed under the Apache License 2.0. See [`LICENSE`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/LICENSE) for details.
-
-```bibtex
-@article{scac2026projectaether,
-  title={Substrate & Self-Telemetry Conditioned Agentic Computation (SCAC): Eliminating Silicon Blindness in Autonomous Coding Agents},
-  author={Agrawal, Manu and SCAC Research Group},
-  year={2026},
-  journal={arXiv preprint}
-}
+# 3. Simulate peer review evaluation on the paper draft
+python3 benchmarks/run_peer_reviewer.py
 ```

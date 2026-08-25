@@ -1,0 +1,50 @@
+{
+  "Variant A (Blind)": {
+    "description": "No hardware or memory context provided.",
+    "script_path": "./local_experiments/openai_benchmark/runs/a_gpt-4o.py",
+    "code": "import numpy as np\n\ndef compute_total_pairwise_distance(matrix):\n    # Calculate the squared Euclidean distance using the identity:\n    # ||v_i - v_j||^2 = ||v_i||^2 + ||v_j||^2 - 2 * v_i . v_j\n    # where v_i . v_j is the dot product of v_i and v_j\n\n    # Compute the squared norms of each row vector\n    squared_norms = np.sum(matrix ** 2, axis=1)\n\n    # Compute the dot product matrix\n    dot_product_matrix = np.dot(matrix, matrix.T)\n\n    # Calculate the squared pairwise distances\n    squared_distances = squared_norms[:, np.newaxis] + squared_norms[np.newaxis, :] - 2 * dot_product_matrix\n\n    # Since distances are symmetric, we only need to sum the upper triangle (excluding diagonal)\n    total_distance = np.sum(np.sqrt(squared_distances[np.triu_indices_from(squared_distances, k=1)]))\n\n    return total_distance\n\ndef main():\n    # Load the matrix from the 'vectors.npy' file\n    matrix = np.load('vectors.npy')\n\n    # Compute the total sum of all pairwise Euclidean distances\n    total_distance = compute_total_pairwise_distance(matrix)\n\n    # Print the result\n    print(f'TOTAL_DIST:{total_distance}')\n\nif __name__ == '__main__':\n    main()",
+    "profile": {
+      "wall_sec": 1.349,
+      "peak_mb": 1136.31,
+      "success": true,
+      "stdout": "TOTAL_DIST:1447776768.0\n\n___PROFILE_RESULT___|1.3490|1136.31|0",
+      "stderr": ""
+    }
+  },
+  "Variant B (Natural Language Advice)": {
+    "description": "Unstructured natural language advice to be memory efficient.",
+    "script_path": "./local_experiments/openai_benchmark/runs/b_gpt-4o.py",
+    "code": "import numpy as np\n\ndef compute_total_pairwise_distance(matrix):\n    # Calculate the squared norms of each row vector\n    squared_norms = np.sum(matrix ** 2, axis=1)\n    \n    # Compute the pairwise squared Euclidean distances using the formula:\n    # ||v_i - v_j||^2 = ||v_i||^2 + ||v_j||^2 - 2 * v_i . v_j\n    # This avoids computing the full pairwise distance matrix directly.\n    pairwise_squared_distances = (\n        squared_norms[:, np.newaxis] + squared_norms[np.newaxis, :] - 2 * np.dot(matrix, matrix.T)\n    )\n    \n    # Sum all pairwise distances (take the square root of squared distances)\n    total_distance = np.sum(np.sqrt(pairwise_squared_distances))\n    \n    return total_distance\n\ndef main():\n    # Load the matrix from 'vectors.npy'\n    matrix = np.load('vectors.npy')\n    \n    # Compute the total sum of all pairwise Euclidean distances\n    total_distance = compute_total_pairwise_distance(matrix)\n    \n    # Print the result\n    print(f'TOTAL_DIST:{total_distance}')\n\nif __name__ == '__main__':\n    main()",
+    "profile": {
+      "wall_sec": 0.7174,
+      "peak_mb": 770.36,
+      "success": true,
+      "stdout": "TOTAL_DIST:nan\n\n___PROFILE_RESULT___|0.7174|770.36|0",
+      "stderr": "<string>:15: RuntimeWarning: invalid value encountered in sqrt"
+    }
+  },
+  "Variant C (1D Telemetry: 128MB RAM)": {
+    "description": "Explicit 1D spatial telemetry (RAM limit: 128 MB).",
+    "script_path": "./local_experiments/openai_benchmark/runs/c_gpt-4o.py",
+    "code": "import numpy as np\n\ndef compute_total_pairwise_distance(matrix):\n    # Calculate the squared norms of each row\n    squared_norms = np.sum(matrix ** 2, axis=1)\n    \n    # Compute the pairwise squared Euclidean distances using the identity:\n    # ||v_i - v_j||^2 = ||v_i||^2 + ||v_j||^2 - 2 * v_i . v_j\n    pairwise_squared_distances = (\n        squared_norms[:, np.newaxis] + squared_norms[np.newaxis, :] - 2 * np.dot(matrix, matrix.T)\n    )\n    \n    # Sum all pairwise distances (take the square root of squared distances)\n    total_distance = np.sum(np.sqrt(pairwise_squared_distances))\n    \n    return total_distance\n\ndef main():\n    # Load the matrix from the 'vectors.npy' file\n    matrix = np.load('vectors.npy')\n    \n    # Compute the total sum of all pairwise Euclidean distances\n    total_distance = compute_total_pairwise_distance(matrix)\n    \n    # Print the result\n    print(f'TOTAL_DIST:{total_distance}')\n\nif __name__ == '__main__':\n    main()",
+    "profile": {
+      "wall_sec": 0.6912,
+      "peak_mb": 770.36,
+      "success": true,
+      "stdout": "TOTAL_DIST:nan\n\n___PROFILE_RESULT___|0.6912|770.36|0",
+      "stderr": "<string>:14: RuntimeWarning: invalid value encountered in sqrt"
+    }
+  },
+  "Variant D (2D Telemetry: 128MB RAM + 10s CPU)": {
+    "description": "Explicit 2D spatial + temporal telemetry (RAM limit: 128 MB, CPU quota: 10s).",
+    "script_path": "./local_experiments/openai_benchmark/runs/d_gpt-4o.py",
+    "code": "import numpy as np\n\ndef compute_total_pairwise_distance(matrix):\n    # Calculate the squared Euclidean distance using the identity:\n    # ||v_i - v_j||^2 = ||v_i||^2 + ||v_j||^2 - 2 * v_i . v_j\n    # This avoids explicitly computing each pairwise difference.\n    \n    # Compute the squared norms of each row vector\n    squared_norms = np.sum(matrix ** 2, axis=1)\n    \n    # Compute the dot product matrix\n    dot_product_matrix = np.dot(matrix, matrix.T)\n    \n    # Compute the squared distances matrix\n    squared_distances = squared_norms[:, np.newaxis] + squared_norms[np.newaxis, :] - 2 * dot_product_matrix\n    \n    # Sum all the distances (take the square root of squared distances)\n    total_distance = np.sum(np.sqrt(squared_distances))\n    \n    return total_distance\n\ndef main():\n    # Load the matrix from the 'vectors.npy' file\n    matrix = np.load('vectors.npy')\n    \n    # Compute the total sum of pairwise Euclidean distances\n    total_distance = compute_total_pairwise_distance(matrix)\n    \n    # Print the result\n    print(f'TOTAL_DIST:{total_distance}')\n\nif __name__ == '__main__':\n    main()",
+    "profile": {
+      "wall_sec": 0.68,
+      "peak_mb": 770.41,
+      "success": true,
+      "stdout": "TOTAL_DIST:nan\n\n___PROFILE_RESULT___|0.6800|770.41|0",
+      "stderr": "<string>:18: RuntimeWarning: invalid value encountered in sqrt"
+    }
+  }
+}

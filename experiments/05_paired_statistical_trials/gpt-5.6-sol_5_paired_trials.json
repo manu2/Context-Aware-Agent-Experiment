@@ -1,0 +1,109 @@
+[
+  {
+    "trial": 1,
+    "A_Blind": {
+      "code_path": "./local_experiments/paired_trials/runs/gpt-5.6-sol_trial1_A_blind.py",
+      "profile": {
+        "wall_sec": 0.6369,
+        "peak_mb": 73.32,
+        "success": true,
+        "stdout": "TOTAL_DIST:2895556144.1993241\n\n___PROFILE_RESULT___|0.6369|73.32|0",
+        "stderr": "<string>:41: RuntimeWarning: divide by zero encountered in matmul\n<string>:41: RuntimeWarning: overflow encountered in matmul\n<string>:41: RuntimeWarning: invalid value encountered in matmul"
+      }
+    },
+    "D_2DTelemetry": {
+      "code_path": "./local_experiments/paired_trials/runs/gpt-5.6-sol_trial1_D_2Dtelemetry.py",
+      "profile": {
+        "wall_sec": 0.3322,
+        "peak_mb": 14.42,
+        "success": true,
+        "stdout": "TOTAL_DIST:2895556139.5876579\n\n___PROFILE_RESULT___|0.3322|14.42|0",
+        "stderr": "<string>:39: RuntimeWarning: divide by zero encountered in matmul\n<string>:39: RuntimeWarning: overflow encountered in matmul\n<string>:39: RuntimeWarning: invalid value encountered in matmul"
+      }
+    }
+  },
+  {
+    "trial": 2,
+    "A_Blind": {
+      "code_path": "./local_experiments/paired_trials/runs/gpt-5.6-sol_trial2_A_blind.py",
+      "profile": {
+        "wall_sec": 0.6263,
+        "peak_mb": 100.47,
+        "success": true,
+        "stdout": "TOTAL_DIST:2895556144.1993241\n\n___PROFILE_RESULT___|0.6263|100.47|0",
+        "stderr": "<string>:39: RuntimeWarning: divide by zero encountered in matmul\n<string>:39: RuntimeWarning: overflow encountered in matmul\n<string>:39: RuntimeWarning: invalid value encountered in matmul"
+      }
+    },
+    "D_2DTelemetry": {
+      "code_path": "./local_experiments/paired_trials/runs/gpt-5.6-sol_trial2_D_2Dtelemetry.py",
+      "profile": {
+        "wall_sec": 0.347,
+        "peak_mb": 14.79,
+        "success": true,
+        "stdout": "TOTAL_DIST:2895556139.5869903564\n\n___PROFILE_RESULT___|0.3470|14.79|0",
+        "stderr": "<string>:43: RuntimeWarning: divide by zero encountered in matmul\n<string>:43: RuntimeWarning: overflow encountered in matmul\n<string>:43: RuntimeWarning: invalid value encountered in matmul"
+      }
+    }
+  },
+  {
+    "trial": 3,
+    "A_Blind": {
+      "code_path": "./local_experiments/paired_trials/runs/gpt-5.6-sol_trial3_A_blind.py",
+      "profile": {
+        "wall_sec": 0.6203,
+        "peak_mb": 100.48,
+        "success": true,
+        "stdout": "TOTAL_DIST:2895556144.1993241\n\n___PROFILE_RESULT___|0.6203|100.48|0",
+        "stderr": "<string>:44: RuntimeWarning: divide by zero encountered in matmul\n<string>:44: RuntimeWarning: overflow encountered in matmul\n<string>:44: RuntimeWarning: invalid value encountered in matmul"
+      }
+    },
+    "D_2DTelemetry": {
+      "code_path": "./local_experiments/paired_trials/runs/gpt-5.6-sol_trial3_D_2Dtelemetry.py",
+      "profile": {
+        "wall_sec": 0.3229,
+        "peak_mb": 35.8,
+        "success": true,
+        "stdout": "TOTAL_DIST:2895556139.5595245\n\n___PROFILE_RESULT___|0.3229|35.80|0",
+        "stderr": "<string>:46: RuntimeWarning: divide by zero encountered in matmul\n<string>:46: RuntimeWarning: overflow encountered in matmul\n<string>:46: RuntimeWarning: invalid value encountered in matmul"
+      }
+    }
+  },
+  {
+    "trial": 4,
+    "A_Blind": {
+      "code_path": "./local_experiments/paired_trials/runs/gpt-5.6-sol_trial4_A_blind.py",
+      "profile": {
+        "wall_sec": 0.6401,
+        "peak_mb": 85.31,
+        "success": true
+      }
+    },
+    "D_2DTelemetry": {
+      "code_path": "./local_experiments/paired_trials/runs/gpt-5.6-sol_trial4_D_2Dtelemetry.py",
+      "profile": {
+        "wall_sec": 0.3356,
+        "peak_mb": 14.42,
+        "success": true
+      }
+    }
+  },
+  {
+    "trial": 5,
+    "A_Blind": {
+      "code_path": "./local_experiments/paired_trials/runs/gpt-5.6-sol_trial5_A_blind.py",
+      "profile": {
+        "wall_sec": 0.6803,
+        "peak_mb": 100.47,
+        "success": true
+      }
+    },
+    "D_2DTelemetry": {
+      "code_path": "./local_experiments/paired_trials/runs/gpt-5.6-sol_trial5_D_2Dtelemetry.py",
+      "profile": {
+        "wall_sec": 0.3418,
+        "peak_mb": 18.09,
+        "success": true
+      }
+    }
+  }
+]

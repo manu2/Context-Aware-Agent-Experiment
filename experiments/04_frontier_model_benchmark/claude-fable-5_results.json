@@ -1,0 +1,54 @@
+{
+  "Variant A (Blind)": {
+    "model": "claude-fable-5",
+    "description": "No hardware or memory context provided.",
+    "script_path": "./local_experiments/frontier_model_benchmark/runs/a_claude-fable-5.py",
+    "code": "",
+    "profile": {
+      "wall_sec": 0.0001,
+      "peak_mb": 0.02,
+      "success": false,
+      "stdout": "___PROFILE_RESULT___|0.0001|0.02|0",
+      "stderr": ""
+    }
+  },
+  "Variant B (Natural Language Advice)": {
+    "model": "claude-fable-5",
+    "description": "Unstructured natural language advice to be memory efficient.",
+    "script_path": "./local_experiments/frontier_model_benchmark/runs/b_claude-fable-5.py",
+    "code": "",
+    "profile": {
+      "wall_sec": 0.0001,
+      "peak_mb": 0.02,
+      "success": false,
+      "stdout": "___PROFILE_RESULT___|0.0001|0.02|0",
+      "stderr": ""
+    }
+  },
+  "Variant C (1D Telemetry: 128MB RAM)": {
+    "model": "claude-fable-5",
+    "description": "Explicit 1D spatial telemetry (RAM limit: 128 MB).",
+    "script_path": "./local_experiments/frontier_model_benchmark/runs/c_claude-fable-5.py",
+    "code": "",
+    "profile": {
+      "wall_sec": 0.0001,
+      "peak_mb": 0.02,
+      "success": false,
+      "stdout": "___PROFILE_RESULT___|0.0001|0.02|0",
+      "stderr": ""
+    }
+  },
+  "Variant D (2D Telemetry: 128MB RAM + 10s CPU)": {
+    "model": "claude-fable-5",
+    "description": "Explicit 2D spatial + temporal telemetry (RAM limit: 128 MB, CPU quota: 10s).",
+    "script_path": "./local_experiments/frontier_model_benchmark/runs/d_claude-fable-5.py",
+    "code": "",
+    "profile": {
+      "wall_sec": 0.0001,
+      "peak_mb": 0.02,
+      "success": false,
+      "stdout": "___PROFILE_RESULT___|0.0001|0.02|0",
+      "stderr": ""
+    }
+  }
+}

@@ -1,0 +1,117 @@
+[
+  {
+    "trial": 1,
+    "A_Blind": {
+      "code_path": "./local_experiments/paired_trials/runs/claude-opus-5_trial1_A_blind.py",
+      "profile": {
+        "wall_sec": 0.0,
+        "peak_mb": 0.0,
+        "success": true,
+        "stdout": "TOTAL_DIST:2895556144.199325",
+        "stderr": "Loaded vectors.npy: shape=(8000, 1024) dtype=float32 (32.8 MB)\n<string>:50: RuntimeWarning: divide by zero encountered in matmul\n<string>:50: RuntimeWarning: overflow encountered in matmul\n<string>:50: RuntimeWarning: invalid value encountered in matmul\nSelf-check on 192-row subset: direct=1659053.172545 gram=1659053.172545 rel.err=5.614e-16\n\n  block     0-  512  (  6.4%)     0.1s\n  block   512- 1"
+      }
+    },
+    "D_2DTelemetry": {
+      "code_path": "./local_experiments/paired_trials/runs/claude-opus-5_trial1_D_2Dtelemetry.py",
+      "profile": {
+        "wall_sec": 0.3634,
+        "peak_mb": 22.23,
+        "success": true,
+        "stdout": "TOTAL_DIST:2895556246.098606\n\n___PROFILE_RESULT___|0.3634|22.23|0",
+        "stderr": "<string>:64: RuntimeWarning: divide by zero encountered in matmul\n<string>:64: RuntimeWarning: overflow encountered in matmul\n<string>:64: RuntimeWarning: invalid value encountered in matmul"
+      }
+    }
+  },
+  {
+    "trial": 2,
+    "A_Blind": {
+      "code_path": "./local_experiments/paired_trials/runs/claude-opus-5_trial2_A_blind.py",
+      "profile": {
+        "wall_sec": 0.6572,
+        "peak_mb": 102.87,
+        "success": true,
+        "stdout": "TOTAL_DIST:2895556144.199325\n\n___PROFILE_RESULT___|0.6572|102.87|0",
+        "stderr": "<string>:70: RuntimeWarning: divide by zero encountered in matmul\n<string>:70: RuntimeWarning: overflow encountered in matmul\n<string>:70: RuntimeWarning: invalid value encountered in matmul"
+      }
+    },
+    "D_2DTelemetry": {
+      "code_path": "./local_experiments/paired_trials/runs/claude-opus-5_trial2_D_2Dtelemetry.py",
+      "profile": {
+        "wall_sec": 0.3398,
+        "peak_mb": 53.84,
+        "success": true,
+        "stdout": "TOTAL_DIST:2895556144.346718\n\n___PROFILE_RESULT___|0.3398|53.84|0",
+        "stderr": ""
+      }
+    }
+  },
+  {
+    "trial": 3,
+    "A_Blind": {
+      "code_path": "./local_experiments/paired_trials/runs/claude-opus-5_trial3_A_blind.py",
+      "profile": {
+        "wall_sec": 0.6446,
+        "peak_mb": 162.16,
+        "success": true,
+        "stdout": "TOTAL_DIST:2895556144.203811\n\n___PROFILE_RESULT___|0.6446|162.16|0",
+        "stderr": "<string>:59: RuntimeWarning: divide by zero encountered in matmul\n<string>:59: RuntimeWarning: overflow encountered in matmul\n<string>:59: RuntimeWarning: invalid value encountered in matmul"
+      }
+    },
+    "D_2DTelemetry": {
+      "code_path": "./local_experiments/paired_trials/runs/claude-opus-5_trial3_D_2Dtelemetry.py",
+      "profile": {
+        "wall_sec": 0.3856,
+        "peak_mb": 22.5,
+        "success": true,
+        "stdout": "TOTAL_DIST:2895556243.283548\n\n___PROFILE_RESULT___|0.3856|22.50|0",
+        "stderr": "<string>:49: RuntimeWarning: divide by zero encountered in matmul\n<string>:49: RuntimeWarning: overflow encountered in matmul\n<string>:49: RuntimeWarning: invalid value encountered in matmul"
+      }
+    }
+  },
+  {
+    "trial": 4,
+    "A_Blind": {
+      "code_path": "./local_experiments/paired_trials/runs/claude-opus-5_trial4_A_blind.py",
+      "profile": {
+        "wall_sec": 0.7268,
+        "peak_mb": 163.07,
+        "success": true,
+        "stdout": "TOTAL_DIST:2895556144.199325\n\n___PROFILE_RESULT___|0.7268|163.07|0",
+        "stderr": "<string>:58: RuntimeWarning: divide by zero encountered in matmul\n<string>:58: RuntimeWarning: overflow encountered in matmul\n<string>:58: RuntimeWarning: invalid value encountered in matmul"
+      }
+    },
+    "D_2DTelemetry": {
+      "code_path": "./local_experiments/paired_trials/runs/claude-opus-5_trial4_D_2Dtelemetry.py",
+      "profile": {
+        "wall_sec": 0.3264,
+        "peak_mb": 53.83,
+        "success": true,
+        "stdout": "TOTAL_DIST:2895556246.099757\n\n___PROFILE_RESULT___|0.3264|53.83|0",
+        "stderr": "<string>:31: RuntimeWarning: divide by zero encountered in matmul\n<string>:31: RuntimeWarning: overflow encountered in matmul\n<string>:31: RuntimeWarning: invalid value encountered in matmul"
+      }
+    }
+  },
+  {
+    "trial": 5,
+    "A_Blind": {
+      "code_path": "./local_experiments/paired_trials/runs/claude-opus-5_trial5_A_blind.py",
+      "profile": {
+        "wall_sec": 0.7105,
+        "peak_mb": 163.09,
+        "success": true,
+        "stdout": "TOTAL_DIST:2895556144.199326\n\n___PROFILE_RESULT___|0.7105|163.09|0",
+        "stderr": "<string>:46: RuntimeWarning: divide by zero encountered in matmul\n<string>:46: RuntimeWarning: overflow encountered in matmul\n<string>:46: RuntimeWarning: invalid value encountered in matmul\n# shape=(8000, 1024) dtype=float32 elapsed=0.58s"
+      }
+    },
+    "D_2DTelemetry": {
+      "code_path": "./local_experiments/paired_trials/runs/claude-opus-5_trial5_D_2Dtelemetry.py",
+      "profile": {
+        "wall_sec": 0.4,
+        "peak_mb": 49.6,
+        "success": true,
+        "stdout": "TOTAL_DIST:2895556144.194741\n\n___PROFILE_RESULT___|0.4000|49.60|0",
+        "stderr": "<string>:67: RuntimeWarning: divide by zero encountered in matmul\n<string>:67: RuntimeWarning: overflow encountered in matmul\n<string>:67: RuntimeWarning: invalid value encountered in matmul"
+      }
+    }
+  }
+]
