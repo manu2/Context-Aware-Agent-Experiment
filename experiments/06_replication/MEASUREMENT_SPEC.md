@@ -15,7 +15,7 @@
   # Darwin (macOS) returns bytes; Linux returns kilobytes
   maxrss_mb = ru.ru_maxrss / (1024 * 1024) if sys.platform == 'darwin' else ru.ru_maxrss / 1024
   ```
-* **Sampling Context:** Measured at process exit in an isolated subprocess executing only the generated code.
+* **Sampling Context:** Measured at process exit in an isolated standalone script execution (`python script.py`), preventing runner overhead or leftover global references from polluting the heap.
 
 ### B. 128 MB Budget Threshold Compliance
 * **Definition:**
@@ -26,15 +26,15 @@
 ## 2. Secondary Metrics
 
 ### Wall-Clock Execution Time
-* **Measurement Mechanism:** `time.perf_counter()` bounding the execution of the generated script:
+* **Measurement Mechanism:** Total execution duration of the isolated process measured from the runner parent via `time.perf_counter()` or internal script execution block:
   ```python
   import time
   t0 = time.perf_counter()
-  exec(code, globs)
+  proc = subprocess.run([sys.executable, script_path], capture_output=True, text=True)
   t1 = time.perf_counter()
   wall_sec = t1 - t0
   ```
-* **Boundary:** Excludes model query latency, network overhead, and file I/O for logging.
+* **Boundary:** Excludes model generation latency, API network calls, and report formatting.
 
 ---
 
