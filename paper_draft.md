@@ -12,10 +12,10 @@ Autonomous AI coding agents operating in containerized environments frequently g
 
 In this work, we conduct a controlled empirical investigation into **Substrate-Aware Code Generation**—projecting physical execution constraints (such as a 128 MB RAM limit) directly into the agent's inference context without providing algorithmic hints. Through paired trials across frontier reasoning models (**Anthropic `claude-opus-5`** and **OpenAI `gpt-5.6-sol`**) alongside multi-model prompt ablations (**Google `gemini-3.7-flash`**, **Anthropic `claude-sonnet-5`**, and **OpenAI `gpt-4o`**), we observe:
 
-1. **Qualitative Algorithmic Shift**: Exposing execution constraints induces models to abandon eager $O(N^2)$ broadcasting in favor of structured block tiling, upper-trapezoid streaming, and in-place buffer recycling.
+1. **Qualitative Algorithmic Shift**: Exposing execution constraints induces models to replace eager pairwise materialization with structured blockwise evaluation, upper-trapezoid streaming, and in-place buffer recycling.
 2. **Resource & Latency Reduction**: For `claude-opus-5`, substrate awareness reduces peak process resident set size (MaxRSS) from $243.24 \pm 55.67\text{ MB}$ to $90.69 \pm 7.97\text{ MB}$ ($2.68\times$ reduction) and execution time from $0.6886\text{s}$ to $0.2680\text{s}$ ($2.57\times$ speedup), increasing 128 MB budget compliance from $0/5$ to $5/5$.
 3. **Separability of Awareness and Constraint Satisfaction**: For `gpt-5.6-sol`, substrate awareness reduces average MaxRSS from $165.89 \pm 26.44\text{ MB}$ to $105.58 \pm 31.44\text{ MB}$ ($1.57\times$ reduction) with $4/5$ runs remaining within the 128 MB budget, demonstrating that constraint awareness and successful constraint-bounded synthesis are separable capabilities across model families.
-4. **Vulnerability of Unanchored Heuristics**: Generic natural language instructions (*"be memory efficient"*) produce unpredictable behaviors—causing `gemini-3.7-flash` to revert to an unvectorized scalar loop ($30.0\text{s}$) and `gpt-4o` to fail entirely—whereas quantitative substrate boundaries guide models toward Pareto-efficient tile parameters.
+4. **Vulnerability of Unanchored Heuristics**: Generic natural language instructions (*"be memory efficient"*) produce unpredictable behaviors—causing `gemini-3.7-flash` to revert to an unvectorized scalar loop ($30.0\text{s}$) and `gpt-4o` to fail entirely—whereas quantitative substrate boundaries guide models toward resource-efficient tile parameters.
 
 ---
 
@@ -23,13 +23,13 @@ In this work, we conduct a controlled empirical investigation into **Substrate-A
 
 As autonomous AI coding agents are increasingly deployed in resource-bounded cloud environments (such as Docker containers, AWS Lambda, and Kubernetes micro-VMs), the physical boundaries of the execution substrate become critical. However, standard agent harnesses typically isolate the LLM from the physical runtime: they supply the task description and tool schemas, but omit the memory ceilings and resource boundaries of the execution environment.
 
-Deprived of substrate context, models fall back on the statistical priors learned during pretraining, which are dominated by code written for unconstrained developer workstations. When an agent generates eager, full-memory allocations inside a strict 128 MB container, the Linux kernel terminates the process (`SIGKILL Exit 137`).
+One possible explanation for unconditioned failures is that, deprived of substrate context, models fall back on statistical priors learned during pretraining, which may reflect computational environments substantially less constrained than the sandbox in which the generated program will execute. When an agent generates eager, full-memory allocations inside a strict 128 MB container, the Linux kernel terminates the process (`SIGKILL Exit 137`).
 
 ### 1.1 Research Question & Core Hypothesis
 We investigate a straightforward empirical question:
 > **Does exposing an AI coding agent to physical execution substrate constraints change the computational algorithms it chooses to synthesize?**
 
-We hypothesize that providing explicit knowledge of substrate limits (e.g., `RAM limit: 128 MB`) induces models to perform zero-shot algorithmic restructuring—transitioning from eager materialization to memory-bounded streaming—rather than merely tuning scalar constants within a fixed eager approach.
+We hypothesize that providing explicit knowledge of substrate limits (e.g., `RAM limit: 128 MB`) induces models to reconsider default computational priors and perform zero-shot algorithmic restructuring—replacing eager pairwise materialization with memory-bounded streaming—rather than merely tuning scalar constants within a fixed eager approach.
 
 ---
 
@@ -48,10 +48,10 @@ To isolate the effect of substrate information, we evaluate four prompt conditio
 * **Condition D (2D Substrate Constraint)**: Task specification + joint spatial and temporal boundary (*"Execution environment: RAM limit: 128 MB. Execution time limit: 10.0 seconds."*).
 
 ### 2.3 Measurement Protocol & Data Provenance
-To ensure rigorous reporting, we distinguish between the initial generative trial logs and the independent post-hoc physical profiling:
-1. **Generative Trials & Code Archival**: During the live generation trials, model responses were captured, extracted, and permanently archived to disk under `experiments/`.
-2. **Post-Hoc OS Process MaxRSS Remeasurement**: Because Python runtime memory profilers (e.g., `tracemalloc`) only track Python heap allocations and omit native C-extension buffers (such as NumPy contiguous arrays), all archived generated scripts were independently re-executed in isolated subprocesses using standard operating system resource profiling (`resource.getrusage(RUSAGE_SELF).ru_maxrss`) to measure true peak resident set size.
-3. **128 MB Resource Threshold Evaluation**: Programs are evaluated against the 128 MB physical container budget: scripts exhibiting MaxRSS $< 128\text{ MB}$ satisfy the container boundary, while scripts allocating $> 128\text{ MB}$ breach the physical memory ceiling.
+To ensure transparent reporting, we distinguish the experimental execution from post-hoc memory measurement:
+1. **Generative Trials & Code Archival**: During live generation trials, model responses were captured, extracted, and permanently archived to disk under `experiments/`. The generated programs were executed under a hard 128 MB cgroup memory limit (`MemoryMax=128M`, `MemorySwapMax=0`).
+2. **Post-Hoc OS Process MaxRSS Remeasurement**: Because initial Python-level `tracemalloc` instrumentation only tracked Python heap allocations and omitted native C-extension allocations (such as NumPy contiguous arrays), all archived trial scripts were independently re-executed in isolated subprocesses using standard OS-level resource profiling (`resource.getrusage(RUSAGE_SELF).ru_maxrss`) to obtain peak process resident memory.
+3. **128 MB Resource Threshold Evaluation**: Programs are evaluated against the 128 MB physical container budget: scripts exhibiting measured MaxRSS $< 128\text{ MB}$ satisfy the container boundary, while scripts allocating $> 128\text{ MB}$ breach the physical memory ceiling. Single-trial cross-model evaluations are exploratory and are not used to estimate model-level effect sizes.
 
 ---
 
@@ -151,18 +151,26 @@ Under substrate awareness, `gpt-5.6-sol` applies memory-saving idioms: using mem
 
 ## 5. Discussion, Limitations & Future Work
 
-### 5.1 Scope & Limitations
-1. **Pilot Sample Size**: Our paired statistical evaluation spans $N=5$ matched pairs ($10$ runs per model). While sufficient to demonstrate substantial algorithmic differences, larger evaluations across diverse tasks are required to characterize population distributions.
-2. **Frozen Weights**: This study investigates zero-shot prompting of frozen models. We do not fine-tune or modify model weights.
+### 5.1 Discussion
+Our findings demonstrate that providing explicit execution constraints enables frontier models to replace eager pairwise materialization with memory-bounded streaming evaluation, substantially lowering peak resident memory. However, the observation that GPT-5.6-Sol produced an aware-condition trial exceeding 128 MB (4/5 compliance) and GPT-4o failed across all conditions highlights that substrate awareness does not guarantee constraint-bounded competence. Awareness and constraint-satisfying synthesis are separable capabilities that vary across model architectures.
 
-### 5.2 Open Research Directions: Toward Substrate-Aware Post-Training (SARL)
-Current Reinforcement Learning with Verifiable Rewards (RLVR / GRPO) frameworks reward models solely based on unit-test pass/fail status (+1 / -1), ignoring physical container resource consumption. Our findings demonstrate that frontier models already possess the latent capacity to synthesize memory-bounded algorithms when informed of limits. An exciting future direction is **Substrate-Aware Reinforcement Learning (SARL)**: incorporating Linux kernel telemetry (peak MaxRSS, memory pressure stalls, and CPU quotas) directly into verifiable reward functions during post-training alignment.
+### 5.2 Scope & Limitations
+1. **Pilot Scale**: Our paired statistical evaluation spans $N=5$ matched pairs ($10$ runs per model). While demonstrating substantial algorithmic differences, larger evaluations across broader task suites are required to characterize population distributions.
+2. **Frozen Model Weights**: This study evaluates zero-shot prompting of frozen models without fine-tuning.
+3. **Causal Attribution**: We cannot establish the exact internal mechanism by which models respond to substrate context, nor can we prove that pretraining distribution is the sole causal source of unconditioned eager behavior.
+4. **Post-Hoc Measurement**: MaxRSS was independently remeasured on archived scripts rather than captured natively during live cgroup execution.
+
+### 5.3 Future Work
+Promising directions for future research include:
+1. **Broader Resource Dimensions**: Investigating agent behavior under CPU quotas, GPU VRAM limits, storage I/O throughput, and network bandwidth boundaries.
+2. **Dynamic Runtime Feedback**: Providing real-time telemetry updates during execution rather than static prompt injection.
+3. **Substrate-Aware Training & Alignment**: Exploring whether integrating operating system telemetry (cgroup peaks, memory pressure events) into verifiable reward functions during post-training (RLVR/GRPO) improves native constraint compliance.
 
 ---
 
 ## 6. Conclusion
 
-We have presented an empirical investigation into Substrate-Aware Code Generation. Our findings indicate that providing explicit execution constraints enables frontier reasoning models to transition from eager, memory-heavy patterns to structured, memory-bounded algorithms, substantially improving 128 MB memory budget compliance and execution latency.
+We have presented an empirical investigation into Substrate-Aware Code Generation. Our findings show that explicitly exposing physical execution constraints causes frontier AI coding models to reconsider default computational strategies and synthesize structured, memory-bounded algorithms, substantially improving 128 MB resource threshold compliance and execution speed.
 
 ---
 
