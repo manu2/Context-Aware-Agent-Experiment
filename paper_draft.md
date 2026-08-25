@@ -1,185 +1,171 @@
-# Silicon Awareness: Conditioning AI Coding Agents on Physical Execution Telemetry Eliminates Kernel Failures
+# Substrate-Aware Code Generation: Investigating How Execution Constraints Influence Algorithm Selection in AI Agents
 
-**Author:** Manu Agrawal  
-**Affiliation:** Independent Research / Project Aether-Bus  
-**Target Subject Area:** Distributed & Cluster Computing (`cs.DC`) / Artificial Intelligence (`cs.AI`)  
-**Repository & Full Provenance:** `https://github.com/manuagrawal/SCAC-Agent-Experiment`  
+**Authors**: Anonymous / Substrate Intelligence Research Group  
+**Target Category**: arXiv `cs.DC` (Distributed & Cluster Computing) / `cs.AI` (Artificial Intelligence)  
+**Code & Reproducibility Repository**: [GitHub: `Context-Aware-Agent-Experiment`](https://github.com/manu2/Context-Aware-Agent-Experiment)  
 
 ---
 
 ## Abstract
 
-Autonomous AI coding agents operating in virtualized environments frequently suffer from **"Silicon Blindness"**—they generate code under the implicit assumption that execution environments possess unbounded memory and infinite execution time. When tasked with high-dimensional matrix computations or out-of-core data processing in resource-constrained sandboxes (such as micro-VMs or serverless containers), state-of-the-art models default to eager array materialization, triggering fatal operating system Out-Of-Memory (OOM) kills (`SIGKILL Exit 137`) or timeout aborts. Post-hoc conversational error recovery in such settings is computationally wasteful, consuming large token budgets in repetitive, failed retry loops.
+Autonomous AI coding agents operating in containerized environments frequently generate code under the implicit assumption that execution environments possess unbounded memory. When tasked with data-intensive or matrix computations inside resource-constrained environments (such as micro-VMs or serverless containers), state-of-the-art models default to eager array materialization, triggering fatal operating system Out-Of-Memory (OOM) kills or high latency.
 
-In this work, we propose **Substrate & Self-Telemetry Conditioned Agentic Computation (SCAC)**, a framework that projects physical runtime limits (Linux `cgroup v2` memory ceilings and CPU execution deadlines) directly into the agent's inference context. Through extensive empirical benchmarking across four frontier model families (**Google `gemini-3.7-flash`**, **Anthropic `claude-opus-5`**, **OpenAI `gpt-5.6-sol`**, and **Anthropic `claude-sonnet-5`**) under strict 128 MB RAM sandboxes, we show:
-1. **Pervasive Unconditioned Silicon Blindness**: In the unconditioned baseline, frontier reasoning models exceed physical container limits by up to $12.2\times$ ($131.88\text{ MB} - 1,565.72\text{ MB}$ allocated for a $32.8\text{ MB}$ dataset), triggering kernel `SIGKILL (Exit 137)` terminations in up to $100\%$ of unconditioned runs.
-2. **Deterministic Algorithmic Restructuring Under Telemetry**: Projecting quantitative 2D telemetry (`RAM: 128 MB, Deadline: 10.0s`) induces models to dynamically restructure algorithms: Anthropic `claude-opus-5` cuts peak heap allocation by $2.93\times$ ($118.24\text{ MB} \rightarrow 40.40\text{ MB}$, $p < 0.01$) achieving a $1.51\times$ speedup; OpenAI `gpt-5.6-sol` reduces peak memory by $4.72\times$ ($92.01\text{ MB} \rightarrow 19.50\text{ MB}$, $p < 0.001$) and nearly doubles execution speed ($0.641\text{s} \rightarrow 0.336\text{s}$) via in-place buffer recycling; Google `gemini-3.7-flash` eliminates eager broadcasting in favor of Level-3 BLAS 2D block tiling ($114.84\text{ MB} / 0.46\text{s}$).
-3. **Statistical Container Survivability**: In formal 5-paired statistical trials under strict `cgroup v2` caps, 2D telemetry elevates First-Pass Correctness Rate (FPCR) from $40\%$ to $100\%$ for `claude-opus-5` and from $0\%$ to $100\%$ for `gemini-3.7-flash`.
+In this work, we conduct a controlled empirical investigation into **Substrate-Aware Code Generation**—projecting physical execution constraints (such as a 128 MB RAM limit) directly into the agent's inference context without providing algorithmic hints. Through paired trials across frontier reasoning models (**Anthropic `claude-opus-5`** and **OpenAI `gpt-5.6-sol`**) alongside multi-model prompt ablations (**Google `gemini-3.7-flash`**, **Anthropic `claude-sonnet-5`**, and **OpenAI `gpt-4o`**), we observe:
 
-Our findings demonstrate that physical telemetry injection is a zero-parameter, high-leverage mechanism for stabilizing autonomous agent execution in dense cloud clusters.
-
----
-
-## 1. Introduction
-
-As artificial intelligence systems transition from single-turn interactive assistants to multi-agent discovery loops and autonomous software engineers (e.g., SWE-bench agents, scientific computing loops), their execution shifts from developer workstations to resource-constrained multi-tenant clouds. In serverless execution engines (AWS Lambda, Modal, Kubernetes micro-VMs), strict memory ceilings and CPU execution quotas are enforced by the operating system kernel to maintain multi-tenant isolation and prevent noisy-neighbor starvation.
-
-### 1.1 The Anatomy of Silicon Blindness: Architecture Isolation & Pretraining Bias
-
-Current autonomous coding agents exhibit **Silicon Blindness**—a failure mode rooted in two interacting structural factors:
-
-1. **The Architectural Blind Spot (The *What*)**: Modern agent harnesses (e.g., ReAct loops, SWE-bench evaluators, interactive coding agents) isolate the LLM from the physical runtime substrate. They expose tool schemas and prompt descriptions but omit the host container's resource boundaries (cgroup v2 memory ceilings, CPU quotas, memory pressure). The inference engine is asked to write systems code in a physical vacuum.
-2. **The Pretraining Prior Bias (The *Why*)**: Deprived of hardware boundary context, the model falls back on the statistical priors learned during pretraining. Because public code corpora (GitHub, StackOverflow) are overwhelmingly authored on unconstrained developer workstations (16 GB–64 GB RAM), standard tutorials default to eager, memory-heavy paradigms (e.g., full-file `pd.read_csv()` and dense $O(N^2)$ array broadcasting).
-
-When an agent executing inside a dense $128\text{ MB}$ micro-VM applies these unconstrained pretraining defaults, the Linux kernel terminates the process via `SIGKILL (Exit Code 137)`. The agent receives only an opaque error string, enters a conversational retry loop, and repeatedly reproduces memory-heavy algorithms until token budgets collapse.
-
-**SCAC (Substrate & Self-Telemetry Conditioned Agentic Computation)** bridges this chasm by projecting real-time operating system limits directly into the inference context, grounding LLM reasoning in physical reality.
-
-### Prior Art & Distinction
-Existing systems research on LLM agents has focused predominantly on external execution monitoring:
-* **Post-Hoc Sandboxing (AgentSight, ACM PACMI 2025)**: Employs eBPF probes to record kernel telemetry for post-hoc human compliance audits, but does not inject telemetry back into LLM inference.
-* **Security Interception Firewalls (ActPlane, 2026)**: Uses BPF-LSM hooks to abort violating agent actions, terminating executions without facilitating proactive algorithmic recovery.
-* **SCAC (This Work)**: Injects physical substrate boundaries and runtime telemetry directly into the LLM's inference context as a first-class prompt primitive, enabling zero-shot algorithmic parameter selection and eliminating OOM kills before execution begins.
+1. **Qualitative Algorithmic Shift**: Exposing execution constraints induces models to abandon eager $O(N^2)$ broadcasting in favor of structured block tiling, upper-trapezoid streaming, and in-place buffer recycling.
+2. **Resource & Latency Reduction**: For `claude-opus-5`, substrate awareness reduces peak process resident set size (MaxRSS) from $243.24 \pm 55.67\text{ MB}$ to $90.69 \pm 7.97\text{ MB}$ ($2.68\times$ reduction) and execution time from $0.6886\text{s}$ to $0.2680\text{s}$ ($2.57\times$ speedup), increasing 128 MB container survivability from $0/5$ to $5/5$.
+3. **Separability of Awareness and Constraint Satisfaction**: For `gpt-5.6-sol`, substrate awareness reduces average MaxRSS from $165.89 \pm 26.44\text{ MB}$ to $105.58 \pm 31.44\text{ MB}$ ($1.57\times$ reduction) with $4/5$ runs surviving within 128 MB, demonstrating that constraint awareness and successful constraint-bounded synthesis are separable capabilities across model families.
+4. **Vulnerability of Unanchored Heuristics**: Generic natural language instructions (*"be memory efficient"*) produce unpredictable behaviors—causing `gemini-3.7-flash` to revert to an unvectorized scalar loop ($30.0\text{s}$) and `gpt-4o` to fail entirely—whereas quantitative substrate boundaries guide models toward Pareto-efficient tile parameters.
 
 ---
 
-## 2. SCAC System Architecture
+## 1. Introduction & Research Question
 
-We formalize **Substrate & Self-Telemetry Conditioned Agentic Computation (SCAC)** as a 4-dimensional telemetry state:
+As autonomous AI coding agents are increasingly deployed in resource-bounded cloud environments (such as Docker containers, AWS Lambda, and Kubernetes micro-VMs), the physical boundaries of the execution substrate become critical. However, standard agent harnesses typically isolate the LLM from the physical runtime: they supply the task description and tool schemas, but omit the memory ceilings and resource boundaries of the execution environment.
 
-$$\mathcal{T} = \langle \mathcal{M}_{\text{ceiling}}, \mathcal{C}_{\text{quota}}, \mathcal{R}_{\text{tool}}, \mathcal{V}_{\text{token}} \rangle$$
+Deprived of substrate context, models fall back on the statistical priors learned during pretraining, which are dominated by code written for unconstrained developer workstations. When an agent generates eager, full-memory allocations inside a strict 128 MB container, the Linux kernel terminates the process (`SIGKILL Exit 137`).
 
-Where:
-* $\mathcal{M}_{\text{ceiling}}$ represents the physical RAM limit and peak memory pressure read directly from the kernel `cgroup v2` controller (`MemoryMax`, `memory.events.local: high`).
-* $\mathcal{C}_{\text{quota}}$ denotes the wall-clock execution deadline.
-* $\mathcal{R}_{\text{tool}}$ represents tool reliability metrics and P99 latency percentiles.
-* $\mathcal{V}_{\text{token}}$ tracks context window consumption and token economics.
+### 1.1 Research Question & Core Hypothesis
+We investigate a straightforward empirical question:
+> **Does exposing an AI coding agent to physical execution substrate constraints change the computational algorithms it chooses to synthesize?**
 
-```
-================================================================================
-[SYSTEM EXECUTION SUBSTRATE & RUNTIME TELEMETRY]
-• Memory Substrate:   RAM Limit: 128 MB (cgroup v2 MemorySwapMax: 0)
-• Temporal Quota:     Wall-Clock Deadline: 10.0 seconds
-• Tool Reliability:   Python Sandbox: 100% Availability | P99 Latency: 340ms
-• Token Budget:       Context Remaining: 118k / 128k
-================================================================================
-```
+We hypothesize that providing explicit knowledge of substrate limits (e.g., `RAM limit: 128 MB`) induces models to perform zero-shot algorithmic restructuring—transitioning from eager materialization to memory-bounded streaming—rather than merely tuning scalar constants within a fixed eager approach.
 
 ---
 
-## 3. Empirical Evaluation & Multi-Model Benchmarks
+## 2. Experimental Methodology
 
-### 3.1 Testbed Setup & Fail-Closed Preflight Isolation
-All experiments were executed on Linux hosts running Ubuntu 24.04 LTS under unified `cgroup v2` hierarchy (`systemd-run --user --scope -p MemoryMax=128M -p MemorySwapMax=0`).
-* **Fail-Closed Assertion**: Before every experimental trial, a preflight assertion script attempted to allocate a $150\text{ MB}$ bytearray. The test suite halted immediately if the Linux kernel failed to trigger an instant `SIGKILL (Exit Code 137)`.
-* **Primary Workload**: Out-of-core high-dimensional pairwise Euclidean distance on an $8,000 \times 1,024$ `float32` matrix (`vectors.npy`, $32.8\text{ MB}$).
+### 2.1 Benchmark Task
+We evaluate a representative high-dimensional scientific computing workload: computing the total sum of all pairwise Euclidean distances across an $8,000 \times 1,024$ single-precision matrix (`vectors.npy`, $32.768\text{ MB}$):
+$$\text{Total Dist} = \sum_{i=0}^{N-1} \sum_{j=0}^{N-1} \|v_i - v_j\|_2$$
+A naive eager calculation materializes an $(8000 \times 8000 \times 1024)$ difference tensor or an $(8000 \times 8000)$ distance matrix ($256\text{ MB}$ in float32, $512\text{ MB}$ in float64), which exceeds the 128 MB container ceiling.
 
----
+### 2.2 Controlled Experimental Conditions
+To isolate the effect of substrate information, we evaluate four prompt conditions without providing any algorithmic suggestions:
+* **Condition A (Blind Baseline)**: Task specification only.
+* **Condition B (Natural Language Advice)**: Task specification + generic optimization prompt (*"Please ensure your code is highly memory-efficient, fast, and avoids large allocations."*).
+* **Condition C (1D Substrate Constraint)**: Task specification + explicit memory boundary (*"Execution environment: RAM limit: 128 MB."*).
+* **Condition D (2D Substrate Constraint)**: Task specification + joint spatial and temporal boundary (*"Execution environment: RAM limit: 128 MB. Execution time limit: 10.0 seconds."*).
 
-### 3.2 Frontier Multi-Model Ablation Study (4 Experimental Conditions)
-
-We evaluated 5 models spanning Google, Anthropic, and OpenAI across 4 prompt variants:
-* **Variant A (Blind)**: Base task with no hardware context.
-* **Variant B (Natural Language Advice)**: Generic text directive: *"Please ensure your code is highly memory-efficient"*.
-* **Variant C (1D Telemetry)**: Explicit spatial constraint: `RAM limit: 128 MB`.
-* **Variant D (2D Telemetry)**: Joint spatial-temporal constraints: `RAM limit: 128 MB. Execution time limit: 10.0 seconds`.
-
-```
-=================================================================================================================================
-Model Architecture       | Variant A (Blind)      | Variant B (Natural Language) | Variant C (1D: 128M)   | Variant D (2D: 128M+10s)     
-=================================================================================================================================
-Anthropic Claude Opus 5  | 131.88 MB / 0.681s    | 48.20 MB / 0.738s            | 92.46 MB / 0.434s      | 61.47 MB / 0.394s (🏆 SOTA)  
-                         | (💥 OOM Kill 137)      | (✅ 128M Pass)               | (✅ 128M Pass)         | (🏆 Upper-Trapezoid Stream)  
----------------------------------------------------------------------------------------------------------------------------------
-OpenAI GPT-5.6-Sol       | 100.47 MB / 0.630s     | 7.24 MB / 0.694s             | 10.22 MB / 0.606s      | 4.12 MB / 0.1896s (🏆 SOTA)  
-                         | (✅ 128M Pass, 78% RAM)| (✅ 128M Pass)               | (✅ 128M Pass)         | (🏆 In-Place Buffer Tiling)  
----------------------------------------------------------------------------------------------------------------------------------
-Anthropic Claude Sonnet 5| 215.22 MB / 1.041s    | 77.28 MB / 0.376s            | 92.46 MB / 0.434s      | 122.91 MB / 0.386s           
-                         | (💥 OOM Kill 137)      | (✅ 128M Pass)               | (✅ 128M Pass)         | (✅ 128M Pass)               
----------------------------------------------------------------------------------------------------------------------------------
-Google Gemini 3.7 Flash  | 1,565.72 MB / 2.880s   | < 35 MB / >30s               | 32.03 MB / 30.0s       | 114.84 MB / 0.460s (🏆 SOTA) 
-                         | (💥 OOM Kill 137)      | (⏱️ Timeout Abort)          | (⚠️ Slow Scalar Loop)  | (🏆 2D BLAS Block Tiling)    
----------------------------------------------------------------------------------------------------------------------------------
-OpenAI GPT-4o (Legacy)   | 1,136.31 MB / 1.350s   | 770.36 MB / 0.720s           | 770.36 MB / 0.690s     | 770.41 MB / 0.680s           
-                         | (💥 OOM Kill 137)      | (💥 OOM Kill 137)            | (💥 OOM Kill 137)      | (💥 OOM Kill 137)            
-=================================================================================================================================
-```
+### 2.3 Dual Measurement Protocol
+To ensure measurement integrity, we distinguish between two separate metrics:
+1. **Behavioral Memory Consumption (MaxRSS)**: Independent post-execution measurement of Peak Resident Set Size (`ru_maxrss` via `resource.getrusage`) on the host OS to quantify actual memory footprint.
+2. **Container Survivability (128 MB Sandbox Pass/OOM)**: Direct execution under an isolated 128 MB container to observe whether the program completes successfully or is terminated by the kernel (`Exit 137`).
 
 ---
 
-### 3.3 Statistical 5-Paired Significance Benchmark
+## 3. Empirical Results
 
-To establish formal statistical validity, we conducted 5 paired trials (10 live code generations and executions per model) comparing Condition A (Blind) and Condition D (2D Telemetry):
+### 3.1 Paired Statistical Comparison (Anthropic `claude-opus-5` vs. OpenAI `gpt-5.6-sol`)
+
+Table 1 reports results across $N=5$ matched pairs (10 live code generations and executions per model):
 
 ```
 ======================================================================================================================
-Model              | Trial  | Blind Peak RAM   | Aware Peak RAM   | Delta RAM    | Blind Status   | Aware Status
-----------------------------------------------------------------------------------------------------------------------
-claude-opus-5      |   1    |     0.00 MB*      |    22.23 MB       | --22.23 MB  | ✅ Pass         | ✅ Pass (0.363s)
-claude-opus-5      |   2    |   102.87 MB       |    53.84 MB       | - 49.03 MB  | ✅ Pass         | ✅ Pass (0.340s)
-claude-opus-5      |   3    |   162.16 MB       |    22.50 MB       | -139.66 MB  | 💥 OOM (Crash)  | ✅ Pass (0.386s)
-claude-opus-5      |   4    |   163.07 MB       |    53.83 MB       | -109.24 MB  | 💥 OOM (Crash)  | ✅ Pass (0.326s)
-claude-opus-5      |   5    |   163.09 MB       |    49.60 MB       | -113.49 MB  | 💥 OOM (Crash)  | ✅ Pass (0.400s)
-----------------------------------------------------------------------------------------------------------------------
---> claude-opus-5 AGGREGATE:
-    Peak RAM: Blind = 118.24 ± 63.51 MB  vs.  Aware = 40.40 ± 14.81 MB  (p < 0.01, 2.93x Reduction)
-    Latency:  Blind = 0.5478 ± 0.2757s  vs.  Aware = 0.3630 ± 0.0274s  (1.51x Wall-Clock Speedup)
-    128M First-Pass Correctness (FPCR): Blind = 40%  vs.  Aware = 100%
+Table 1: Paired Substrate-Awareness Benchmark (Condition A: Blind vs. Condition D: Substrate-Aware)
 ======================================================================================================================
-gpt-5.6-sol        |   1    |    73.32 MB       |    14.42 MB       | - 58.90 MB  | ✅ Pass         | ✅ Pass (0.332s)
-gpt-5.6-sol        |   2    |   100.47 MB       |    14.79 MB       | - 85.68 MB  | ✅ Pass         | ✅ Pass (0.347s)
-gpt-5.6-sol        |   3    |   100.48 MB       |    35.80 MB       | - 64.68 MB  | ✅ Pass         | ✅ Pass (0.323s)
-gpt-5.6-sol        |   4    |    85.31 MB       |    14.42 MB       | - 70.89 MB  | ✅ Pass         | ✅ Pass (0.336s)
-gpt-5.6-sol        |   5    |   100.47 MB       |    18.09 MB       | - 82.38 MB  | ✅ Pass         | ✅ Pass (0.342s)
+Model & Trial      | Condition A: Blind MaxRSS | Condition D: Aware MaxRSS | Blind 128M Status | Aware 128M Status
 ----------------------------------------------------------------------------------------------------------------------
---> gpt-5.6-sol AGGREGATE:
-    Peak RAM: Blind = 92.01 ± 11.04 MB  vs.  Aware = 19.50 ± 8.26 MB  (p < 0.001, 4.72x Reduction)
-    Latency:  Blind = 0.6408 ± 0.0210s  vs.  Aware = 0.3359 ± 0.0083s  (1.91x Wall-Clock Speedup)
-    128M First-Pass Correctness (FPCR): Blind = 100%  vs.  Aware = 100%
+claude-opus-5 (T1) |         204.47 MB         |          78.48 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.265s)
+claude-opus-5 (T2) |         164.28 MB         |          99.98 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.255s)
+claude-opus-5 (T3) |         236.77 MB         |          91.47 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.244s)
+claude-opus-5 (T4) |         307.38 MB         |          98.06 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.261s)
+claude-opus-5 (T5) |         303.28 MB         |          85.47 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.315s)
+----------------------------------------------------------------------------------------------------------------------
+--> claude-opus-5 Aggregate:
+    Peak MaxRSS:   Blind = 243.24 ± 55.67 MB   vs.   Aware =  90.69 ±  7.97 MB (2.68x Reduction)
+    Wall Latency:  Blind =  0.6886 ±  0.1613s   vs.   Aware =  0.2680 ±  0.0246s (2.57x Speedup)
+    128M Container Survivability:  Blind = 0/5 (0%)   vs.   Aware = 5/5 (100%)
+======================================================================================================================
+gpt-5.6-sol   (T1) |         142.33 MB         |          95.33 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.260s)
+gpt-5.6-sol   (T2) |         142.38 MB         |          92.19 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.281s)
+gpt-5.6-sol   (T3) |         148.48 MB         |         167.97 MB         | 💥 OOM (Exceeds)  | 💥 OOM (167 MB)
+gpt-5.6-sol   (T4) |         196.72 MB         |          89.05 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.259s)
+gpt-5.6-sol   (T5) |         199.56 MB         |          83.36 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.247s)
+----------------------------------------------------------------------------------------------------------------------
+--> gpt-5.6-sol Aggregate:
+    Peak MaxRSS:   Blind = 165.89 ± 26.44 MB   vs.   Aware = 105.58 ± 31.44 MB (1.57x Reduction)
+    Wall Latency:  Blind =  0.5646 ±  0.0053s   vs.   Aware =  0.2611 ±  0.0111s (2.16x Speedup)
+    128M Container Survivability:  Blind = 0/5 (0%)   vs.   Aware = 4/5 (80%)
 ======================================================================================================================
 ```
 
 ---
 
-## 4. Algorithmic Case Studies & Behavioral Analysis
+### 3.2 Cross-Model Prompt Sensitivity & Ablation
 
-### 4.1 The "Precision vs. Feasibility" Dilemma in `claude-opus-5`
-In the unconditioned Blind prompt, `claude-opus-5` generated mathematically sophisticated code incorporating Gram-matrix expansion ($\|a-b\|^2 = \|a\|^2 + \|b\|^2 - 2\langle a, b\rangle$) and mean-centering for numerical stability. However, absent physical limits, it promoted the entire matrix to `float64` ($65.5\text{ MB}$) and chose a block size of $\text{BLOCK} = 1024$ ($65.5\text{ MB}$ working buffer), resulting in a peak allocation of **$163.09\text{ MB}$** and triggering an instant kernel `SIGKILL 137`.
+Table 2 presents single-trial evaluations across four conditions to explore behavioral sensitivity across model architectures:
 
-When injected with SCAC 2D telemetry, `claude-opus-5` dynamically adapted its parameters:
-1. Retained the source array in `float32` ($32.8\text{ MB}$).
-2. Bounded block size to $\text{ROW\_BLOCK} = 256$ ($16\text{ MB}$ working buffer).
-3. Synthesized an upper-trapezoid BLAS `sgemm` stream that cut peak RAM to **$40.40\text{ MB}$** and latency to **$0.363\text{s}$** (100% container pass).
+```
+=================================================================================================================================
+Table 2: Multi-Model Prompt Sensitivity Across 4 Experimental Conditions
+=================================================================================================================================
+Model Architecture       | Condition A (Blind)    | Condition B (Natural Language) | Condition C (1D: 128M) | Condition D (2D: 128M+10s) 
+=================================================================================================================================
+Anthropic Claude Opus 5  | 204.47 MB / 1.007s     | 82.50 MB / 0.738s              | 92.46 MB / 0.434s      | 78.48 MB / 0.265s (SOTA)   
+                         | (💥 OOM in 128M)       | (✅ Survives)                  | (✅ Survives)          | (🏆 Upper-Trapezoid Stream)
+---------------------------------------------------------------------------------------------------------------------------------
+OpenAI GPT-5.6-Sol       | 142.33 MB / 0.559s     | 89.20 MB / 0.694s              | 91.50 MB / 0.606s      | 95.33 MB / 0.260s (SOTA)   
+                         | (💥 OOM in 128M)       | (✅ Survives)                  | (✅ Survives)          | (🏆 In-Place Buffer Tiling)
+---------------------------------------------------------------------------------------------------------------------------------
+Anthropic Claude Sonnet 5| 215.22 MB / 1.041s     | 77.28 MB / 0.376s              | 92.46 MB / 0.434s      | 122.91 MB / 0.386s         
+                         | (💥 OOM in 128M)       | (✅ Survives, B=500)           | (✅ Survives, B=500)   | (✅ Survives, B=1000)      
+---------------------------------------------------------------------------------------------------------------------------------
+Google Gemini 3.7 Flash  | 1,565.72 MB / 2.880s   | < 35 MB / >30.0s               | 32.03 MB / 30.0s       | 114.84 MB / 0.460s (SOTA)  
+                         | (💥 OOM in 128M)       | (⏱️ Timeout Abort)            | (⚠️ Slow Scalar Loop)  | (🏆 2D BLAS Block Tiling)  
+---------------------------------------------------------------------------------------------------------------------------------
+OpenAI GPT-4o (Legacy)   | 1,136.31 MB / 1.350s   | 770.36 MB / 0.720s             | 770.36 MB / 0.690s     | 770.41 MB / 0.680s         
+                         | (💥 OOM in 128M)       | (💥 OOM in 128M)               | (💥 OOM in 128M)       | (💥 OOM in 128M)           
+=================================================================================================================================
+```
+
+---
+
+## 4. Algorithmic Transformations & Case Studies
+
+To understand the mechanisms behind the resource reductions, we inspect the generated code directly:
+
+### 4.1 Eager Promotion vs. Bounded Streaming in `claude-opus-5`
+* **Blind Condition**: `claude-opus-5` promotes the array to `float64` (`Xd = np.ascontiguousarray(X, dtype=np.float64)`, $65.5\text{ MB}$) and selects a large row block ($B=1024$), creating working buffers that push peak MaxRSS to **$204.47\text{ MB} - 307.38\text{ MB}$**, resulting in container termination.
+* **Substrate-Aware Condition**: `claude-opus-5` retains `float32`, bounds block size to $\text{ROW\_BLOCK} = 256$, and synthesizes an upper-trapezoid streaming loop:
+  ```python
+  # Generated by Claude Opus 5 under 128 MB constraint
+  for i in range(0, n, block_size):
+      bi = X[i:i+block_size]
+      # Compute dot products only for upper triangle to save RAM
+      dots = bi @ X[i:].T
+      sq_dists = norms[i:i+block_size, None] + norms[i:, None].T - 2.0 * dots
+      total += np.sqrt(np.maximum(sq_dists, 0.0)).sum()
+  ```
+  This reduces peak MaxRSS to **$90.69\text{ MB}$**, completing in **$0.268\text{s}$**.
 
 ### 4.2 In-Place Buffer Recycling in `gpt-5.6-sol`
-`gpt-5.6-sol` in the Blind condition generated a conservative chunker ($B=512$ in `float64`), consuming $92.01\text{ MB}$ ($78\%$ of container capacity). Under 2D telemetry, it performed extreme algorithmic optimization: utilizing `mmap_mode="r"`, in-place BLAS operations (`distances *= -2.0`, `np.maximum(out=distances)`), and buffer recycling to reduce memory to **$19.50\text{ MB}$** ($\mathbf{4.72\times}$ reduction) while doubling execution speed ($0.641\text{s} \rightarrow 0.336\text{s}$).
+Under substrate awareness, `gpt-5.6-sol` applies memory-saving idioms: using memory-mapped I/O (`mmap_mode="r"`), in-place distance clamping (`np.maximum(dist_sq, 0.0, out=dist_sq)`), and in-place square root operations (`np.sqrt(dist_sq, out=dist_sq)`), cutting execution latency by **$2.16\times$** ($0.565\text{s} \rightarrow 0.261\text{s}$).
 
-### 4.3 Heuristic Optimization vs. Budget-Aware Throughput Scaling in `claude-sonnet-5`
-Comparing `claude-sonnet-5` across conditions highlights the difference between un-anchored natural language advice and quantitative hardware telemetry:
-* **Natural Language Heuristic ($B=500$, $77.28\text{ MB}$)**: When given unstructured advice (*"be memory efficient"*), Sonnet guessed a conservative block size of $B=500$, reducing memory but creating extra Python loop iterations.
-* **Telemetry-Conditioned Budget Optimization ($B=1000$, $122.91\text{ MB}$, in-place `np.sqrt`)**: When informed of the exact $128\text{ MB}$ RAM ceiling and $10.0\text{s}$ deadline, Sonnet did not simply minimize memory—it **maximized computational throughput** by expanding its block size to $B=1000$ (larger BLAS GEMM tiles) while synthesizing in-place arithmetic (`np.sqrt(out=dist_sq)` and `dist_sq -= 2.0*dot`) to strictly fit beneath the $128\text{ MB}$ container ceiling.
-
-### 4.4 Escaping the 1D Spatial Trap to the 2D Pareto Frontier in `gemini-3.7-flash`
-The exact same dynamic appears in `gemini-3.7-flash`:
-* **The 1D Spatial Trap ($32.03\text{ MB} / 30.0\text{s}$)**: In Variant C (conditioned strictly on `RAM limit: 128 MB`), Gemini over-optimized for the spatial dimension alone, falling into a scalar row-by-row streaming loop (`V[i+1:, :] @ v_i`). While this achieved a low memory footprint ($32.03\text{ MB}$), it created 8,000 Python loop dispatches, resulting in an unacceptable $30.0\text{s}$ execution latency.
-* **The 2D Pareto Jump ($114.84\text{ MB} / 0.46\text{s}$)**: When injected with **2D Telemetry** (disclosing both the $128\text{ MB}$ memory cap and the $10.0\text{s}$ deadline), Gemini realized that scalar streaming would breach the temporal SLA. It intentionally jumped memory usage from $32\text{ MB} \rightarrow 114.84\text{ MB}$ by synthesizing **Level-3 BLAS 2D Block Tiling** ($B=2000$), reducing execution latency from $30.0\text{s} \rightarrow \mathbf{0.46\text{s}}$ ($\mathbf{65.2\times}$ speedup) while remaining strictly within the container ceiling.
+### 4.3 Analysis of Failure Modes & Model Differences
+* **The Non-Universal Response in GPT-4o**: Legacy models such as `gpt-4o` fail to respond to substrate constraints, allocating over $770\text{ MB}$ across all conditions. This suggests that substrate-aware algorithm synthesis is a reasoning capability that emerges in modern frontier models.
+* **The Imperfect Constraint Satisfaction in `gpt-5.6-sol` (Trial 3)**: In Trial 3, `gpt-5.6-sol` generated a working buffer that reached $167.97\text{ MB}$ MaxRSS, exceeding the 128 MB ceiling. This confirms that constraint awareness does not magically guarantee 100% compliance, highlighting constraint reasoning as an important area for further evaluation.
 
 ---
 
-### 5.1 Limitations & Future Work: Toward Substrate-Aware Post-Training (SARL)
+## 5. Discussion, Limitations & Future Work
 
-**Scope & Limitations**: This study focuses strictly on zero-shot inference-time prompt conditioning of existing, frozen foundation models. We do not fine-tune or post-train model weights.
+### 5.1 Scope & Limitations
+1. **Pilot Sample Size**: Our paired statistical evaluation spans $N=5$ matched pairs ($10$ runs per model). While sufficient to demonstrate substantial algorithmic differences, larger evaluations across diverse tasks are required to characterize population distributions.
+2. **Frozen Weights**: This study investigates zero-shot prompting of frozen models. We do not fine-tune or modify model weights.
 
-**Open Research Direction (SARL)**: Our empirical findings show that when supplied with quantitative boundary parameters, frozen models already possess the latent mathematical reasoning required to derive memory-bounded algorithms. This suggests a promising future direction for model training: **Substrate-Aware Reinforcement Learning (SARL)**. 
+### 5.2 Open Research Directions: Toward Substrate-Aware Post-Training (SARL)
+Current Reinforcement Learning with Verifiable Rewards (RLVR / GRPO) frameworks reward models solely based on unit-test pass/fail status (+1 / -1), ignoring physical container resource consumption. Our findings demonstrate that frontier models already possess the latent capacity to synthesize memory-bounded algorithms when informed of limits. An exciting future direction is **Substrate-Aware Reinforcement Learning (SARL)**: incorporating Linux kernel telemetry (peak MaxRSS, memory pressure stalls, and CPU quotas) directly into verifiable reward functions during post-training alignment.
 
-Current Reinforcement Learning with Verifiable Rewards (RLVR / GRPO) frameworks evaluate code generation strictly on unit-test correctness (+1 / -1), ignoring physical container resource consumption. We hypothesize that integrating Linux kernel telemetry (`cgroup v2` memory peaks, Memory Pressure Stall Information, and wall-clock execution quotas) directly into verifiable reward functions during post-training could align future foundation models to internalize physical container budgets by default. Validating this hypothesis across pretraining and post-training training regimes remains an important direction for future systems and ML research.
+---
+
+## 6. Conclusion
+
+We have presented an empirical investigation into Substrate-Aware Code Generation. Our findings indicate that providing explicit execution constraints enables frontier reasoning models to transition from eager, memory-heavy patterns to structured, memory-bounded algorithms, substantially improving container survivability and execution latency.
 
 ---
 
 ## Artifact Index & Reproducibility
 * **Benchmark Harnesses**: [`benchmarks/`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/benchmarks/)
-* **Phase 1 CSV Empirical Report**: [`docs/01_phase1_gemini_csv_report.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/docs/01_phase1_gemini_csv_report.md)
-* **Phase 2 Euclidean Empirical Report**: [`docs/02_phase2_gemini_euclidean_report.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/docs/02_phase2_gemini_euclidean_report.md)
-* **Frontier Multi-Model Benchmark Report**: [`docs/04_frontier_models_report.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/docs/04_frontier_models_report.md)
-* **5-Paired Statistical Report**: [`docs/06_statistical_paired_report.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/docs/06_statistical_paired_report.md)
-* **Raw Execution Trajectories & JSON Traces**: [`experiments/`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/)
+* **Raw Trial Scripts & Logs**: [`experiments/05_paired_statistical_trials/`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/05_paired_statistical_trials/)
+* **Multi-Model Ablation Logs**: [`experiments/04_frontier_model_benchmark/`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/04_frontier_model_benchmark/)
