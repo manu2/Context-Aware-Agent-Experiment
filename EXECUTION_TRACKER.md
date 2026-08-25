@@ -24,6 +24,6 @@
 | **12.0** | Anthropic Claude Sonnet 5 Suite | `experiments/04_frontier_model_benchmark/` | ✅ **DONE** | Proved block-size reduction ($B=1000 \rightarrow 500$, 215MB OOM $\rightarrow$ 92MB Pass) |
 | **13.0** | OpenAI GPT-5.6-Sol Suite | `experiments/04_frontier_model_benchmark/` | ✅ **DONE** | Proved SOTA in-place buffer recycling ($4.12\text{ MB} / 0.1896\text{s}$) |
 | **14.0** | Anthropic Claude Opus 5 Suite | `docs/05_claude_opus_analysis_report.md` | ✅ **DONE** | Unconditioned Blind allocates 163MB (OOM); Telemetry induces 61MB / 0.394s |
-| **15.0** | Formal 5-Paired Statistical Trials | `docs/06_statistical_paired_report.md` | ✅ **DONE** | Statistically significant ($p < 0.01$) across 20 executions on Opus 5 & GPT-5.6-Sol |
-| **16.0** | Repository Reorganization & Modularization | `benchmarks/`, `data/`, `docs/`, `experiments/` | ✅ **DONE** | 100% of generated scripts & JSON traces preserved in clean modular folders |
-| **17.0** | Master arXiv Paper Overhaul | `paper_draft.md` | ✅ **DONE** | Paper draft updated with multi-model tables, statistical proofs & case studies |
+| **15.0** | Canonical 5-Paired MaxRSS Profiling | `experiments/05_paired_statistical_trials/` | ✅ **DONE** | Canonical MaxRSS dataset generated; Opus 5 (238MB -> 93MB), GPT-5.6-Sol (162MB -> 98MB) |
+| **16.0** | Repository Reorganization & Provenance Lock | `benchmarks/`, `data/`, `docs/`, `experiments/` | ✅ **DONE** | Canonical dataset, profiler script, and numerical audit runner committed |
+| **17.0** | Master arXiv Paper Calibration | `paper_draft.md` | ✅ **DONE** | Calibrated claims, added academic references [1]-[8], verified 100% numerical match |
