@@ -24,19 +24,16 @@ Our findings demonstrate that physical telemetry injection is a zero-parameter, 
 
 As artificial intelligence systems transition from single-turn interactive assistants to multi-agent discovery loops and autonomous software engineers (e.g., SWE-bench agents, scientific computing loops), their execution shifts from developer workstations to resource-constrained multi-tenant clouds. In serverless execution engines (AWS Lambda, Modal, Kubernetes micro-VMs), strict memory ceilings and CPU execution quotas are enforced by the operating system kernel to maintain multi-tenant isolation and prevent noisy-neighbor starvation.
 
-```
-┌─────────────────────────────────────────────────────────────────────────────────────────────┐
-│                             THE "SILICON BLINDNESS" FAILURE LOOP                            │
-├─────────────────────────────────────────────────────────────────────────────────────────────┤
-│ 1. Agent receives task: "Compute pairwise Euclidean distance on 8,000 x 1,024 matrix."      │
-│ 2. Agent assumes infinite RAM: allocates full distance matrix (1.56 GB or float64 arrays).  │
-│ 3. Linux cgroup v2 kernel terminates process: SIGKILL Exit 137 (Out-Of-Memory).             │
-│ 4. Agent receives opaque feedback: "Process exited with code 137" -> writes apologetic retry│
-│ 5. Agent repeats memory-heavy pattern -> Context depletion & workflow collapse.             │
-└─────────────────────────────────────────────────────────────────────────────────────────────┘
-```
+### 1.1 The Anatomy of Silicon Blindness: Architecture Isolation & Pretraining Bias
 
-Current autonomous coding agents operate in a state of **Silicon Blindness**: they synthesize code in an empirical vacuum, blind to the physical constraints of their host sandbox. When an unconditioned agent generates an eager $O(N^2)$ matrix allocation inside a $128\text{ MB}$ container, the Linux kernel terminates the process via `SIGKILL Exit 137`. The agent receives only an opaque exit code, enters an apologetic retry loop, and frequently reproduces the same memory-heavy algorithm until its token budget is exhausted.
+Current autonomous coding agents exhibit **Silicon Blindness**—a failure mode rooted in two interacting structural factors:
+
+1. **The Architectural Blind Spot (The *What*)**: Modern agent harnesses (e.g., ReAct loops, SWE-bench evaluators, interactive coding agents) isolate the LLM from the physical runtime substrate. They expose tool schemas and prompt descriptions but omit the host container's resource boundaries (cgroup v2 memory ceilings, CPU quotas, memory pressure). The inference engine is asked to write systems code in a physical vacuum.
+2. **The Pretraining Prior Bias (The *Why*)**: Deprived of hardware boundary context, the model falls back on the statistical priors learned during pretraining. Because public code corpora (GitHub, StackOverflow) are overwhelmingly authored on unconstrained developer workstations (16 GB–64 GB RAM), standard tutorials default to eager, memory-heavy paradigms (e.g., full-file `pd.read_csv()` and dense $O(N^2)$ array broadcasting).
+
+When an agent executing inside a dense $128\text{ MB}$ micro-VM applies these unconstrained pretraining defaults, the Linux kernel terminates the process via `SIGKILL (Exit Code 137)`. The agent receives only an opaque error string, enters a conversational retry loop, and repeatedly reproduces memory-heavy algorithms until token budgets collapse.
+
+**SCAC (Substrate & Self-Telemetry Conditioned Agentic Computation)** bridges this chasm by projecting real-time operating system limits directly into the inference context, grounding LLM reasoning in physical reality.
 
 ### Prior Art & Distinction
 Existing systems research on LLM agents has focused predominantly on external execution monitoring:
@@ -171,7 +168,12 @@ The exact same dynamic appears in `gemini-3.7-flash`:
 
 ## 5. Conclusion & Systems Implications
 
-We have shown that unconditioned LLM agents suffer from Silicon Blindness, defaulting to memory-eager allocations that fail under OS-level container isolation. Substrate & Self-Telemetry Conditioned Agentic Computation (SCAC) provides a zero-parameter, high-leverage mechanism to project physical kernel constraints directly into LLM inference, inducing frontier models across all major providers to synthesize Pareto-optimal, memory-bounded algorithms on the first pass.
+We have shown that unconditioned LLM agents suffer from Silicon Blindness—a compound failure caused by agent harnesses isolating LLMs from the physical OS container, which forces models to default to unconstrained pretraining priors. Substrate & Self-Telemetry Conditioned Agentic Computation (SCAC) provides a zero-parameter, high-leverage mechanism to project physical kernel constraints directly into LLM inference, inducing frontier models across all major providers to synthesize Pareto-optimal, memory-bounded algorithms on the first pass.
+
+### 5.1 From Inference-Time Telemetry to Substrate-Aware Post-Training (SARL)
+While this work demonstrates zero-shot substrate conditioning at inference time, our findings point toward a fundamental evolution in model post-training: **Substrate-Aware Reinforcement Learning (SARL)**. 
+
+Current Reinforcement Learning with Verifiable Rewards (RLVR / GRPO) frameworks evaluate code generation strictly on unit-test correctness (+1 / -1), ignoring physical container resource consumption. By integrating Linux kernel metrics (`cgroup v2` memory peaks, Memory Pressure Stall Information (PSI), and wall-clock execution quotas) directly into verifiable reward functions during post-training, foundation models can be natively aligned to internalize physical container budgets, transforming them into hardware-aware systems engineers by default.
 
 ---
 
