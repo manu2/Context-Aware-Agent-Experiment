@@ -32,7 +32,7 @@ def audit_manuscript():
         "claude-sonnet-5",
         "MaxRSS",
         "Budget Compliance",
-        "Pareto"
+        "resource-efficient"
     ]
     
     print("\n[+] Verification of Key Scientific Claims & Models:")
