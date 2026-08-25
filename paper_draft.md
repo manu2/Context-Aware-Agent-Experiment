@@ -166,14 +166,13 @@ The exact same dynamic appears in `gemini-3.7-flash`:
 
 ---
 
-## 5. Conclusion & Systems Implications
+### 5.1 Limitations & Future Work: Toward Substrate-Aware Post-Training (SARL)
 
-We have shown that unconditioned LLM agents suffer from Silicon Blindness—a compound failure caused by agent harnesses isolating LLMs from the physical OS container, which forces models to default to unconstrained pretraining priors. Substrate & Self-Telemetry Conditioned Agentic Computation (SCAC) provides a zero-parameter, high-leverage mechanism to project physical kernel constraints directly into LLM inference, inducing frontier models across all major providers to synthesize Pareto-optimal, memory-bounded algorithms on the first pass.
+**Scope & Limitations**: This study focuses strictly on zero-shot inference-time prompt conditioning of existing, frozen foundation models. We do not fine-tune or post-train model weights.
 
-### 5.1 From Inference-Time Telemetry to Substrate-Aware Post-Training (SARL)
-While this work demonstrates zero-shot substrate conditioning at inference time, our findings point toward a fundamental evolution in model post-training: **Substrate-Aware Reinforcement Learning (SARL)**. 
+**Open Research Direction (SARL)**: Our empirical findings show that when supplied with quantitative boundary parameters, frozen models already possess the latent mathematical reasoning required to derive memory-bounded algorithms. This suggests a promising future direction for model training: **Substrate-Aware Reinforcement Learning (SARL)**. 
 
-Current Reinforcement Learning with Verifiable Rewards (RLVR / GRPO) frameworks evaluate code generation strictly on unit-test correctness (+1 / -1), ignoring physical container resource consumption. By integrating Linux kernel metrics (`cgroup v2` memory peaks, Memory Pressure Stall Information (PSI), and wall-clock execution quotas) directly into verifiable reward functions during post-training, foundation models can be natively aligned to internalize physical container budgets, transforming them into hardware-aware systems engineers by default.
+Current Reinforcement Learning with Verifiable Rewards (RLVR / GRPO) frameworks evaluate code generation strictly on unit-test correctness (+1 / -1), ignoring physical container resource consumption. We hypothesize that integrating Linux kernel telemetry (`cgroup v2` memory peaks, Memory Pressure Stall Information, and wall-clock execution quotas) directly into verifiable reward functions during post-training could align future foundation models to internalize physical container budgets by default. Validating this hypothesis across pretraining and post-training training regimes remains an important direction for future systems and ML research.
 
 ---
 
