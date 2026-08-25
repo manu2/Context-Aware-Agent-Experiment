@@ -8,14 +8,14 @@
 
 ## Abstract
 
-Autonomous AI coding agents operating in containerized environments frequently generate code under the implicit assumption that execution environments possess unbounded memory. When tasked with data-intensive or matrix computations inside resource-constrained environments (such as micro-VMs or serverless containers), state-of-the-art models default to unconstrained memory allocations, triggering fatal operating system Out-Of-Memory (OOM) kills or high latency.
+AI coding models can generate memory-intensive implementations when execution-resource limits are absent from the task specification. When tasked with high-dimensional scientific computing workloads inside resource-bounded environments (such as cloud micro-VMs or serverless containers), standard models often default to eager array materialization or unconstrained matrix products, exceeding the available memory budget.
 
-In this work, we conduct a controlled empirical investigation into **Substrate-Aware Code Generation**—disclosing physical execution constraints (such as a 128 MB RAM budget and 10.0s time limit) directly in the agent's prompt without providing algorithmic hints. Through paired trials across frontier reasoning models (**Anthropic `claude-opus-5`** and **OpenAI `gpt-5.6-sol`**) alongside multi-model prompt ablations (**Google `gemini-3.7-flash`**, **Anthropic `claude-sonnet-5`**, and **OpenAI `gpt-4o`**), we observe:
+In this work, we conduct a controlled empirical investigation into **Substrate-Aware Code Generation**—disclosing physical execution constraints (such as a 128 MB RAM budget and a 10.0s execution target) directly in the prompt without providing algorithmic guidance. Through replicated paired trials across frontier reasoning models (**Anthropic `claude-opus-5`** and **OpenAI `gpt-5.6-sol`**) alongside exploratory multi-model prompt sensitivity evaluations (**Google `gemini-3.7-flash`**, **Anthropic `claude-sonnet-5`**, and **OpenAI `gpt-4o`**), we observe:
 
 1. **Qualitative Algorithmic Shift**: Exposing execution constraints induces models to replace full rectangular block evaluation with symmetry-aware, memory-bounded block evaluation, upper-trapezoid streaming, and in-place buffer recycling.
-2. **Resource & Latency Reduction**: For `claude-opus-5`, substrate awareness reduces peak process resident set size (MaxRSS) from $238.40 \pm 49.94\text{ MB}$ to $93.57 \pm 7.56\text{ MB}$ ($2.55\times$ reduction) and execution time from $0.7119\text{s}$ to $0.2677\text{s}$ ($2.66\times$ speedup), increasing 128 MB budget compliance from $0/5$ to $5/5$.
+2. **Resource & Latency Reduction**: For `claude-opus-5`, substrate awareness reduces peak process resident set size (MaxRSS) from $238.40 \pm 49.94\text{ MB}$ to $93.57 \pm 7.56\text{ MB}$ ($2.55\times$ reduction) and wall-clock execution time from $0.7119\text{s}$ to $0.2677\text{s}$ ($2.66\times$ speedup), increasing 128 MB budget compliance from $0/5$ to $5/5$.
 3. **Separability of Awareness and Constraint Satisfaction**: For `gpt-5.6-sol`, substrate awareness reduces average MaxRSS from $162.65 \pm 23.28\text{ MB}$ to $98.57 \pm 34.03\text{ MB}$ ($1.65\times$ reduction) with $4/5$ runs remaining within the 128 MB budget, demonstrating that constraint awareness and successful constraint-bounded synthesis are separable capabilities across model families.
-4. **Vulnerability of Unanchored Heuristics**: Generic natural language instructions (*"be memory efficient"*) produce unpredictable behaviors—causing `gemini-3.7-flash` to revert to an unvectorized scalar loop ($30.0\text{s}$) and `gpt-4o` to fail entirely—whereas quantitative substrate boundaries guide models toward resource-efficient tile parameters.
+4. **Vulnerability of Unanchored Natural Language Heuristics**: Generic natural language instructions (*"be memory efficient"*) produce unpredictable behaviors—causing `gemini-3.7-flash` to revert to an unvectorized scalar loop ($30.0\text{s}$) and `gpt-4o` to fail to adjust its memory footprint—whereas quantitative substrate boundaries guide models toward resource-efficient tile parameters.
 
 ---
 
@@ -23,7 +23,7 @@ In this work, we conduct a controlled empirical investigation into **Substrate-A
 
 As autonomous AI coding agents are increasingly deployed in resource-bounded cloud environments (such as Docker containers, AWS Lambda, and Kubernetes micro-VMs), the physical boundaries of the execution substrate become critical. However, standard agent harnesses typically isolate the LLM from the physical runtime: they supply the task description and tool schemas, but omit the memory ceilings and resource boundaries of the execution environment.
 
-One possible explanation for unconditioned failures is that, deprived of substrate context, models fall back on statistical priors learned during pretraining, which may reflect computational environments substantially less constrained than the sandbox in which the generated program will execute. When an agent generates eager, full-memory allocations inside a strict 128 MB container, the Linux kernel terminates the process (`SIGKILL Exit 137`).
+One possible explanation is that, when substrate information is absent, models rely more heavily on statistical priors learned from code written for computing environments that are typically less resource-constrained than the execution environment considered here. When an agent generates eager, full-memory allocations inside a strict 128 MB container, the Linux kernel terminates the process (`SIGKILL Exit 137`).
 
 ### 1.1 Research Question & Core Hypothesis
 We investigate a straightforward empirical question:
@@ -54,10 +54,10 @@ To isolate the effect of substrate information, we evaluate four prompt conditio
 * **Condition D (2D Substrate Constraint)**: Task specification + joint spatial and temporal constraint disclosure (*"Execution environment: RAM limit: 128 MB. Execution time limit: 10.0 seconds."*).
 
 ### 2.3 Measurement Protocol & Data Provenance
-To ensure transparent reporting, we distinguish the experimental execution from post-hoc memory measurement:
+To ensure transparent reporting, we distinguish the experimental prompt condition from post-hoc memory measurement:
 1. **Generative Trials & Code Archival**: During live generation trials, model responses were captured, extracted, and permanently archived to disk under `experiments/`.
-2. **Post-Hoc OS Process MaxRSS Remeasurement**: Because initial Python-level `tracemalloc` instrumentation only tracked Python heap allocations and omitted native C-extension allocations (such as NumPy contiguous arrays), all archived trial scripts were independently re-executed in isolated subprocesses using standard OS-level resource profiling (`resource.getrusage(RUSAGE_SELF).ru_maxrss`) via `experiments/05_paired_statistical_trials/profile_canonical_maxrss.py` to obtain peak process resident memory.
-3. **128 MB Resource Threshold Evaluation**: Programs are evaluated against the 128 MB physical container budget: scripts exhibiting measured MaxRSS $< 128\text{ MB}$ satisfy the container boundary, while scripts allocating $> 128\text{ MB}$ breach the physical memory ceiling. Single-trial cross-model evaluations are exploratory and are not used to estimate model-level effect sizes.
+2. **Post-Hoc OS Process MaxRSS Remeasurement**: Because initial Python-level `tracemalloc` instrumentation only tracked Python heap allocations and omitted native C-extension allocations (such as NumPy contiguous arrays), all archived trial scripts were independently re-executed in isolated subprocesses using standard OS-level resource profiling (`resource.getrusage(RUSAGE_SELF).ru_maxrss`) via `experiments/05_paired_statistical_trials/profile_canonical_maxrss.py` to obtain peak process resident memory. Wall-clock execution time was measured during the same canonical post-hoc profiling runs.
+3. **128 MB Resource-Budget Threshold**: A run is classified as budget-compliant when its independently measured process MaxRSS is below 128 MB. Scripts exhibiting measured MaxRSS $< 128\text{ MB}$ satisfy the budget boundary, while scripts allocating $> 128\text{ MB}$ exceed the threshold. Single-trial cross-model evaluations in Table 2 are exploratory and are not used to estimate model-level effect sizes.
 
 ---
 
@@ -150,8 +150,8 @@ To understand the mechanisms behind the resource reductions, we inspect the gene
 Under substrate awareness, `gpt-5.6-sol` applies memory-saving idioms: using memory-mapped I/O (`mmap_mode="r"`), in-place distance clamping (`np.maximum(dist_sq, 0.0, out=dist_sq)`), and in-place square root operations (`np.sqrt(dist_sq, out=dist_sq)`), cutting execution latency by **$2.18\times$** ($0.569\text{s} \rightarrow 0.261\text{s}$).
 
 ### 4.3 Analysis of Failure Modes & Model Differences
-* **The Non-Universal Response in GPT-4o**: Legacy models such as `gpt-4o` fail to respond to substrate constraints, allocating over $770\text{ MB}$ across all conditions. This suggests that substrate-aware algorithm synthesis is a reasoning capability that emerges in modern frontier models.
-* **The Imperfect Constraint Satisfaction in `gpt-5.6-sol` (Trial 3)**: In Trial 3, `gpt-5.6-sol` generated a working buffer that reached $165.72\text{ MB}$ MaxRSS, exceeding the 128 MB ceiling. This confirms that constraint awareness does not magically guarantee 100% compliance, highlighting constraint reasoning as an important area for further evaluation.
+* **Behavior in GPT-4o**: In this exploratory benchmark, `gpt-4o` did not exhibit a measurable response to the disclosed constraints, allocating over $770\text{ MB}$ across all conditions. This contrast motivates further investigation into whether substrate-sensitive algorithm selection depends on model capability, training, or prompting.
+* **Imperfect Constraint Satisfaction in `gpt-5.6-sol` (Trial 3)**: In Trial 3, `gpt-5.6-sol` generated a working buffer that reached $165.72\text{ MB}$ MaxRSS, exceeding the 128 MB ceiling. This confirms that constraint awareness does not guarantee compliance in all stochastic runs, highlighting constraint reasoning as an important area for further evaluation.
 
 ---
 
@@ -191,12 +191,12 @@ We have presented an empirical investigation into Substrate-Aware Code Generatio
 
 ## References
 
-[1] S. Zhang et al., "AgentSight: Black-box Execution Sandboxing and Observability for Autonomous AI Agents," *arXiv preprint arXiv:2410.18921*, 2024.  
+[1] S. Zhang et al., "AgentSight: System-Level Observability for AI Agents Using eBPF," *arXiv preprint arXiv:2508.02736*, 2025.  
 [2] H. Liu et al., "ActPlane: Declarative Sandboxing and Runtime Verification for Code-Executing Agents," *USENIX OSDI*, 2024.  
 [3] S. Yao et al., "ReAct: Synergizing Reasoning and Acting in Language Models," *International Conference on Learning Representations (ICLR)*, 2023.  
 [4] C. E. Jimenez et al., "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?," *International Conference on Learning Representations (ICLR)*, 2024.  
-[5] X. Chen et al., "RLEF: Grounding Code Generation in Execution Feedback via Reinforcement Learning," *arXiv preprint arXiv:2406.12004*, 2024.  
-[6] J. Dong et al., "SafeCodeRL: Constrained Reinforcement Learning for Resource-Safe Code Synthesis," *arXiv preprint arXiv:2412.03578*, 2024.  
+[5] X. Chen et al., "RLEF: Grounding Code LLMs in Execution Feedback with Reinforcement Learning," *arXiv preprint arXiv:2410.02089*, 2024.  
+[6] Z. Wang et al., "SafeCodeRL: Security-Constrained Multi-Agent Reinforcement Learning for Trustworthy LLM-Generated Software," *Sensors*, vol. 26, no. 12, pp. 3812–3830, 2026.  
 [7] G. H. Golub and C. F. Van Loan, *Matrix Computations*, 4th ed., Johns Hopkins University Press, 2013.  
 [8] K. Goto and R. A. van de Geijn, "Anatomy of High-Performance Matrix Multiplication," *ACM Transactions on Mathematical Software (TOMS)*, vol. 34, no. 3, pp. 1–25, 2008.  
 
