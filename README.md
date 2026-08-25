@@ -10,35 +10,35 @@
 
 ## 1. Primary Empirical Evidence: Paired Substrate-Awareness Benchmark
 
-Formal paired evaluation across 10 live paired trials (20 live executions) comparing **Condition A (Blind)** and **Condition D (Substrate-Aware)**:
+Post-hoc operating system process memory profiling (`resource.getrusage(RUSAGE_SELF).ru_maxrss`) across the $N=5$ matched pairs of archived generated scripts:
 
 ```
 ======================================================================================================================
-Table 1: Paired Substrate-Awareness Benchmark (Condition A: Blind vs. Condition D: Substrate-Aware)
+Table 1: Paired Substrate-Awareness Evaluation (Post-Hoc OS MaxRSS Profiling of Archived Scripts)
 ======================================================================================================================
-Model & Trial      | Condition A: Blind MaxRSS | Condition D: Aware MaxRSS | Blind 128M Status | Aware 128M Status
+Model & Trial      | Condition A: Blind MaxRSS | Condition D: Aware MaxRSS | Blind 128M Budget | Aware 128M Budget
 ----------------------------------------------------------------------------------------------------------------------
-claude-opus-5 (T1) |         204.47 MB         |          78.48 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.265s)
-claude-opus-5 (T2) |         164.28 MB         |          99.98 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.255s)
-claude-opus-5 (T3) |         236.77 MB         |          91.47 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.244s)
-claude-opus-5 (T4) |         307.38 MB         |          98.06 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.261s)
-claude-opus-5 (T5) |         303.28 MB         |          85.47 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.315s)
+claude-opus-5 (T1) |         204.47 MB         |          78.48 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.265s)
+claude-opus-5 (T2) |         164.28 MB         |          99.98 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.255s)
+claude-opus-5 (T3) |         236.77 MB         |          91.47 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.244s)
+claude-opus-5 (T4) |         307.38 MB         |          98.06 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.261s)
+claude-opus-5 (T5) |         303.28 MB         |          85.47 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.315s)
 ----------------------------------------------------------------------------------------------------------------------
 --> claude-opus-5 Aggregate:
     Peak MaxRSS:   Blind = 243.24 ± 55.67 MB   vs.   Aware =  90.69 ±  7.97 MB (2.68x Reduction)
     Wall Latency:  Blind =  0.6886 ±  0.1613s   vs.   Aware =  0.2680 ±  0.0246s (2.57x Speedup)
-    128M Container Survivability:  Blind = 0/5 (0%)   vs.   Aware = 5/5 (100%)
+    128M Budget Compliance:       Blind = 0/5 (0%)    vs.   Aware = 5/5 (100%)
 ======================================================================================================================
-gpt-5.6-sol   (T1) |         142.33 MB         |          95.33 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.260s)
-gpt-5.6-sol   (T2) |         142.38 MB         |          92.19 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.281s)
-gpt-5.6-sol   (T3) |         148.48 MB         |         167.97 MB         | 💥 OOM (Exceeds)  | 💥 OOM (167 MB)
-gpt-5.6-sol   (T4) |         196.72 MB         |          89.05 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.259s)
-gpt-5.6-sol   (T5) |         199.56 MB         |          83.36 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.247s)
+gpt-5.6-sol   (T1) |         142.33 MB         |          95.33 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.260s)
+gpt-5.6-sol   (T2) |         142.38 MB         |          92.19 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.281s)
+gpt-5.6-sol   (T3) |         148.48 MB         |         167.97 MB         | 💥 Exceeds (>128M)| 💥 Exceeds (167 MB)
+gpt-5.6-sol   (T4) |         196.72 MB         |          89.05 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.259s)
+gpt-5.6-sol   (T5) |         199.56 MB         |          83.36 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.247s)
 ----------------------------------------------------------------------------------------------------------------------
 --> gpt-5.6-sol Aggregate:
     Peak MaxRSS:   Blind = 165.89 ± 26.44 MB   vs.   Aware = 105.58 ± 31.44 MB (1.57x Reduction)
     Wall Latency:  Blind =  0.5646 ±  0.0053s   vs.   Aware =  0.2611 ±  0.0111s (2.16x Speedup)
-    128M Container Survivability:  Blind = 0/5 (0%)   vs.   Aware = 4/5 (80%)
+    128M Budget Compliance:       Blind = 0/5 (0%)    vs.   Aware = 4/5 (80%)
 ======================================================================================================================
 ```
 
