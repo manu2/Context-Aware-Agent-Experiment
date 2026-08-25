@@ -1,11 +1,13 @@
-# Empirical Analysis: Cross-Model Frontier Evaluation & The Limits of Unconditioned Reasoning
+# Empirical Analysis: Cross-Model Frontier Evaluation & The Limits of Unconditioned Reasoning (Historical Artifact)
+
+> **Methodology Notice**: This document records early exploratory single-trial evaluations and tracemalloc measurements. For the authoritative replicated paired trials with post-hoc OS-level MaxRSS measurements, refer to `experiments/05_paired_statistical_trials/canonical_paired_results.json` and `paper_draft.md` Table 1.
 
 **Project:** Substrate & Self-Telemetry Conditioned Agentic Computation (SCAC)  
 **Authors:** Research & Architecture Team  
 **Date:** August 2026  
 **Evaluated Frontier Models:** Anthropic `claude-opus-5`, OpenAI `gpt-5.6-sol`, Anthropic `claude-sonnet-5`, Google `gemini-3.7-flash`, OpenAI `gpt-4o` (Legacy)  
 **Task Workload:** Pairwise Euclidean Distance on an $8,000 \times 1,024$ float32 matrix (`vectors.npy`, 32.8 MB)  
-**Physical Sandbox Ceiling:** 128 MB RAM (`cgroup v2 MemoryMax=128M`, `MemorySwapMax=0`)
+**Physical Sandbox Ceiling:** 128 MB RAM (Target Budget Threshold)
 
 ---
 
