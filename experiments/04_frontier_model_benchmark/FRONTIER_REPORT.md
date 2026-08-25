@@ -30,11 +30,12 @@ We executed an end-to-end multi-model benchmark across **4 frontier model archit
 
 | Model | Variant A (Blind) | Variant B (Natural Language) | Variant C (1D: 128M RAM) | Variant D (2D: 128M + 10s) |
 |---|---|---|---|---|
-| **Anthropic `claude-opus-5`** | *N/A* | *N/A* | *N/A* | **61.47 MB / 0.394s (🏆 SOTA Upper-Trapezoid)** |
-| **OpenAI `gpt-5.6-sol`** | 100.47 MB / 0.63s (✅ Pass) | 7.24 MB / 0.69s (✅ Pass) | 10.22 MB / 0.61s (✅ Pass) | **4.12 MB / 0.189s (🏆 SOTA In-Place)** |
+| **OpenAI `gpt-5.6-sol`** | 100.47 MB / 0.63s (✅ Pass) | 7.24 MB / 0.69s (✅ Pass) | 10.22 MB / 0.61s (✅ Pass) | **4.12 MB / 0.189s (🏆 In-Place BLAS)** |
 | **Anthropic `claude-sonnet-5`** | 215.22 MB / 1.04s (💥 **OOM**) | 77.28 MB / 0.38s (✅ Pass) | 92.46 MB / 0.43s (✅ Pass) | 122.91 MB / 0.39s (✅ Pass) |
 | **Google `gemini-3.7-flash`** | 1,565.72 MB / 2.88s (💥 **OOM**) | < 35 MB / >30s (⏱️ **Timeout**) | 32.03 MB / 30.0s (⚠️ Slow) | 114.84 MB / 0.46s (🏆 2D Block) |
 | **OpenAI `gpt-4o` (Legacy)** | 1,136.31 MB / 1.35s (💥 **OOM**) | 770.36 MB / 0.72s (💥 **OOM**) | 770.36 MB / 0.69s (💥 **OOM**) | 770.41 MB / 0.68s (💥 **OOM**) |
+
+*(Note: Claude Opus 5 is evaluated under the replicated N=5 paired trial methodology in `docs/06_statistical_paired_report.md` and `paper_draft.md` Table 1.)*
 
 ---
 
