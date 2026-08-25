@@ -20,15 +20,15 @@
 | **Claude Opus 5** | **A (Blind)** | **T5** | Blocked Gram ($B=512$), full rectangular evaluation ($B \times N$) | `float64` ($65.5\text{ MB}$) | $512 \times 8000 \times 8\text{ B} = 32.8\text{ MB}$ + temporary buffers | **291.83** | 💥 Exceeds (>128M) |
 | **Claude Opus 5** | **D (Aware)** | **T5** | Symmetric 2D block tiling ($B=2000$), upper-triangle only | `float32` ($32.8\text{ MB}$) | $2000 \times 2000 \times 4\text{ B} = 16.0\text{ MB}$ | **90.47** | ✅ Within Budget |
 | **GPT-5.6-Sol** | **A (Blind)** | **T1** | Row-blocked Gram ($B=512$), float64 promotion | `float64` ($65.5\text{ MB}$) | $512 \times 8000 \times 8\text{ B} = 32.8\text{ MB}$ | **142.48** | 💥 Exceeds (>128M) |
-| **GPT-5.6-Sol** | **D (Aware)** | **T1** | In-place symmetric block loop ($B=512$), mmap read | `float32` ($32.8\text{ MB}$) | $512 \times 512 \times 4\text{ B} = 1.05\text{ MB}$ (in-place ops) | **78.09** | ✅ Within Budget |
+| **GPT-5.6-Sol** | **D (Aware)** | **T1** | In-place upper block pairs ($B=1000$), mmap read | `float32` ($32.8\text{ MB}$) | $1000 \times 1000 \times 4\text{ B} = 4.00\text{ MB}$ (in-place ops) | **78.09** | ✅ Within Budget |
 | **GPT-5.6-Sol** | **A (Blind)** | **T2** | Row-blocked Gram ($B=512$), float64 promotion | `float64` ($65.5\text{ MB}$) | $512 \times 8000 \times 8\text{ B} = 32.8\text{ MB}$ | **142.53** | 💥 Exceeds (>128M) |
-| **GPT-5.6-Sol** | **D (Aware)** | **T2** | In-place symmetric block loop ($B=512$), in-place clamp/sqrt | `float32` ($32.8\text{ MB}$) | $512 \times 512 \times 4\text{ B} = 1.05\text{ MB}$ | **92.48** | ✅ Within Budget |
+| **GPT-5.6-Sol** | **D (Aware)** | **T2** | In-place upper block triangle ($B=1024$), in-place clamp/sqrt | `float32` ($32.8\text{ MB}$) | $1024 \times 1024 \times 4\text{ B} = 4.19\text{ MB}$ | **92.48** | ✅ Within Budget |
 | **GPT-5.6-Sol** | **A (Blind)** | **T3** | Row-blocked Gram ($B=512$), float64 promotion | `float64` ($65.5\text{ MB}$) | $512 \times 8000 \times 8\text{ B} = 32.8\text{ MB}$ | **146.44** | 💥 Exceeds (>128M) |
 | **GPT-5.6-Sol** | **D (Aware)** | **T3** | Dynamic growing slice ($B=512 \times \text{end}$ where $\text{end} \rightarrow 8000$) | `float32` ($32.8\text{ MB}$) | Dynamic slice $512 \times 8000 \times 4\text{ B} = 16.4\text{ MB}$ + norms | **165.72** | 💥 Exceeds (>128M) |
 | **GPT-5.6-Sol** | **A (Blind)** | **T4** | Row-blocked Gram ($B=512$), float64 promotion | `float64` ($65.5\text{ MB}$) | $512 \times 8000 \times 8\text{ B} = 32.8\text{ MB}$ + temporaries | **186.42** | 💥 Exceeds (>128M) |
-| **GPT-5.6-Sol** | **D (Aware)** | **T4** | In-place symmetric block loop ($B=512$), in-place sqrt | `float32` ($32.8\text{ MB}$) | $512 \times 512 \times 4\text{ B} = 1.05\text{ MB}$ | **77.98** | ✅ Within Budget |
+| **GPT-5.6-Sol** | **D (Aware)** | **T4** | In-place upper block triangle ($B=1000$), in-place sqrt | `float32` ($32.8\text{ MB}$) | $1000 \times 1000 \times 4\text{ B} = 4.00\text{ MB}$ | **77.98** | ✅ Within Budget |
 | **GPT-5.6-Sol** | **A (Blind)** | **T5** | Row-blocked Gram ($B=512$), float64 promotion | `float64` ($65.5\text{ MB}$) | $512 \times 8000 \times 8\text{ B} = 32.8\text{ MB}$ + temporaries | **195.36** | 💥 Exceeds (>128M) |
-| **GPT-5.6-Sol** | **D (Aware)** | **T5** | In-place symmetric block loop ($B=512$), in-place sqrt | `float32` ($32.8\text{ MB}$) | $512 \times 512 \times 4\text{ B} = 1.05\text{ MB}$ | **78.56** | ✅ Within Budget |
+| **GPT-5.6-Sol** | **D (Aware)** | **T5** | Block-diagonal ($B=384$) + block-to-later rectangular slice | `float32` ($32.8\text{ MB}$) | $384 \times 384 \times 4\text{ B} = 0.59\text{ MB}$ + $384 \times 8000 \times 4\text{ B} = 12.28\text{ MB}$ | **78.56** | ✅ Within Budget |
 
 ---
 

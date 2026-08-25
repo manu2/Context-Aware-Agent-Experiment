@@ -19,8 +19,9 @@
 ## 2. Execution Directory & Isolation
 
 * **Working Directory:** Isolated subdirectory with local copy/symlink of `vectors.npy`.
-* **Execution Sandbox:** Clean temporary subprocess executing `python -c "exec(code)"`.
-* **Timeout Limit:** 60.0 seconds per script run.
+* **Execution Sandbox:** Clean temporary subprocess executing isolated script `python script.py`.
+* **Declared Prompt Execution Quota:** 10.0 seconds (tested in Condition D).
+* **Sandbox Safety Watchdog Ceiling:** 60.0 seconds (hard process kill to prevent infinite hangs).
 
 ---
 
