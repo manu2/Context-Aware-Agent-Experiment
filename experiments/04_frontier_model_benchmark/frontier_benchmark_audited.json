@@ -1,0 +1,62 @@
+{
+  "gpt-5.6-sol": {
+    "A": {
+      "file": "a_gpt-5.6-sol.py",
+      "peak_mb": 100.47,
+      "wall_sec": 0.6296,
+      "success": true,
+      "error": ""
+    },
+    "B": {
+      "file": "b_gpt-5.6-sol.py",
+      "peak_mb": 7.24,
+      "wall_sec": 0.6939,
+      "success": true,
+      "error": ""
+    },
+    "C": {
+      "file": "c_gpt-5.6-sol.py",
+      "peak_mb": 10.22,
+      "wall_sec": 0.6056,
+      "success": true,
+      "error": ""
+    },
+    "D": {
+      "file": "d_gpt-5.6-sol.py",
+      "peak_mb": 4.12,
+      "wall_sec": 0.1896,
+      "success": true,
+      "error": ""
+    }
+  },
+  "claude-sonnet-5": {
+    "A": {
+      "file": "a_claude-sonnet-5.py",
+      "peak_mb": 215.22,
+      "wall_sec": 1.0414,
+      "success": true,
+      "error": ""
+    },
+    "B": {
+      "file": "b_claude-sonnet-5.py",
+      "peak_mb": 77.28,
+      "wall_sec": 0.376,
+      "success": true,
+      "error": ""
+    },
+    "C": {
+      "file": "c_claude-sonnet-5.py",
+      "peak_mb": 92.46,
+      "wall_sec": 0.4344,
+      "success": true,
+      "error": ""
+    },
+    "D": {
+      "file": "d_claude-sonnet-5.py",
+      "peak_mb": 122.91,
+      "wall_sec": 0.3861,
+      "success": true,
+      "error": ""
+    }
+  }
+}

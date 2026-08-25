@@ -1,0 +1,110 @@
+{
+  "gpt-5.6-sol": {
+    "Variant A (Blind)": {
+      "model": "gpt-5.6-sol",
+      "description": "No hardware or memory context provided.",
+      "script_path": "./local_experiments/frontier_model_benchmark/runs/a_gpt-5.6-sol.py",
+      "code": "#!/usr/bin/env python3\n\nimport numpy as np\n\n\ndef main():\n    vectors = np.load(\"vectors.npy\", allow_pickle=False)\n\n    if vectors.shape != (8000, 1024):\n        raise ValueError(f\"Expected shape (8000, 1024), got {vectors.shape}\")\n    if vectors.dtype != np.float32:\n        raise TypeError(f\"Expected float32 data, got {vectors.dtype}\")\n\n    # Float64 reduces error in dot products and the accumulated total.\n    vectors = np.ascontiguousarray(vectors, dtype=np.float64)\n    squared_norms = np.einsum(\"ij,ij->i\", vectors, vectors)\n\n    block_size = 512\n    n = vectors.shape[0]\n    total = 0.0\n\n    # Compute only the upper block triangle. Off-diagonal blocks are counted\n    # twice because the requested sum includes both (i, j) and (j, i).\n    for i0 in range(0, n, block_size):\n        i1 = min(i0 + block_size, n)\n        a = vectors[i0:i1]\n        norms_a = squared_norms[i0:i1]\n\n        for j0 in range(i0, n, block_size):\n            j1 = min(j0 + block_size, n)\n            b = vectors[j0:j1]\n            norms_b = squared_norms[j0:j1]\n\n            distances_sq = a @ b.T\n            distances_sq *= -2.0\n            distances_sq += norms_a[:, None]\n            distances_sq += norms_b[None, :]\n\n            # Remove tiny negative values caused by floating-point rounding.\n            np.maximum(distances_sq, 0.0, out=distances_sq)\n\n            if i0 == j0:\n                # Self-distances are exactly zero.\n                np.fill_diagonal(distances_sq, 0.0)\n\n            np.sqrt(distances_sq, out=distances_sq)\n            block_sum = float(np.sum(distances_sq, dtype=np.float64))\n\n            total += block_sum if i0 == j0 else 2.0 * block_sum\n\n    print(f\"TOTAL_DIST:{total:.17g}\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      "profile": {
+        "wall_sec": 0.6851,
+        "peak_mb": 100.47,
+        "success": true,
+        "stdout": "TOTAL_DIST:2895556144.1993241\n\n___PROFILE_RESULT___|0.6851|100.47|0",
+        "stderr": "<string>:34: RuntimeWarning: divide by zero encountered in matmul\n<string>:34: RuntimeWarning: overflow encountered in matmul\n<string>:34: RuntimeWarning: invalid value encountered in matmul"
+      }
+    },
+    "Variant B (Natural Language Advice)": {
+      "model": "gpt-5.6-sol",
+      "description": "Unstructured natural language advice to be memory efficient.",
+      "script_path": "./local_experiments/frontier_model_benchmark/runs/b_gpt-5.6-sol.py",
+      "code": "#!/usr/bin/env python3\n\nimport math\nimport numpy as np\n\n\nFILE_NAME = \"vectors.npy\"\nBLOCK_SIZE = 256\n\n\ndef main():\n    # Memory-map the input so the entire matrix is not copied into RAM.\n    vectors = np.load(FILE_NAME, mmap_mode=\"r\")\n\n    if vectors.shape != (8000, 1024):\n        raise ValueError(f\"Expected shape (8000, 1024), got {vectors.shape}\")\n    if vectors.dtype != np.float32:\n        raise ValueError(f\"Expected float32 data, got {vectors.dtype}\")\n\n    n = vectors.shape[0]\n\n    # Compute squared row norms in small float64 blocks for numerical accuracy.\n    norms = np.empty(n, dtype=np.float64)\n    for start in range(0, n, BLOCK_SIZE):\n        end = min(start + BLOCK_SIZE, n)\n        block = np.asarray(vectors[start:end], dtype=np.float64)\n        norms[start:end] = np.einsum(\n            \"ij,ij->i\", block, block, optimize=True\n        )\n\n    partial_sums = []\n\n    # Process only the upper block triangle. Off-diagonal blocks are doubled\n    # because the requested sum includes both (i, j) and (j, i).\n    for i_start in range(0, n, BLOCK_SIZE):\n        i_end = min(i_start + BLOCK_SIZE, n)\n        a = np.asarray(vectors[i_start:i_end], dtype=np.float64)\n        norm_a = norms[i_start:i_end]\n\n        for j_start in range(i_start, n, BLOCK_SIZE):\n            j_end = min(j_start + BLOCK_SIZE, n)\n\n            if j_start == i_start:\n                b = a\n            else:\n                b = np.asarray(vectors[j_start:j_end], dtype=np.float64)\n\n            norm_b = norms[j_start:j_end]\n\n            # Reuse the Gram matrix allocation as the squared-distance matrix:\n            # ||a-b||\u00b2 = ||a||\u00b2 + ||b||\u00b2 - 2(a\u00b7b)\n            distances = a @ b.T\n            distances *= -2.0\n            distances += norm_a[:, None]\n            distances += norm_b[None, :]\n\n            # Remove tiny negative values caused by floating-point roundoff.\n            np.maximum(distances, 0.0, out=distances)\n\n            if j_start == i_start:\n                np.fill_diagonal(distances, 0.0)\n\n            np.sqrt(distances, out=distances)\n            block_sum = float(np.sum(distances, dtype=np.float64))\n\n            partial_sums.append(\n                block_sum if j_start == i_start else 2.0 * block_sum\n            )\n\n    total = math.fsum(partial_sums)\n    print(f\"TOTAL_DIST:{total:.17g}\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      "profile": {
+        "wall_sec": 0.8406,
+        "peak_mb": 13.86,
+        "success": true,
+        "stdout": "TOTAL_DIST:2895556144.1993241\n\n___PROFILE_RESULT___|0.8406|13.86|0",
+        "stderr": "<string>:52: RuntimeWarning: divide by zero encountered in matmul\n<string>:52: RuntimeWarning: overflow encountered in matmul\n<string>:52: RuntimeWarning: invalid value encountered in matmul"
+      }
+    },
+    "Variant C (1D Telemetry: 128MB RAM)": {
+      "model": "gpt-5.6-sol",
+      "description": "Explicit 1D spatial telemetry (RAM limit: 128 MB).",
+      "script_path": "./local_experiments/frontier_model_benchmark/runs/c_gpt-5.6-sol.py",
+      "code": "#!/usr/bin/env python3\n\nimport os\n\n# Limit BLAS thread memory usage under the 128 MB RAM constraint.\nos.environ[\"OPENBLAS_NUM_THREADS\"] = \"1\"\nos.environ[\"OMP_NUM_THREADS\"] = \"1\"\nos.environ[\"MKL_NUM_THREADS\"] = \"1\"\nos.environ[\"VECLIB_MAXIMUM_THREADS\"] = \"1\"\n\nimport numpy as np\n\n\ndef main():\n    vectors = np.load(\"vectors.npy\", mmap_mode=\"r\", allow_pickle=False)\n\n    if vectors.shape != (8000, 1024):\n        raise ValueError(f\"Expected shape (8000, 1024), got {vectors.shape}\")\n    if vectors.dtype != np.float32:\n        raise ValueError(f\"Expected dtype float32, got {vectors.dtype}\")\n\n    # Blocks keep the distance matrix and float64 working copies small.\n    block_size = 512\n    n = vectors.shape[0]\n\n    total = 0.0\n    compensation = 0.0  # Kahan summation compensation.\n\n    for i in range(0, n, block_size):\n        i_end = min(i + block_size, n)\n        xi = np.array(vectors[i:i_end], dtype=np.float64, order=\"C\", copy=True)\n        ni = np.einsum(\"ij,ij->i\", xi, xi, optimize=False)\n\n        for j in range(i, n, block_size):\n            j_end = min(j + block_size, n)\n\n            if j == i:\n                xj = xi\n                nj = ni\n            else:\n                xj = np.array(\n                    vectors[j:j_end], dtype=np.float64, order=\"C\", copy=True\n                )\n                nj = np.einsum(\"ij,ij->i\", xj, xj, optimize=False)\n\n            # Squared distances:\n            # ||x-y||^2 = ||x||^2 + ||y||^2 - 2*x\u00b7y\n            distances = xi @ xj.T\n            distances *= -2.0\n            distances += ni[:, None]\n            distances += nj[None, :]\n            np.maximum(distances, 0.0, out=distances)\n\n            if j == i:\n                # Eliminate tiny numerical residuals on self-distances.\n                np.fill_diagonal(distances, 0.0)\n\n            np.sqrt(distances, out=distances)\n            block_sum = float(np.sum(distances, dtype=np.float64))\n\n            # Off-diagonal blocks represent both (i,j) and (j,i).\n            contribution = block_sum if j == i else 2.0 * block_sum\n\n            # Compensated accumulation of block sums.\n            adjusted = contribution - compensation\n            updated = total + adjusted\n            compensation = (updated - total) - adjusted\n            total = updated\n\n            del distances\n            if j != i:\n                del xj, nj\n\n        del xi, ni\n\n    print(f\"TOTAL_DIST:{total:.17g}\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      "profile": {
+        "wall_sec": 0.7404,
+        "peak_mb": 16.85,
+        "success": true,
+        "stdout": "TOTAL_DIST:2895556144.1993241\n\n___PROFILE_RESULT___|0.7404|16.85|0",
+        "stderr": "<string>:48: RuntimeWarning: divide by zero encountered in matmul\n<string>:48: RuntimeWarning: overflow encountered in matmul\n<string>:48: RuntimeWarning: invalid value encountered in matmul"
+      }
+    },
+    "Variant D (2D Telemetry: 128MB RAM + 10s CPU)": {
+      "model": "gpt-5.6-sol",
+      "description": "Explicit 2D spatial + temporal telemetry (RAM limit: 128 MB, CPU quota: 10s).",
+      "script_path": "./local_experiments/frontier_model_benchmark/runs/d_gpt-5.6-sol.py",
+      "code": "#!/usr/bin/env python3\n\nimport os\n\n# Limit BLAS worker count to stay within the 128 MB memory limit.\nfor variable in (\n    \"OPENBLAS_NUM_THREADS\",\n    \"OMP_NUM_THREADS\",\n    \"MKL_NUM_THREADS\",\n    \"VECLIB_MAXIMUM_THREADS\",\n    \"BLIS_NUM_THREADS\",\n):\n    os.environ[variable] = \"4\"\n\nimport math\nimport numpy as np\n\n\ndef main() -> None:\n    vectors = np.load(\"vectors.npy\", mmap_mode=\"r\", allow_pickle=False)\n\n    if vectors.shape != (8000, 1024):\n        raise ValueError(f\"Expected shape (8000, 1024), got {vectors.shape}\")\n    if vectors.dtype != np.float32:\n        raise ValueError(f\"Expected float32 data, got {vectors.dtype}\")\n\n    n = vectors.shape[0]\n    block_size = 1000  # Divides 8000 exactly; work matrix uses about 4 MB.\n\n    squared_norms = np.empty(n, dtype=np.float32)\n    for start in range(0, n, block_size):\n        end = start + block_size\n        block = vectors[start:end]\n        np.einsum(\n            \"ij,ij->i\",\n            block,\n            block,\n            out=squared_norms[start:end],\n            optimize=False,\n        )\n\n    work = np.empty((block_size, block_size), dtype=np.float32)\n    partial_sums = []\n\n    # Only calculate block pairs with j >= i. Off-diagonal blocks are doubled\n    # because the requested sum includes both (i, j) and (j, i).\n    for i_start in range(0, n, block_size):\n        i_end = i_start + block_size\n        a = vectors[i_start:i_end]\n        a_norms = squared_norms[i_start:i_end]\n\n        for j_start in range(i_start, n, block_size):\n            j_end = j_start + block_size\n            b = vectors[j_start:j_end]\n            b_norms = squared_norms[j_start:j_end]\n\n            # ||a-b||^2 = ||a||^2 + ||b||^2 - 2*a\u00b7b\n            np.matmul(a, b.T, out=work)\n            work *= np.float32(-2.0)\n            work += a_norms[:, None]\n            work += b_norms[None, :]\n\n            # Clamp small negative values caused by float32 roundoff.\n            np.maximum(work, np.float32(0.0), out=work)\n            np.sqrt(work, out=work)\n\n            if i_start == j_start:\n                # Self-distances are mathematically zero.\n                np.fill_diagonal(work, np.float32(0.0))\n                partial_sums.append(float(np.sum(work, dtype=np.float64)))\n            else:\n                partial_sums.append(\n                    2.0 * float(np.sum(work, dtype=np.float64))\n                )\n\n    total = math.fsum(partial_sums)\n    print(f\"TOTAL_DIST:{total:.17g}\")\n\n\nif __name__ == \"__main__\":\n    main()",
+      "profile": {
+        "wall_sec": 0.3146,
+        "peak_mb": 10.75,
+        "success": true,
+        "stdout": "TOTAL_DIST:2895556139.5876579\n\n___PROFILE_RESULT___|0.3146|10.75|0",
+        "stderr": "<string>:58: RuntimeWarning: divide by zero encountered in matmul\n<string>:58: RuntimeWarning: overflow encountered in matmul\n<string>:58: RuntimeWarning: invalid value encountered in matmul"
+      }
+    }
+  },
+  "claude-fable-5": {
+    "Variant A (Blind)": {
+      "model": "claude-fable-5",
+      "description": "No hardware or memory context provided.",
+      "script_path": "./local_experiments/frontier_model_benchmark/runs/a_claude-fable-5.py",
+      "code": "",
+      "profile": {
+        "wall_sec": 0.0001,
+        "peak_mb": 0.02,
+        "success": false,
+        "stdout": "___PROFILE_RESULT___|0.0001|0.02|0",
+        "stderr": ""
+      }
+    },
+    "Variant B (Natural Language Advice)": {
+      "model": "claude-fable-5",
+      "description": "Unstructured natural language advice to be memory efficient.",
+      "script_path": "./local_experiments/frontier_model_benchmark/runs/b_claude-fable-5.py",
+      "code": "",
+      "profile": {
+        "wall_sec": 0.0001,
+        "peak_mb": 0.02,
+        "success": false,
+        "stdout": "___PROFILE_RESULT___|0.0001|0.02|0",
+        "stderr": ""
+      }
+    },
+    "Variant C (1D Telemetry: 128MB RAM)": {
+      "model": "claude-fable-5",
+      "description": "Explicit 1D spatial telemetry (RAM limit: 128 MB).",
+      "script_path": "./local_experiments/frontier_model_benchmark/runs/c_claude-fable-5.py",
+      "code": "",
+      "profile": {
+        "wall_sec": 0.0001,
+        "peak_mb": 0.02,
+        "success": false,
+        "stdout": "___PROFILE_RESULT___|0.0001|0.02|0",
+        "stderr": ""
+      }
+    },
+    "Variant D (2D Telemetry: 128MB RAM + 10s CPU)": {
+      "model": "claude-fable-5",
+      "description": "Explicit 2D spatial + temporal telemetry (RAM limit: 128 MB, CPU quota: 10s).",
+      "script_path": "./local_experiments/frontier_model_benchmark/runs/d_claude-fable-5.py",
+      "code": "",
+      "profile": {
+        "wall_sec": 0.0001,
+        "peak_mb": 0.02,
+        "success": false,
+        "stdout": "___PROFILE_RESULT___|0.0001|0.02|0",
+        "stderr": ""
+      }
+    }
+  }
+}
