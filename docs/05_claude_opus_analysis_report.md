@@ -23,17 +23,19 @@ When physical limits are projected into the agent's inference context, reasoning
 
 ## 2. Quantitative Empirical Results Across All Evaluated Models
 
+*(Note: The table below reflects the preliminary single-trial tracemalloc screening from early exploratory work. For the definitive N=5 replicated paired trial evaluations with OS MaxRSS measurements, see `docs/06_statistical_paired_report.md`.)*
+
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                       FRONTIER MULTI-MODEL BENCHMARK AUDIT (128 MB CONTAINER)                                    │
+│                                       HISTORICAL MULTI-MODEL SCREENING (EXPLORATORY TRACEMALLOC)                                 │
 ├──────────────────────────┬──────────────────────┬──────────────────────────────┬────────────────────────┬────────────────────────┤
 │ Model Architecture       │ Variant A (Blind)    │ Variant B (Natural Language) │ Variant C (1D: 128MB)  │ Variant D (2D: 128M+10s)│
 ├──────────────────────────┼──────────────────────┼──────────────────────────────┼────────────────────────┼────────────────────────┤
 │ **Anthropic Claude Opus 5**| **131.88 MB** / 0.681s│ 48.20 MB / 0.738s            │ *N/A*                  │ **61.47 MB / 0.3942s** │
-│                          │ (💥 **OOM Kill 137**)│ (✅ 128M Pass)               │                        │ (🏆 **SOTA Trapezoid**)│
+│                          │ (💥 **OOM Kill 137**)│ (✅ 128M Pass)               │                        │ (🏆 **Upper-Trapezoid**)│
 ├──────────────────────────┼──────────────────────┼──────────────────────────────┼────────────────────────┼────────────────────────┤
 │ **OpenAI GPT-5.6-Sol**   │ 100.47 MB / 0.630s   │ 7.24 MB / 0.694s             │ 10.22 MB / 0.606s      │ **4.12 MB / 0.1896s**  │
-│                          │ (✅ 128M Pass)       │ (✅ 128M Pass)               │ (✅ 128M Pass)         │ (🏆 **SOTA In-Place**) │
+│                          │ (✅ 128M Pass)       │ (✅ 128M Pass)               │ (✅ 128M Pass)         │ (🏆 **In-Place BLAS**) │
 ├──────────────────────────┼──────────────────────┼──────────────────────────────┼────────────────────────┼────────────────────────┤
 │ **Anthropic Sonnet 5**   │ **215.22 MB** / 1.041s│ 77.28 MB / 0.376s            │ **92.46 MB** / 0.434s  │ 122.91 MB / 0.3861s    │
 │                          │ (💥 **OOM Kill 137**)│ (✅ 128M Pass)               │ (✅ **128M Pass**)     │ (✅ **128M Pass**)     │
