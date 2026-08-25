@@ -157,6 +157,11 @@ When injected with SCAC 2D telemetry, `claude-opus-5` dynamically adapted its pa
 ### 4.2 In-Place Buffer Recycling in `gpt-5.6-sol`
 `gpt-5.6-sol` in the Blind condition generated a conservative chunker ($B=512$ in `float64`), consuming $92.01\text{ MB}$ ($78\%$ of container capacity). Under 2D telemetry, it performed extreme algorithmic optimization: utilizing `mmap_mode="r"`, in-place BLAS operations (`distances *= -2.0`, `np.maximum(out=distances)`), and buffer recycling to reduce memory to **$19.50\text{ MB}$** ($\mathbf{4.72\times}$ reduction) while doubling execution speed ($0.641\text{s} \rightarrow 0.336\text{s}$).
 
+### 4.3 Heuristic Optimization vs. Budget-Aware Throughput Scaling in `claude-sonnet-5`
+Comparing `claude-sonnet-5` across conditions highlights the difference between un-anchored natural language advice and quantitative hardware telemetry:
+* **Natural Language Heuristic ($B=500$, $77.28\text{ MB}$)**: When given unstructured advice (*"be memory efficient"*), Sonnet guessed a conservative block size of $B=500$, reducing memory but creating extra Python loop iterations.
+* **Telemetry-Conditioned Budget Optimization ($B=1000$, $122.91\text{ MB}$, in-place `np.sqrt`)**: When informed of the exact $128\text{ MB}$ RAM ceiling and $10.0\text{s}$ deadline, Sonnet did not simply minimize memory—it **maximized computational throughput** by expanding its block size to $B=1000$ (larger BLAS GEMM tiles) while synthesizing in-place arithmetic (`np.sqrt(out=dist_sq)` and `dist_sq -= 2.0*dot`) to strictly fit beneath the $128\text{ MB}$ container ceiling.
+
 ---
 
 ## 5. Conclusion & Systems Implications
