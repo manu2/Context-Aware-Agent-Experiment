@@ -1,64 +1,52 @@
-# Statistical 5-Paired Frontier Evaluation Report
-**Project:** Substrate & Self-Telemetry Conditioned Agentic Computation (SCAC)  
-**Evaluated Models:** Anthropic `claude-opus-5`, OpenAI `gpt-5.6-sol`  
-**Evaluation Protocol:** 5 Paired Trials per Model (10 Live Executions per Model, 20 Total Generations)  
-**Task Workload:** Pairwise Euclidean Distance on an $8,000 \times 1,024$ float32 matrix (`vectors.npy`, 32.8 MB)  
-**Target Container Limits:** 128 MB RAM (`cgroup v2 MemoryMax=128M`, `MemorySwapMax=0`), 10.0s CPU Quota
+# Canonical Paired Trial Report: Substrate-Aware Code Generation
+
+**Dataset**: [`experiments/05_paired_statistical_trials/canonical_paired_results.json`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/05_paired_statistical_trials/canonical_paired_results.json)  
+**Profiler**: [`experiments/05_paired_statistical_trials/profile_canonical_maxrss.py`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/05_paired_statistical_trials/profile_canonical_maxrss.py)  
+**Methodology**: Isolated subprocess execution measuring true OS Peak Resident Set Size (`resource.getrusage(RUSAGE_SELF).ru_maxrss`).
 
 ---
 
-## 1. Executive Statistical Findings
-
-Across 10 paired trials (20 total code generations and live executions), we observe statistically significant evidence ($p < 0.01$) that **injecting 2D hardware telemetry fundamentally restructures algorithmic synthesis and memory safety**:
-
-1. **Anthropic Claude Opus 5**:
-   * **Unconditioned (Blind)**: Mean Peak RAM = **$118.24 \pm 63.51\text{ MB}$**. In $60\%$ of valid trials (Trials 3, 4, 5), Claude Opus 5 generated code allocating **$162.16\text{ MB} - 163.09\text{ MB}$**, resulting in **deterministic Linux kernel `SIGKILL (Exit 137 OOM)` kills** in a 128 MB sandbox (First-Pass Correctness Rate: **40%**).
-   * **Conditioned (2D Telemetry)**: Mean Peak RAM = **$40.40 \pm 14.81\text{ MB}$** ($\mathbf{2.93\times}$ memory reduction). **100% of runs completed safely** with a mean latency of **$0.3630\text{s}$** ($\mathbf{1.51\times}$ speedup).
-
-2. **OpenAI GPT-5.6-Sol**:
-   * **Unconditioned (Blind)**: Mean Peak RAM = **$92.01 \pm 11.04\text{ MB}$** (Mean Latency: **$0.6408\text{s}$**).
-   * **Conditioned (2D Telemetry)**: Mean Peak RAM = **$19.50 \pm 8.26\text{ MB}$** ($\mathbf{4.72\times}$ memory reduction, $p < 0.001$). Mean Latency = **$0.3359\text{s}$** ($\mathbf{1.91\times}$ speedup).
-
----
-
-## 2. Comprehensive 5-Paired Trial Results
-
-| Model | Trial | Condition A (Blind) Peak RAM | Condition D (2D Telemetry) Peak RAM | RAM Reduction ($\Delta$) | Blind 128M Outcome | Aware 128M Outcome |
-|---|---|---|---|---|---|---|
-| **Claude Opus 5** | 1 | 0.00 MB* (Stdout Stream) | 22.23 MB | - | ✅ Pass | ✅ Pass (0.363s) |
-| **Claude Opus 5** | 2 | 102.87 MB | 53.84 MB | -49.03 MB | ✅ Pass | ✅ Pass (0.340s) |
-| **Claude Opus 5** | 3 | **162.16 MB** | 22.50 MB | **-139.66 MB** | 💥 **SIGKILL OOM** | ✅ Pass (0.386s) |
-| **Claude Opus 5** | 4 | **163.07 MB** | 53.83 MB | **-109.24 MB** | 💥 **SIGKILL OOM** | ✅ Pass (0.326s) |
-| **Claude Opus 5** | 5 | **163.09 MB** | 49.60 MB | **-113.49 MB** | 💥 **SIGKILL OOM** | ✅ Pass (0.400s) |
-| **GPT-5.6-Sol** | 1 | 73.32 MB | 14.42 MB | -58.90 MB | ✅ Pass | ✅ Pass (0.332s) |
-| **GPT-5.6-Sol** | 2 | 100.47 MB | 14.79 MB | -85.68 MB | ✅ Pass | ✅ Pass (0.347s) |
-| **GPT-5.6-Sol** | 3 | 100.48 MB | 35.80 MB | -64.68 MB | ✅ Pass | ✅ Pass (0.323s) |
-| **GPT-5.6-Sol** | 4 | 85.31 MB | 14.42 MB | -70.89 MB | ✅ Pass | ✅ Pass (0.336s) |
-| **GPT-5.6-Sol** | 5 | 100.47 MB | 18.09 MB | -82.38 MB | ✅ Pass | ✅ Pass (0.342s) |
-
----
-
-## 3. Aggregate Statistical Summary
+## 1. Primary Empirical Evidence (N=5 Paired Runs)
 
 ```
-====================================================================================================
-METRIC                        CLAUDE OPUS 5                    OPENAI GPT-5.6-SOL
-====================================================================================================
-Peak RAM (Blind)              118.24 ± 63.51 MB                92.01 ± 11.04 MB
-Peak RAM (2D Telemetry)       40.40 ± 14.81 MB                 19.50 ± 8.26 MB
-RAM Reduction Factor          2.93x (p < 0.01)                 4.72x (p < 0.001)
-Execution Latency (Blind)     0.5478 ± 0.2757s                 0.6408 ± 0.0210s
-Execution Latency (Aware)     0.3630 ± 0.0274s                 0.3359 ± 0.0083s
-Wall-Clock Speedup            1.51x (p < 0.01)                 1.91x (p < 0.001)
-128 MB First-Pass Rate (FPCR) 40% (Blind) -> 100% (Aware)      100% (Blind) -> 100% (Aware)
-====================================================================================================
+======================================================================================================================
+Table 1: Paired Substrate-Awareness Evaluation (Post-Hoc OS MaxRSS Profiling of Archived Scripts)
+======================================================================================================================
+Model & Trial      | Condition A: Blind MaxRSS | Condition D: Aware MaxRSS | Blind 128M Budget | Aware 128M Budget
+----------------------------------------------------------------------------------------------------------------------
+claude-opus-5 (T1) |         205.69 MB         |          82.48 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.270s)
+claude-opus-5 (T2) |         162.95 MB         |          99.17 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.255s)
+claude-opus-5 (T3) |         239.75 MB         |         104.38 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.244s)
+claude-opus-5 (T4) |         291.78 MB         |          91.34 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.260s)
+claude-opus-5 (T5) |         291.83 MB         |          90.47 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.310s)
+----------------------------------------------------------------------------------------------------------------------
+--> claude-opus-5 Aggregate:
+    Peak MaxRSS:   Blind = 238.40 ± 49.94 MB   vs.   Aware =  93.57 ±  7.56 MB (2.55x Reduction)
+    Wall Latency:  Blind =  0.7119 ±  0.2293s   vs.   Aware =  0.2677 ±  0.0228s (2.66x Speedup)
+    128M Budget Compliance:       Blind = 0/5 (0%)    vs.   Aware = 5/5 (100%)
+======================================================================================================================
+gpt-5.6-sol   (T1) |         142.48 MB         |          78.09 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.255s)
+gpt-5.6-sol   (T2) |         142.53 MB         |          92.48 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.283s)
+gpt-5.6-sol   (T3) |         146.44 MB         |         165.72 MB         | 💥 Exceeds (>128M)| 💥 Exceeds (166 MB)
+gpt-5.6-sol   (T4) |         186.42 MB         |          77.98 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.262s)
+gpt-5.6-sol   (T5) |         195.36 MB         |          78.56 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.247s)
+----------------------------------------------------------------------------------------------------------------------
+--> gpt-5.6-sol Aggregate:
+    Peak MaxRSS:   Blind = 162.65 ± 23.28 MB   vs.   Aware =  98.57 ± 34.03 MB (1.65x Reduction)
+    Wall Latency:  Blind =  0.5690 ±  0.0061s   vs.   Aware =  0.2608 ±  0.0121s (2.18x Speedup)
+    128M Budget Compliance:       Blind = 0/5 (0%)    vs.   Aware = 4/5 (80%)
+======================================================================================================================
 ```
 
 ---
 
-## 4. Provenance & Artifacts
+## 2. Key Findings & Behavioral Observations
 
-All individual trial scripts and JSON logs are preserved:
-* **Claude Opus 5 JSON Logs**: [`local_experiments/paired_trials/claude-opus-5_5_paired_trials.json`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/local_experiments/paired_trials/claude-opus-5_5_paired_trials.json)
-* **GPT-5.6-Sol JSON Logs**: [`local_experiments/paired_trials/gpt-5.6-sol_5_paired_trials.json`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/local_experiments/paired_trials/gpt-5.6-sol_5_paired_trials.json)
-* **Generated Code Directory**: [`local_experiments/paired_trials/runs/`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/local_experiments/paired_trials/runs/)
+1. **Claude Opus 5**:
+   * **Blind Condition**: Promotes array to `float64` and computes full rectangular matrix products, resulting in peak MaxRSS of $238.40 \pm 49.94\text{ MB}$ ($5/5$ exceeding 128 MB budget).
+   * **Substrate-Aware Condition**: Retains `float32` and computes upper-trapezoid matrix products, reducing peak MaxRSS to $93.57 \pm 7.56\text{ MB}$ ($5/5$ remaining under 128 MB budget) with a $2.66\times$ speedup ($0.2677\text{s}$).
+
+2. **GPT-5.6-Sol**:
+   * **Blind Condition**: Uses full-matrix operations, consuming $162.65 \pm 23.28\text{ MB}$ ($5/5$ exceeding 128 MB budget).
+   * **Substrate-Aware Condition**: Uses memory-mapped I/O and in-place distance clamping/sqrt, reducing average MaxRSS to $98.57 \pm 34.03\text{ MB}$ ($4/5$ remaining under 128 MB budget) with a $2.18\times$ speedup ($0.2608\text{s}$).
+   * **Imperfect Constraint Reasoning**: Trial 3 exceeded 128 MB at $165.72\text{ MB}$, demonstrating that substrate disclosure does not guarantee 100% compliance across all stochastic runs.
