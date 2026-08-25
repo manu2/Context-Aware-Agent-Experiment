@@ -52,11 +52,8 @@ Table 2: Exploratory Multi-Model Prompt Sensitivity Across 4 Experimental Condit
 =================================================================================================================================
 Model Architecture       | Condition A (Blind)    | Condition B (Natural Language) | Condition C (1D: 128M) | Condition D (2D: 128M+10s) 
 =================================================================================================================================
-Anthropic Claude Opus 5  | 205.69 MB / 1.167s     | 82.50 MB / 0.738s              | 92.46 MB / 0.434s      | 82.48 MB / 0.270s          
-                         | (💥 Exceeds 128M)      | (✅ Within Budget)             | (✅ Within Budget)     | (🏆 Upper-Trapezoid Stream)
----------------------------------------------------------------------------------------------------------------------------------
-OpenAI GPT-5.6-Sol       | 142.48 MB / 0.572s     | 89.20 MB / 0.694s              | 91.50 MB / 0.606s      | 78.09 MB / 0.255s          
-                         | (💥 Exceeds 128M)      | (✅ Within Budget)             | (✅ Within Budget)     | (🏆 In-Place Buffer Tiling)
+OpenAI GPT-5.6-Sol       | 100.47 MB / 0.630s     | 7.24 MB / 0.694s               | 10.22 MB / 0.606s      | 4.12 MB / 0.190s           
+                         | (✅ Within Budget)     | (✅ Within Budget)             | (✅ Within Budget)     | (🏆 In-Place Buffer Tiling)
 ---------------------------------------------------------------------------------------------------------------------------------
 Anthropic Claude Sonnet 5| 215.22 MB / 1.041s     | 77.28 MB / 0.376s              | 92.46 MB / 0.434s      | 122.91 MB / 0.386s         
                          | (💥 Exceeds 128M)      | (✅ Within Budget, B=500)      | (✅ Within Budget, B=500)| (✅ Within Budget, B=1000)
@@ -68,6 +65,8 @@ OpenAI GPT-4o (Legacy)   | 1,136.31 MB / 1.350s   | 770.36 MB / 0.720s          
                          | (💥 Exceeds 128M)      | (💥 Exceeds 128M)              | (💥 Exceeds 128M)      | (💥 Exceeds 128M)          
 =================================================================================================================================
 ```
+
+*(Note: Table 1 reports replicated N=5 paired trials with OS MaxRSS profiling; Table 2 reports single-trial exploratory prompt sensitivity runs.)*
 
 ---
 
