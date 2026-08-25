@@ -13,8 +13,8 @@ Autonomous AI coding agents operating in containerized environments frequently g
 In this work, we conduct a controlled empirical investigation into **Substrate-Aware Code Generation**—projecting physical execution constraints (such as a 128 MB RAM limit) directly into the agent's inference context without providing algorithmic hints. Through paired trials across frontier reasoning models (**Anthropic `claude-opus-5`** and **OpenAI `gpt-5.6-sol`**) alongside multi-model prompt ablations (**Google `gemini-3.7-flash`**, **Anthropic `claude-sonnet-5`**, and **OpenAI `gpt-4o`**), we observe:
 
 1. **Qualitative Algorithmic Shift**: Exposing execution constraints induces models to abandon eager $O(N^2)$ broadcasting in favor of structured block tiling, upper-trapezoid streaming, and in-place buffer recycling.
-2. **Resource & Latency Reduction**: For `claude-opus-5`, substrate awareness reduces peak process resident set size (MaxRSS) from $243.24 \pm 55.67\text{ MB}$ to $90.69 \pm 7.97\text{ MB}$ ($2.68\times$ reduction) and execution time from $0.6886\text{s}$ to $0.2680\text{s}$ ($2.57\times$ speedup), increasing 128 MB container survivability from $0/5$ to $5/5$.
-3. **Separability of Awareness and Constraint Satisfaction**: For `gpt-5.6-sol`, substrate awareness reduces average MaxRSS from $165.89 \pm 26.44\text{ MB}$ to $105.58 \pm 31.44\text{ MB}$ ($1.57\times$ reduction) with $4/5$ runs surviving within 128 MB, demonstrating that constraint awareness and successful constraint-bounded synthesis are separable capabilities across model families.
+2. **Resource & Latency Reduction**: For `claude-opus-5`, substrate awareness reduces peak process resident set size (MaxRSS) from $243.24 \pm 55.67\text{ MB}$ to $90.69 \pm 7.97\text{ MB}$ ($2.68\times$ reduction) and execution time from $0.6886\text{s}$ to $0.2680\text{s}$ ($2.57\times$ speedup), increasing 128 MB budget compliance from $0/5$ to $5/5$.
+3. **Separability of Awareness and Constraint Satisfaction**: For `gpt-5.6-sol`, substrate awareness reduces average MaxRSS from $165.89 \pm 26.44\text{ MB}$ to $105.58 \pm 31.44\text{ MB}$ ($1.57\times$ reduction) with $4/5$ runs remaining within the 128 MB budget, demonstrating that constraint awareness and successful constraint-bounded synthesis are separable capabilities across model families.
 4. **Vulnerability of Unanchored Heuristics**: Generic natural language instructions (*"be memory efficient"*) produce unpredictable behaviors—causing `gemini-3.7-flash` to revert to an unvectorized scalar loop ($30.0\text{s}$) and `gpt-4o` to fail entirely—whereas quantitative substrate boundaries guide models toward Pareto-efficient tile parameters.
 
 ---
@@ -47,46 +47,47 @@ To isolate the effect of substrate information, we evaluate four prompt conditio
 * **Condition C (1D Substrate Constraint)**: Task specification + explicit memory boundary (*"Execution environment: RAM limit: 128 MB."*).
 * **Condition D (2D Substrate Constraint)**: Task specification + joint spatial and temporal boundary (*"Execution environment: RAM limit: 128 MB. Execution time limit: 10.0 seconds."*).
 
-### 2.3 Dual Measurement Protocol
-To ensure measurement integrity, we distinguish between two separate metrics:
-1. **Behavioral Memory Consumption (MaxRSS)**: Independent post-execution measurement of Peak Resident Set Size (`ru_maxrss` via `resource.getrusage`) on the host OS to quantify actual memory footprint.
-2. **Container Survivability (128 MB Sandbox Pass/OOM)**: Direct execution under an isolated 128 MB container to observe whether the program completes successfully or is terminated by the kernel (`Exit 137`).
+### 2.3 Measurement Protocol & Data Provenance
+To ensure rigorous reporting, we distinguish between the initial generative trial logs and the independent post-hoc physical profiling:
+1. **Generative Trials & Code Archival**: During the live generation trials, model responses were captured, extracted, and permanently archived to disk under `experiments/`.
+2. **Post-Hoc OS Process MaxRSS Remeasurement**: Because Python runtime memory profilers (e.g., `tracemalloc`) only track Python heap allocations and omit native C-extension buffers (such as NumPy contiguous arrays), all archived generated scripts were independently re-executed in isolated subprocesses using standard operating system resource profiling (`resource.getrusage(RUSAGE_SELF).ru_maxrss`) to measure true peak resident set size.
+3. **128 MB Resource Threshold Evaluation**: Programs are evaluated against the 128 MB physical container budget: scripts exhibiting MaxRSS $< 128\text{ MB}$ satisfy the container boundary, while scripts allocating $> 128\text{ MB}$ breach the physical memory ceiling.
 
 ---
 
 ## 3. Empirical Results
 
-### 3.1 Paired Statistical Comparison (Anthropic `claude-opus-5` vs. OpenAI `gpt-5.6-sol`)
+### 3.1 Paired Comparison: Independent OS MaxRSS Profiling (Anthropic `claude-opus-5` vs. OpenAI `gpt-5.6-sol`)
 
-Table 1 reports results across $N=5$ matched pairs (10 live code generations and executions per model):
+Table 1 reports the independent OS MaxRSS measurements and 128 MB budget compliance across the $N=5$ matched pairs of archived scripts:
 
 ```
 ======================================================================================================================
-Table 1: Paired Substrate-Awareness Benchmark (Condition A: Blind vs. Condition D: Substrate-Aware)
+Table 1: Paired Substrate-Awareness Evaluation (Post-Hoc OS MaxRSS Profiling of Archived Scripts)
 ======================================================================================================================
-Model & Trial      | Condition A: Blind MaxRSS | Condition D: Aware MaxRSS | Blind 128M Status | Aware 128M Status
+Model & Trial      | Condition A: Blind MaxRSS | Condition D: Aware MaxRSS | Blind 128M Budget | Aware 128M Budget
 ----------------------------------------------------------------------------------------------------------------------
-claude-opus-5 (T1) |         204.47 MB         |          78.48 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.265s)
-claude-opus-5 (T2) |         164.28 MB         |          99.98 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.255s)
-claude-opus-5 (T3) |         236.77 MB         |          91.47 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.244s)
-claude-opus-5 (T4) |         307.38 MB         |          98.06 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.261s)
-claude-opus-5 (T5) |         303.28 MB         |          85.47 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.315s)
+claude-opus-5 (T1) |         204.47 MB         |          78.48 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.265s)
+claude-opus-5 (T2) |         164.28 MB         |          99.98 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.255s)
+claude-opus-5 (T3) |         236.77 MB         |          91.47 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.244s)
+claude-opus-5 (T4) |         307.38 MB         |          98.06 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.261s)
+claude-opus-5 (T5) |         303.28 MB         |          85.47 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.315s)
 ----------------------------------------------------------------------------------------------------------------------
 --> claude-opus-5 Aggregate:
     Peak MaxRSS:   Blind = 243.24 ± 55.67 MB   vs.   Aware =  90.69 ±  7.97 MB (2.68x Reduction)
     Wall Latency:  Blind =  0.6886 ±  0.1613s   vs.   Aware =  0.2680 ±  0.0246s (2.57x Speedup)
-    128M Container Survivability:  Blind = 0/5 (0%)   vs.   Aware = 5/5 (100%)
+    128M Budget Compliance:       Blind = 0/5 (0%)    vs.   Aware = 5/5 (100%)
 ======================================================================================================================
-gpt-5.6-sol   (T1) |         142.33 MB         |          95.33 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.260s)
-gpt-5.6-sol   (T2) |         142.38 MB         |          92.19 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.281s)
-gpt-5.6-sol   (T3) |         148.48 MB         |         167.97 MB         | 💥 OOM (Exceeds)  | 💥 OOM (167 MB)
-gpt-5.6-sol   (T4) |         196.72 MB         |          89.05 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.259s)
-gpt-5.6-sol   (T5) |         199.56 MB         |          83.36 MB         | 💥 OOM (Exceeds)  | ✅ Pass (0.247s)
+gpt-5.6-sol   (T1) |         142.33 MB         |          95.33 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.260s)
+gpt-5.6-sol   (T2) |         142.38 MB         |          92.19 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.281s)
+gpt-5.6-sol   (T3) |         148.48 MB         |         167.97 MB         | 💥 Exceeds (>128M)| 💥 Exceeds (167 MB)
+gpt-5.6-sol   (T4) |         196.72 MB         |          89.05 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.259s)
+gpt-5.6-sol   (T5) |         199.56 MB         |          83.36 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.247s)
 ----------------------------------------------------------------------------------------------------------------------
 --> gpt-5.6-sol Aggregate:
     Peak MaxRSS:   Blind = 165.89 ± 26.44 MB   vs.   Aware = 105.58 ± 31.44 MB (1.57x Reduction)
     Wall Latency:  Blind =  0.5646 ±  0.0053s   vs.   Aware =  0.2611 ±  0.0111s (2.16x Speedup)
-    128M Container Survivability:  Blind = 0/5 (0%)   vs.   Aware = 4/5 (80%)
+    128M Budget Compliance:       Blind = 0/5 (0%)    vs.   Aware = 4/5 (80%)
 ======================================================================================================================
 ```
 
@@ -161,7 +162,7 @@ Current Reinforcement Learning with Verifiable Rewards (RLVR / GRPO) frameworks 
 
 ## 6. Conclusion
 
-We have presented an empirical investigation into Substrate-Aware Code Generation. Our findings indicate that providing explicit execution constraints enables frontier reasoning models to transition from eager, memory-heavy patterns to structured, memory-bounded algorithms, substantially improving container survivability and execution latency.
+We have presented an empirical investigation into Substrate-Aware Code Generation. Our findings indicate that providing explicit execution constraints enables frontier reasoning models to transition from eager, memory-heavy patterns to structured, memory-bounded algorithms, substantially improving 128 MB memory budget compliance and execution latency.
 
 ---
 

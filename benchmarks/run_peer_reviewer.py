@@ -1,9 +1,7 @@
 """
-Automated Peer Reviewer Harness for SCAC Paper Draft.
+Local Manuscript Consistency Checker for Substrate-Aware Code Generation Draft.
 
-Note: In the Antigravity multi-agent system, peer reviews are triggered zero-cost
-using the local 'peer_reviewer' subagent via invoke_subagent.
-This standalone utility script provides a fallback audit mechanism.
+Preflight utility to verify keyword alignment, structure integrity, and formatting assertions.
 """
 
 import os
@@ -19,7 +17,7 @@ def audit_manuscript():
         content = f.read()
         
     print("=" * 80)
-    print("  LOCAL PRE-FLIGHT AUDIT: paper_draft.md")
+    print("  LOCAL PRE-FLIGHT CONSISTENCY CHECK: paper_draft.md")
     print("=" * 80)
     print(f"Total Lines: {len(content.splitlines())}")
     print(f"Total Characters: {len(content)}")
@@ -33,7 +31,7 @@ def audit_manuscript():
         "gpt-5.6-sol",
         "claude-sonnet-5",
         "MaxRSS",
-        "Container Survivability",
+        "Budget Compliance",
         "Pareto"
     ]
     
