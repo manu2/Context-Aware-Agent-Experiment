@@ -12,6 +12,7 @@
 * **Python Runtime:** Python 3.9.6 / 3.10+ (standard venv `.venv`)
 * **NumPy Version:** 1.24+ / 2.x
 * **BLAS Backend:** Apple Accelerate BLAS (`vecLib`) / OpenBLAS
+* **Thread Pinning / Determinism:** Single-threaded execution enforced (`OMP_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`, `MKL_NUM_THREADS=1`, `VECLIB_MAXIMUM_THREADS=1`) to eliminate multi-threaded allocator jitter.
 * **MaxRSS Unit Semantics:** `resource.getrusage(RUSAGE_SELF).ru_maxrss` in **bytes** (converted to MB via `ru_maxrss / (1024 * 1024)`).
 
 ---
