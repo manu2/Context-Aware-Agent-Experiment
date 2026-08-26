@@ -377,6 +377,16 @@ def execute_trial(execution_meta: Dict[str, Any], model_config: Dict[str, Any]) 
 
     prompt = PROMPT_A if "A_Blind" in condition else PROMPT_D
     prompt_name = "Condition A (Blind)" if "A_Blind" in condition else "Condition D (2D Telemetry)"
+    trial_dir = os.path.join(RAW_OUTPUT_DIR, model_name, trial_id)
+
+    # A trial ID is a provenance identifier, not a mutable output location.
+    # Refuse before any API request so a retry cannot silently replace an
+    # archived response, script, profile, or timestamp.
+    if os.path.exists(trial_dir):
+        raise FileExistsError(
+            f"Refusing to overwrite existing trial artifact directory: {trial_dir}. "
+            "Use an unused predeclared trial ID."
+        )
 
     print(f"\n[*] Executing {trial_id} | Model: {model_config['api_model_id']} | {prompt_name}...")
 
@@ -390,7 +400,6 @@ def execute_trial(execution_meta: Dict[str, Any], model_config: Dict[str, Any]) 
     code = extract_python_code(raw_response)
 
     # 3. Create run directory
-    trial_dir = os.path.join(RAW_OUTPUT_DIR, model_name, trial_id)
     os.makedirs(trial_dir, exist_ok=True)
 
     raw_response_path = os.path.join(trial_dir, "raw_response.txt")
