@@ -13,7 +13,7 @@
 * **NumPy Version:** `2.0.2`
 * **BLAS Backend:** Apple Accelerate BLAS (`vecLib`) / Accelerate Framework
 * **Thread Pinning / Determinism:** Enforced single-threaded execution (`OMP_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`, `MKL_NUM_THREADS=1`, `VECLIB_MAXIMUM_THREADS=1`, `NUMEXPR_NUM_THREADS=1`) to eliminate multi-threaded allocator jitter.
-* **MaxRSS Unit Semantics:** `resource.getrusage(RUSAGE_SELF).ru_maxrss` in **bytes** on Darwin (converted to MB via `ru_maxrss / (1024 * 1024)`).
+* **MaxRSS Unit Semantics:** The profiler wrapper reads `resource.getrusage(RUSAGE_CHILDREN).ru_maxrss` after its one generated-script child exits. On Darwin this value is in **bytes** (converted to MB via `ru_maxrss / (1024 * 1024)`); on Linux it is in kilobytes.
 
 ---
 

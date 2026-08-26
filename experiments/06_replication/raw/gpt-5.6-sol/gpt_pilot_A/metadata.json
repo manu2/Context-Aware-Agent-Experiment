@@ -4,6 +4,8 @@
   "execution_mode": "isolated_subagent_proxy",
   "subagent_conversation_id": "114fa403-d32f-4832-96da-aa413f6cabad",
   "condition": "Condition A (Blind)",
+  "prompt_sha256": "dfcfd01456b2123ac4ca9c4fa989f6585fb95a1ba7c5836b788915fe536d1e47",
+  "profile_artifact": "profile.json",
   "provenance_transcript": "REDACTED_LOCAL_TRANSCRIPT",
   "timestamp_utc": "2026-08-26T07:24:43Z"
 }

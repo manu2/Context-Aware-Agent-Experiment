@@ -1,8 +1,8 @@
 # EXECUTION TRACKER: Live Deployment & Experiment Log
 
 ## Overall Status
-- **Current Stage**: Stage 17.0 (Repository Structure Reorganization & arXiv Draft Overhaul Complete)
-- **Active Experiment**: Ready for 3-Task Silicon Stress Suite Benchmarking & arXiv Manuscript Finalization
+- **Current Stage**: Stage 17.1 (Exploratory Proxy-Pilot Provenance Cleanup Complete)
+- **Active Experiment**: Frozen direct-API replication remains ready; proxy pilot is archived separately from manuscript evidence.
 
 ---
 
@@ -27,3 +27,4 @@
 | **15.0** | Canonical 5-Paired MaxRSS Profiling | `experiments/05_paired_statistical_trials/` | ✅ **DONE** | Canonical MaxRSS dataset generated; Opus 5 (238MB -> 93MB), GPT-5.6-Sol (162MB -> 98MB) |
 | **16.0** | Repository Reorganization & Provenance Lock | `benchmarks/`, `data/`, `docs/`, `experiments/` | ✅ **DONE** | Canonical dataset, profiler script, and numerical audit runner committed |
 | **17.0** | Master arXiv Paper Calibration | `paper_draft.md` | ✅ **DONE** | Calibrated claims, added academic references [1]-[8], verified 100% numerical match |
+| **17.1** | Exploratory Proxy-Pilot Provenance Cleanup | `experiments/06_replication/raw/*/*/profile.json` | ✅ **DONE** | Archived prompt hashes and standalone profiles for six proxy scripts; synchronized MaxRSS documentation with the wrapper's `RUSAGE_CHILDREN` measurement; excluded proxy pilot from primary API-model evidence |

@@ -4,6 +4,8 @@
   "execution_mode": "isolated_subagent_proxy",
   "subagent_conversation_id": "ec059a12-6032-4f6d-b331-e96a878a6390",
   "condition": "Condition D (2D Telemetry)",
+  "prompt_sha256": "18596d43cc9575252ae2f86839b7b6aedab83da46d641874ac25a8e0be5084a5",
+  "profile_artifact": "profile.json",
   "provenance_transcript": "REDACTED_LOCAL_TRANSCRIPT",
   "timestamp_utc": "2026-08-26T07:24:43Z"
 }

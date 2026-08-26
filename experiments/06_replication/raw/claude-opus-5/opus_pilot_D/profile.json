@@ -1,0 +1,13 @@
+{
+  "wall_sec": 0.666243292,
+  "maxrss_mb": 255.234375,
+  "exit_code": 0,
+  "timed_out": false,
+  "stdout": "TOTAL_DIST:2895556245.83241\n",
+  "stderr": "",
+  "total_dist": 2895556245.83241,
+  "correct": true,
+  "rel_error": 3.509967711428891e-08,
+  "within_128m_budget": false,
+  "within_10s_budget": true
+}

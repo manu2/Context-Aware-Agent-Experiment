@@ -47,6 +47,7 @@ Investigating whether projecting physical hardware constraints (RAM ceilings, CP
 - **Primary Document**: [`paper_draft.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/paper_draft.md)
 - **Target Category**: `cs.DC` (Distributed & Cluster Computing) / `cs.AI` (Artificial Intelligence).
 - **Next Step**: Benchmark Expansion on the 3-Task Silicon Stress Suite.
+- **Provenance boundary:** The archived exploratory subagent proxy pilot in `experiments/06_replication/raw/` is not primary evidence for named provider API models. Any such manuscript claim requires the frozen direct-API runner and its per-trial artifacts.
 
 ---
 
