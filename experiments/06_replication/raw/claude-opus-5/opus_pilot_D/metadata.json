@@ -1,0 +1,9 @@
+{
+  "trial_id": "opus_pilot_D",
+  "model_label": "claude-opus-5",
+  "execution_mode": "isolated_subagent_proxy",
+  "subagent_conversation_id": "ec059a12-6032-4f6d-b331-e96a878a6390",
+  "condition": "Condition D (2D Telemetry)",
+  "provenance_transcript": "REDACTED_LOCAL_TRANSCRIPT",
+  "timestamp_utc": "2026-08-26T07:24:43Z"
+}

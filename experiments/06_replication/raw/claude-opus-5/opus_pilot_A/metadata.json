@@ -1,0 +1,9 @@
+{
+  "trial_id": "opus_pilot_A",
+  "model_label": "claude-opus-5",
+  "execution_mode": "isolated_subagent_proxy",
+  "subagent_conversation_id": "5dc20033-a601-463b-a923-d0cbd0e33ac1",
+  "condition": "Condition A (Blind)",
+  "provenance_transcript": "REDACTED_LOCAL_TRANSCRIPT",
+  "timestamp_utc": "2026-08-26T07:24:43Z"
+}
