@@ -9,7 +9,7 @@
 
 | Research Label (Manuscript) | Exact Frozen API Model Identifier | Provider / API Endpoint | Sampling Parameters | Replication Interface |
 |---|---|---|---|---|
-| **Claude Opus 5** | `claude-3-opus-20240229` | Anthropic Messages API (`https://api.anthropic.com/v1/messages`) | `temperature: 0.1`, `max_tokens: 8192`, `top_p: 1.0` | Direct REST / Anthropic Messages API |
+| **Claude Opus 5** | `claude-3-opus-20240229` | Anthropic Messages API (`https://api.anthropic.com/v1/messages`) | `temperature: 0.1`, `max_tokens: 4096`, `top_p: 1.0` | Direct REST / Anthropic Messages API |
 | **GPT-5.6-Sol** | `gpt-4o-2024-08-06` | OpenAI Chat Completions API (`https://api.openai.com/v1/chat/completions`) | `temperature: 1.0`, `max_completion_tokens: 8192`, `top_p: 1.0` | Direct REST / OpenAI Chat Completions API |
 | **Gemini 3.7 Flash** | `gemini-2.0-flash` | Google Vertex AI / AI Studio API (`generateContent`) | `temperature: 0.1`, `max_output_tokens: 8192`, `top_p: 0.95` | Direct REST / Google AI Studio API |
 

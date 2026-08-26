@@ -212,7 +212,7 @@ print("___PROFILE_JSON_END___")
     correct = False
     rel_error = None
 
-    match = re.search(r"TOTAL_DIST:([0-9eE\.\+\-]+)", script_stdout)
+    match = re.search(r"TOTAL_DIST:\s*([0-9eE\.\+\-]+)", script_stdout)
     if match:
         try:
             val = float(match.group(1))
@@ -242,80 +242,98 @@ print("___PROFILE_JSON_END___")
     }
 
 
-def query_model(model_config: Dict[str, Any], prompt: str) -> str:
-    """Executes live API call to the specified model provider endpoint."""
+def query_model(model_config: Dict[str, Any], prompt: str, max_retries: int = 3) -> str:
+    """Executes live API call to the specified model provider endpoint with retries."""
     provider = model_config["provider"]
     api_model_id = model_config["api_model_id"]
     endpoint = model_config["endpoint"]
     temperature = model_config["temperature"]
 
-    if provider == "anthropic":
-        api_key = os.environ.get("ANTHROPIC_API_KEY")
-        if not api_key:
-            raise RuntimeError("Missing ANTHROPIC_API_KEY environment variable")
-        req_data = {
-            "model": api_model_id,
-            "max_tokens": model_config.get("max_tokens", 8192),
-            "temperature": temperature,
-            "top_p": model_config.get("top_p", 1.0),
-            "messages": [{"role": "user", "content": prompt}]
-        }
-        req = urllib.request.Request(
-            endpoint,
-            headers={
-                "x-api-key": api_key,
-                "anthropic-version": "2023-06-01",
-                "Content-Type": "application/json"
-            },
-            data=json.dumps(req_data).encode("utf-8")
-        )
-        with urllib.request.urlopen(req, timeout=120) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            content = data.get("content", [])
-            return "".join([b.get("text", "") for b in content if b.get("type") == "text"])
+    last_error = None
+    for attempt in range(1, max_retries + 1):
+        try:
+            if provider == "anthropic":
+                api_key = os.environ.get("ANTHROPIC_API_KEY")
+                if not api_key:
+                    raise RuntimeError("Missing ANTHROPIC_API_KEY environment variable")
+                req_data = {
+                    "model": api_model_id,
+                    "max_tokens": model_config.get("max_tokens", 4096),
+                    "temperature": temperature,
+                    "top_p": model_config.get("top_p", 1.0),
+                    "messages": [{"role": "user", "content": prompt}]
+                }
+                req = urllib.request.Request(
+                    endpoint,
+                    headers={
+                        "x-api-key": api_key,
+                        "anthropic-version": "2023-06-01",
+                        "Content-Type": "application/json"
+                    },
+                    data=json.dumps(req_data).encode("utf-8")
+                )
+                with urllib.request.urlopen(req, timeout=120) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                    content = data.get("content", [])
+                    return "".join([b.get("text", "") for b in content if b.get("type") == "text"])
 
-    elif provider == "openai":
-        api_key = os.environ.get("OPENAI_API_KEY")
-        if not api_key:
-            raise RuntimeError("Missing OPENAI_API_KEY environment variable")
-        req_data = {
-            "model": api_model_id,
-            "messages": [{"role": "user", "content": prompt}],
-            "temperature": temperature,
-            "top_p": model_config.get("top_p", 1.0)
-        }
-        if "max_completion_tokens" in model_config:
-            req_data["max_completion_tokens"] = model_config["max_completion_tokens"]
-        req = urllib.request.Request(
-            endpoint,
-            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-            data=json.dumps(req_data).encode("utf-8")
-        )
-        with urllib.request.urlopen(req, timeout=120) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            return data["choices"][0]["message"]["content"]
+            elif provider == "openai":
+                api_key = os.environ.get("OPENAI_API_KEY")
+                if not api_key:
+                    raise RuntimeError("Missing OPENAI_API_KEY environment variable")
+                req_data = {
+                    "model": api_model_id,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "temperature": temperature,
+                    "top_p": model_config.get("top_p", 1.0)
+                }
+                if "max_completion_tokens" in model_config:
+                    req_data["max_completion_tokens"] = model_config["max_completion_tokens"]
+                req = urllib.request.Request(
+                    endpoint,
+                    headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+                    data=json.dumps(req_data).encode("utf-8")
+                )
+                with urllib.request.urlopen(req, timeout=120) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                    return data["choices"][0]["message"]["content"]
 
-    elif provider == "google":
-        api_key = os.environ.get("GEMINI_API_KEY")
-        if not api_key:
-            raise RuntimeError("Missing GEMINI_API_KEY for Google AI Studio API")
+            elif provider == "google":
+                api_key = os.environ.get("GEMINI_API_KEY")
+                if not api_key:
+                    raise RuntimeError("Missing GEMINI_API_KEY for Google AI Studio API")
 
-        url = f"{endpoint}?key={api_key}"
-        req_data = {
-            "contents": [{"parts": [{"text": prompt}]}],
-            "generationConfig": {
-                "temperature": temperature,
-                "maxOutputTokens": model_config.get("max_output_tokens", 8192),
-                "topP": model_config.get("top_p", 0.95)
-            }
-        }
-        req = urllib.request.Request(url, headers={"Content-Type": "application/json"}, data=json.dumps(req_data).encode("utf-8"))
-        with urllib.request.urlopen(req, timeout=120) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            return data["candidates"][0]["content"]["parts"][0]["text"]
+                url = f"{endpoint}?key={api_key}"
+                req_data = {
+                    "contents": [{"parts": [{"text": prompt}]}],
+                    "generationConfig": {
+                        "temperature": temperature,
+                        "maxOutputTokens": model_config.get("max_output_tokens", 8192),
+                        "topP": model_config.get("top_p", 0.95)
+                    }
+                }
+                req = urllib.request.Request(url, headers={"Content-Type": "application/json"}, data=json.dumps(req_data).encode("utf-8"))
+                with urllib.request.urlopen(req, timeout=120) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                    candidates = data.get("candidates", [])
+                    if not candidates:
+                        raise RuntimeError(f"Gemini returned empty candidates: {data}")
+                    content = candidates[0].get("content", {})
+                    parts = content.get("parts", [])
+                    if not parts:
+                        finish_reason = candidates[0].get("finishReason", "UNKNOWN")
+                        raise RuntimeError(f"Gemini response has no text parts (finishReason: {finish_reason})")
+                    return parts[0].get("text", "")
 
-    else:
-        raise ValueError(f"Unknown provider: {provider}")
+            else:
+                raise ValueError(f"Unknown provider: {provider}")
+
+        except Exception as e:
+            last_error = e
+            print(f"    [!] API attempt {attempt}/{max_retries} failed ({e}). Retrying in {attempt * 3}s...")
+            time.sleep(attempt * 3)
+
+    raise RuntimeError(f"Model query failed after {max_retries} attempts: {last_error}")
 
 
 def execute_trial(execution_meta: Dict[str, Any], model_config: Dict[str, Any]) -> Dict[str, Any]:
@@ -512,16 +530,21 @@ def main():
     elif args.all:
         print(f"[*] Beginning execution of {len(executions)} replication trials...")
         all_results = []
-        for e in executions:
+        summary_file = "experiments/06_replication/replication_summary.json"
+        
+        for idx, e in enumerate(executions, 1):
             model_cfg = models_config[e["model"]]
+            print(f"\n--- Running Trial [{idx}/{len(executions)}]: {e['trial_id']} ---")
             res = execute_trial(e, model_cfg)
             all_results.append(res)
+            
+            # Save progress incrementally after every trial
+            with open(summary_file, "w", encoding="utf-8") as f:
+                json.dump({"executions": all_results}, f, indent=2)
+            
             time.sleep(2)  # Respect rate limits
 
-        summary_file = "experiments/06_replication/replication_summary.json"
-        with open(summary_file, "w", encoding="utf-8") as f:
-            json.dump({"executions": all_results}, f, indent=2)
-        print(f"\n[+] Replication complete. Summary written to {summary_file}")
+        print(f"\n[+] Replication complete. Full summary written to {summary_file}")
 
 
 if __name__ == "__main__":
