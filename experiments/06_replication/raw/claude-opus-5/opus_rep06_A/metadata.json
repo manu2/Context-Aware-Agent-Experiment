@@ -1,0 +1,43 @@
+{
+  "trial_id": "opus_rep06_A",
+  "model_label": "claude-opus-5",
+  "pair_id": "opus_pair06",
+  "condition": "A_Blind",
+  "model_config": {
+    "research_label": "claude-opus-5",
+    "api_model_id": "claude-opus-5",
+    "provider": "anthropic",
+    "endpoint": "https://api.anthropic.com/v1/messages",
+    "max_tokens": 8192,
+    "sampling_policy": "provider_default_required: claude-opus-5 rejects explicitly supplied temperature and top_p"
+  },
+  "generation_time_sec": 46.606347334,
+  "environment": {
+    "platform": "macOS-15.5-arm64-arm-64bit",
+    "python_version": "3.9.6",
+    "numpy_version": "2.0.2",
+    "machine": "arm64",
+    "processor": "arm",
+    "thread_pinning": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    }
+  },
+  "profile": {
+    "wall_sec": 1.3413002909999998,
+    "maxrss_mb": 305.96875,
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout": "TOTAL_DIST:2895556144.199326\n",
+    "stderr": "[info] loaded vectors.npy: 8000 x 1024\n<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/06_replication/raw/claude-opus-5/opus_rep06_A/script.py:43: RuntimeWarning: divide by zero encountered in matmul\n  D = X[s:e] @ Xt                       # BLAS dgemm: (b, n)\n<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/06_replication/raw/claude-opus-5/opus_rep06_A/script.py:43: RuntimeWarning: overflow encountered in matmul\n  D = X[s:e] @ Xt                       # BLAS dgemm: (b, n)\n<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/06_replication/raw/claude-opus-5/opus_rep06_A/script.py:43: RuntimeWarning: invalid value encountered in matmul\n  D = X[s:e] @ Xt                       # BLAS dgemm: (b, n)\n[check] 200-row subset: exact=1801729.361413 blocked=1801729.361413 rel_err=1.292e-16\n[info] ordered pairs (i,j): 2895556144.199326\n[info] unordered pairs i<j: 1447778072.099663\n[info] elapsed: 1.2s\n",
+    "total_dist": 2895556144.199326,
+    "correct": true,
+    "rel_error": 6.587158175583978e-16,
+    "within_128m_budget": false,
+    "within_10s_budget": true
+  },
+  "timestamp_utc": "2026-08-26T23:40:58Z"
+}

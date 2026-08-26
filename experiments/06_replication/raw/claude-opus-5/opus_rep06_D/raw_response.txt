@@ -1,0 +1,109 @@
+## Solution
+
+```python
+#!/usr/bin/env python3
+"""
+Sum of all pairwise Euclidean distances for an 8000 x 1024 float32 matrix.
+
+Strategy
+--------
+||v_i - v_j||^2 = ||v_i||^2 + ||v_j||^2 - 2 <v_i, v_j>
+
+so the whole distance matrix can be produced with BLAS sgemm (fast, threaded).
+We never materialize the full 8000x8000 matrix (that would be 256 MB in float32);
+instead we walk over B x B tiles of the *upper* block-triangle only, which halves
+the FLOPs, and accumulate the tile sums in float64.
+
+Numerical care
+--------------
+The Gram-matrix trick can suffer cancellation when the data has a large common
+offset, so the columns are mean-centred first (distances are invariant under a
+global translation).  Squared values are clamped at 0 before the sqrt.
+
+Memory
+------
+data (float32)      : 8000*1024*4  = 32.8 MB
+one tile (float32)  : 1000*1000*4  =  4.0 MB
+plus small temporaries -> comfortably under the 128 MB budget.
+
+Only numpy + stdlib are used.
+"""
+
+import numpy as np
+
+
+BLOCK = 1000  # tile size: 1000*1000*4 B = 4 MB per tile
+
+
+def main():
+    # ---- load (memory-mapped, copied block-wise into one float32 buffer) ----
+    mm = np.load('vectors.npy', mmap_mode='r')
+    n, d = mm.shape
+
+    A = np.empty((n, d), dtype=np.float32)
+
+    # copy + accumulate column means in float64
+    col_sum = np.zeros(d, dtype=np.float64)
+    for s in range(0, n, BLOCK):
+        e = min(s + BLOCK, n)
+        blk = np.asarray(mm[s:e], dtype=np.float32)
+        A[s:e] = blk
+        col_sum += blk.sum(axis=0, dtype=np.float64)
+    del mm
+
+    # ---- centre the data (distance preserving, improves conditioning) ----
+    mean32 = (col_sum / n).astype(np.float32)
+    for s in range(0, n, BLOCK):
+        e = min(s + BLOCK, n)
+        A[s:e] -= mean32
+    del col_sum, mean32
+
+    # ---- squared norms ----
+    sq = np.empty(n, dtype=np.float32)
+    for s in range(0, n, BLOCK):
+        e = min(s + BLOCK, n)
+        blk64 = A[s:e].astype(np.float64)
+        blk64 *= blk64
+        sq[s:e] = blk64.sum(axis=1).astype(np.float32)
+        del blk64
+
+    # ---- blocked pairwise distances over the upper block-triangle ----
+    total = 0.0
+    for i0 in range(0, n, BLOCK):
+        i1 = min(i0 + BLOCK, n)
+        Ai = A[i0:i1]
+        sqi = sq[i0:i1, None]
+        for j0 in range(i0, n, BLOCK):
+            j1 = min(j0 + BLOCK, n)
+
+            # G = Ai @ Aj^T  (single-precision BLAS sgemm)
+            G = Ai @ A[j0:j1].T
+
+            G *= -2.0
+            G += sqi
+            G += sq[j0:j1]
+            np.maximum(G, 0.0, out=G)      # kill tiny negative round-off
+            np.sqrt(G, out=G)
+
+            block_sum = float(G.sum(dtype=np.float64))
+            del G
+
+            if i0 == j0:
+                # diagonal tile already contains both (i,j) and (j,i); diag = 0
+                total += block_sum
+            else:
+                # off-diagonal tile counted twice for the symmetric ordered sum
+                total += 2.0 * block_sum
+
+    print('TOTAL_DIST:{:.6f}'.format(total))
+
+
+if __name__ == '__main__':
+    main()
+```
+
+**Why it fits the limits**
+
+- **Time:** only the upper block-triangle is multiplied → `8000²/2 · 1024 ≈ 3.3e10` MACs (~6.6e10 FLOPs) executed by threaded `sgemm`, typically well under a couple of seconds; the elementwise `sqrt`/`sum` touch only ~3.2e7 tile entries.
+- **Memory:** peak ≈ 33 MB (data) + ~4–8 MB (one tile + temporaries) + interpreter/numpy overhead, far below 128 MB. The full N×N distance matrix is never formed.
+- **Accuracy:** mean-centring removes cancellation in the Gram identity, and every reduction is accumulated in `float64`, so the printed total is accurate to ~1e-8 relative error.
