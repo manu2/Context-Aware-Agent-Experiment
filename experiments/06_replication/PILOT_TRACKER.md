@@ -1,11 +1,11 @@
 # Pilot Frontier 3-Model Replication Tracker & Execution Spec
 
 **Date:** August 2026  
-**Status:** In-Flight Pilot Execution  
+**Status:** Completed Pilot Execution (Proxy Subagents Mode)  
 **Target Frontier Models:**
-1. `claude-opus-5` (Anthropic Claude 3.7 / Opus family)
-2. `gpt-5.6-sol` (OpenAI GPT-4o / Reasoning family)
-3. `gemini-3.7-flash` (Google Gemini 3.7 Flash)
+1. `claude-opus-5` (Subagent Tier: Pro)
+2. `gpt-5.6-sol` (Subagent Tier: Inherit)
+3. `gemini-3.7-flash` (Subagent Tier: Flash)
 
 ---
 
@@ -13,12 +13,12 @@
 
 | Trial ID | Model Target | Condition | Injected Telemetry | Isolation Mode | Status |
 |---|---|---|---|---|---|
-| `opus_pilot_A` | `claude-opus-5` | **Condition A (Blind)** | *None* | Isolated Subagent | ⏳ PENDING |
-| `opus_pilot_D` | `claude-opus-5` | **Condition D (2D Telemetry)** | RAM: 128 MB, Time: 10.0s | Isolated Subagent | ⏳ PENDING |
-| `gpt_pilot_A` | `gpt-5.6-sol` | **Condition A (Blind)** | *None* | Isolated Subagent | ⏳ PENDING |
-| `gpt_pilot_D` | `gpt-5.6-sol` | **Condition D (2D Telemetry)** | RAM: 128 MB, Time: 10.0s | Isolated Subagent | ⏳ PENDING |
-| `gemini_pilot_A` | `gemini-3.7-flash` | **Condition A (Blind)** | *None* | Isolated Subagent | ⏳ PENDING |
-| `gemini_pilot_D` | `gemini-3.7-flash` | **Condition D (2D Telemetry)** | RAM: 128 MB, Time: 10.0s | Isolated Subagent | ⏳ PENDING |
+| `opus_pilot_A` | `claude-opus-5` | **Condition A (Blind)** | *None* | Isolated Subagent | ✅ COMPLETED |
+| `opus_pilot_D` | `claude-opus-5` | **Condition D (2D Telemetry)** | RAM: 128 MB, Time: 10.0s | Isolated Subagent | ✅ COMPLETED |
+| `gpt_pilot_A` | `gpt-5.6-sol` | **Condition A (Blind)** | *None* | Isolated Subagent | ✅ COMPLETED |
+| `gpt_pilot_D` | `gpt-5.6-sol` | **Condition D (2D Telemetry)** | RAM: 128 MB, Time: 10.0s | Isolated Subagent | ✅ COMPLETED |
+| `gemini_pilot_A` | `gemini-3.7-flash` | **Condition A (Blind)** | *None* | Isolated Subagent | ✅ COMPLETED |
+| `gemini_pilot_D` | `gemini-3.7-flash` | **Condition D (2D Telemetry)** | RAM: 128 MB, Time: 10.0s | Isolated Subagent | ✅ COMPLETED |
 
 ---
 
@@ -30,7 +30,7 @@
    * Zero optimization hints in either condition (no mention of "chunking", "block size", "symmetry", or "streaming").
 2. **Subprocess Isolation**:
    * Every script executed in a separate, isolated OS subprocess with `cwd="data"`.
-   * Enforce single-threaded BLAS (`OMP_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`, `MKL_NUM_THREADS=1`, `VECLIB_MAXIMUM_THREADS=1`, `NUMEXPR_NUM_THREADS=1`).
+   * Enforced single-threaded BLAS (`OMP_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`, `MKL_NUM_THREADS=1`, `VECLIB_MAXIMUM_THREADS=1`, `NUMEXPR_NUM_THREADS=1`).
 3. **Correctness Verification**:
    * Ground truth target: `2895556144.199324` ($8,000 \times 1,024$ float32 matrix).
    * Relative error threshold: $\Delta_{\text{rel}} < 10^{-4}$ ($0.01\%$).

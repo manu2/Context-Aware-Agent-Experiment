@@ -1,0 +1,9 @@
+{
+  "trial_id": "gpt_pilot_A",
+  "model_label": "gpt-5.6-sol",
+  "execution_mode": "isolated_subagent_proxy",
+  "subagent_conversation_id": "114fa403-d32f-4832-96da-aa413f6cabad",
+  "condition": "Condition A (Blind)",
+  "provenance_transcript": "/Users/manuagrawal/.gemini/antigravity/brain/114fa403-d32f-4832-96da-aa413f6cabad/.system_generated/logs/transcript.jsonl",
+  "timestamp_utc": "2026-08-26T07:24:43Z"
+}

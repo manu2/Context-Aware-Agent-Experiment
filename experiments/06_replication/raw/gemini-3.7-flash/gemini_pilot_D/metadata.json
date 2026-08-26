@@ -1,0 +1,9 @@
+{
+  "trial_id": "gemini_pilot_D",
+  "model_label": "gemini-3.7-flash",
+  "execution_mode": "isolated_subagent_proxy",
+  "subagent_conversation_id": "71fc3bad-f37e-4575-964e-72a5982b9bd9",
+  "condition": "Condition D (2D Telemetry)",
+  "provenance_transcript": "/Users/manuagrawal/.gemini/antigravity/brain/71fc3bad-f37e-4575-964e-72a5982b9bd9/.system_generated/logs/transcript.jsonl",
+  "timestamp_utc": "2026-08-26T07:24:43Z"
+}

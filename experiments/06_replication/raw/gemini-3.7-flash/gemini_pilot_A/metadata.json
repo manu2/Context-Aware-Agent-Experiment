@@ -1,0 +1,9 @@
+{
+  "trial_id": "gemini_pilot_A",
+  "model_label": "gemini-3.7-flash",
+  "execution_mode": "isolated_subagent_proxy",
+  "subagent_conversation_id": "8d0412c3-fd8f-42dc-970c-2a42df678ab8",
+  "condition": "Condition A (Blind)",
+  "provenance_transcript": "/Users/manuagrawal/.gemini/antigravity/brain/8d0412c3-fd8f-42dc-970c-2a42df678ab8/.system_generated/logs/transcript.jsonl",
+  "timestamp_utc": "2026-08-26T07:24:43Z"
+}
