@@ -11,11 +11,12 @@
 * **Measurement Mechanism:** Operating system resource usage via Python standard library:
   ```python
   import resource, sys
-  ru = resource.getrusage(resource.RUSAGE_SELF)
+  # Called in the profiler wrapper after its one generated-script child exits.
+  ru = resource.getrusage(resource.RUSAGE_CHILDREN)
   # Darwin (macOS) returns bytes; Linux returns kilobytes
   maxrss_mb = ru.ru_maxrss / (1024 * 1024) if sys.platform == 'darwin' else ru.ru_maxrss / 1024
   ```
-* **Sampling Context:** Measured at process exit in an isolated standalone script execution (`python script.py`), preventing runner overhead or leftover global references from polluting the heap.
+* **Sampling Context:** A short-lived profiler wrapper launches exactly one isolated generated-script child (`python script.py`) and reads `RUSAGE_CHILDREN` after that child exits. This reports the child process's peak resident memory rather than the runner's own heap.
 
 ### B. 128 MB Budget Threshold Compliance
 * **Definition:**

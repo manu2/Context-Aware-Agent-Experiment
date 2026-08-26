@@ -1,40 +1,26 @@
-# Pilot Frontier 3-Model Replication Tracker & Execution Spec
+# Exploratory Subagent Pilot Tracker
 
-**Date:** August 2026  
-**Status:** Completed Pilot Execution (Proxy Subagents Mode)  
-**Target Frontier Models:**
-1. `claude-opus-5` (Subagent Tier: Pro)
-2. `gpt-5.6-sol` (Subagent Tier: Inherit)
-3. `gemini-3.7-flash` (Subagent Tier: Flash)
+**Date:** August 2026
+
+**Status:** Completed exploratory proxy pilot
+**Scope:** Three isolated subagent configurations, each with one A/D pair. This tracker is separate from the frozen direct-API replication manifest and does not identify provider API models.
 
 ---
 
-## 1. Execution Matrix (3 Models x 2 Conditions = 6 Isolated Trials)
+## Execution Matrix
 
-| Trial ID | Model Target | Condition | Injected Telemetry | Isolation Mode | Status |
-|---|---|---|---|---|---|
-| `opus_pilot_A` | `claude-opus-5` | **Condition A (Blind)** | *None* | Isolated Subagent | ✅ COMPLETED |
-| `opus_pilot_D` | `claude-opus-5` | **Condition D (2D Telemetry)** | RAM: 128 MB, Time: 10.0s | Isolated Subagent | ✅ COMPLETED |
-| `gpt_pilot_A` | `gpt-5.6-sol` | **Condition A (Blind)** | *None* | Isolated Subagent | ✅ COMPLETED |
-| `gpt_pilot_D` | `gpt-5.6-sol` | **Condition D (2D Telemetry)** | RAM: 128 MB, Time: 10.0s | Isolated Subagent | ✅ COMPLETED |
-| `gemini_pilot_A` | `gemini-3.7-flash` | **Condition A (Blind)** | *None* | Isolated Subagent | ✅ COMPLETED |
-| `gemini_pilot_D` | `gemini-3.7-flash` | **Condition D (2D Telemetry)** | RAM: 128 MB, Time: 10.0s | Isolated Subagent | ✅ COMPLETED |
+| Trial ID | Configuration | Condition | Artifact bundle | Status |
+|---|---|---|---|---|
+| `gpt_pilot_A` | Configuration 1 | A (Blind) | [bundle](raw/gpt-5.6-sol/gpt_pilot_A/) | Complete |
+| `gpt_pilot_D` | Configuration 1 | D (Telemetry) | [bundle](raw/gpt-5.6-sol/gpt_pilot_D/) | Complete |
+| `gemini_pilot_A` | Configuration 2 | A (Blind) | [bundle](raw/gemini-3.7-flash/gemini_pilot_A/) | Complete |
+| `gemini_pilot_D` | Configuration 2 | D (Telemetry) | [bundle](raw/gemini-3.7-flash/gemini_pilot_D/) | Complete |
+| `opus_pilot_A` | Configuration 3 | A (Blind) | [bundle](raw/claude-opus-5/opus_pilot_A/) | Complete |
+| `opus_pilot_D` | Configuration 3 | D (Telemetry) | [bundle](raw/claude-opus-5/opus_pilot_D/) | Complete |
 
----
+## Artifact Rules
 
-## 2. Strict Experimental Rules & Safety Invariants
-
-1. **Prompt Parity Assertion**:
-   * Condition A prompt SHA-256: `9eb9236ca49a72a98cf743051f635dcaf09091a0f77f71fa386adae71bf694f2`
-   * Condition D prompt SHA-256: `e425c0445d4b0a432ef4a5adeb90b4bb885c69de9a2f1d0b809523af756470b4`
-   * Zero optimization hints in either condition (no mention of "chunking", "block size", "symmetry", or "streaming").
-2. **Subprocess Isolation**:
-   * Every script executed in a separate, isolated OS subprocess with `cwd="data"`.
-   * Enforced single-threaded BLAS (`OMP_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`, `MKL_NUM_THREADS=1`, `VECLIB_MAXIMUM_THREADS=1`, `NUMEXPR_NUM_THREADS=1`).
-3. **Correctness Verification**:
-   * Ground truth target: `2895556144.199324` ($8,000 \times 1,024$ float32 matrix).
-   * Relative error threshold: $\Delta_{\text{rel}} < 10^{-4}$ ($0.01\%$).
-4. **Safety Watchdog Ceiling**:
-   * 60.0s hard watchdog kill.
-5. **Manuscript Invariant**:
-   * `paper_draft.md` remains strictly unmodified until full review consensus.
+- Each bundle retains `prompt.txt`, transcript-derived `raw_response.txt`, extracted `script.py`, `metadata.json`, and `profile.json`.
+- `metadata.json` records the SHA-256 of its actual `prompt.txt`. The proxy prompts include wrapper metadata and therefore must not be compared to the frozen direct-API prompt hashes in `RUN_MANIFEST.json`.
+- `profile.json` is a post-generation, standalone re-profile of the archived script using `run_standalone_script_profile`; it records the exact table metrics, stdout, stderr, exit status, correctness, and budget flags.
+- The pilot is exploratory proxy evidence only and is not part of the paper's primary API-model evidence.

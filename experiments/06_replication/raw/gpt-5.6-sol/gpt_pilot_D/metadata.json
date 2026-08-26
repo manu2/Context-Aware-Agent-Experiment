@@ -4,6 +4,8 @@
   "execution_mode": "isolated_subagent_proxy",
   "subagent_conversation_id": "8e6c79d2-0f56-43b2-86fc-892b056e209c",
   "condition": "Condition D (2D Telemetry)",
+  "prompt_sha256": "2d7fc090c4f788c6d3deedff9315e6377a457bcc05e630bc9ae44becbeb7f5b7",
+  "profile_artifact": "profile.json",
   "provenance_transcript": "/Users/manuagrawal/.gemini/antigravity/brain/8e6c79d2-0f56-43b2-86fc-892b056e209c/.system_generated/logs/transcript.jsonl",
   "timestamp_utc": "2026-08-26T07:24:43Z"
 }

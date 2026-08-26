@@ -4,6 +4,8 @@
   "execution_mode": "isolated_subagent_proxy",
   "subagent_conversation_id": "5dc20033-a601-463b-a923-d0cbd0e33ac1",
   "condition": "Condition A (Blind)",
+  "prompt_sha256": "a1bb6ca59646d1d349b708697e927994fb2e4af284bc8f4c304314562a2c4066",
+  "profile_artifact": "profile.json",
   "provenance_transcript": "/Users/manuagrawal/.gemini/antigravity/brain/5dc20033-a601-463b-a923-d0cbd0e33ac1/.system_generated/logs/transcript.jsonl",
   "timestamp_utc": "2026-08-26T07:24:43Z"
 }
