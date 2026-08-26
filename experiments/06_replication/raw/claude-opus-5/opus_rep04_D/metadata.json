@@ -1,0 +1,43 @@
+{
+  "trial_id": "opus_rep04_D",
+  "model_label": "claude-opus-5",
+  "pair_id": "opus_pair04",
+  "condition": "D_2DTelemetry",
+  "model_config": {
+    "research_label": "claude-opus-5",
+    "api_model_id": "claude-opus-5",
+    "provider": "anthropic",
+    "endpoint": "https://api.anthropic.com/v1/messages",
+    "max_tokens": 8192,
+    "sampling_policy": "provider_default_required: claude-opus-5 rejects explicitly supplied temperature and top_p"
+  },
+  "generation_time_sec": 59.207804542000005,
+  "environment": {
+    "platform": "macOS-15.5-arm64-arm-64bit",
+    "python_version": "3.9.6",
+    "numpy_version": "2.0.2",
+    "machine": "arm64",
+    "processor": "arm",
+    "thread_pinning": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    }
+  },
+  "profile": {
+    "wall_sec": 0.401103625,
+    "maxrss_mb": 105.5625,
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout": "TOTAL_DIST:2895556247.423121\n",
+    "stderr": "<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/06_replication/raw/claude-opus-5/opus_rep04_D/script.py:46: RuntimeWarning: divide by zero encountered in matmul\n  G = X[s:e] @ X[s:].T                   # float32, <= 4 MB\n<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/06_replication/raw/claude-opus-5/opus_rep04_D/script.py:46: RuntimeWarning: overflow encountered in matmul\n  G = X[s:e] @ X[s:].T                   # float32, <= 4 MB\n<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/06_replication/raw/claude-opus-5/opus_rep04_D/script.py:46: RuntimeWarning: invalid value encountered in matmul\n  G = X[s:e] @ X[s:].T                   # float32, <= 4 MB\n",
+    "total_dist": 2895556247.423121,
+    "correct": true,
+    "rel_error": 3.5649040013011296e-08,
+    "within_128m_budget": true,
+    "within_10s_budget": true
+  },
+  "timestamp_utc": "2026-08-26T23:37:06Z"
+}
