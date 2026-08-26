@@ -13,7 +13,7 @@ foil_data/*.csv
 *.npy
 *.txt
 !requirements.txt
-!experiments/06_replication/raw/**/*.txt
+!experiments/**/*.txt
 
 # Local Agent custom skills and rules
 .agents/
