@@ -2,7 +2,7 @@
 """
 Canonical Replication Runner & Preflight Harness for Substrate-Aware Code Generation.
 
-Implements the end-to-end execution pipeline for the 30-trial replication study:
+Implements the end-to-end execution pipeline for the 32-trial replication study:
 1. Preflight validation of manifest, dataset hash, prompt hashes, and environment assertions.
 2. Live querying of Anthropic, OpenAI, and Google Gemini API endpoints.
 3. Extraction and archiving of raw responses, exact generated scripts, and metadata.json.
@@ -17,7 +17,7 @@ Usage:
   # Execute a specific trial:
   python3 experiments/06_replication/run_replication.py --trial-id opus_rep01_A
 
-  # Execute all 30 manifest trials:
+  # Execute all 32 manifest trials:
   python3 experiments/06_replication/run_replication.py --all
 """
 
@@ -380,9 +380,12 @@ def execute_trial(execution_meta: Dict[str, Any], model_config: Dict[str, Any]) 
     trial_dir = os.path.join(RAW_OUTPUT_DIR, model_name, trial_id)
 
     # A trial ID is a provenance identifier, not a mutable output location.
-    # Refuse before any API request so a retry cannot silently replace an
-    # archived response, script, profile, or timestamp.
-    if os.path.exists(trial_dir):
+    # Atomically reserve it before any API request so concurrent launches cannot
+    # silently replace an archived response, script, profile, or timestamp.
+    os.makedirs(os.path.dirname(trial_dir), exist_ok=True)
+    try:
+        os.mkdir(trial_dir)
+    except FileExistsError:
         raise FileExistsError(
             f"Refusing to overwrite existing trial artifact directory: {trial_dir}. "
             "Use an unused predeclared trial ID."
@@ -392,16 +395,35 @@ def execute_trial(execution_meta: Dict[str, Any], model_config: Dict[str, Any]) 
 
     # 1. Query model
     t_gen_0 = time.perf_counter()
-    raw_response = query_model(model_config, prompt)
+    try:
+        raw_response = query_model(model_config, prompt)
+    except Exception as e:
+        # The reservation remains as an auditable record of a failed attempt;
+        # never delete it or reuse its trial ID.
+        err_msg = str(e)
+        for k in [os.environ.get("OPENAI_API_KEY"), os.environ.get("ANTHROPIC_API_KEY"), os.environ.get("GEMINI_API_KEY")]:
+            if k and k in err_msg:
+                err_msg = err_msg.replace(k, "[REDACTED_API_KEY]")
+        failure_metadata = {
+            "trial_id": trial_id,
+            "model_label": model_name,
+            "pair_id": pair_id,
+            "condition": condition,
+            "model_config": model_config,
+            "status": "generation_failed_before_response",
+            "error": err_msg,
+            "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+        }
+        with open(os.path.join(trial_dir, "failure_metadata.json"), "w", encoding="utf-8") as f:
+            json.dump(failure_metadata, f, indent=2)
+        raise
     t_gen_1 = time.perf_counter()
     gen_time_sec = t_gen_1 - t_gen_0
 
     # 2. Extract code
     code = extract_python_code(raw_response)
 
-    # 3. Create run directory
-    os.makedirs(trial_dir, exist_ok=True)
-
+    # 3. Persist generation into its atomically reserved directory
     raw_response_path = os.path.join(trial_dir, "raw_response.txt")
     script_path = os.path.join(trial_dir, "script.py")
     metadata_path = os.path.join(trial_dir, "metadata.json")
@@ -450,9 +472,11 @@ def run_preflight_check() -> bool:
         manifest = json.load(f)
 
     print(f"[1] Manifest Integrity: {manifest.get('total_executions')} trials registered.")
-    assert len(manifest["executions"]) == 30, "Manifest must contain exactly 30 trials"
-    assert len(set(e["trial_id"] for e in manifest["executions"])) == 30, "Trial IDs must be unique"
-    print("  ✅ 30 unique trial IDs confirmed (15 matched pairs).")
+    assert manifest["total_executions"] == 32, "Protocol v1.2 must declare exactly 32 trials"
+    assert len(manifest["executions"]) == manifest["total_executions"], "Manifest execution count mismatch"
+    assert len(set(e["trial_id"] for e in manifest["executions"])) == 32, "Trial IDs must be unique"
+    assert len(set(e["pair_id"] for e in manifest["executions"])) == 16, "Manifest must contain 16 matched pairs"
+    print("  ✅ 32 unique trial IDs confirmed (16 matched pairs).")
 
     # 2. Check Prompt Hashes
     calc_prompt_a_hash = compute_sha256(PROMPT_A.encode("utf-8"))

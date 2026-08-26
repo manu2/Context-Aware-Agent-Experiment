@@ -13,7 +13,9 @@ first response means `opus_rep01_A` and its paired `opus_rep01_D` **must not be 
 for pilot summaries, effect estimates, or manuscript evidence**. This is not a model
 or benchmark outcome.
 
-The replacement is the unused, predeclared `opus_rep02_A` / `opus_rep02_D` pair. The
-runner now checks for an occupied trial directory before issuing an API request and
-fails closed rather than overwriting an artifact. No other direct-API pilot ID was
-invoked more than once.
+`opus_rep02_A` / `opus_rep02_D` is a clean pilot pair, but it does not replace the
+lost planned repetition. Protocol v1.2 adds `opus_rep06_A` / `opus_rep06_D` as the
+documented replacement pair, preserving the target of five clean fresh Claude pairs.
+The runner now atomically reserves a trial directory before issuing an API request
+and fails closed rather than overwriting an artifact. No other direct-API pilot ID
+was invoked more than once.

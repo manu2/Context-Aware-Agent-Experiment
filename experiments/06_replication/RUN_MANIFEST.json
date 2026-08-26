@@ -1,7 +1,17 @@
 {
-  "protocol_version": "1.1-frozen",
+  "protocol_version": "1.2-frozen",
   "generated_at": "2026-08-26T04:58:00Z",
-  "total_executions": 30,
+  "total_executions": 32,
+  "protocol_amendments": [
+    {
+      "version": "1.1-frozen",
+      "reason": "Claude Opus 5 rejects explicitly supplied non-default sampling controls; provider-default sampling is required for both members of each Claude pair."
+    },
+    {
+      "version": "1.2-frozen",
+      "reason": "Adds opus_rep06_A/D as the documented replacement for excluded opus_rep01_A/D after a duplicate launch overwrote the first blind response. The task, prompts, dataset, model configuration, environment, and measurements are unchanged."
+    }
+  ],
   "dataset_sha256": "199a60e06bcda58ec741348972ad881f50d5fa67b2f9fb6ea09f37c514ec6085",
   "prompt_a_sha256": "9eb9236ca49a72a98cf743051f635dcaf09091a0f77f71fa386adae71bf694f2",
   "prompt_d_sha256": "e425c0445d4b0a432ef4a5adeb90b4bb885c69de9a2f1d0b809523af756470b4",
@@ -213,6 +223,18 @@
       "model": "gemini-3.7-flash",
       "condition": "D_2DTelemetry",
       "pair_id": "gemini_pair05"
+    },
+    {
+      "trial_id": "opus_rep06_A",
+      "model": "claude-opus-5",
+      "condition": "A_Blind",
+      "pair_id": "opus_pair06"
+    },
+    {
+      "trial_id": "opus_rep06_D",
+      "model": "claude-opus-5",
+      "condition": "D_2DTelemetry",
+      "pair_id": "opus_pair06"
     }
   ]
 }
