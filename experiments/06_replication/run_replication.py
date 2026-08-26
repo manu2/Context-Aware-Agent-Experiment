@@ -46,6 +46,23 @@ MANIFEST_PATH = "experiments/06_replication/RUN_MANIFEST.json"
 DATASET_PATH = "data/vectors.npy"
 RAW_OUTPUT_DIR = "experiments/06_replication/raw"
 
+# Auto-load .env file if present in workspace root
+def load_env_file(env_path: str = ".env"):
+    if os.path.exists(env_path):
+        with open(env_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#") or "=" not in line:
+                    continue
+                k, v = line.split("=", 1)
+                k = k.strip()
+                v = v.strip().strip("'\"")
+                if k and k not in os.environ:
+                    os.environ[k] = v
+
+load_env_file(".env")
+
+
 FROZEN_PYTHON_VERSION = "3.9.6"
 FROZEN_NUMPY_VERSION = "2.0.2"
 FROZEN_PLATFORM_PREFIX = "macOS"
