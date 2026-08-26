@@ -191,11 +191,11 @@ We have presented an empirical investigation into Substrate-Aware Code Generatio
 ---
 
 ## Artifact Index & Reproducibility
-* **Benchmark Harnesses**: [`benchmarks/`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/benchmarks/)
-* **Canonical Paired MaxRSS Results**: [`experiments/05_paired_statistical_trials/canonical_paired_results.json`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/05_paired_statistical_trials/canonical_paired_results.json)
-* **MaxRSS Profiling Script**: [`experiments/05_paired_statistical_trials/profile_canonical_maxrss.py`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/05_paired_statistical_trials/profile_canonical_maxrss.py)
-* **Raw Trial Scripts & Logs**: [`experiments/05_paired_statistical_trials/`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/05_paired_statistical_trials/)
-* **Multi-Model Ablation Logs**: [`experiments/04_frontier_model_benchmark/`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/04_frontier_model_benchmark/)
+* **Benchmark Harnesses**: [`benchmarks/`](benchmarks/)
+* **Canonical Paired MaxRSS Results**: [`experiments/05_paired_statistical_trials/canonical_paired_results.json`](experiments/05_paired_statistical_trials/canonical_paired_results.json)
+* **MaxRSS Profiling Script**: [`experiments/05_paired_statistical_trials/profile_canonical_maxrss.py`](experiments/05_paired_statistical_trials/profile_canonical_maxrss.py)
+* **Raw Trial Scripts & Logs**: [`experiments/05_paired_statistical_trials/`](experiments/05_paired_statistical_trials/)
+* **Multi-Model Ablation Logs**: [`experiments/04_frontier_model_benchmark/`](experiments/04_frontier_model_benchmark/)
 
 ---
 
