@@ -257,6 +257,7 @@ def query_model(model_config: Dict[str, Any], prompt: str) -> str:
             "model": api_model_id,
             "max_tokens": model_config.get("max_tokens", 8192),
             "temperature": temperature,
+            "top_p": model_config.get("top_p", 1.0),
             "messages": [{"role": "user", "content": prompt}]
         }
         req = urllib.request.Request(
@@ -280,7 +281,8 @@ def query_model(model_config: Dict[str, Any], prompt: str) -> str:
         req_data = {
             "model": api_model_id,
             "messages": [{"role": "user", "content": prompt}],
-            "temperature": temperature
+            "temperature": temperature,
+            "top_p": model_config.get("top_p", 1.0)
         }
         if "max_completion_tokens" in model_config:
             req_data["max_completion_tokens"] = model_config["max_completion_tokens"]
@@ -295,8 +297,10 @@ def query_model(model_config: Dict[str, Any], prompt: str) -> str:
 
     elif provider == "google":
         api_key = os.environ.get("GEMINI_API_KEY")
-        token = os.environ.get("VERTEX_TOKEN")
-        
+        if not api_key:
+            raise RuntimeError("Missing GEMINI_API_KEY for Google AI Studio API")
+
+        url = f"{endpoint}?key={api_key}"
         req_data = {
             "contents": [{"parts": [{"text": prompt}]}],
             "generationConfig": {
@@ -305,17 +309,7 @@ def query_model(model_config: Dict[str, Any], prompt: str) -> str:
                 "topP": model_config.get("top_p", 0.95)
             }
         }
-        
-        if api_key:
-            url = f"{endpoint}?key={api_key}"
-            headers = {"Content-Type": "application/json"}
-        elif token:
-            url = endpoint
-            headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
-        else:
-            raise RuntimeError("Missing GEMINI_API_KEY or VERTEX_TOKEN for Google Gemini")
-
-        req = urllib.request.Request(url, headers=headers, data=json.dumps(req_data).encode("utf-8"))
+        req = urllib.request.Request(url, headers={"Content-Type": "application/json"}, data=json.dumps(req_data).encode("utf-8"))
         with urllib.request.urlopen(req, timeout=120) as resp:
             data = json.loads(resp.read().decode("utf-8"))
             return data["candidates"][0]["content"]["parts"][0]["text"]
@@ -442,7 +436,7 @@ print("TOTAL_DIST:2895556144.199324")
     assert test_res["maxrss_mb"] > 0, "MaxRSS measurement failed"
     print(f"  ✅ Subprocess Profiler: MaxRSS={test_res['maxrss_mb']:.2f} MB, Correctness={test_res['correct']}, Exit={test_res['exit_code']}")
 
-    # 6. Check Failure Paths (Timeout & Stderr capturing)
+    # 6. Check Failure Paths (Exit code, Stderr, and Timeout)
     test_err_script = """
 import sys
 sys.stderr.write("TEST_STDERR_MESSAGE\\n")
@@ -457,6 +451,27 @@ sys.exit(1)
     assert "TEST_STDERR_MESSAGE" in err_res["stderr"], "Stderr not captured"
     print(f"  ✅ Error & Stderr Handling Verified (Exit={err_res['exit_code']}, Stderr captured).")
 
+    test_timeout_script = """
+import time
+time.sleep(2.0)
+"""
+    scratch_timeout_test = "scratch/test_timeout_runner.py"
+    with open(scratch_timeout_test, "w", encoding="utf-8") as f:
+        f.write(test_timeout_script)
+
+    # Test short watchdog timeout
+    global SANDBOX_WATCHDOG_TIMEOUT_SEC
+    orig_timeout = SANDBOX_WATCHDOG_TIMEOUT_SEC
+    SANDBOX_WATCHDOG_TIMEOUT_SEC = 0.5
+    try:
+        timeout_res = run_standalone_script_profile(scratch_timeout_test)
+        assert timeout_res["timed_out"] is True, "Timeout status not recorded"
+        assert timeout_res["exit_code"] == -9, "Timeout exit code not -9"
+        assert "WATCHDOG_TIMEOUT" in timeout_res["stderr"], "Watchdog stderr message missing"
+        print(f"  ✅ Timeout Failure Path Verified (timed_out=True, exit=-9, notice captured).")
+    finally:
+        SANDBOX_WATCHDOG_TIMEOUT_SEC = orig_timeout
+
     print("\n" + "=" * 80)
     print("  PREFLIGHT AUDIT COMPLETE: ALL ASSERTIONS PASSED")
     print("=" * 80)
@@ -470,9 +485,15 @@ def main():
     parser.add_argument("--all", action="store_true", help="Execute all manifest trials")
     args = parser.parse_args()
 
+    # Preflight MUST execute and pass before any live run or inspection
+    if not run_preflight_check():
+        print("❌ Preflight check failed. Aborting all operations.")
+        sys.exit(1)
+
     if args.preflight or len(sys.argv) == 1:
-        success = run_preflight_check()
-        sys.exit(0 if success else 1)
+        print("\n[+] System is fully verified.")
+        print("READY FOR EXECUTION — AWAITING HUMAN APPROVAL")
+        sys.exit(0)
 
     with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
         manifest = json.load(f)

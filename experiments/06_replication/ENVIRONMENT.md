@@ -21,8 +21,8 @@
 
 * **Working Directory:** Isolated subdirectory with local copy/symlink of `vectors.npy`.
 * **Execution Sandbox:** Clean temporary subprocess executing isolated script `python script.py`.
-* **Declared Prompt Execution Quota:** 10.0 seconds (tested in Condition D).
-* **Sandbox Safety Watchdog Ceiling:** 60.0 seconds (hard process kill to prevent infinite hangs).
+* **Declared Prompt Execution Quota:** 10.0 seconds (disclosed in Condition D prompt and scored post-hoc via `wall_sec <= 10.0s`; not actively enforced by OS kernel during execution).
+* **Sandbox Safety Watchdog Ceiling:** 60.0 seconds (hard process termination to prevent infinite loops or hangs).
 
 ---
 
