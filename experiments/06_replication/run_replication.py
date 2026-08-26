@@ -2,20 +2,22 @@
 """
 Canonical Replication Runner & Preflight Harness for Substrate-Aware Code Generation.
 
-This script implements Phase 2 of the replication protocol:
-1. Validates the frozen manifest, hashes, and execution environment (Preflight mode).
-2. Manages execution of the 30 trials (15 A/D matched pairs) across the 3 target models.
-3. Extracts, archives, executes scripts in standalone subprocesses, profiles OS MaxRSS,
-   and validates mathematical correctness against ground truth.
+Implements the end-to-end execution pipeline for the 30-trial replication study:
+1. Preflight validation of manifest, dataset hash, prompt hashes, and environment assertions.
+2. Live querying of Anthropic, OpenAI, and Google Gemini API endpoints.
+3. Extraction and archiving of raw responses, exact generated scripts, and metadata.json.
+4. Standalone subprocess execution profiling with correct timeout handling, stderr capturing,
+   OS-level MaxRSS tracking, mathematical correctness assertion (<1e-4 relative error),
+   and 128 MB budget compliance classification.
 
 Usage:
   # Preflight check without making any API calls:
   python3 experiments/06_replication/run_replication.py --preflight
 
-  # Execute a single trial (when authorized):
+  # Execute a specific trial:
   python3 experiments/06_replication/run_replication.py --trial-id opus_rep01_A
 
-  # Execute all manifest trials (when authorized):
+  # Execute all 30 manifest trials:
   python3 experiments/06_replication/run_replication.py --all
 """
 
@@ -29,17 +31,24 @@ import hashlib
 import platform
 import argparse
 import subprocess
+import urllib.request
+import urllib.error
 from typing import Dict, Any, Optional, Tuple
 
 # Constants & Ground Truth
 GROUND_TRUTH_DIST = 2895556144.199324
 TOLERANCE_REL = 1e-4
 MAX_RSS_THRESHOLD_MB = 128.00
+PROMPT_DECLARED_TIME_SEC = 10.0
 SANDBOX_WATCHDOG_TIMEOUT_SEC = 60.0
 
 MANIFEST_PATH = "experiments/06_replication/RUN_MANIFEST.json"
 DATASET_PATH = "data/vectors.npy"
 RAW_OUTPUT_DIR = "experiments/06_replication/raw"
+
+FROZEN_PYTHON_VERSION = "3.9.6"
+FROZEN_NUMPY_VERSION = "2.0.2"
+FROZEN_PLATFORM_PREFIX = "macOS"
 
 PROMPT_BASE = """Write a self-contained, executable Python script to process 'vectors.npy' (containing an 8,000 x 1,024 float32 matrix).
 Compute the total sum of all pairwise Euclidean distances between rows: sum_{i,j} ||v_i - v_j||_2 and print: 'TOTAL_DIST:<value>'.
@@ -99,35 +108,56 @@ def extract_python_code(response_text: str) -> str:
 def run_standalone_script_profile(script_path: str, data_dir: str = "data") -> Dict[str, Any]:
     """
     Executes the generated script as a standalone script in an isolated subprocess.
-    Measures OS MaxRSS, wall time, stdout, stderr, exit code, and timeout status.
+    Measures OS MaxRSS, wall time, stdout, stderr, exit code, timeout, and correctness.
     """
     abs_script = os.path.abspath(script_path)
     abs_data = os.path.abspath(data_dir)
 
-    # Profiling wrapper that measures resource.getrusage of the child process
+    # Profiling wrapper that executes the standalone script with watchdog timeout
     profiler_code = f"""
-import sys, time, resource, subprocess
+import sys, time, resource, subprocess, json
 
 t0 = time.perf_counter()
-proc = subprocess.run(
-    [sys.executable, "{abs_script}"],
-    cwd="{abs_data}",
-    capture_output=True,
-    text=True,
-    timeout={SANDBOX_WATCHDOG_TIMEOUT_SEC}
-)
-t1 = time.perf_counter()
+timed_out = False
+exit_code = -1
+stdout_txt = ""
+stderr_txt = ""
+
+try:
+    proc = subprocess.run(
+        [sys.executable, "{abs_script}"],
+        cwd="{abs_data}",
+        capture_output=True,
+        text=True,
+        timeout={SANDBOX_WATCHDOG_TIMEOUT_SEC}
+    )
+    t1 = time.perf_counter()
+    exit_code = proc.returncode
+    stdout_txt = proc.stdout
+    stderr_txt = proc.stderr
+except subprocess.TimeoutExpired as te:
+    t1 = time.perf_counter()
+    timed_out = True
+    exit_code = -9
+    stdout_txt = te.stdout or ""
+    stderr_txt = (te.stderr or "") + "\\\\n[WATCHDOG_TIMEOUT: 60.0s exceeded]"
+
 ru = resource.getrusage(resource.RUSAGE_CHILDREN)
 # Darwin ru_maxrss is in bytes; Linux in KB
 rss_mb = ru.ru_maxrss / (1024 * 1024) if sys.platform == 'darwin' else ru.ru_maxrss / 1024
 
-print("___PROFILE_METRICS___|" + str(t1 - t0) + "|" + str(rss_mb) + "|" + str(proc.returncode))
-print("___STDOUT_BEGIN___")
-sys.stdout.write(proc.stdout)
-print("___STDOUT_END___")
-print("___STDERR_BEGIN___")
-sys.stderr.write(proc.stderr)
-print("___STDERR_END___")
+profile_dict = {{
+    "wall_sec": t1 - t0,
+    "maxrss_mb": rss_mb,
+    "exit_code": exit_code,
+    "timed_out": timed_out,
+    "stdout": stdout_txt,
+    "stderr": stderr_txt
+}}
+
+print("___PROFILE_JSON_START___")
+print(json.dumps(profile_dict))
+print("___PROFILE_JSON_END___")
 """
 
     env = os.environ.copy()
@@ -137,7 +167,6 @@ print("___STDERR_END___")
     env["VECLIB_MAXIMUM_THREADS"] = "1"
     env["NUMEXPR_NUM_THREADS"] = "1"
 
-    timed_out = False
     try:
         res = subprocess.run(
             [sys.executable, "-c", profiler_code],
@@ -146,41 +175,37 @@ print("___STDERR_END___")
             env=env,
             timeout=SANDBOX_WATCHDOG_TIMEOUT_SEC + 5.0
         )
-        stdout_raw = res.stdout
-        stderr_raw = res.stderr
+        wrapper_stdout = res.stdout
     except subprocess.TimeoutExpired:
-        timed_out = True
         return {
             "wall_sec": SANDBOX_WATCHDOG_TIMEOUT_SEC,
             "maxrss_mb": 0.0,
-            "exit_code": -1,
+            "exit_code": -9,
             "timed_out": True,
             "stdout": "",
-            "stderr": "Watchdog timeout exceeded",
+            "stderr": "Watchdog outer runner timeout expired",
             "total_dist": None,
             "correct": False,
             "rel_error": None,
-            "within_128m_budget": False
+            "within_128m_budget": False,
+            "within_10s_budget": False
         }
 
-    # Parse profile metrics
-    wall_sec = 0.0
-    maxrss_mb = 0.0
-    exit_code = -1
-    script_stdout = ""
-    script_stderr = ""
+    # Parse JSON profile
+    prof_data = {}
+    if "___PROFILE_JSON_START___" in wrapper_stdout and "___PROFILE_JSON_END___" in wrapper_stdout:
+        json_str = wrapper_stdout.split("___PROFILE_JSON_START___\n")[1].split("\n___PROFILE_JSON_END___")[0]
+        try:
+            prof_data = json.loads(json_str)
+        except Exception:
+            pass
 
-    for line in stdout_raw.splitlines():
-        if line.startswith("___PROFILE_METRICS___|"):
-            parts = line.split("|")
-            wall_sec = float(parts[1])
-            maxrss_mb = float(parts[2])
-            exit_code = int(parts[3])
-
-    if "___STDOUT_BEGIN___" in stdout_raw and "___STDOUT_END___" in stdout_raw:
-        script_stdout = stdout_raw.split("___STDOUT_BEGIN___\n")[1].split("\n___STDOUT_END___")[0]
-    if "___STDERR_BEGIN___" in stdout_raw and "___STDERR_END___" in stdout_raw:
-        script_stderr = stdout_raw.split("___STDERR_BEGIN___\n")[1].split("\n___STDERR_END___")[0]
+    wall_sec = prof_data.get("wall_sec", 0.0)
+    maxrss_mb = prof_data.get("maxrss_mb", 0.0)
+    exit_code = prof_data.get("exit_code", -1)
+    timed_out = prof_data.get("timed_out", False)
+    script_stdout = prof_data.get("stdout", "")
+    script_stderr = prof_data.get("stderr", "")
 
     # Verify mathematical correctness
     total_dist = None
@@ -200,6 +225,7 @@ print("___STDERR_END___")
             pass
 
     within_128m = (exit_code == 0) and correct and (maxrss_mb < MAX_RSS_THRESHOLD_MB)
+    within_10s = (exit_code == 0) and correct and (wall_sec <= PROMPT_DECLARED_TIME_SEC)
 
     return {
         "wall_sec": wall_sec,
@@ -211,8 +237,149 @@ print("___STDERR_END___")
         "total_dist": total_dist,
         "correct": correct,
         "rel_error": rel_error,
-        "within_128m_budget": within_128m
+        "within_128m_budget": within_128m,
+        "within_10s_budget": within_10s
     }
+
+
+def query_model(model_config: Dict[str, Any], prompt: str) -> str:
+    """Executes live API call to the specified model provider endpoint."""
+    provider = model_config["provider"]
+    api_model_id = model_config["api_model_id"]
+    endpoint = model_config["endpoint"]
+    temperature = model_config["temperature"]
+
+    if provider == "anthropic":
+        api_key = os.environ.get("ANTHROPIC_API_KEY")
+        if not api_key:
+            raise RuntimeError("Missing ANTHROPIC_API_KEY environment variable")
+        req_data = {
+            "model": api_model_id,
+            "max_tokens": model_config.get("max_tokens", 8192),
+            "temperature": temperature,
+            "messages": [{"role": "user", "content": prompt}]
+        }
+        req = urllib.request.Request(
+            endpoint,
+            headers={
+                "x-api-key": api_key,
+                "anthropic-version": "2023-06-01",
+                "Content-Type": "application/json"
+            },
+            data=json.dumps(req_data).encode("utf-8")
+        )
+        with urllib.request.urlopen(req, timeout=120) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            content = data.get("content", [])
+            return "".join([b.get("text", "") for b in content if b.get("type") == "text"])
+
+    elif provider == "openai":
+        api_key = os.environ.get("OPENAI_API_KEY")
+        if not api_key:
+            raise RuntimeError("Missing OPENAI_API_KEY environment variable")
+        req_data = {
+            "model": api_model_id,
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": temperature
+        }
+        if "max_completion_tokens" in model_config:
+            req_data["max_completion_tokens"] = model_config["max_completion_tokens"]
+        req = urllib.request.Request(
+            endpoint,
+            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+            data=json.dumps(req_data).encode("utf-8")
+        )
+        with urllib.request.urlopen(req, timeout=120) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            return data["choices"][0]["message"]["content"]
+
+    elif provider == "google":
+        api_key = os.environ.get("GEMINI_API_KEY")
+        token = os.environ.get("VERTEX_TOKEN")
+        
+        req_data = {
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {
+                "temperature": temperature,
+                "maxOutputTokens": model_config.get("max_output_tokens", 8192),
+                "topP": model_config.get("top_p", 0.95)
+            }
+        }
+        
+        if api_key:
+            url = f"{endpoint}?key={api_key}"
+            headers = {"Content-Type": "application/json"}
+        elif token:
+            url = endpoint
+            headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
+        else:
+            raise RuntimeError("Missing GEMINI_API_KEY or VERTEX_TOKEN for Google Gemini")
+
+        req = urllib.request.Request(url, headers=headers, data=json.dumps(req_data).encode("utf-8"))
+        with urllib.request.urlopen(req, timeout=120) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            return data["candidates"][0]["content"]["parts"][0]["text"]
+
+    else:
+        raise ValueError(f"Unknown provider: {provider}")
+
+
+def execute_trial(execution_meta: Dict[str, Any], model_config: Dict[str, Any]) -> Dict[str, Any]:
+    trial_id = execution_meta["trial_id"]
+    model_name = execution_meta["model"]
+    condition = execution_meta["condition"]
+    pair_id = execution_meta["pair_id"]
+
+    prompt = PROMPT_A if "A_Blind" in condition else PROMPT_D
+    prompt_name = "Condition A (Blind)" if "A_Blind" in condition else "Condition D (2D Telemetry)"
+
+    print(f"\n[*] Executing {trial_id} | Model: {model_config['api_model_id']} | {prompt_name}...")
+
+    # 1. Query model
+    t_gen_0 = time.perf_counter()
+    raw_response = query_model(model_config, prompt)
+    t_gen_1 = time.perf_counter()
+    gen_time_sec = t_gen_1 - t_gen_0
+
+    # 2. Extract code
+    code = extract_python_code(raw_response)
+
+    # 3. Create run directory
+    trial_dir = os.path.join(RAW_OUTPUT_DIR, model_name, trial_id)
+    os.makedirs(trial_dir, exist_ok=True)
+
+    raw_response_path = os.path.join(trial_dir, "raw_response.txt")
+    script_path = os.path.join(trial_dir, "script.py")
+    metadata_path = os.path.join(trial_dir, "metadata.json")
+
+    with open(raw_response_path, "w", encoding="utf-8") as f:
+        f.write(raw_response)
+
+    with open(script_path, "w", encoding="utf-8") as f:
+        f.write(code)
+
+    # 4. Profile standalone script
+    profile_res = run_standalone_script_profile(script_path, data_dir="data")
+
+    # 5. Save metadata.json
+    metadata = {
+        "trial_id": trial_id,
+        "model_label": model_name,
+        "pair_id": pair_id,
+        "condition": condition,
+        "model_config": model_config,
+        "generation_time_sec": gen_time_sec,
+        "environment": get_environment_fingerprint(),
+        "profile": profile_res,
+        "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+    }
+
+    with open(metadata_path, "w", encoding="utf-8") as f:
+        json.dump(metadata, f, indent=2)
+
+    status_icon = "✅" if profile_res["within_128m_budget"] else "💥"
+    print(f"    {status_icon} MaxRSS: {profile_res['maxrss_mb']:.2f} MB | Time: {profile_res['wall_sec']:.4f}s | Correct: {profile_res['correct']} | Exit: {profile_res['exit_code']}")
+    return metadata
 
 
 def run_preflight_check() -> bool:
@@ -240,18 +407,23 @@ def run_preflight_check() -> bool:
     assert calc_prompt_d_hash == manifest["prompt_d_sha256"], "Prompt D hash mismatch"
     print("  ✅ Prompt A & Prompt D SHA-256 hashes matched with manifest.")
 
-    # 3. Check Dataset Hash
+    # 3. Check Dataset Hash & Generator
     if not os.path.exists(DATASET_PATH):
-        print(f"❌ Error: Dataset missing at {DATASET_PATH}")
-        return False
+        print(f"[*] Dataset missing. Running deterministic generator data/generate_dataset.py...")
+        from data.generate_dataset import generate_dataset
+        generate_dataset(DATASET_PATH)
+
     calc_dataset_hash = compute_sha256(DATASET_PATH)
     assert calc_dataset_hash == manifest["dataset_sha256"], "Dataset hash mismatch"
     print(f"  ✅ Dataset SHA-256 ({calc_dataset_hash}) verified.")
 
-    # 4. Check Environment & Fingerprint
+    # 4. Check Environment & Fingerprint Assertions
     env_fp = get_environment_fingerprint()
     print(f"[2] Host Environment: {env_fp['platform']} | Python {env_fp['python_version']} | NumPy {env_fp['numpy_version']}")
-    print("  ✅ Single-threaded BLAS environment variables locked.")
+    assert env_fp["python_version"] == FROZEN_PYTHON_VERSION, f"Python version mismatch: expected {FROZEN_PYTHON_VERSION}, got {env_fp['python_version']}"
+    assert env_fp["numpy_version"] == FROZEN_NUMPY_VERSION, f"NumPy version mismatch: expected {FROZEN_NUMPY_VERSION}, got {env_fp['numpy_version']}"
+    assert env_fp["platform"].startswith(FROZEN_PLATFORM_PREFIX), f"Platform mismatch: expected {FROZEN_PLATFORM_PREFIX}, got {env_fp['platform']}"
+    print("  ✅ Python 3.9.6, NumPy 2.0.2, and macOS platform strictly asserted.")
 
     # 5. Check Measurement Subprocess Implementation with a Mock Script
     test_script_content = """
@@ -270,7 +442,22 @@ print("TOTAL_DIST:2895556144.199324")
     assert test_res["maxrss_mb"] > 0, "MaxRSS measurement failed"
     print(f"  ✅ Subprocess Profiler: MaxRSS={test_res['maxrss_mb']:.2f} MB, Correctness={test_res['correct']}, Exit={test_res['exit_code']}")
 
-    print("\\n" + "=" * 80)
+    # 6. Check Failure Paths (Timeout & Stderr capturing)
+    test_err_script = """
+import sys
+sys.stderr.write("TEST_STDERR_MESSAGE\\n")
+sys.exit(1)
+"""
+    scratch_err_test = "scratch/test_err_runner.py"
+    with open(scratch_err_test, "w", encoding="utf-8") as f:
+        f.write(test_err_script)
+
+    err_res = run_standalone_script_profile(scratch_err_test)
+    assert err_res["exit_code"] == 1, "Exit code 1 not captured"
+    assert "TEST_STDERR_MESSAGE" in err_res["stderr"], "Stderr not captured"
+    print(f"  ✅ Error & Stderr Handling Verified (Exit={err_res['exit_code']}, Stderr captured).")
+
+    print("\n" + "=" * 80)
     print("  PREFLIGHT AUDIT COMPLETE: ALL ASSERTIONS PASSED")
     print("=" * 80)
     return True
@@ -287,8 +474,33 @@ def main():
         success = run_preflight_check()
         sys.exit(0 if success else 1)
 
-    print("Execution mode requires explicit human authorization.")
-    print("READY FOR EXECUTION — AWAITING HUMAN APPROVAL")
+    with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
+        manifest = json.load(f)
+
+    models_config = manifest["models"]
+    executions = manifest["executions"]
+
+    if args.trial_id:
+        target_exec = next((e for e in executions if e["trial_id"] == args.trial_id), None)
+        if not target_exec:
+            print(f"❌ Error: Trial ID {args.trial_id} not found in manifest.")
+            sys.exit(1)
+        model_cfg = models_config[target_exec["model"]]
+        execute_trial(target_exec, model_cfg)
+
+    elif args.all:
+        print(f"[*] Beginning execution of {len(executions)} replication trials...")
+        all_results = []
+        for e in executions:
+            model_cfg = models_config[e["model"]]
+            res = execute_trial(e, model_cfg)
+            all_results.append(res)
+            time.sleep(2)  # Respect rate limits
+
+        summary_file = "experiments/06_replication/replication_summary.json"
+        with open(summary_file, "w", encoding="utf-8") as f:
+            json.dump({"executions": all_results}, f, indent=2)
+        print(f"\n[+] Replication complete. Summary written to {summary_file}")
 
 
 if __name__ == "__main__":

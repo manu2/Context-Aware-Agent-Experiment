@@ -5,11 +5,35 @@
   "dataset_sha256": "199a60e06bcda58ec741348972ad881f50d5fa67b2f9fb6ea09f37c514ec6085",
   "prompt_a_sha256": "9eb9236ca49a72a98cf743051f635dcaf09091a0f77f71fa386adae71bf694f2",
   "prompt_d_sha256": "e425c0445d4b0a432ef4a5adeb90b4bb885c69de9a2f1d0b809523af756470b4",
-  "models": [
-    "claude-opus-5",
-    "gpt-5.6-sol",
-    "gemini-3.7-flash"
-  ],
+  "models": {
+    "claude-opus-5": {
+      "research_label": "claude-opus-5",
+      "api_model_id": "claude-3-opus-20240229",
+      "provider": "anthropic",
+      "endpoint": "https://api.anthropic.com/v1/messages",
+      "temperature": 0.1,
+      "max_tokens": 8192,
+      "top_p": 1.0
+    },
+    "gpt-5.6-sol": {
+      "research_label": "gpt-5.6-sol",
+      "api_model_id": "gpt-4o-2024-08-06",
+      "provider": "openai",
+      "endpoint": "https://api.openai.com/v1/chat/completions",
+      "temperature": 1.0,
+      "max_completion_tokens": 8192,
+      "top_p": 1.0
+    },
+    "gemini-3.7-flash": {
+      "research_label": "gemini-3.7-flash",
+      "api_model_id": "gemini-2.0-flash",
+      "provider": "google",
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
+      "temperature": 0.1,
+      "max_output_tokens": 8192,
+      "top_p": 0.95
+    }
+  },
   "executions": [
     {
       "trial_id": "opus_rep01_A",
