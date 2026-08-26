@@ -48,6 +48,7 @@ Investigating whether projecting physical hardware constraints (RAM ceilings, CP
 - **Target Category**: `cs.DC` (Distributed & Cluster Computing) / `cs.AI` (Artificial Intelligence).
 - **Next Step**: Benchmark Expansion on the 3-Task Silicon Stress Suite.
 - **Provenance boundary:** The archived exploratory subagent proxy pilot in `experiments/06_replication/raw/` is not primary evidence for named provider API models. Any such manuscript claim requires the frozen direct-API runner and its per-trial artifacts.
+- **Launch compatibility record:** Before the first successful direct-API generation, the protocol was versioned from `1.0-frozen` to `1.1-frozen`. `claude-opus-5` accepted authenticated model lookup but rejected a Messages request containing explicit non-default sampling controls; v1.1 therefore records provider-default Claude sampling, while preserving identical sampling treatment within every A/D pair. This correction does not alter the task, prompts, dataset, execution environment, or outcome measurements.
 
 ---
 

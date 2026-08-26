@@ -264,7 +264,7 @@ def query_model(model_config: Dict[str, Any], prompt: str, max_retries: int = 3)
     provider = model_config["provider"]
     api_model_id = model_config["api_model_id"]
     endpoint = model_config["endpoint"]
-    temperature = model_config["temperature"]
+    temperature = model_config.get("temperature")
 
     last_error = None
     for attempt in range(1, max_retries + 1):
@@ -276,10 +276,15 @@ def query_model(model_config: Dict[str, Any], prompt: str, max_retries: int = 3)
                 req_data = {
                     "model": api_model_id,
                     "max_tokens": model_config.get("max_tokens", 4096),
-                    "temperature": temperature,
-                    "top_p": model_config.get("top_p", 1.0),
                     "messages": [{"role": "user", "content": prompt}]
                 }
+                # Claude Opus 5 rejects explicitly supplied sampling controls.
+                # Omit unavailable controls rather than misrepresenting a rejected
+                # request as a trial; provider defaults are recorded in the manifest.
+                if temperature is not None:
+                    req_data["temperature"] = temperature
+                if "top_p" in model_config:
+                    req_data["top_p"] = model_config["top_p"]
                 req = urllib.request.Request(
                     endpoint,
                     headers={

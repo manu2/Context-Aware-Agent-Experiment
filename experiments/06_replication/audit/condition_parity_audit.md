@@ -18,7 +18,7 @@
 | **Algorithm & Optimization Hints** | *None* | *None* (No mention of chunking, block size, streaming, symmetry, in-place ops, or dtype conversion) | ✅ **100% Clean (Zero Optimization Leaks)** |
 | **Implementation Hints** | *None* | *None* | ✅ **100% Clean** |
 | **System Instructions** | *None* (Empty system prompt across both) | *None* (Empty system prompt across both) | ✅ **100% Identical** |
-| **Sampling Temperature** | Default API temperature ($T=0.1$ for Gemini/Claude; $T=1.0$ for OpenAI) | Identical temperature for paired run | ✅ **100% Matched** |
+| **Sampling Controls** | Provider-compatible controls: Claude Opus 5 provider defaults (its API rejects explicit sampling); Gemini $T=0.1$; OpenAI $T=1.0$ | Identical provider-compatible controls within each paired run | ✅ **100% Matched** |
 | **Execution Environment** | Isolated subprocess on macOS Darwin arm64 (Python 3.9.6, NumPy 2.0.2) | Isolated subprocess on macOS Darwin arm64 (Python 3.9.6, NumPy 2.0.2) | ✅ **100% Matched** |
 
 ---

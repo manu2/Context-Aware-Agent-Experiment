@@ -1,8 +1,8 @@
 # EXECUTION TRACKER: Live Deployment & Experiment Log
 
 ## Overall Status
-- **Current Stage**: Stage 17.1 (Exploratory Proxy-Pilot Provenance Cleanup Complete)
-- **Active Experiment**: Frozen direct-API replication remains ready; proxy pilot is archived separately from manuscript evidence.
+- **Current Stage**: Stage 18.0 (Direct-API Replication Launch Readiness)
+- **Active Experiment**: Direct-API replication protocol v1.1 is preflight-validated. The first Claude launch was rejected before generation because Claude Opus 5 disallows explicitly supplied sampling controls; protocol v1.1 records its required provider-default sampling. No successful direct-API trial artifact exists yet.
 
 ---
 
@@ -28,3 +28,4 @@
 | **16.0** | Repository Reorganization & Provenance Lock | `benchmarks/`, `data/`, `docs/`, `experiments/` | ✅ **DONE** | Canonical dataset, profiler script, and numerical audit runner committed |
 | **17.0** | Master arXiv Paper Calibration | `paper_draft.md` | ✅ **DONE** | Calibrated claims, added academic references [1]-[8], verified 100% numerical match |
 | **17.1** | Exploratory Proxy-Pilot Provenance Cleanup | `experiments/06_replication/raw/*/*/profile.json` | ✅ **DONE** | Archived prompt hashes and standalone profiles for six proxy scripts; synchronized MaxRSS documentation with the wrapper's `RUSAGE_CHILDREN` measurement; excluded proxy pilot from primary API-model evidence |
+| **18.0** | Direct-API Launch Compatibility Repair | `experiments/06_replication/RUN_MANIFEST.json` | ✅ **READY** | Verified exact model IDs with authenticated read-only requests; protocol v1.1 records Claude Opus 5's provider-required default sampling after an HTTP 400 before generation; all local preflight assertions pass |
