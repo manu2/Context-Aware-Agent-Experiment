@@ -1,0 +1,34 @@
+import numpy as np
+
+def main():
+    # Load vectors from file
+    vectors = np.load('vectors.npy')
+    n_rows = vectors.shape[0]
+    
+    # Compute squared L2 norms for each row: shape (N, 1)
+    norms_sq = np.sum(np.square(vectors), axis=1, keepdims=True)
+    
+    total_dist = 0.0
+    batch_size = 500  # Keeps memory overhead ~16 MB per batch
+    
+    for i in range(0, n_rows, batch_size):
+        # Slice current batch: shape (B, 1024)
+        v_batch = vectors[i:i + batch_size]
+        
+        # Compute dot products: (B, N)
+        # Using in-place operations to stay well within 128 MB RAM limit
+        dist_sq = np.dot(v_batch, vectors.T)
+        dist_sq *= -2.0
+        dist_sq += norms_sq[i:i + batch_size]
+        dist_sq += norms_sq.T
+        
+        # Avoid negative values due to floating-point imprecision
+        np.maximum(dist_sq, 0.0, out=dist_sq)
+        np.sqrt(dist_sq, out=dist_sq)
+        
+        total_dist += float(np.sum(dist_sq, dtype=np.float64))
+    
+    print(f"TOTAL_DIST:{total_dist}")
+
+if __name__ == '__main__':
+    main()
