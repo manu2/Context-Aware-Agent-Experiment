@@ -1,0 +1,66 @@
+```python
+#!/usr/bin/env python3
+
+import math
+import numpy as np
+
+
+def main():
+    # Memory-map the input, then convert to float64 for numerically stable
+    # dot products and squared-distance calculations.
+    source = np.load("vectors.npy", mmap_mode="r", allow_pickle=False)
+
+    expected_shape = (8000, 1024)
+    if source.shape != expected_shape:
+        raise ValueError(
+            f"vectors.npy must have shape {expected_shape}, got {source.shape}"
+        )
+    if source.dtype != np.float32:
+        raise ValueError(
+            f"vectors.npy must contain float32 values, got {source.dtype}"
+        )
+
+    vectors = np.asarray(source, dtype=np.float64)
+    squared_norms = np.einsum(
+        "ij,ij->i", vectors, vectors, dtype=np.float64
+    )
+
+    block_size = 1024
+    block_totals = []
+
+    # Process only the upper block triangle. Off-diagonal blocks are counted
+    # twice to account for both (i, j) and (j, i).
+    for i0 in range(0, vectors.shape[0], block_size):
+        i1 = min(i0 + block_size, vectors.shape[0])
+        left = vectors[i0:i1]
+
+        for j0 in range(i0, vectors.shape[0], block_size):
+            j1 = min(j0 + block_size, vectors.shape[0])
+            right = vectors[j0:j1]
+
+            # Reuse this array for squared distances:
+            # ||x-y||^2 = ||x||^2 + ||y||^2 - 2*x·y
+            distances = left @ right.T
+            distances *= -2.0
+            distances += squared_norms[i0:i1, None]
+            distances += squared_norms[None, j0:j1]
+
+            # Remove small negative values caused by floating-point rounding.
+            np.maximum(distances, 0.0, out=distances)
+
+            if i0 == j0:
+                # Self-distances are exactly zero.
+                np.fill_diagonal(distances, 0.0)
+
+            np.sqrt(distances, out=distances)
+            block_sum = float(np.sum(distances, dtype=np.float64))
+
+            block_totals.append(block_sum if i0 == j0 else 2.0 * block_sum)
+
+    total = math.fsum(block_totals)
+    print(f"TOTAL_DIST:{total:.17g}")
+
+
+if __name__ == "__main__":
+    main()
+```
