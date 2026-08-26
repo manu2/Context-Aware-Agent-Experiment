@@ -29,6 +29,20 @@ statistical sample.
 - Fresh replication: direct `gemini-3.7-flash` API calls under the frozen v1.2
   manifest. These are a new, separately reported cohort.
 
+### Active batch: nine direct-API pairs (protocol v1.2)
+
+| Model | Pair ID | Status | Result / artifact |
+|---|---|---|---|
+| Claude Opus 5 | `opus_rep04_A/D` | ⏳ Pending | — |
+| Claude Opus 5 | `opus_rep05_A/D` | ⏳ Pending | — |
+| Claude Opus 5 | `opus_rep06_A/D` | ⏳ Pending | — |
+| GPT-5.6-Sol | `gpt_rep02_A/D` | ⏳ Pending | — |
+| GPT-5.6-Sol | `gpt_rep03_A/D` | ⏳ Pending | — |
+| GPT-5.6-Sol | `gpt_rep04_A/D` | ⏳ Pending | — |
+| Gemini 3.7 Flash | `gemini_rep02_A/D` | ⏳ Pending | — |
+| Gemini 3.7 Flash | `gemini_rep03_A/D` | ⏳ Pending | — |
+| Gemini 3.7 Flash | `gemini_rep04_A/D` | ⏳ Pending | — |
+
 ---
 
 ## Stage Summary Table
