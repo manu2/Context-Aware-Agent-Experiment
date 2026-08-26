@@ -1,0 +1,78 @@
+## Approach
+
+The key challenge is that the full 8,000 × 8,000 distance matrix would need 256 MB (float32) — twice the RAM budget. So I stream over **row blocks**, and only compute the **lower-triangular half** of the block grid (halving the FLOPs to ~65 GFLOP of BLAS `sgemm`, which is fast and multithreaded).
+
+Tricks used:
+- `||v_i - v_j||² = ||v_i||² + ||v_j||² - 2·v_i·v_j` → one big `sgemm` per block.
+- **Mean-centering first**: distances are invariant, but it shrinks `||v||²` and the dot products, which greatly reduces catastrophic cancellation in the float32 Gram computation.
+- All big operations are done **in-place** (`*=`, `+=`, `out=`) so no extra 16 MB temporaries appear.
+- Reductions accumulate in `float64`.
+
+```python
+#!/usr/bin/env python3
+"""
+Sum of all pairwise Euclidean distances (ordered pairs, i.e. 2 * sum_{i<j})
+for an 8000 x 1024 float32 matrix, under 128 MB RAM / 10 s.
+
+Only numpy + stdlib.
+"""
+
+import numpy as np
+
+FILENAME = "vectors.npy"
+BLOCK = 256          # rows per block: 256 * 8000 * 4B = 8.2 MB working buffer
+
+
+def main():
+    X = np.load(FILENAME)
+    if X.dtype != np.float32:
+        X = X.astype(np.float32, copy=False)
+    X = np.ascontiguousarray(X)                     # ~32 MB
+    n = X.shape[0]
+
+    # Center the data: distances are unchanged, but ||v||^2 and dot products
+    # shrink a lot -> much less float32 cancellation error in the Gram trick.
+    mu = X.mean(axis=0, dtype=np.float64).astype(np.float32)
+    X -= mu
+
+    # Squared row norms (accumulated in float64, stored as float32 for in-place adds)
+    sq = np.einsum('ij,ij->i', X, X, dtype=np.float64).astype(np.float32)
+
+    total_pairs = 0.0   # sum over unordered pairs i < j
+
+    for s in range(0, n, BLOCK):
+        e = min(s + BLOCK, n)
+
+        # Gram block: (b x e) float32, only columns [0, e) -> lower triangular half
+        G = X[s:e] @ X[:e].T                       # BLAS sgemm
+
+        # squared distances, fully in-place (no large temporaries)
+        G *= -2.0
+        G += sq[s:e, None]
+        G += sq[None, :e]
+        np.maximum(G, 0.0, out=G)                  # kill tiny negative round-off
+        np.sqrt(G, out=G)
+
+        S = float(np.sum(G, dtype=np.float64))         # all entries of the strip
+        W = float(np.sum(G[:, s:e], dtype=np.float64)) # diagonal sub-block (counted twice)
+
+        # strip contributes: cross pairs once + diagonal block pairs once
+        total_pairs += (S - W) + 0.5 * W
+
+        del G
+
+    total = 2.0 * total_pairs                      # ordered pairs (i,j), diagonal = 0
+    print("TOTAL_DIST:%.6f" % total)
+
+
+if __name__ == "__main__":
+    main()
+```
+
+### Why it fits the limits
+
+**Memory:** matrix 32 MB + one block buffer 8.2 MB + norms (32 KB) + interpreter/numpy ≈ 70–80 MB peak — comfortably under 128 MB. No `X.astype` copy is made when the file is already float32/C-contiguous.
+
+**Time:** only the lower triangle of block pairs is computed → ≈ 8000·8000/2·1024·2 ≈ 65 GFLOP of single-precision `gemm`, typically ~1–3 s with threaded OpenBLAS; the 32 M `sqrt`/adds add well under a second.
+
+**Accuracy:** centering plus float64 reduction keeps the relative error around 1e-7, so the printed value is accurate to far more digits than needed.
