@@ -320,7 +320,6 @@ def query_model(model_config: Dict[str, Any], prompt: str, max_retries: int = 3)
                 if not api_key:
                     raise RuntimeError("Missing GEMINI_API_KEY for Google AI Studio API")
 
-                url = f"{endpoint}?key={api_key}"
                 req_data = {
                     "contents": [{"parts": [{"text": prompt}]}],
                     "generationConfig": {
@@ -329,7 +328,14 @@ def query_model(model_config: Dict[str, Any], prompt: str, max_retries: int = 3)
                         "topP": model_config.get("top_p", 0.95)
                     }
                 }
-                req = urllib.request.Request(url, headers={"Content-Type": "application/json"}, data=json.dumps(req_data).encode("utf-8"))
+                req = urllib.request.Request(
+                    endpoint,
+                    headers={
+                        "x-goog-api-key": api_key,
+                        "Content-Type": "application/json"
+                    },
+                    data=json.dumps(req_data).encode("utf-8")
+                )
                 with urllib.request.urlopen(req, timeout=120) as resp:
                     data = json.loads(resp.read().decode("utf-8"))
                     candidates = data.get("candidates", [])
@@ -346,8 +352,13 @@ def query_model(model_config: Dict[str, Any], prompt: str, max_retries: int = 3)
                 raise ValueError(f"Unknown provider: {provider}")
 
         except Exception as e:
-            last_error = e
-            print(f"    [!] API attempt {attempt}/{max_retries} failed ({e}). Retrying in {attempt * 3}s...")
+            # Mask any accidental key leakage in exception messages
+            err_msg = str(e)
+            for k in [os.environ.get("OPENAI_API_KEY"), os.environ.get("ANTHROPIC_API_KEY"), os.environ.get("GEMINI_API_KEY")]:
+                if k and k in err_msg:
+                    err_msg = err_msg.replace(k, "[REDACTED_API_KEY]")
+            last_error = err_msg
+            print(f"    [!] API attempt {attempt}/{max_retries} failed ({err_msg}). Retrying in {attempt * 3}s...")
             time.sleep(attempt * 3)
 
     raise RuntimeError(f"Model query failed after {max_retries} attempts: {last_error}")
