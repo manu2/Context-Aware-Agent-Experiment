@@ -2,7 +2,9 @@
   "protocol_version": "1.0-frozen",
   "generated_at": "2026-08-26T04:58:00Z",
   "total_executions": 30,
-  "task_hash": "199a60e06bcda58ec741348972ad881f50d5fa67b2f9fb6ea09f37c514ec6085",
+  "dataset_sha256": "199a60e06bcda58ec741348972ad881f50d5fa67b2f9fb6ea09f37c514ec6085",
+  "prompt_a_sha256": "9eb9236ca49a72a98cf743051f635dcaf09091a0f77f71fa386adae71bf694f2",
+  "prompt_d_sha256": "e425c0445d4b0a432ef4a5adeb90b4bb885c69de9a2f1d0b809523af756470b4",
   "models": [
     "claude-opus-5",
     "gpt-5.6-sol",

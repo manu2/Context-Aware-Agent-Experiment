@@ -32,6 +32,5 @@ Execution time limit: 10.0 seconds.
 ---
 
 ## 3. Strict Parity Guarantee
-
-* **Zero Algorithmic Guidance**: Neither prompt contains keywords such as "block", "chunk", "tile", "float32", "in-place", or "memory efficient".
-* **Single Experimental Factor**: The only difference between Condition A and Condition D is the two-line declaration of the execution environment limits.
+* **Zero Optimization Guidance**: Neither prompt contains optimization advice or algorithmic hints such as blocking, tiling, chunking, streaming, symmetry exploitation, in-place buffer operations, or data type conversion. (Both prompts specify processing the standard float32 `vectors.npy` dataset without specifying how to structure the computation).
+* **Single Experimental Factor**: The only difference between Condition A and Condition D is the two-line declaration of the execution environment limits (`RAM limit: 128 MB.`, `Execution time limit: 10.0 seconds.`).

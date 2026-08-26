@@ -5,15 +5,15 @@
 
 ---
 
-## 1. Host Execution System
-
-* **Operating System:** macOS Darwin (arm64, Apple Silicon)
-* **Kernel Version:** Darwin 24.x
-* **Python Runtime:** Python 3.9.6 / 3.10+ (standard venv `.venv`)
-* **NumPy Version:** 1.24+ / 2.x
-* **BLAS Backend:** Apple Accelerate BLAS (`vecLib`) / OpenBLAS
-* **Thread Pinning / Determinism:** Single-threaded execution enforced (`OMP_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`, `MKL_NUM_THREADS=1`, `VECLIB_MAXIMUM_THREADS=1`) to eliminate multi-threaded allocator jitter.
-* **MaxRSS Unit Semantics:** `resource.getrusage(RUSAGE_SELF).ru_maxrss` in **bytes** (converted to MB via `ru_maxrss / (1024 * 1024)`).
+## 1. Host Execution System & Environment Fingerprint
+* **Operating System:** macOS Darwin (macOS-15.5-arm64-arm-64bit)
+* **Kernel Version:** Darwin 24.x (Apple Silicon)
+* **Architecture:** `arm64` (Apple Silicon CPU)
+* **Python Runtime:** `Python 3.9.6` (standard venv `.venv`)
+* **NumPy Version:** `2.0.2`
+* **BLAS Backend:** Apple Accelerate BLAS (`vecLib`) / Accelerate Framework
+* **Thread Pinning / Determinism:** Enforced single-threaded execution (`OMP_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`, `MKL_NUM_THREADS=1`, `VECLIB_MAXIMUM_THREADS=1`, `NUMEXPR_NUM_THREADS=1`) to eliminate multi-threaded allocator jitter.
+* **MaxRSS Unit Semantics:** `resource.getrusage(RUSAGE_SELF).ru_maxrss` in **bytes** on Darwin (converted to MB via `ru_maxrss / (1024 * 1024)`).
 
 ---
 
