@@ -1,0 +1,81 @@
+#!/usr/bin/env python3
+"""
+Sum of all pairwise Euclidean distances for an 8000 x 1024 float32 matrix.
+
+Strategy
+--------
+The full 8000x8000 distance matrix would need 256 MB (float32) / 512 MB (float64),
+which blows the 128 MB budget.  Instead we stream over row-blocks and only touch
+the upper triangle (i < j), using the Gram-matrix identity
+
+        ||x - y||^2 = ||x||^2 + ||y||^2 - 2 <x, y>
+
+so the heavy lifting is a single BLAS sgemm per block (fast, multi-threaded).
+Data is mean-centered first (distances are invariant) to shrink the norms and
+minimize the catastrophic-cancellation error of the Gram trick; all reductions
+are accumulated in float64.
+
+Peak memory: 32.8 MB (data) + ~16 MB (block) + small = well under 128 MB.
+Only numpy + stdlib are used.
+"""
+
+import numpy as np
+
+
+FILENAME = "vectors.npy"
+ROW_CHUNK = 1000     # chunk used for norms / mean (bounded temporaries)
+BLOCK = 512          # rows per GEMM block -> 512 x 8000 float32 = 16 MB
+
+
+def main():
+    X = np.load(FILENAME)                       # 8000 x 1024 float32 = 32.8 MB
+    if X.dtype != np.float32:
+        X = X.astype(np.float32, copy=False)
+    X = np.ascontiguousarray(X)
+    n, d = X.shape
+
+    # ---- mean-center (distances unchanged, improves numerical conditioning) ----
+    mu = np.zeros(d, dtype=np.float64)
+    for a in range(0, n, ROW_CHUNK):
+        mu += X[a:a + ROW_CHUNK].sum(axis=0, dtype=np.float64)
+    mu /= n
+    X -= mu.astype(np.float32)                  # in-place, no extra big buffer
+
+    # ---- squared norms (float64 accumulation, chunked temporaries) ----
+    sq = np.empty(n, dtype=np.float64)
+    for a in range(0, n, ROW_CHUNK):
+        b = min(a + ROW_CHUNK, n)
+        blk = X[a:b].astype(np.float64)         # <= 8 MB temporary
+        sq[a:b] = np.einsum("ij,ij->i", blk, blk)
+        del blk
+    sq32 = sq.astype(np.float32)
+
+    # ---- blocked upper-triangle accumulation ----
+    upper = 0.0                                  # sum over i < j
+    for a in range(0, n, BLOCK):
+        b = min(a + BLOCK, n)
+        m = b - a
+
+        # G = X[a:b] @ X[a:].T   (single sgemm; only columns j >= a are needed)
+        G = X[a:b] @ X[a:].T                     # (m, n-a) float32
+
+        G *= np.float32(-2.0)
+        G += sq32[a:b, None]
+        G += sq32[a:]
+        np.maximum(G, 0, out=G)                  # guard tiny negative round-off
+        np.sqrt(G, out=G)
+
+        s_all = float(np.sum(G, dtype=np.float64))            # i in block, j >= a
+        s_diagblk = float(np.sum(G[:, :m], dtype=np.float64)) # block x block part
+
+        # block x block region counts each unordered pair twice (diagonal is 0),
+        # the rest (j >= b) counts each pair exactly once.
+        upper += s_all - 0.5 * s_diagblk
+        del G
+
+    total = 2.0 * upper                          # sum over ordered pairs (i, j)
+    print("TOTAL_DIST:%.6f" % total)
+
+
+if __name__ == "__main__":
+    main()

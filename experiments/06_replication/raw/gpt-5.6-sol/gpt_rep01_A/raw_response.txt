@@ -1,0 +1,72 @@
+```python
+#!/usr/bin/env python3
+
+import math
+import numpy as np
+
+FILENAME = "vectors.npy"
+EXPECTED_SHAPE = (8000, 1024)
+BLOCK_SIZE = 512
+
+
+def main() -> None:
+    source = np.load(FILENAME, mmap_mode="r", allow_pickle=False)
+
+    if source.shape != EXPECTED_SHAPE:
+        raise ValueError(
+            f"Expected {FILENAME} to have shape {EXPECTED_SHAPE}, "
+            f"but found {source.shape}"
+        )
+    if source.dtype != np.float32:
+        raise ValueError(
+            f"Expected {FILENAME} to contain float32 values, "
+            f"but found {source.dtype}"
+        )
+
+    # Float64 improves accuracy of squared norms, products, and accumulation.
+    vectors = np.asarray(source, dtype=np.float64, order="C")
+    del source
+
+    n = vectors.shape[0]
+    squared_norms = np.einsum(
+        "ij,ij->i", vectors, vectors, dtype=np.float64, optimize=True
+    )
+
+    partial_sums = []
+
+    # Compute only the upper block triangle. Off-diagonal blocks are counted
+    # twice because the requested sum includes both (i, j) and (j, i).
+    for i_start in range(0, n, BLOCK_SIZE):
+        i_end = min(i_start + BLOCK_SIZE, n)
+        block_i = vectors[i_start:i_end]
+        norms_i = squared_norms[i_start:i_end]
+
+        for j_start in range(i_start, n, BLOCK_SIZE):
+            j_end = min(j_start + BLOCK_SIZE, n)
+            block_j = vectors[j_start:j_end]
+            norms_j = squared_norms[j_start:j_end]
+
+            # ||x-y||^2 = ||x||^2 + ||y||^2 - 2*x·y
+            distances = block_i @ block_j.T
+            distances *= -2.0
+            distances += norms_i[:, None]
+            distances += norms_j[None, :]
+
+            # Remove small negative values caused by floating-point rounding.
+            np.maximum(distances, 0.0, out=distances)
+
+            if i_start == j_start:
+                np.fill_diagonal(distances, 0.0)
+
+            np.sqrt(distances, out=distances)
+            block_sum = float(np.sum(distances, dtype=np.float64))
+
+            partial_sums.append(block_sum if i_start == j_start else 2.0 * block_sum)
+
+    total_distance = math.fsum(partial_sums)
+    print(f"TOTAL_DIST:{total_distance:.17g}")
+
+
+if __name__ == "__main__":
+    main()
+```

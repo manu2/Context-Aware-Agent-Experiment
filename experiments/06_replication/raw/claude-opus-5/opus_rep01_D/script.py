@@ -1,0 +1,94 @@
+#!/usr/bin/env python3
+"""
+Compute the total sum of all pairwise Euclidean distances between rows of an
+8,000 x 1,024 float32 matrix stored in 'vectors.npy':
+
+        S = sum_{i} sum_{j} ||v_i - v_j||_2      (full double sum, i and j both range over all rows)
+
+Strategy
+--------
+The full 8000x8000 distance matrix would need 256 MB in float32, which blows the
+128 MB budget, so the computation is done in row blocks.
+
+For a block of rows B (indices i0..i1) we only compute its distances against the
+rows with index >= i0 (upper block-triangle).  Distances to strictly-later blocks
+are counted twice (symmetry), the diagonal square block is counted once (it
+already contains both orderings of each pair).  This halves the BLAS work.
+
+Squared distances come from the Gram-matrix identity
+        ||a-b||^2 = ||a||^2 + ||b||^2 - 2 a.b
+evaluated with a single float32 SGEMM (fast, multi-threaded).  The data is first
+mean-centered, which shrinks the norms and greatly reduces the catastrophic
+cancellation this identity is prone to.  Row norms are accumulated in float64,
+the final summation of the square roots is also accumulated in float64.
+
+Memory peak: 32 MB (data) + 16 MB (block gemm result) + small temporaries.
+Only numpy + stdlib are used.
+"""
+
+import numpy as np
+
+
+def main():
+    path = 'vectors.npy'
+
+    # ---- load ---------------------------------------------------------------
+    X = np.load(path)
+    if X.dtype != np.float32:
+        X = X.astype(np.float32)
+    if X.ndim != 2:
+        raise ValueError("expected a 2-D array")
+    X = np.ascontiguousarray(X)
+    n, d = X.shape
+
+    if n < 2:
+        print('TOTAL_DIST:0.0')
+        return
+
+    # ---- center the data (distances are translation invariant) --------------
+    # Mean accumulated in float64 for accuracy, subtracted in place.
+    mean = X.mean(axis=0, dtype=np.float64).astype(np.float32)
+    np.subtract(X, mean, out=X)
+    del mean
+
+    # ---- squared row norms (float64 accumulation, chunked) ------------------
+    chunk = 512
+    sq64 = np.empty(n, dtype=np.float64)
+    for s in range(0, n, chunk):
+        e = min(s + chunk, n)
+        blk = X[s:e].astype(np.float64)
+        np.einsum('ij,ij->i', blk, blk, out=sq64[s:e])
+        del blk
+    sq32 = sq64.astype(np.float32)
+    del sq64
+
+    # ---- blocked accumulation over the upper block-triangle -----------------
+    b = 512                      # rows per block -> <= 512*8000*4 B = 16 MB buffer
+    total = 0.0
+
+    for i0 in range(0, n, b):
+        i1 = min(i0 + b, n)
+        k = i1 - i0
+
+        # G = B_i . X[i0:]^T   (single float32 SGEMM)
+        G = X[i0:i1] @ X[i0:].T          # shape (k, n - i0), float32
+
+        # turn dot products into distances, all in place
+        G *= np.float32(-2.0)
+        G += sq32[i0:i1, None]
+        G += sq32[None, i0:]
+        np.maximum(G, 0, out=G)          # guard tiny negatives from round-off
+        np.sqrt(G, out=G)
+
+        # diagonal square block: contains both (i,j) and (j,i) -> count once
+        diag_sum = np.sum(G[:, :k], dtype=np.float64)
+        all_sum = np.sum(G, dtype=np.float64)
+        total += diag_sum + 2.0 * (all_sum - diag_sum)
+
+        del G
+
+    print('TOTAL_DIST:%.6f' % total)
+
+
+if __name__ == '__main__':
+    main()

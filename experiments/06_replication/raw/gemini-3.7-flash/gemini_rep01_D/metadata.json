@@ -1,0 +1,44 @@
+{
+  "trial_id": "gemini_rep01_D",
+  "model_label": "gemini-3.7-flash",
+  "pair_id": "gemini_pair01",
+  "condition": "D_2DTelemetry",
+  "model_config": {
+    "research_label": "gemini-3.7-flash",
+    "api_model_id": "gemini-3.7-flash",
+    "provider": "google",
+    "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent",
+    "temperature": 0.1,
+    "max_output_tokens": 8192,
+    "top_p": 0.95
+  },
+  "generation_time_sec": 11.925058958,
+  "environment": {
+    "platform": "macOS-15.5-arm64-arm-64bit",
+    "python_version": "3.9.6",
+    "numpy_version": "2.0.2",
+    "machine": "arm64",
+    "processor": "arm",
+    "thread_pinning": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    }
+  },
+  "profile": {
+    "wall_sec": 0.43909266599999996,
+    "maxrss_mb": 124.90625,
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout": "TOTAL_DIST:2895556144.1609726\n",
+    "stderr": "",
+    "total_dist": 2895556144.1609726,
+    "correct": true,
+    "rel_error": 1.3244963622601095e-11,
+    "within_128m_budget": true,
+    "within_10s_budget": true
+  },
+  "timestamp_utc": "2026-08-26T22:33:47Z"
+}
