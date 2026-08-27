@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+
+import os
+
+# Configure BLAS threading before importing NumPy.
+_threads = str(min(8, os.cpu_count() or 1))
+os.environ.setdefault("OPENBLAS_NUM_THREADS", _threads)
+os.environ.setdefault("OMP_NUM_THREADS", _threads)
+os.environ.setdefault("MKL_NUM_THREADS", _threads)
+os.environ.setdefault("VECLIB_MAXIMUM_THREADS", _threads)
+
+import numpy as np
+
+
+def main():
+    # Memory-map the 32 MiB input rather than creating another full copy.
+    vectors = np.load("vectors.npy", mmap_mode="r", allow_pickle=False)
+
+    if vectors.shape != (8000, 1024):
+        raise ValueError(f"Expected shape (8000, 1024), got {vectors.shape}")
+    if vectors.dtype != np.float32:
+        raise ValueError(f"Expected float32 data, got {vectors.dtype}")
+
+    n = vectors.shape[0]
+    block_size = 512
+
+    # Squared row norms, computed without creating vectors * vectors.
+    norms = np.einsum(
+        "ij,ij->i",
+        vectors,
+        vectors,
+        dtype=np.float32,
+        optimize=False,
+    )
+
+    total = 0.0
+
+    # Process only the upper block triangle. Distances between different
+    # blocks are doubled; distances within each block already contain both
+    # ordered directions.
+    for start in range(0, n, block_size):
+        stop = min(start + block_size, n)
+        rows = stop - start
+        tail_size = n - start
+
+        distances = np.empty((rows, tail_size), dtype=np.float32)
+
+        # Squared distances:
+        # ||x-y||^2 = ||x||^2 + ||y||^2 - 2*x@y
+        np.matmul(
+            vectors[start:stop],
+            vectors[start:].T,
+            out=distances,
+        )
+        np.multiply(distances, -2.0, out=distances)
+        np.add(distances, norms[start:stop, None], out=distances)
+        np.add(distances, norms[None, start:], out=distances)
+
+        # Eliminate small negative roundoff and force self-distances to zero.
+        np.maximum(distances, 0.0, out=distances)
+        np.fill_diagonal(distances[:, :rows], 0.0)
+        np.sqrt(distances, out=distances)
+
+        within = distances[:, :rows].sum(dtype=np.float64)
+        cross = distances[:, rows:].sum(dtype=np.float64)
+        total += float(within) + 2.0 * float(cross)
+
+        del distances
+
+    print(f"TOTAL_DIST:{total:.10f}")
+
+
+if __name__ == "__main__":
+    main()
