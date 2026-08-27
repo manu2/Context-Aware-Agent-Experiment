@@ -55,6 +55,7 @@ Investigating whether projecting physical hardware constraints (RAM ceilings, CP
 - **Replication progress (2026-08-27):** The first post-amendment Claude pair (`opus_rep03`) completed with correct outputs in both conditions. Observed MaxRSS was 168.59 MB in the blind condition and 102.80 MB after telemetry disclosure. This is an additional replication observation, not a manuscript-level aggregate update.
 - **Live tracking rule:** `EXECUTION_TRACKER.md` is the authoritative pair-level ledger for the active direct-API campaign. It records historical, fresh direct-API, and subagent/proxy cohorts separately, updates the planned next pairs after each completed run, and never treats a planning count as a pooled statistical sample.
 - **Fresh Claude cohort complete (2026-08-27):** Five direct-API pairs (`rep02`–`rep06`) are archived under protocol v1.2. In the blind condition, four scripts were functionally correct but exceeded 128 MB and one failed under Python 3.9.6; all five telemetry scripts were correct and observed below 128 MB. This is a new cohort to compare with—not silently pool into—the historical canonical cohort.
+- **Scheduled direct-API batch complete (2026-08-27):** The planned Claude `rep04`–`rep06`, GPT `rep02`–`rep04`, and Gemini `rep02`–`rep04` pairs are archived and tracked. Manuscript updates remain deferred pending a cohort-level analysis that preserves negative and mixed outcomes.
 
 ---
 
