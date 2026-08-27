@@ -2,7 +2,7 @@
 
 ## Overall Status
 - **Current Stage**: Stage 18.2 (Full Direct-API Replication)
-- **Active Experiment**: Protocol v1.2 is active, preflight-validated, and atomically reserves each trial ID before generation. The next operational batch is three A/D pairs for each active direct-API model: Claude `rep04`–`rep06`, GPT `rep02`–`rep04`, and Gemini `rep02`–`rep04`.
+- **Active Experiment**: Protocol v1.2 is active, preflight-validated, and atomically reserves each trial ID before generation. The fresh Claude five-pair cohort is complete. Remaining active batch pairs are GPT `rep03`–`rep04` and Gemini `rep02`–`rep04`.
 
 ## Active Replication Pair Ledger
 
@@ -13,8 +13,8 @@ statistical sample.
 
 | Model | Historical evidence retained | Fresh direct-API pairs complete | Current usable total for planning | Next three pairs | Notes |
 |---|---|---:|---:|---|---|
-| Claude Opus 5 | 5 canonical pairs in `experiments/05_paired_statistical_trials/` | 2 (`rep02`, `rep03`) | 7 | `rep04`, `rep05`, `rep06` | `rep01` remains preserved but excluded after the duplicate blind launch; `rep06` is its documented replacement. |
-| GPT-5.6-Sol | 5 historical direct-API pairs in `experiments/05_paired_statistical_trials/` | 1 archived here (`rep01`) + 1 earlier direct-API pair confirmed by project owner | 7 | `rep02`, `rep03`, `rep04` | The earlier direct pair must be linked into the repository inventory before manuscript revision; it is counted for the operational 10-pair target, not silently merged into a fresh-only analysis. |
+| Claude Opus 5 | 5 canonical pairs in `experiments/05_paired_statistical_trials/` | 5 (`rep02`–`rep06`) | 10 | Complete | `rep04_A` is retained as an execution failure; all five D scripts are correct and under 128 MB. `rep01` remains preserved but excluded after the duplicate blind launch. |
+| GPT-5.6-Sol | 5 historical direct-API pairs in `experiments/05_paired_statistical_trials/` | 2 archived here (`rep01`, `rep02`) + 1 earlier direct-API pair confirmed by project owner | 8 | `rep03`, `rep04` | The earlier direct pair must be linked into the repository inventory before manuscript revision; it is counted for the operational 10-pair target, not silently merged into a fresh-only analysis. |
 | Gemini | Historical task cohorts: 9 cgroup pairs (Phase 1, Gemini 3.6) and 10 cgroup pairs (Phase 2, Gemini 2.5); see notes below | 1 (`rep01`) | No single merged N: task/model/provenance differ | `rep02`, `rep03`, `rep04` | Historical Gemini evidence is retained and reported separately. Its Phase 2 summary/result inconsistency must be reconciled before quantitative manuscript use. |
 
 ### Gemini historical evidence notes
@@ -69,4 +69,4 @@ statistical sample.
 | **17.1** | Exploratory Proxy-Pilot Provenance Cleanup | `experiments/06_replication/raw/*/*/profile.json` | ✅ **DONE** | Archived prompt hashes and standalone profiles for six proxy scripts; synchronized MaxRSS documentation with the wrapper's `RUSAGE_CHILDREN` measurement; excluded proxy pilot from primary API-model evidence |
 | **18.0** | Direct-API Launch Compatibility Repair | `experiments/06_replication/RUN_MANIFEST.json` | ✅ **READY** | Verified exact model IDs with authenticated read-only requests; protocol v1.1 records Claude Opus 5's provider-required default sampling after an HTTP 400 before generation; all local preflight assertions pass |
 | **18.1** | Direct-API Pilot Integrity Guard | `docs/07_direct_api_pilot_report.md` | ✅ **DONE** | Three clean direct-API A/D pairs completed: Claude `rep02`, GPT `rep01`, and Gemini `rep01`. All scripts were correct; observed MaxRSS fell by 47.8%, 41.8%, and 59.2%, respectively. The duplicate `opus_rep01` pair remains excluded and the runner now rejects overwrite attempts before API calls |
-| **18.2** | Full Direct-API Replication Restart | `experiments/06_replication/RUN_MANIFEST.json` | 🔄 **IN PROGRESS** | Protocol v1.2 atomically reserves trial IDs before generation and writes durable failure metadata if a query fails. Clean Claude `rep03` completed correctly (168.59 MB blind → 102.80 MB telemetry). The live pair ledger above records the agreed next three-pair batch for all models and keeps historical/direct/proxy cohorts explicit |
+| **18.2** | Full Direct-API Replication Restart | `experiments/06_replication/RUN_MANIFEST.json` | 🔄 **IN PROGRESS** | Fresh Claude replication is complete: 4/5 blind scripts were correct but 0/5 met the 128 MB boundary; 5/5 telemetry scripts were correct and met it. GPT `rep03`–`rep04` and Gemini `rep02`–`rep04` remain in the active batch; the live pair ledger keeps all cohorts explicit |
