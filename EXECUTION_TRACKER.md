@@ -39,7 +39,7 @@ statistical sample.
 | GPT-5.6-Sol | `gpt_rep02_A/D` | ✅ Complete | A: correct, 179.92 MB, 0.6274 s. D: correct, 60.00 MB, 0.3485 s. |
 | GPT-5.6-Sol | `gpt_rep03_A/D` | ✅ Complete | A: correct, 113.53 MB, 0.6817 s. D: correct, 54.20 MB, 0.3392 s. |
 | GPT-5.6-Sol | `gpt_rep04_A/D` | ✅ Complete | A: correct, 65.70 MB, 0.2855 s. D: correct, 87.64 MB, 0.3265 s (telemetry higher RSS in this pair). |
-| Gemini 3.7 Flash | `gemini_rep02_A/D` | ⏳ Pending | — |
+| Gemini 3.7 Flash | `gemini_rep02_A/D` | ✅ Complete | A: correct, 367.06 MB, 1.2035 s. D: correct, 170.31 MB, 0.3927 s (lower RSS but above 128 MB). |
 | Gemini 3.7 Flash | `gemini_rep03_A/D` | ⏳ Pending | — |
 | Gemini 3.7 Flash | `gemini_rep04_A/D` | ⏳ Pending | — |
 
