@@ -1,0 +1,45 @@
+An efficient, self-contained Python script to compute the total pairwise Euclidean distances within the given memory and execution time limits.
+
+```python
+import numpy as np
+
+
+def main():
+    # Load with mmap to minimize resident memory usage
+    X = np.load("vectors.npy", mmap_mode="r")
+    N, D = X.shape
+
+    # Precompute squared L2 norms for each row in small chunks to avoid memory spikes
+    S = np.empty(N, dtype=np.float32)
+    chunk_size = 1000
+    for i in range(0, N, chunk_size):
+        chunk = X[i : min(i + chunk_size, N)]
+        S[i : min(i + chunk_size, N)] = np.einsum("ij,ij->i", chunk, chunk)
+
+    total_dist = 0.0
+    batch_size = 800  # 800 x 8000 float32 matrix is ~25.6 MB, well within 96 MB RAM
+
+    # Process in batches using matrix multiplication: ||u - v||^2 = ||u||^2 + ||v||^2 - 2<u, v>
+    for i in range(0, N, batch_size):
+        end = min(i + batch_size, N)
+        A = X[i:end]
+
+        # Compute dot products using optimized BLAS GEMM
+        d = np.dot(A, X.T)
+        d *= -2.0
+        d += S[None, :]
+        d += S[i:end, None]
+
+        # Numerical safety: clip negative values resulting from floating point rounding
+        np.maximum(d, 0.0, out=d)
+        np.sqrt(d, out=d)
+
+        total_dist += float(np.sum(d, dtype=np.float64))
+        del d
+
+    print(f"TOTAL_DIST:{total_dist}")
+
+
+if __name__ == "__main__":
+    main()
+```

@@ -1,212 +1,256 @@
-# Substrate-Aware Code Generation: Investigating How Execution Constraints Influence Algorithm Selection in AI Agents
+# Substrate-Aware AI Agents: Execution Context as a First-Class Input
 
-**Authors**: Anonymous / Substrate Intelligence Research Group  
-**Target Category**: arXiv `cs.DC` (Distributed & Cluster Computing) / `cs.AI` (Artificial Intelligence)  
-**Code & Reproducibility Repository**: [GitHub: `Context-Aware-Agent-Experiment`](https://github.com/manu2/Context-Aware-Agent-Experiment)  
+**Manu Agrawal**
 
----
+*Independent Researcher*
+
+manuagrawal2013@gmail.com
 
 ## Abstract
 
-AI coding models can generate memory-intensive implementations when execution-resource limits are absent from the task specification. When tasked with high-dimensional scientific computing workloads inside resource-bounded environments (such as cloud micro-VMs or serverless containers), standard models often default to eager array materialization or unconstrained matrix products, exceeding the available memory budget.
+AI agents are increasingly asked to write and execute code in environments whose
+memory, time, runtime, and operational constraints materially shape what counts as
+a good solution. Yet those constraints are often absent from the agent's context.
+We call this gap *substrate blindness*. We test whether supplying an execution
+contract before code generation changes the computational plan an AI agent selects.
+Three frontier provider-configured model IDs generate a pairwise-distance program
+either from the task alone or with a 128 MB RAM and 10-second wall-time contract.
+Across 15 fresh direct-API pairs, contract disclosure lowers measured peak process
+memory in 13 of 14 executable comparisons and lowers mean execution time in every
+model cohort. The generated programs adapt through resource-relevant choices in
+block sizing, precision handling, traversal, temporary-buffer strategy, and input
+mapping. Under a tighter 96 MB contract, correct measured-budget outcomes are 5/5
+for GPT, 4/5 for Claude, and 3/5 for Gemini. The results establish a clear
+proof of concept: execution context changes the implementations AI agents generate
+before they execute, making substrate awareness a first-class input to agent
+planning.
 
-In this work, we conduct a controlled empirical investigation into **Substrate-Aware Code Generation**—disclosing physical execution constraints (such as a 128 MB RAM budget and a 10.0s execution target) directly in the prompt without providing algorithmic guidance. Through replicated paired trials across frontier reasoning models (**Anthropic `claude-opus-5`** and **OpenAI `gpt-5.6-sol`**) alongside exploratory multi-model prompt sensitivity evaluations (**Google `gemini-3.7-flash`**, **Anthropic `claude-sonnet-5`**, and **OpenAI `gpt-4o`**), we observe:
+## 1. Silicon blindness
 
-1. **Qualitative Algorithmic Shift**: Exposing execution constraints induces models to replace full rectangular block evaluation with symmetry-aware, memory-bounded block evaluation, upper-trapezoid streaming, and in-place buffer recycling.
-2. **Resource & Latency Reduction**: For `claude-opus-5`, substrate awareness reduces peak process resident set size (MaxRSS) from $238.40 \pm 49.94\text{ MB}$ to $93.57 \pm 7.56\text{ MB}$ ($2.55\times$ reduction) and wall-clock execution time from $0.7119\text{s}$ to $0.2677\text{s}$ ($2.66\times$ speedup), increasing 128 MB budget compliance from $0/5$ to $5/5$.
-3. **Separability of Awareness and Constraint Satisfaction**: For `gpt-5.6-sol`, substrate awareness reduces average MaxRSS from $162.65 \pm 23.28\text{ MB}$ to $98.57 \pm 34.03\text{ MB}$ ($1.65\times$ reduction) with $4/5$ runs remaining within the 128 MB budget, demonstrating that constraint awareness and successful constraint-bounded synthesis are separable capabilities across model families.
-4. **Vulnerability of Unanchored Natural Language Heuristics**: Generic natural language instructions (*"be memory efficient"*) produce unpredictable behaviors—causing `gemini-3.7-flash` to revert to an unvectorized scalar loop ($30.0\text{s}$) and `gpt-4o` to fail to adjust its memory footprint—whereas quantitative substrate boundaries guide models toward resource-efficient tile parameters.
+An agent can receive a complete task specification and still lack the information
+needed to produce a suitable action. The missing information is often not about the
+task itself; it is about the environment in which the task must be carried out.
 
----
+This matters because modern computation is executed under real operating
+contracts. Containers have memory limits [1]. Serverless functions trade resources
+for latency and cost [2, 3]. Runtimes impose language and dependency compatibility.
+Tools have latency, reliability, permission, and quota boundaries. These conditions
+determine whether a plan is merely plausible or actually deployable.
 
-## 1. Introduction & Research Question
+We call the failure to condition a plan on this information **substrate blindness**.
+The proposition of this paper is direct: execution context is decision-relevant
+information, and agents should receive it before they select a computational plan.
 
-As autonomous AI coding agents are increasingly deployed in resource-bounded cloud environments (such as Docker containers, AWS Lambda, and Kubernetes micro-VMs), the physical boundaries of the execution substrate become critical. However, standard agent harnesses typically isolate the LLM from the physical runtime: they supply the task description and tool schemas, but omit the memory ceilings and resource boundaries of the execution environment.
+We demonstrate the proposition through numerical code generation, where the chosen
+implementation and its outcome can both be inspected. The experiment does not ask a
+model to follow an algorithmic recipe. It supplies an operating contract and asks
+whether that information changes what the model chooses to build.
 
-One possible explanation is that, when substrate information is absent, models rely more heavily on statistical priors learned from code written for computing environments that are typically less resource-constrained than the execution environment considered here. When an agent generates eager, full-memory allocations inside a strict 128 MB container, the Linux kernel terminates the process (`SIGKILL Exit 137`).
+Our contributions are:
 
-### 1.1 Research Question & Core Hypothesis
-We investigate a straightforward empirical question:
-> **Does exposing an AI coding agent to physical execution substrate constraints change the computational algorithms it chooses to synthesize?**
+- **Concept.** We formulate substrate blindness as an information-asymmetry problem
+  in agent planning: the task is visible to the agent, while the operational
+  environment that defines solution suitability is not.
+- **Demonstration.** We provide a controlled paired experiment across three frontier
+  model cohorts showing that pre-execution RAM/time disclosure changes generated
+  implementations and substantially reduces measured memory use.
+- **Evidence.** We preserve the generated programs, execution profiles, and a
+  source-linked audit, revealing concrete adaptation in implementation choices
+  rather than superficial budget acknowledgement.
+- **Research direction.** We show how the same principle naturally extends from
+  memory and time to software runtime, accelerators, tools, quota, reliability, and
+  cost--the broader substrate-awareness agenda.
 
-We hypothesize that providing explicit knowledge of substrate limits (e.g., `RAM limit: 128 MB`) induces models to reconsider default computational priors and perform zero-shot algorithmic restructuring—replacing full rectangular block evaluation with symmetry-aware, memory-bounded streaming—rather than merely tuning scalar constants within a fixed eager approach.
+## 2. From task context to execution context
 
-### 1.2 Prior Art & Systems Context
-Our empirical investigation relates to existing literature across AI agent architectures, execution sandboxing, and memory-bounded numerical computing:
-* **Agent Execution Sandboxes & Telemetry**: Frameworks such as *AgentSight* [1] and *ActPlane* [2] observe agent actions in external virtualization layers. While these systems collect post-hoc telemetry, standard agent architectures (e.g., ReAct [3], SWE-bench agents [4]) typically treat the execution container as an opaque black box during code synthesis.
-* **Execution Feedback in Code Generation**: Recent literature demonstrates that execution-time error traces and unit-test feedback can guide post-hoc debugging loops (e.g., *RLEF* [5], *SafeCodeRL* [6]). In contrast, our investigation focuses on *zero-shot pre-execution constraint disclosure*, testing whether models can synthesize resource-bounded algorithms on the first attempt without entering multi-turn error-correction loops.
-* **High-Performance Memory-Bounded Decomposition**: In scientific computing and systems engineering, out-of-core block tiling and upper-triangular symmetric evaluation are standard manual optimizations for matrix operations [7, 8]. We examine whether frontier LLMs autonomously select these specific structural decompositions when informed of container memory boundaries.
+Task context answers *what* an agent should do. Execution context answers *where*,
+*with what resources*, and *under which operating contract* it must do it. A
+substrate-aware agent receives both while it is deciding what program or action to
+produce.
 
----
+The present intervention is intentionally clean: the prompt provides a RAM/time
+contract, but no algorithm, no block size, no data-type instruction, and no
+post-failure repair loop. Any change in the generated implementation is therefore
+an adaptation to the disclosed operating envelope rather than compliance with a
+handed-down solution.
 
-## 2. Experimental Methodology
+Numerical code generation offers a particularly transparent first demonstration.
+The same task can be solved by implementations with very different allocation and
+execution behavior, and the generated source, numerical output, peak process
+memory, and wall time can be evaluated together.
 
-### 2.1 Benchmark Task
-We evaluate a representative high-dimensional scientific computing workload: computing the total sum of all pairwise Euclidean distances across an $8,000 \times 1,024$ single-precision matrix (`vectors.npy`, $32.768\text{ MB}$):
-$$\text{Total Dist} = \sum_{i=0}^{N-1} \sum_{j=0}^{N-1} \|v_i - v_j\|_2$$
-An unconstrained implementation that promotes data to float64 and materializes full rectangular intermediate matrices exceeds the 128 MB container ceiling.
+## 3. Controlled demonstration
 
-### 2.2 Controlled Experimental Conditions
-To isolate the effect of substrate information, we evaluate four prompt conditions without providing any algorithmic suggestions:
-* **Condition A (Blind Baseline)**: Task specification only.
-* **Condition B (Natural Language Advice)**: Task specification + generic optimization prompt (*"Please ensure your code is highly memory-efficient, fast, and avoids large allocations."*).
-* **Condition C (1D Substrate Constraint)**: Task specification + explicit memory boundary (*"Execution environment: RAM limit: 128 MB."*).
-* **Condition D (2D Substrate Constraint)**: Task specification + joint spatial and temporal constraint disclosure (*"Execution environment: RAM limit: 128 MB. Execution time limit: 10.0 seconds."*).
+### 3.1 Task and conditions
 
-### 2.3 Measurement Protocol & Data Provenance
-To ensure transparent reporting, we distinguish the experimental prompt condition from post-hoc memory measurement:
-1. **Generative Trials & Code Archival**: During live generation trials, model responses were captured, extracted, and permanently archived to disk under `experiments/`.
-2. **Post-Hoc OS Process MaxRSS Remeasurement**: Because initial Python-level `tracemalloc` instrumentation only tracked Python heap allocations and omitted native C-extension allocations (such as NumPy contiguous arrays), all archived trial scripts were independently re-executed in isolated subprocesses using standard OS-level resource profiling (`resource.getrusage(RUSAGE_SELF).ru_maxrss`) via `experiments/05_paired_statistical_trials/profile_canonical_maxrss.py` to obtain peak process resident memory. Wall-clock execution time was measured during the same canonical post-hoc profiling runs.
-3. **128 MB Resource-Budget Threshold**: A run is classified as budget-compliant when its independently measured process MaxRSS is below 128 MB. Scripts exhibiting measured MaxRSS $< 128\text{ MB}$ satisfy the budget boundary, while scripts allocating $> 128\text{ MB}$ exceed the threshold. Single-trial cross-model evaluations in Table 2 are exploratory and are not used to estimate model-level effect sizes.
+The task loads `vectors.npy`, an 8,000 by 1,024 float32 matrix, computes the sum
+of all pairwise Euclidean distances, and prints `TOTAL_DIST:<value>`. Materializing
+an 8,000 by 8,000 float32 distance intermediate alone requires 256 MB; bounded
+block algorithms provide correct alternatives with much lower peak memory.
 
----
+The fresh direct-API cohort contains 15 predeclared A/D pairs: five each for
+`claude-opus-5`, `gpt-5.6-sol`, and `gemini-3.7-flash`.
 
-## 3. Empirical Results
+- **Blind (A):** the task specification.
+- **Substrate-aware (D):** the identical task plus `RAM limit: 128 MB` and
+  `Execution time limit: 10.0 seconds`.
 
-### 3.1 Paired Comparison: Independent OS MaxRSS Profiling (Anthropic `claude-opus-5` vs. OpenAI `gpt-5.6-sol`)
+The experiment compares what the models generate under these two information
+conditions. It does not prescribe a preferred implementation.
 
-Table 1 reports the independent OS MaxRSS measurements and 128 MB budget compliance across the $N=5$ matched pairs of archived scripts (canonical dataset: `canonical_paired_results.json`):
+### 3.2 Measurement
 
-```
-======================================================================================================================
-Table 1: Paired Substrate-Awareness Evaluation (Post-Hoc OS MaxRSS Profiling of Archived Scripts)
-======================================================================================================================
-Model & Trial      | Condition A: Blind MaxRSS | Condition D: Aware MaxRSS | Blind 128M Budget | Aware 128M Budget
-----------------------------------------------------------------------------------------------------------------------
-claude-opus-5 (T1) |         205.69 MB         |          82.48 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.270s)
-claude-opus-5 (T2) |         162.95 MB         |          99.17 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.255s)
-claude-opus-5 (T3) |         239.75 MB         |         104.38 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.244s)
-claude-opus-5 (T4) |         291.78 MB         |          91.34 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.260s)
-claude-opus-5 (T5) |         291.83 MB         |          90.47 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.310s)
-----------------------------------------------------------------------------------------------------------------------
---> claude-opus-5 Aggregate:
-    Peak MaxRSS:   Blind = 238.40 ± 49.94 MB   vs.   Aware =  93.57 ±  7.56 MB (2.55x Reduction)
-    Wall Latency:  Blind =  0.7119 ±  0.2293s   vs.   Aware =  0.2677 ±  0.0228s (2.66x Speedup)
-    128M Budget Compliance:       Blind = 0/5 (0%)    vs.   Aware = 5/5 (100%)
-======================================================================================================================
-gpt-5.6-sol   (T1) |         142.48 MB         |          78.09 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.255s)
-gpt-5.6-sol   (T2) |         142.53 MB         |          92.48 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.283s)
-gpt-5.6-sol   (T3) |         146.44 MB         |         165.72 MB         | 💥 Exceeds (>128M)| 💥 Exceeds (166 MB)
-gpt-5.6-sol   (T4) |         186.42 MB         |          77.98 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.262s)
-gpt-5.6-sol   (T5) |         195.36 MB         |          78.56 MB         | 💥 Exceeds (>128M)| ✅ Within Budget (0.247s)
-----------------------------------------------------------------------------------------------------------------------
---> gpt-5.6-sol Aggregate:
-    Peak MaxRSS:   Blind = 162.65 ± 23.28 MB   vs.   Aware =  98.57 ± 34.03 MB (1.65x Reduction)
-    Wall Latency:  Blind =  0.5690 ±  0.0061s   vs.   Aware =  0.2608 ±  0.0121s (2.18x Speedup)
-    128M Budget Compliance:       Blind = 0/5 (0%)    vs.   Aware = 4/5 (80%)
-======================================================================================================================
-```
+Each generated program executes in an isolated macOS subprocess with Python 3.9.6,
+NumPy 2.0.2, and pinned single-thread BLAS-related environment variables. We record
+numerical correctness, exit status, elapsed wall time, and operating-system peak
+resident memory (`RUSAGE_CHILDREN` MaxRSS). A result is counted as correct only
+when its reported total matches an independently computed numerical reference.
 
----
+The paper uses measured peak process memory as its resource outcome. The 128 MB and
+96 MB labels identify whether a correct execution's measured peak falls within the
+stated operating envelope. In the 96 MB Claude extension, two malformed provider
+responses were retained in the archive and replaced under a predeclared,
+identical-prompt rule before replacement generation.
 
-### 3.2 Exploratory Multi-Model Prompt Sensitivity
+## 4. Results: context changes the plan
 
-Table 2 presents single-trial prompt sensitivity evaluations across four conditions (from initial exploratory benchmarking) to examine behavioral variation across model families:
+### 4.1 Memory and time improve together
 
-```
-=================================================================================================================================
-Table 2: Exploratory Multi-Model Prompt Sensitivity Across 4 Experimental Conditions
-=================================================================================================================================
-Model Architecture       | Condition A (Blind)    | Condition B (Natural Language) | Condition C (1D: 128M) | Condition D (2D: 128M+10s) 
-=================================================================================================================================
-OpenAI GPT-5.6-Sol       | 100.47 MB / 0.630s     | 7.24 MB / 0.694s               | 10.22 MB / 0.606s      | 4.12 MB / 0.190s           
-                         | (✅ Within Budget)     | (✅ Within Budget)             | (✅ Within Budget)     | (🏆 In-Place Buffer Tiling)
----------------------------------------------------------------------------------------------------------------------------------
-Anthropic Claude Sonnet 5| 215.22 MB / 1.041s     | 77.28 MB / 0.376s              | 92.46 MB / 0.434s      | 122.91 MB / 0.386s         
-                         | (💥 Exceeds 128M)      | (✅ Within Budget, B=500)      | (✅ Within Budget, B=500)| (✅ Within Budget, B=1000)
----------------------------------------------------------------------------------------------------------------------------------
-Google Gemini 3.7 Flash  | 1,565.72 MB / 2.880s   | < 35 MB / >30.0s               | 32.03 MB / 30.0s       | 114.84 MB / 0.460s         
-                         | (💥 Exceeds 128M)      | (⏱️ Timeout Abort)            | (⚠️ Slow Scalar Loop)  | (🏆 2D BLAS Block Tiling)  
----------------------------------------------------------------------------------------------------------------------------------
-OpenAI GPT-4o (Legacy)   | 1,136.31 MB / 1.350s   | 770.36 MB / 0.720s             | 770.36 MB / 0.690s     | 770.41 MB / 0.680s         
-                         | (💥 Exceeds 128M)      | (💥 Exceeds 128M)              | (💥 Exceeds 128M)      | (💥 Exceeds 128M)          
-=================================================================================================================================
-```
+The effect is clear across the fresh paired cohort. In 13 of 14 executable A/D
+comparisons, the substrate-aware program has lower measured peak memory. Mean wall
+time also falls in every cohort: 2.52x for Claude, 1.68x for GPT, and 3.09x for
+Gemini. The disclosed operating envelope guides models toward implementations that
+are simultaneously more memory-efficient and faster in this task.
 
-*(Note: Table 1 contains the replicated N=5 paired trials with OS MaxRSS re-profiling; Table 2 contains single-trial exploratory prompt sensitivity runs from the initial cross-model screening.)*
+| Configured model ID | Blind mean MaxRSS | Substrate-aware mean MaxRSS | Executable-pair RSS direction | Blind mean wall time | Substrate-aware mean wall time | Correct / measured `<=128 MB` (blind -> aware) |
+|---|---:|---:|---|---:|---:|---|
+| `claude-opus-5` | 256.48 MB* | 107.82 MB | lower 4/4 | 0.9109 s* | 0.3612 s | 0/5 -> 5/5 |
+| `gpt-5.6-sol` | 118.63 MB | 64.61 MB | lower 4/5; higher 1/5 | 0.5507 s | 0.3282 s | 4/5 -> 5/5 |
+| `gemini-3.7-flash` | 452.36 MB | 158.16 MB | lower 5/5 | 1.0994 s | 0.3561 s | 0/5 -> 2/5 |
 
----
+`*` The Claude blind continuous means use the four executable blind programs. The
+fifth blind program is retained as a runtime-compatibility failure in the
+correctness/threshold denominator.
 
-## 4. Algorithmic Transformations & Case Studies
+![Figure 1: Paired measured peak process memory for the fresh 128 MB cohort.](paper/figures/fresh_128mb_paired_maxrss.pdf)
 
-To understand the mechanisms behind the resource reductions, we inspect the generated code directly:
+**Figure 1.** Each line connects an executable blind/substrate-aware pair. The
+figure makes the cohort-level result concrete while retaining the one GPT regression
+and the Claude runtime-compatibility failure.
 
-### 4.1 Full Rectangular Blocking vs. Symmetry-Aware Streaming in `claude-opus-5`
-* **Blind Condition**: While `claude-opus-5` uses row blocking ($B=512$), it promotes the matrix to `float64` (`Xd = np.ascontiguousarray(X, dtype=np.float64)`, $65.5\text{ MB}$) and computes full rectangular products ($B \times N$), pushing peak MaxRSS to **$205.69\text{ MB} - 291.83\text{ MB}$**.
-* **Substrate-Aware Condition**: Under substrate disclosure, `claude-opus-5` retains `float32`, sets symmetric 2D block size to $\text{BLOCK} = 2000$, and synthesizes an upper-block-triangle loop with in-place buffer reuse:
-  ```python
-  # Generated by Claude Opus 5 under 128 MB constraint (Trial 1)
-  for i0 in range(0, n, BLOCK):
-      i1 = min(i0 + BLOCK, n)
-      A = X[i0:i1]
-      na = norms[i0:i1][:, None]
-      for j0 in range(i0, n, BLOCK):
-          j1 = min(j0 + BLOCK, n)
-          B = X[j0:j1]
-          nb = norms[j0:j1][None, :]
-          C = A @ B.T
-          C *= m2
-          C += na
-          C += nb
-          np.maximum(C, 0, out=C)
-          np.sqrt(C, out=C)
-          s = float(C.sum(dtype=np.float64))
-          total += s if i0 == j0 else 2.0 * s
-          del C
-  ```
-  This reduces peak MaxRSS to **$93.57\text{ MB}$** on average, completing in **$0.268\text{s}$**.
+### 4.2 How generated code adapts
 
-### 4.2 In-Place Buffer Recycling in `gpt-5.6-sol`
-Under substrate awareness, `gpt-5.6-sol` applies memory-saving idioms: using memory-mapped I/O (`mmap_mode="r"`), in-place distance clamping (`np.maximum(dist_sq, 0.0, out=dist_sq)`), and in-place square root operations (`np.sqrt(dist_sq, out=dist_sq)`), cutting execution latency by **$2.18\times$** ($0.569\text{s} \rightarrow 0.261\text{s}$).
+The generated programs adapt at the level that matters: implementation choice.
+Across the audited corpus, the disclosed condition changes block sizing, precision
+handling, traversal extent, temporary-buffer strategy, and input mapping. These are
+the choices that determine how an otherwise correct numerical computation occupies
+memory and uses execution time.
 
-### 4.3 Analysis of Failure Modes & Model Differences
-* **Behavior in GPT-4o**: In this exploratory benchmark, `gpt-4o` did not exhibit a measurable response to the disclosed constraints, allocating over $770\text{ MB}$ across all conditions. This contrast motivates further investigation into whether substrate-sensitive algorithm selection depends on model capability, training, or prompting.
-* **Imperfect Constraint Satisfaction in `gpt-5.6-sol` (Trial 3)**: In Trial 3, `gpt-5.6-sol` generated a working buffer that reached $165.72\text{ MB}$ MaxRSS, exceeding the 128 MB ceiling. This confirms that constraint awareness does not guarantee compliance in all stochastic runs, highlighting constraint reasoning as an important area for further evaluation.
+The adaptation is not a single fixed recipe. Some blind programs already use
+blocking; some substrate-aware programs choose a different block geometry; others
+retain float32 in large intermediates, avoid a broad precision promotion, reuse a
+temporary array, or alter the portion of the pairwise matrix traversed. This is a
+strength of the result: execution context shifts the model's implementation
+distribution rather than forcing a single canned response.
 
----
+The complete source-linked audit covers every included 128 MB script and every
+retained executable 96 MB script. It grounds the aggregate result in inspectable
+source while preserving the diversity of generated strategies.
 
-## 5. Discussion, Limitations & Future Work
+### 4.3 Tighter contracts reveal graded responsiveness
 
-### 5.1 Discussion
-Our findings demonstrate that providing explicit execution constraints enables frontier models to replace full rectangular block evaluation with symmetry-aware, memory-bounded streaming evaluation, substantially lowering peak resident memory. However, the observation that GPT-5.6-Sol produced an aware-condition trial exceeding 128 MB (4/5 compliance) and GPT-4o failed across all conditions highlights that substrate awareness does not guarantee constraint-bounded competence. Awareness and constraint-satisfying synthesis are separable capabilities that vary across model architectures.
+We next supplied a 96 MB contract to five independently generated programs per
+model. This extension asks whether the stated envelope continues to shape generated
+implementations under a tighter boundary.
 
-### 5.2 Scope & Limitations
-1. **Pilot Scale**: Our paired statistical evaluation spans $N=5$ matched pairs ($10$ runs per model). While demonstrating substantial algorithmic differences, larger evaluations across broader task suites are required to characterize population distributions.
-2. **Frozen Model Weights**: This study evaluates zero-shot prompting of frozen models without fine-tuning.
-3. **Causal Attribution**: We cannot establish the exact internal mechanism by which models respond to substrate context, nor can we prove that pretraining distribution is the sole causal source of unconditioned eager behavior.
-4. **Post-Hoc Measurement**: MaxRSS was independently remeasured on archived scripts rather than captured natively during live cgroup execution.
+| Configured model ID | Blind reference: correct / measured `<=96 MB` | 128 MB-aware reference: correct / measured `<=96 MB` | New 96 MB-aware: mean MaxRSS | New 96 MB-aware: correct / measured `<=96 MB` | New 96 MB-aware mean wall time |
+|---|---:|---:|---:|---:|---:|
+| `gpt-5.6-sol` | 1/5 | 5/5 | 60.88 MB | 5/5 | 0.3582 s |
+| `claude-opus-5` | 0/5 | 0/5 | 87.57 MB | 4/5 | 0.3802 s |
+| `gemini-3.7-flash` | 0/5 | 0/5 | 118.46 MB | 3/5 | 0.3985 s |
 
-### 5.3 Future Work
-Promising directions for future research include:
-1. **Broader Resource Dimensions**: Investigating agent behavior under CPU quotas, GPU VRAM limits, storage I/O throughput, and network bandwidth boundaries.
-2. **Dynamic Runtime Feedback**: Providing real-time telemetry updates during execution rather than static prompt injection.
-3. **Substrate-Aware Training & Alignment**: Exploring whether integrating operating system telemetry (cgroup peaks, memory pressure events) into verifiable reward functions during post-training (RLVR/GRPO) improves native constraint compliance.
+All 15 retained executable 96 MB programs are numerically correct and complete
+within the 10-second operating target. The cohort differences are informative:
+models respond to disclosed context with different degrees of exact measured-budget
+fit. That is a practical finding, not a weakness. Substrate awareness changes the
+quality of the plan; the precision of that adaptation remains model-dependent.
 
----
+![Figure 2: Measured peak process memory across the 96 MB condition-level extension.](paper/figures/fresh_boundary_sensitivity_maxrss.pdf)
 
-## 6. Conclusion
+**Figure 2.** Every retained executable observation is visible. Blind and 128 MB
+aware results provide reference distributions; the 96 MB programs are independently
+sampled condition-level observations.
 
-We have presented an empirical investigation into Substrate-Aware Code Generation. Our findings show that explicitly exposing physical execution constraints causes frontier AI coding models to reconsider default computational strategies and synthesize structured, memory-bounded algorithms, substantially improving 128 MB resource threshold compliance and execution speed.
+## 5. Related work
 
----
+Language-model agents increasingly combine reasoning with actions in external
+environments. ReAct, for example, interleaves reasoning traces and task-specific
+actions, using environment interaction to update action plans [4]. Software-agent
+evaluation has likewise made execution environments central: SWE-bench evaluates
+whether models can resolve real repository issues that require coordination with a
+codebase and its tests [5].
 
-## Artifact Index & Reproducibility
-* **Benchmark Harnesses**: [`benchmarks/`](benchmarks/)
-* **Canonical Paired MaxRSS Results**: [`experiments/05_paired_statistical_trials/canonical_paired_results.json`](experiments/05_paired_statistical_trials/canonical_paired_results.json)
-* **MaxRSS Profiling Script**: [`experiments/05_paired_statistical_trials/profile_canonical_maxrss.py`](experiments/05_paired_statistical_trials/profile_canonical_maxrss.py)
-* **Raw Trial Scripts & Logs**: [`experiments/05_paired_statistical_trials/`](experiments/05_paired_statistical_trials/)
-* **Multi-Model Ablation Logs**: [`experiments/04_frontier_model_benchmark/`](experiments/04_frontier_model_benchmark/)
+This work studies a complementary moment in the agent lifecycle. Rather than
+providing execution feedback after an action fails, it supplies the relevant
+operating contract *before* an implementation is selected. The question is not
+whether execution feedback helps an agent repair a program; it is whether static
+execution context changes the program the agent chooses on its first generation.
+The paired design makes that earlier planning effect directly inspectable.
 
----
+## 6. The broader substrate-awareness agenda
+
+The central lesson is simple: agents should plan with the environment in view.
+Providing the operating contract before generation changes the computational
+implementation an agent selects. This is valuable even when a blind program happens
+to work under one environment, because suitability is defined by the environment in
+which deployment will actually occur.
+
+The Python 3.9 incident makes the same principle visible in software form. One
+blind Claude program used a Python 3.10-style union annotation and raised a
+`TypeError` under the pinned Python 3.9 runtime. The controlled RAM/time experiment
+establishes the causal evidence in this paper; the incident reveals another real
+execution-context dimension that can determine whether generated code deploys
+successfully. Runtime version belongs alongside memory in the information an agent
+uses before it writes code.
+
+The broader opportunity is substantial. A substrate-aware coding or tool-using
+agent could condition its plan on GPU memory, available CPU, runtime and dependency
+versions, tool latency, failure rates, permissions, quota, and cost. The present
+result gives this agenda an empirical foundation: even a compact pre-execution
+contract changes what frontier models generate.
+
+## 7. Research agenda and artifact availability
+
+This paper establishes the first controlled demonstration in a numerical-code
+setting. The next studies extend the same intervention to runtime-version-aware
+generation, accelerator-aware multimodal computation, constrained data pipelines,
+and dynamic tool telemetry. Each will test the same core principle against the
+operating dimensions that matter for its setting.
+
+The evaluation archive preserves the fresh direct-API manifest, prompts and dataset
+hashes, raw responses, generated scripts, numerical profiles, source-linked audit,
+and figure-generation code. The historical artifacts are retained for provenance
+and are not combined with the fresh cohort. A separately cleared public artifact
+release may be linked in a later version of this paper.
 
 ## References
 
-[1] S. Zhang et al., "AgentSight: System-Level Observability for AI Agents Using eBPF," *arXiv preprint arXiv:2508.02736*, 2025.  
-[2] H. Liu et al., "ActPlane: Declarative Sandboxing and Runtime Verification for Code-Executing Agents," *USENIX OSDI*, 2024.  
-[3] S. Yao et al., "ReAct: Synergizing Reasoning and Acting in Language Models," *International Conference on Learning Representations (ICLR)*, 2023.  
-[4] C. E. Jimenez et al., "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?," *International Conference on Learning Representations (ICLR)*, 2024.  
-[5] X. Chen et al., "RLEF: Grounding Code LLMs in Execution Feedback with Reinforcement Learning," *arXiv preprint arXiv:2410.02089*, 2024.  
-[6] Z. Wang et al., "SafeCodeRL: Security-Constrained Multi-Agent Reinforcement Learning for Trustworthy LLM-Generated Software," *Sensors*, vol. 26, no. 12, pp. 3812–3830, 2026.  
-[7] G. H. Golub and C. F. Van Loan, *Matrix Computations*, 4th ed., Johns Hopkins University Press, 2013.  
-[8] K. Goto and R. A. van de Geijn, "Anatomy of High-Performance Matrix Multiplication," *ACM Transactions on Mathematical Software (TOMS)*, vol. 34, no. 3, pp. 1–25, 2008.  
+[1] Kubernetes Authors. *Resource Management for Pods and Containers*. Kubernetes
+documentation. https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+(accessed 2026-08-27).
 
+[2] Google Cloud. *Configure memory limits for services*. Cloud Run documentation.
+https://cloud.google.com/run/docs/configuring/services/memory-limits (accessed
+2026-08-27).
+
+[3] Amazon Web Services. *Configure Lambda function memory* and *AWS Lambda
+pricing*. https://docs.aws.amazon.com/lambda/latest/dg/configuration-memory.html
+and https://aws.amazon.com/lambda/pricing/ (accessed 2026-08-27).
+
+[4] Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik
+Narasimhan, and Yuan Cao. *ReAct: Synergizing Reasoning and Acting in Language
+Models*. ICLR 2023. arXiv:2210.03629.
+
+[5] Carlos E. Jimenez, John Yang, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir
+Press, and Karthik Narasimhan. *SWE-bench: Can Language Models Resolve
+Real-World GitHub Issues?* ICLR 2024. arXiv:2310.06770.

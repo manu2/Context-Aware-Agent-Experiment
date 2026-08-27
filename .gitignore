@@ -27,3 +27,7 @@ env/
 .env
 *.key
 credentials.json
+
+# Local validation scratch space and rendered inspection intermediates
+/scratch/
+/tmp/

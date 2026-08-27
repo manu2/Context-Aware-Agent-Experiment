@@ -1,0 +1,32 @@
+{
+  "trial_id": "opus96_rep03_D",
+  "measurement": "macOS isolated-child RUSAGE_CHILDREN MaxRSS; observed classification, not cgroup enforcement",
+  "environment": {
+    "platform": "macOS-15.5-arm64-arm-64bit",
+    "python_version": "3.9.6",
+    "numpy_version": "2.0.2",
+    "machine": "arm64",
+    "processor": "arm",
+    "thread_pinning": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    }
+  },
+  "profile": {
+    "wall_sec": 0.020846959,
+    "maxrss_mb": 7.34375,
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout": "",
+    "stderr": "",
+    "total_dist": null,
+    "correct": false,
+    "rel_error": null,
+    "within_128m_budget": false,
+    "within_10s_budget": false
+  },
+  "timestamp_utc": "2026-08-27T07:45:56Z"
+}

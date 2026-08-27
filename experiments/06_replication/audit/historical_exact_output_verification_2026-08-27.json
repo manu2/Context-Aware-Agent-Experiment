@@ -1,0 +1,36 @@
+{
+  "purpose": "Read-only exact-output validation of the 20 historical canonical scripts; this is not a replacement MaxRSS dataset.",
+  "timestamp_utc": "2026-08-27T00:36:00Z",
+  "validator": "experiments/06_replication/run_replication.py::run_standalone_script_profile",
+  "environment": {
+    "python": "3.9.6 (.venv/bin/python3)",
+    "numpy": "2.0.2",
+    "platform": "macOS-15.5-arm64-arm-64bit"
+  },
+  "ground_truth": 2895556144.199324,
+  "relative_tolerance": 0.0001,
+  "all_20_correct": true,
+  "note": "The validator launches each archived script as a standalone child and checks the emitted TOTAL_DIST against ground truth. Its MaxRSS output is deliberately omitted: the historical canonical memory snapshot was collected by a different profiler configuration and is not silently replaced here.",
+  "trials": [
+    {"script": "claude-opus-5_trial1_A_blind.py", "correct": true, "relative_error": 3.293579087791989e-16},
+    {"script": "claude-opus-5_trial1_D_2Dtelemetry.py", "correct": true, "relative_error": 3.519160979929272e-08},
+    {"script": "claude-opus-5_trial2_A_blind.py", "correct": true, "relative_error": 3.293579087791989e-16},
+    {"script": "claude-opus-5_trial2_D_2Dtelemetry.py", "correct": true, "relative_error": 5.090341755450592e-11},
+    {"script": "claude-opus-5_trial3_A_blind.py", "correct": true, "relative_error": 1.549628960806131e-12},
+    {"script": "claude-opus-5_trial3_D_2Dtelemetry.py", "correct": true, "relative_error": 3.421941030076351e-08},
+    {"script": "claude-opus-5_trial4_A_blind.py", "correct": true, "relative_error": 3.293579087791989e-16},
+    {"script": "claude-opus-5_trial4_D_2Dtelemetry.py", "correct": true, "relative_error": 3.5192007334288614e-08},
+    {"script": "claude-opus-5_trial5_A_blind.py", "correct": true, "relative_error": 6.587158175583978e-16},
+    {"script": "claude-opus-5_trial5_D_2Dtelemetry.py", "correct": true, "relative_error": 1.58289410959283e-12},
+    {"script": "gpt-5.6-sol_trial1_A_blind.py", "correct": true, "relative_error": 0.0},
+    {"script": "gpt-5.6-sol_trial1_D_2Dtelemetry.py", "correct": true, "relative_error": 1.5926702757201686e-09},
+    {"script": "gpt-5.6-sol_trial2_A_blind.py", "correct": true, "relative_error": 0.0},
+    {"script": "gpt-5.6-sol_trial2_D_2Dtelemetry.py", "correct": true, "relative_error": 1.592900826256314e-09},
+    {"script": "gpt-5.6-sol_trial3_A_blind.py", "correct": true, "relative_error": 0.0},
+    {"script": "gpt-5.6-sol_trial3_D_2Dtelemetry.py", "correct": true, "relative_error": 1.602386334029155e-09},
+    {"script": "gpt-5.6-sol_trial4_A_blind.py", "correct": true, "relative_error": 0.0},
+    {"script": "gpt-5.6-sol_trial4_D_2Dtelemetry.py", "correct": true, "relative_error": 1.5926702757201686e-09},
+    {"script": "gpt-5.6-sol_trial5_A_blind.py", "correct": true, "relative_error": 0.0},
+    {"script": "gpt-5.6-sol_trial5_D_2Dtelemetry.py", "correct": true, "relative_error": 1.5922434278703909e-09}
+  ]
+}

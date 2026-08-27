@@ -1,0 +1,11 @@
+{
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "",
+  "wall_sec": 0.16820813599997564,
+  "memory_events": null,
+  "memory_peak_bytes": null,
+  "systemd_status": "Result=oom-kill\nExecMainCode=2\nExecMainStatus=9",
+  "unit": "scac96_positive_control_v2_1787792191013266151",
+  "positive_control_passed": true
+}

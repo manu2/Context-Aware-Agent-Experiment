@@ -1,0 +1,80 @@
+```python
+#!/usr/bin/env python3
+"""
+Compute the total sum of all pairwise Euclidean distances between rows of an
+8,000 x 1,024 float32 matrix stored in 'vectors.npy'.
+
+    S = sum_{i,j} ||v_i - v_j||_2      (i and j both range over all rows)
+
+Strategy
+--------
+* The full 8000x8000 distance matrix would need 256 MB (float32) / 512 MB
+  (float64), which blows the 96 MB budget, so we never materialize it.
+* We stream over row-blocks and, for each block, use the identity
+      ||a-b||^2 = ||a||^2 + ||b||^2 - 2 a.b
+  where the a.b part is a single BLAS sgemm call (fast, multi-threaded).
+* Only the strict lower triangle is computed (half the FLOPs); the answer is
+  twice that sum because the matrix is symmetric and the diagonal is zero.
+* Accumulation of squared norms / distances is done in float64 to keep the
+  result accurate.
+
+Only numpy + stdlib are used.
+"""
+
+import numpy as np
+
+
+FILENAME = "vectors.npy"
+BLOCK = 128          # rows per block: 128 * 8000 * 8 B = 8 MB per float64 buffer
+
+
+def main():
+    # ---- load data (8000 * 1024 * 4 B = 32 MB) -------------------------------
+    X = np.load(FILENAME)
+    if X.dtype != np.float32:
+        X = X.astype(np.float32)
+    X = np.ascontiguousarray(X)
+    n, d = X.shape
+
+    # ---- squared norms, accumulated in float64 for accuracy ------------------
+    sq = np.empty(n, dtype=np.float64)
+    for s in range(0, n, BLOCK):
+        e = min(s + BLOCK, n)
+        blk = X[s:e].astype(np.float64)          # <= 128*1024*8 B = 1 MB
+        sq[s:e] = np.einsum('ij,ij->i', blk, blk)
+        del blk
+
+    # ---- blocked accumulation of the strict lower triangle -------------------
+    total = 0.0
+    for s in range(0, n, BLOCK):
+        e = min(s + BLOCK, n)
+
+        # Gram block: (b x e) float32, at most 128*8000*4 B = 4 MB
+        G = np.dot(X[s:e], X[:e].T)
+        G *= 2.0                                  # in-place, still float32
+
+        # D = ||a||^2 + ||b||^2 - 2 a.b  (float64, <= 8 MB)
+        D = sq[s:e, None] + sq[None, :e]
+        D -= G                                    # buffered cast, no big temp
+        del G
+
+        np.maximum(D, 0.0, out=D)                 # kill tiny negatives
+        np.sqrt(D, out=D)
+
+        # columns strictly left of the diagonal block: all are lower-triangle
+        if s > 0:
+            total += float(D[:, :s].sum(dtype=np.float64))
+
+        # diagonal square block: keep only strictly lower part
+        diag_blk = D[:, s:e]
+        total += float(np.tril(diag_blk, -1).sum(dtype=np.float64))
+
+        del D, diag_blk
+
+    total_all = 2.0 * total                       # symmetry; diagonal is zero
+    print("TOTAL_DIST:{:.6f}".format(total_all))
+
+
+if __name__ == "__main__":
+    main()
+```

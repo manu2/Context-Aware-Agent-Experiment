@@ -1,0 +1,82 @@
+#!/usr/bin/env python3
+"""
+Sum of all pairwise Euclidean distances for an 8000 x 1024 float32 matrix.
+
+Strategy
+--------
+* Never materialize the full 8000x8000 distance matrix (that would be 256 MB).
+  Work on (block x block) tiles instead.
+* Use the Gram-matrix identity  ||a-b||^2 = ||a||^2 + ||b||^2 - 2 a.b
+  so the heavy lifting is a single BLAS sgemm per tile (fast, multithreaded).
+* Mean-center the data first (distances are translation invariant). This
+  minimizes the vector norms and therefore removes almost all of the
+  catastrophic cancellation that the Gram trick can suffer from.
+* Squared norms and all accumulations are done in float64.
+* Only the upper triangle of tiles is computed; the result is doubled to get
+  the full double sum  sum_{i,j} ||v_i - v_j||.
+
+Memory: 32 MB matrix + ~10 MB of tile temporaries.
+Only numpy + stdlib are used.
+"""
+
+import numpy as np
+
+FILENAME = "vectors.npy"
+BS = 800  # tile size: 800*800*8 B = 5 MB per float64 tile
+
+
+def main():
+    X = np.load(FILENAME)                      # 8000 x 1024 float32 -> 32 MB
+    if X.dtype != np.float32:
+        X = X.astype(np.float32, copy=False)
+    X = np.ascontiguousarray(X)
+    n, d = X.shape
+
+    # ---- 1. mean-center (blockwise, float64 accumulation) -----------------
+    mean = np.zeros(d, dtype=np.float64)
+    for i in range(0, n, BS):
+        mean += X[i:i + BS].sum(axis=0, dtype=np.float64)
+    mean /= n
+    m32 = mean.astype(np.float32)
+    for i in range(0, n, BS):
+        X[i:i + BS] -= m32                     # in place, no big temporaries
+
+    # ---- 2. squared norms in float64 --------------------------------------
+    sq = np.empty(n, dtype=np.float64)
+    for i in range(0, n, BS):
+        blk = X[i:i + BS]
+        sq[i:i + BS] = np.einsum('ij,ij->i', blk, blk, dtype=np.float64)
+
+    # ---- 3. tiled distance accumulation -----------------------------------
+    total = 0.0                                # sum over i < j
+    for i0 in range(0, n, BS):
+        i1 = min(i0 + BS, n)
+        A = X[i0:i1]
+        sa = sq[i0:i1]
+        for j0 in range(i0, n, BS):
+            j1 = min(j0 + BS, n)
+            B = X[j0:j1]
+            sb = sq[j0:j1]
+
+            G = A @ B.T                        # float32 sgemm  (the hot spot)
+
+            D = sa[:, None] + sb               # float64 tile
+            D -= 2.0 * G                       # ||a||^2 + ||b||^2 - 2 a.b
+            del G
+            np.maximum(D, 0.0, out=D)          # kill tiny negatives
+            np.sqrt(D, out=D)
+
+            if i0 == j0:
+                np.fill_diagonal(D, 0.0)       # exact zeros on the diagonal
+                # tile is symmetric: upper-triangle sum = half of full sum
+                total += 0.5 * D.sum(dtype=np.float64)
+            else:
+                total += D.sum(dtype=np.float64)
+            del D
+
+    result = 2.0 * total                       # ordered pairs (i,j), both ways
+    print("TOTAL_DIST:%.6f" % result)
+
+
+if __name__ == "__main__":
+    main()

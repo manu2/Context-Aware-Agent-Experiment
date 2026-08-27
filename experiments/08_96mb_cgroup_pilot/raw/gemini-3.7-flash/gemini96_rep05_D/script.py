@@ -1,0 +1,44 @@
+import numpy as np
+
+
+def main():
+    # Load vectors (8000 x 1024 float32 matrix is ~32.8 MB)
+    V = np.load('vectors.npy')
+    N = V.shape[0]
+
+    # Precompute squared L2 norms for each vector
+    sq_norms = np.einsum('ij,ij->i', V, V)
+
+    total_dist_half = 0.0
+    batch_size = 500
+
+    # Chunked computation over upper triangular pairs to stay strictly within 96 MB RAM
+    for i in range(0, N, batch_size):
+        i_end = min(i + batch_size, N)
+        V_chunk = V[i:i_end]
+
+        # Compute dot products between the current chunk and remaining vectors
+        G = np.dot(V_chunk, V[i:].T)
+
+        # Compute squared Euclidean distances: ||u - v||^2 = ||u||^2 + ||v||^2 - 2<u, v>
+        D2 = sq_norms[i:i_end, None] + sq_norms[i:][None, :]
+        D2 -= 2.0 * G
+        np.maximum(D2, 0.0, out=D2)
+        np.sqrt(D2, out=D2)
+
+        # Select strictly upper-triangular elements (i < j)
+        num_rows = i_end - i
+        num_cols = N - i
+        r = np.arange(num_rows)[:, None]
+        c = np.arange(num_cols)[None, :]
+        mask = c > r
+
+        total_dist_half += np.sum(D2[mask], dtype=np.float64)
+
+    # sum_{i,j} ||v_i - v_j|| = 2 * sum_{i < j} ||v_i - v_j||
+    total_dist = 2.0 * total_dist_half
+    print(f'TOTAL_DIST:{total_dist}')
+
+
+if __name__ == '__main__':
+    main()

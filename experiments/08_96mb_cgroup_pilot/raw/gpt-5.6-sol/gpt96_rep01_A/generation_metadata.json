@@ -1,0 +1,17 @@
+{
+  "trial_id": "gpt96_rep01_A",
+  "pair_id": "gpt96_pair01",
+  "condition": "A_Blind",
+  "model": {
+    "research_label": "gpt-5.6-sol",
+    "api_model_id": "gpt-5.6-sol",
+    "provider": "openai",
+    "endpoint": "https://api.openai.com/v1/chat/completions",
+    "temperature": 1.0,
+    "top_p": 1.0,
+    "max_completion_tokens": 8192
+  },
+  "prompt_sha256": "9eb9236ca49a72a98cf743051f635dcaf09091a0f77f71fa386adae71bf694f2",
+  "dataset_sha256": "199a60e06bcda58ec741348972ad881f50d5fa67b2f9fb6ea09f37c514ec6085",
+  "timestamp_utc": "2026-08-27T00:57:20Z"
+}

@@ -1,0 +1,14 @@
+{
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "",
+  "wall_sec": 0.24800178600003164,
+  "memory_events": null,
+  "memory_peak_bytes": null,
+  "systemd_status": "Result=oom-kill\nExecMainCode=2\nExecMainStatus=9",
+  "unit": "scac96_gpt96_rep01_A_final_1787792366683532641",
+  "total_dist": null,
+  "correct": false,
+  "oom_kill": true,
+  "success": false
+}

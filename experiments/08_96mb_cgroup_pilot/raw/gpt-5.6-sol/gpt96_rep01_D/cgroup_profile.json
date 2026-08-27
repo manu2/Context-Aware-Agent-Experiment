@@ -1,0 +1,14 @@
+{
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "",
+  "wall_sec": 10.08646618499995,
+  "memory_events": null,
+  "memory_peak_bytes": null,
+  "systemd_status": "Result=timeout\nExecMainCode=2\nExecMainStatus=15",
+  "unit": "scac96_gpt96_rep01_D_final_1787792619565457347",
+  "total_dist": null,
+  "correct": false,
+  "oom_kill": false,
+  "success": false
+}

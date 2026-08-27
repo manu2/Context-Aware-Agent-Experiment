@@ -1,0 +1,14 @@
+{
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"/tmp/aetherbus96/gpt96_rep01_A.py\", line 66, in <module>\n    main()\n  File \"/tmp/aetherbus96/gpt96_rep01_A.py\", line 12, in main\n    raw = np.load(FILE_NAME, allow_pickle=False)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3/dist-packages/numpy/lib/npyio.py\", line 427, in load\n    fid = stack.enter_context(open(os_fspath(file), \"rb\"))\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: 'vectors.npy'\n",
+  "wall_sec": 0.3490241639999567,
+  "memory_events": null,
+  "memory_peak_bytes": null,
+  "systemd_status": "Result=exit-code\nExecMainCode=1\nExecMainStatus=1",
+  "unit": "scac96_gpt96_rep01_A_retry_1787792316164603009",
+  "total_dist": null,
+  "correct": false,
+  "oom_kill": false,
+  "success": false
+}

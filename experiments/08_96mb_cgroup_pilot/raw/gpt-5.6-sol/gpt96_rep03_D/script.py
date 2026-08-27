@@ -1,0 +1,72 @@
+#!/usr/bin/env python3
+
+import os
+
+# Limit BLAS worker memory while retaining parallel matrix multiplication.
+for variable in (
+    "OPENBLAS_NUM_THREADS",
+    "OMP_NUM_THREADS",
+    "MKL_NUM_THREADS",
+    "BLIS_NUM_THREADS",
+    "VECLIB_MAXIMUM_THREADS",
+):
+    os.environ[variable] = "8"
+
+import numpy as np
+
+
+def main():
+    # Memory-map the 32 MiB input instead of making another in-memory copy.
+    vectors = np.load("vectors.npy", mmap_mode="r", allow_pickle=False)
+
+    if vectors.shape != (8000, 1024) or vectors.dtype != np.float32:
+        raise ValueError(
+            f"Expected an 8000 x 1024 float32 matrix, got "
+            f"shape={vectors.shape}, dtype={vectors.dtype}"
+        )
+
+    # Squared row norms, calculated without creating vectors * vectors.
+    norms = np.einsum(
+        "ij,ij->i", vectors, vectors, dtype=np.float32, optimize=False
+    )
+
+    # Each distance block occupies at most 4 MiB.
+    block_size = 1024
+    n = vectors.shape[0]
+    total = 0.0
+
+    # Process only the upper block triangle. Off-diagonal blocks are doubled
+    # to account for both (i, j) and (j, i).
+    for i0 in range(0, n, block_size):
+        i1 = min(i0 + block_size, n)
+        xi = vectors[i0:i1]
+        ni = norms[i0:i1]
+
+        for j0 in range(i0, n, block_size):
+            j1 = min(j0 + block_size, n)
+            xj = vectors[j0:j1]
+            nj = norms[j0:j1]
+
+            # ||x-y||^2 = ||x||^2 + ||y||^2 - 2*x·y
+            distances = np.matmul(xi, xj.T)
+            distances *= np.float32(-2.0)
+            distances += ni[:, None]
+            distances += nj[None, :]
+
+            # Remove small negative values caused by float32 rounding.
+            np.maximum(distances, np.float32(0.0), out=distances)
+
+            if i0 == j0:
+                # Self-distances are exactly zero.
+                np.fill_diagonal(distances, np.float32(0.0))
+
+            np.sqrt(distances, out=distances)
+            block_sum = distances.sum(dtype=np.float64)
+
+            total += block_sum if i0 == j0 else 2.0 * block_sum
+
+    print(f"TOTAL_DIST:{total:.10f}")
+
+
+if __name__ == "__main__":
+    main()

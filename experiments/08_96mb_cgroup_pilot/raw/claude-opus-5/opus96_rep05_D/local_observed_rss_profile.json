@@ -1,0 +1,32 @@
+{
+  "trial_id": "opus96_rep05_D",
+  "measurement": "macOS isolated-child RUSAGE_CHILDREN MaxRSS; observed classification, not cgroup enforcement",
+  "environment": {
+    "platform": "macOS-15.5-arm64-arm-64bit",
+    "python_version": "3.9.6",
+    "numpy_version": "2.0.2",
+    "machine": "arm64",
+    "processor": "arm",
+    "thread_pinning": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    }
+  },
+  "profile": {
+    "wall_sec": 0.021203000000000003,
+    "maxrss_mb": 7.203125,
+    "exit_code": 1,
+    "timed_out": false,
+    "stdout": "",
+    "stderr": "  File \"<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/08_96mb_cgroup_pilot/raw/claude-opus-5/opus96_rep05_D/script.py\", line 3\n    The key challenge is that the full 8,000\u00d78,000 distance matrix would need 256 MB (float32) \u2014 way over the 96 MB budget, and the naive double loop over 64M pairs would be far too slow in Python.\n        ^\nSyntaxError: invalid syntax\n",
+    "total_dist": null,
+    "correct": false,
+    "rel_error": null,
+    "within_128m_budget": false,
+    "within_10s_budget": false
+  },
+  "timestamp_utc": "2026-08-27T07:45:56Z"
+}

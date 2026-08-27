@@ -1,0 +1,76 @@
+```python
+#!/usr/bin/env python3
+import os
+
+# Limit BLAS thread count to control memory use while retaining parallelism.
+try:
+    available_cpus = len(os.sched_getaffinity(0))
+except (AttributeError, OSError):
+    available_cpus = os.cpu_count() or 1
+
+threads = str(min(4, available_cpus))
+os.environ["OPENBLAS_NUM_THREADS"] = threads
+os.environ["MKL_NUM_THREADS"] = threads
+os.environ["OMP_NUM_THREADS"] = threads
+os.environ["VECLIB_MAXIMUM_THREADS"] = threads
+os.environ["NUMEXPR_NUM_THREADS"] = threads
+
+import numpy as np
+
+
+def main():
+    # Memory mapping avoids an unnecessary additional in-memory copy.
+    vectors = np.load("vectors.npy", mmap_mode="r", allow_pickle=False)
+
+    if vectors.shape != (8000, 1024):
+        raise ValueError(f"Expected shape (8000, 1024), got {vectors.shape}")
+    if vectors.dtype != np.float32:
+        raise ValueError(f"Expected float32 data, got {vectors.dtype}")
+
+    n = vectors.shape[0]
+    block_size = 1000  # Divides 8000; distance buffer uses about 4 MB.
+
+    # Squared row norms, computed without creating a matrix-sized temporary.
+    norms = np.einsum(
+        "ij,ij->i", vectors, vectors,
+        dtype=np.float32,
+        optimize=False
+    )
+
+    distances = np.empty((block_size, block_size), dtype=np.float32)
+    total = 0.0
+
+    # Use symmetry: off-diagonal block sums are counted twice.
+    for i in range(0, n, block_size):
+        xi = vectors[i:i + block_size]
+        ni = norms[i:i + block_size]
+
+        for j in range(i, n, block_size):
+            xj = vectors[j:j + block_size]
+            nj = norms[j:j + block_size]
+
+            # distances initially holds Xi @ Xj.T.
+            np.matmul(xi, xj.T, out=distances)
+
+            # ||x-y||^2 = ||x||^2 + ||y||^2 - 2*x·y
+            np.multiply(distances, -2.0, out=distances)
+            np.add(distances, ni[:, None], out=distances)
+            np.add(distances, nj[None, :], out=distances)
+
+            # Remove small negative values caused by float32 roundoff.
+            np.maximum(distances, 0.0, out=distances)
+            np.sqrt(distances, out=distances)
+
+            if i == j:
+                # Self-distances are exactly zero mathematically.
+                np.fill_diagonal(distances, 0.0)
+                total += float(np.sum(distances, dtype=np.float64))
+            else:
+                total += 2.0 * float(np.sum(distances, dtype=np.float64))
+
+    print(f"TOTAL_DIST:{total:.10f}")
+
+
+if __name__ == "__main__":
+    main()
+```

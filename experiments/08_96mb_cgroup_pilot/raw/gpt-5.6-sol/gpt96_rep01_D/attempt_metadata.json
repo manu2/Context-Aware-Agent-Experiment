@@ -1,0 +1,8 @@
+{
+  "trial_id": "gpt96_rep01_D",
+  "pair_id": "gpt96_pair01",
+  "condition": "D_96MB_10s",
+  "status": "transient_missing-artifact observation superseded by delayed completion",
+  "reason": "At the time of the first inspection, the atomically reserved directory contained no response. The original API process subsequently completed and wrote raw_response.txt, script.py, and generation_metadata.json. Manifest v1.2 retains this first request as the included D member and excludes the later D replacement without inspecting either execution outcome.",
+  "timestamp_utc": "2026-08-27T01:01:00Z"
+}

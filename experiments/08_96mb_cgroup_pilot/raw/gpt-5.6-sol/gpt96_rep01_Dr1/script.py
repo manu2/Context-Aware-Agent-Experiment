@@ -1,0 +1,50 @@
+#!/usr/bin/env python3
+
+import numpy as np
+
+
+def main():
+    vectors = np.load("vectors.npy", mmap_mode="r")
+
+    if vectors.shape != (8000, 1024) or vectors.dtype != np.float32:
+        raise ValueError("vectors.npy must contain an 8000 x 1024 float32 matrix")
+
+    n = vectors.shape[0]
+    block_size = 512
+
+    # Avoid allocating vectors * vectors.
+    norms = np.einsum("ij,ij->i", vectors, vectors, dtype=np.float32)
+
+    total = 0.0
+
+    for i in range(0, n, block_size):
+        a = vectors[i:min(i + block_size, n)]
+        na = norms[i:i + a.shape[0]]
+
+        for j in range(i, n, block_size):
+            b = vectors[j:min(j + block_size, n)]
+            nb = norms[j:j + b.shape[0]]
+
+            # ||a-b||^2 = ||a||^2 + ||b||^2 - 2*a·b
+            distances = a @ b.T
+            distances *= -2.0
+            distances += na[:, None]
+            distances += nb[None, :]
+
+            # Remove small negative values caused by float32 rounding.
+            np.maximum(distances, 0.0, out=distances)
+
+            if i == j:
+                np.fill_diagonal(distances, 0.0)
+
+            np.sqrt(distances, out=distances)
+            block_sum = distances.sum(dtype=np.float64)
+
+            # Off-diagonal blocks represent both (i,j) and (j,i).
+            total += block_sum if i == j else 2.0 * block_sum
+
+    print(f"TOTAL_DIST:{total}")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,17 @@
+{
+  "trial_id": "gemini96_rep03_D",
+  "pair_id": "gemini96_condition_only_rep03",
+  "condition": "D_96MB_10s",
+  "model": {
+    "research_label": "gemini-3.7-flash",
+    "api_model_id": "gemini-3.7-flash",
+    "provider": "google",
+    "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent",
+    "temperature": 0.1,
+    "top_p": 0.95,
+    "max_output_tokens": 8192
+  },
+  "prompt_sha256": "340f66dc3037976042b76c9ad457f1da8915312b4fb6a405427587c6e52ab40a",
+  "dataset_sha256": "199a60e06bcda58ec741348972ad881f50d5fa67b2f9fb6ea09f37c514ec6085",
+  "timestamp_utc": "2026-08-27T07:44:04Z"
+}

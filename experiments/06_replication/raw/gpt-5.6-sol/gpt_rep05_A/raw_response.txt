@@ -1,0 +1,66 @@
+```python
+#!/usr/bin/env python3
+
+import math
+import numpy as np
+
+FILE_NAME = "vectors.npy"
+BLOCK_SIZE = 512
+
+
+def main():
+    vectors = np.load(FILE_NAME, allow_pickle=False)
+
+    if vectors.shape != (8000, 1024):
+        raise ValueError(
+            f"Expected an 8000 x 1024 matrix, got shape {vectors.shape}"
+        )
+    if vectors.dtype != np.float32:
+        raise ValueError(f"Expected float32 data, got {vectors.dtype}")
+
+    # Float64 reduces cancellation and accumulation error in the Gram formula:
+    # ||x-y||^2 = ||x||^2 + ||y||^2 - 2*x·y
+    vectors = np.ascontiguousarray(vectors, dtype=np.float64)
+    squared_norms = np.einsum(
+        "ij,ij->i", vectors, vectors, dtype=np.float64
+    )
+
+    n = vectors.shape[0]
+    partial_sums = []
+
+    # Process only the upper block triangle. Off-diagonal blocks are counted
+    # twice because the requested sum includes both (i, j) and (j, i).
+    for i in range(0, n, BLOCK_SIZE):
+        i_end = min(i + BLOCK_SIZE, n)
+        x = vectors[i:i_end]
+        x_norms = squared_norms[i:i_end]
+
+        for j in range(i, n, BLOCK_SIZE):
+            j_end = min(j + BLOCK_SIZE, n)
+            y = vectors[j:j_end]
+            y_norms = squared_norms[j:j_end]
+
+            distances_squared = x @ y.T
+            distances_squared *= -2.0
+            distances_squared += x_norms[:, None]
+            distances_squared += y_norms[None, :]
+
+            # Remove tiny negative values caused by floating-point rounding.
+            np.maximum(distances_squared, 0.0, out=distances_squared)
+
+            if i == j:
+                # Self-distances must be exactly zero.
+                np.fill_diagonal(distances_squared, 0.0)
+
+            np.sqrt(distances_squared, out=distances_squared)
+            block_sum = float(np.sum(distances_squared, dtype=np.float64))
+
+            partial_sums.append(block_sum if i == j else 2.0 * block_sum)
+
+    total_distance = math.fsum(partial_sums)
+    print(f"TOTAL_DIST:{total_distance:.17g}")
+
+
+if __name__ == "__main__":
+    main()
+```

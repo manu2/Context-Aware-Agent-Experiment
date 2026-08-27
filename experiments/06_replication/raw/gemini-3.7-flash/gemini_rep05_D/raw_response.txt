@@ -1,0 +1,53 @@
+An efficient, memory-safe, and self-contained Python script to compute the total sum of pairwise Euclidean distances.
+
+```python
+import numpy as np
+
+
+def compute_total_pairwise_distance(filename="vectors.npy", block_size=1000):
+    # Memory-map the file to minimize RAM usage
+    X = np.load(filename, mmap_mode="r")
+    N, D = X.shape
+
+    # Precompute squared norms of all row vectors
+    # Sum in float64 for numerical precision
+    norms = np.sum(X.astype(np.float32) ** 2, axis=1)
+
+    total_dist = 0.0
+    num_blocks = (N + block_size - 1) // block_size
+
+    for i in range(num_blocks):
+        i_start = i * block_size
+        i_end = min((i + 1) * block_size, N)
+        Xi = np.array(X[i_start:i_end], dtype=np.float32)
+        ni = norms[i_start:i_end, None]
+
+        # 1. Diagonal block (i == j)
+        G_ii = Xi @ Xi.T
+        d2_ii = ni + ni.T - 2.0 * G_ii
+        np.maximum(d2_ii, 0.0, out=d2_ii)
+        np.fill_diagonal(d2_ii, 0.0)
+        np.sqrt(d2_ii, out=d2_ii)
+        total_dist += float(np.sum(d2_ii, dtype=np.float64))
+
+        # 2. Off-diagonal blocks (i < j)
+        for j in range(i + 1, num_blocks):
+            j_start = j * block_size
+            j_end = min((j + 1) * block_size, N)
+            Xj = np.array(X[j_start:j_end], dtype=np.float32)
+            nj = norms[j_start:j_end, None]
+
+            G_ij = Xi @ Xj.T
+            d2_ij = ni + nj.T - 2.0 * G_ij
+            np.maximum(d2_ij, 0.0, out=d2_ij)
+            np.sqrt(d2_ij, out=d2_ij)
+            # Multiply by 2 due to symmetry: dist(u, v) == dist(v, u)
+            total_dist += 2.0 * float(np.sum(d2_ij, dtype=np.float64))
+
+    return total_dist
+
+
+if __name__ == "__main__":
+    total = compute_total_pairwise_distance("vectors.npy")
+    print(f"TOTAL_DIST:{total}")
+```

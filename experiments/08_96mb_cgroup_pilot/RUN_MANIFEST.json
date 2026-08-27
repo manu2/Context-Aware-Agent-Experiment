@@ -1,0 +1,145 @@
+{
+  "protocol_version": "96mb-local-sweep-v1.5",
+  "purpose": "Exploratory local observed-RSS boundary-sensitivity extension. It reuses each model's fresh blind and 128 MB-aware cohorts as reference distributions, adds five independently generated 96 MB-aware scripts per model, and does not pool results with the frozen 128 MB cohort.",
+  "model": {
+    "research_label": "gpt-5.6-sol",
+    "api_model_id": "gpt-5.6-sol",
+    "provider": "openai",
+    "endpoint": "https://api.openai.com/v1/chat/completions",
+    "temperature": 1.0,
+    "top_p": 1.0,
+    "max_completion_tokens": 8192
+  },
+  "models": {
+    "gpt-5.6-sol": {
+      "research_label": "gpt-5.6-sol",
+      "api_model_id": "gpt-5.6-sol",
+      "provider": "openai",
+      "endpoint": "https://api.openai.com/v1/chat/completions",
+      "temperature": 1.0,
+      "top_p": 1.0,
+      "max_completion_tokens": 8192
+    },
+    "claude-opus-5": {
+      "research_label": "claude-opus-5",
+      "api_model_id": "claude-opus-5",
+      "provider": "anthropic",
+      "endpoint": "https://api.anthropic.com/v1/messages",
+      "max_tokens": 8192,
+      "sampling_policy": "provider_default_required: explicit temperature and top_p rejected by this model"
+    },
+    "gemini-3.7-flash": {
+      "research_label": "gemini-3.7-flash",
+      "api_model_id": "gemini-3.7-flash",
+      "provider": "google",
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent",
+      "temperature": 0.1,
+      "top_p": 0.95,
+      "max_output_tokens": 8192
+    }
+  },
+  "dataset_sha256": "199a60e06bcda58ec741348972ad881f50d5fa67b2f9fb6ea09f37c514ec6085",
+  "memory_limit_mb": 96,
+  "wall_limit_sec": 10,
+  "protocol_amendments": [
+    {
+      "version": "96mb-cgroup-pilot-v1.1",
+      "reason": "The atomically reserved gpt96_rep01_D directory contains no response or terminal failure record after an interrupted local generation process. It is retained as an excluded pre-response attempt. gpt96_rep01_Dr1 is the predeclared replacement and uses the identical 96 MB prompt and model configuration."
+    },
+    {
+      "version": "96mb-cgroup-pilot-v1.2",
+      "reason": "Both delayed local generation processes subsequently completed. The original gpt96_rep01_D is retained as the paired D response because it was the first request. gpt96_rep01_Dr1 is retained but excluded as an unselected duplicate; no outcome-based selection occurred."
+    },
+    {
+      "version": "96mb-local-sweep-v1.3",
+      "reason": "The study focus is explicitly implementation adaptation and locally observed OS MaxRSS, not cgroup survival. It adds four predeclared 96 MB-aware GPT generations to the already archived first 96 MB-aware response. Existing fresh GPT blind and 128 MB-aware runs are retained as separately labelled reference distributions; no blind generation is repeated."
+    },
+    {
+      "version": "96mb-local-sweep-v1.4",
+      "reason": "Adds five predeclared 96 MB-aware local generations each for Claude Opus 5 and Gemini 3.7 Flash. Their direct-API blind and 128 MB-aware cohorts already exist as reference distributions; no blind calls are added. Provider settings match the corresponding frozen direct-API protocol, including provider-default Claude sampling."
+    },
+    {
+      "version": "96mb-local-sweep-v1.5",
+      "reason": "Claude responses opus96_rep03_D (empty response) and opus96_rep05_D (truncated before a complete executable program) cannot be profiled as generated programs. Both raw responses and failed profile records are retained. opus96_rep06_D and opus96_rep07_D are predeclared identical-prompt replacements before either replacement is generated; they restore the planned target of five executable Claude 96 MB-aware observations without selecting outcomes."
+    }
+  ],
+  "executions": [
+    {
+      "trial_id": "gpt96_rep01_A",
+      "pair_id": "gpt96_pair01",
+      "condition": "A_Blind"
+    },
+    {
+      "trial_id": "gpt96_rep01_D",
+      "pair_id": "gpt96_pair01",
+      "condition": "D_96MB_10s",
+      "status": "included_first_response"
+    },
+    {
+      "trial_id": "gpt96_rep01_Dr1",
+      "pair_id": "gpt96_pair01",
+      "condition": "D_96MB_10s",
+      "status": "excluded_duplicate_after_delayed_completion"
+    },
+    {
+      "trial_id": "gpt96_rep02_D",
+      "pair_id": "gpt96_condition_only_rep02",
+      "condition": "D_96MB_10s",
+      "status": "included_local_sweep"
+    },
+    {
+      "trial_id": "gpt96_rep03_D",
+      "pair_id": "gpt96_condition_only_rep03",
+      "condition": "D_96MB_10s",
+      "status": "included_local_sweep"
+    },
+    {
+      "trial_id": "gpt96_rep04_D",
+      "pair_id": "gpt96_condition_only_rep04",
+      "condition": "D_96MB_10s",
+      "status": "included_local_sweep"
+    },
+    {
+      "trial_id": "gpt96_rep05_D",
+      "pair_id": "gpt96_condition_only_rep05",
+      "condition": "D_96MB_10s",
+      "status": "included_local_sweep"
+    },
+    {
+      "trial_id": "opus96_rep01_D", "pair_id": "opus96_condition_only_rep01", "model": "claude-opus-5", "condition": "D_96MB_10s", "status": "included_local_sweep"
+    },
+    {
+      "trial_id": "opus96_rep02_D", "pair_id": "opus96_condition_only_rep02", "model": "claude-opus-5", "condition": "D_96MB_10s", "status": "included_local_sweep"
+    },
+    {
+      "trial_id": "opus96_rep03_D", "pair_id": "opus96_condition_only_rep03", "model": "claude-opus-5", "condition": "D_96MB_10s", "status": "response_invalid_empty"
+    },
+    {
+      "trial_id": "opus96_rep04_D", "pair_id": "opus96_condition_only_rep04", "model": "claude-opus-5", "condition": "D_96MB_10s", "status": "included_local_sweep"
+    },
+    {
+      "trial_id": "opus96_rep05_D", "pair_id": "opus96_condition_only_rep05", "model": "claude-opus-5", "condition": "D_96MB_10s", "status": "response_invalid_truncated"
+    },
+    {
+      "trial_id": "opus96_rep06_D", "pair_id": "opus96_condition_only_rep06", "model": "claude-opus-5", "condition": "D_96MB_10s", "status": "replacement_for_truncated_opus96_rep05_D"
+    },
+    {
+      "trial_id": "opus96_rep07_D", "pair_id": "opus96_condition_only_rep07", "model": "claude-opus-5", "condition": "D_96MB_10s", "status": "replacement_for_empty_opus96_rep03_D"
+    },
+    {
+      "trial_id": "gemini96_rep01_D", "pair_id": "gemini96_condition_only_rep01", "model": "gemini-3.7-flash", "condition": "D_96MB_10s", "status": "included_local_sweep"
+    },
+    {
+      "trial_id": "gemini96_rep02_D", "pair_id": "gemini96_condition_only_rep02", "model": "gemini-3.7-flash", "condition": "D_96MB_10s", "status": "included_local_sweep"
+    },
+    {
+      "trial_id": "gemini96_rep03_D", "pair_id": "gemini96_condition_only_rep03", "model": "gemini-3.7-flash", "condition": "D_96MB_10s", "status": "included_local_sweep"
+    },
+    {
+      "trial_id": "gemini96_rep04_D", "pair_id": "gemini96_condition_only_rep04", "model": "gemini-3.7-flash", "condition": "D_96MB_10s", "status": "included_local_sweep"
+    },
+    {
+      "trial_id": "gemini96_rep05_D", "pair_id": "gemini96_condition_only_rep05", "model": "gemini-3.7-flash", "condition": "D_96MB_10s", "status": "included_local_sweep"
+    }
+  ]
+}

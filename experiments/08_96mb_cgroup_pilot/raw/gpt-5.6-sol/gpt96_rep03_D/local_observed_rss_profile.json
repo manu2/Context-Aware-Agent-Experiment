@@ -1,0 +1,32 @@
+{
+  "trial_id": "gpt96_rep03_D",
+  "measurement": "macOS isolated-child RUSAGE_CHILDREN MaxRSS; observed classification, not cgroup enforcement",
+  "environment": {
+    "platform": "macOS-15.5-arm64-arm-64bit",
+    "python_version": "3.9.6",
+    "numpy_version": "2.0.2",
+    "machine": "arm64",
+    "processor": "arm",
+    "thread_pinning": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    }
+  },
+  "profile": {
+    "wall_sec": 0.33112875,
+    "maxrss_mb": 70.578125,
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout": "TOTAL_DIST:2895556139.5869903564\n",
+    "stderr": "<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/08_96mb_cgroup_pilot/raw/gpt-5.6-sol/gpt96_rep03_D/script.py:51: RuntimeWarning: divide by zero encountered in matmul\n  distances = np.matmul(xi, xj.T)\n<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/08_96mb_cgroup_pilot/raw/gpt-5.6-sol/gpt96_rep03_D/script.py:51: RuntimeWarning: overflow encountered in matmul\n  distances = np.matmul(xi, xj.T)\n<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/08_96mb_cgroup_pilot/raw/gpt-5.6-sol/gpt96_rep03_D/script.py:51: RuntimeWarning: invalid value encountered in matmul\n  distances = np.matmul(xi, xj.T)\n",
+    "total_dist": 2895556139.5869904,
+    "correct": true,
+    "rel_error": 1.592900826256314e-09,
+    "within_128m_budget": true,
+    "within_10s_budget": true
+  },
+  "timestamp_utc": "2026-08-27T07:10:30Z"
+}

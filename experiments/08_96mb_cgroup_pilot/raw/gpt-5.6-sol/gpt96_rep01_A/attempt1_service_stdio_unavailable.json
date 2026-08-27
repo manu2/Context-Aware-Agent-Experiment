@@ -1,0 +1,14 @@
+{
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "",
+  "wall_sec": 0.3337844860000132,
+  "memory_events": null,
+  "memory_peak_bytes": null,
+  "systemd_status": "Result=exit-code\nExecMainCode=1\nExecMainStatus=1",
+  "unit": "scac96_gpt96_rep01_A_1787792265511590201",
+  "total_dist": null,
+  "correct": false,
+  "oom_kill": false,
+  "success": false
+}

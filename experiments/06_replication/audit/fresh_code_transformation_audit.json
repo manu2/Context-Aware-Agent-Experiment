@@ -1,0 +1,4798 @@
+{
+  "classification_rules_version": "v1-source-observable-only",
+  "generated_at_utc": "2026-08-27T14:32:10.903130+00:00",
+  "records": [
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "A_Blind",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 31,
+            "text": "DEFAULT_BLOCK = 1024          # rows per block -> 1024*1024*8 B = 8 MB per tile"
+          },
+          {
+            "line": 57,
+            "text": "for i0 in range(0, n, block):"
+          },
+          {
+            "line": 61,
+            "text": "for j0 in range(i0, n, block):            # upper block-triangle only"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 71,
+            "text": "np.maximum(d2, 0.0, out=d2)           # kill round-off negatives"
+          },
+          {
+            "line": 72,
+            "text": "np.sqrt(d2, out=d2)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 130,
+            "text": "X = np.load(args.path, mmap_mode=\"r\")"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 66,
+            "text": "d2 = Xi @ Xj.T                        # <- the expensive part (BLAS)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 46,
+            "text": "X = np.ascontiguousarray(X, dtype=np.float64)   # float64 for accuracy"
+          },
+          {
+            "line": 96,
+            "text": "A = rng.standard_normal((n, d)).astype(np.float32)"
+          },
+          {
+            "line": 99,
+            "text": "diff = A.astype(np.float64) - A[i].astype(np.float64)"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 206.015625,
+        "timed_out": false,
+        "wall_sec": 0.829979833
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "claude-opus-5",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 4,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/claude-opus-5/opus_rep02_A/script.py",
+      "source_sha256": "5c67979cfc508d49f61dcacbce49159499a975101e7a42e0cc4c6f2ea2116d0f",
+      "trial_id": "opus_rep02_A"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "D_2DTelemetry",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 26,
+            "text": "ROW_CHUNK = 1000     # chunk used for norms / mean (bounded temporaries)"
+          },
+          {
+            "line": 27,
+            "text": "BLOCK = 512          # rows per GEMM block -> 512 x 8000 float32 = 16 MB"
+          },
+          {
+            "line": 39,
+            "text": "for a in range(0, n, ROW_CHUNK):"
+          },
+          {
+            "line": 46,
+            "text": "for a in range(0, n, ROW_CHUNK):"
+          },
+          {
+            "line": 55,
+            "text": "for a in range(0, n, BLOCK):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 65,
+            "text": "np.maximum(G, 0, out=G)                  # guard tiny negative round-off"
+          },
+          {
+            "line": 66,
+            "text": "np.sqrt(G, out=G)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 31,
+            "text": "X = np.load(FILENAME)                       # 8000 x 1024 float32 = 32.8 MB"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 59,
+            "text": "# G = X[a:b] @ X[a:].T   (single sgemm; only columns j >= a are needed)"
+          },
+          {
+            "line": 60,
+            "text": "G = X[a:b] @ X[a:].T                     # (m, n-a) float32"
+          }
+        ],
+        "precision": [
+          {
+            "line": 3,
+            "text": "Sum of all pairwise Euclidean distances for an 8000 x 1024 float32 matrix."
+          },
+          {
+            "line": 7,
+            "text": "The full 8000x8000 distance matrix would need 256 MB (float32) / 512 MB (float64),"
+          },
+          {
+            "line": 16,
+            "text": "are accumulated in float64."
+          },
+          {
+            "line": 27,
+            "text": "BLOCK = 512          # rows per GEMM block -> 512 x 8000 float32 = 16 MB"
+          },
+          {
+            "line": 31,
+            "text": "X = np.load(FILENAME)                       # 8000 x 1024 float32 = 32.8 MB"
+          },
+          {
+            "line": 32,
+            "text": "if X.dtype != np.float32:"
+          },
+          {
+            "line": 33,
+            "text": "X = X.astype(np.float32, copy=False)"
+          },
+          {
+            "line": 38,
+            "text": "mu = np.zeros(d, dtype=np.float64)"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 9,
+            "text": "the upper triangle (i < j), using the Gram-matrix identity"
+          },
+          {
+            "line": 53,
+            "text": "# ---- blocked upper-triangle accumulation ----"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 107.484375,
+        "timed_out": false,
+        "wall_sec": 0.340507833
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "claude-opus-5",
+      "observable_source_features": {
+        "input_mode": "numpy_load",
+        "loop_structure": {
+          "for_loops": 3,
+          "max_for_nesting": 1,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/claude-opus-5/opus_rep02_D/script.py",
+      "source_sha256": "cdfcb4d89c57d5682200b0037cf864b3b7affa3c756f7f89a0080d0994c7ef32",
+      "trial_id": "opus_rep02_D"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "A_Blind",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 37,
+            "text": "BLOCK = int(os.environ.get(\"BLOCK\", 1024))          # rows per tile"
+          },
+          {
+            "line": 55,
+            "text": "for i0 in range(0, n, block):"
+          },
+          {
+            "line": 59,
+            "text": "for j0 in range(i0, n, block):              # upper block-triangle only"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 68,
+            "text": "np.maximum(D2, 0.0, out=D2)             # kill tiny negative round-off"
+          },
+          {
+            "line": 69,
+            "text": "D = np.sqrt(D2, out=D2)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 42,
+            "text": "X = np.load(path, mmap_mode=\"r\")"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 63,
+            "text": "D2 = Xi @ X[j0:j1].T"
+          }
+        ],
+        "precision": [
+          {
+            "line": 6,
+            "text": "for the 8,000 x 1,024 float32 matrix stored in 'vectors.npy'."
+          },
+          {
+            "line": 12,
+            "text": "* 8,000^2 = 64,000,000 pairs -> a full float64 distance matrix would be 512 MB."
+          },
+          {
+            "line": 19,
+            "text": "- everything is promoted to float64,"
+          },
+          {
+            "line": 43,
+            "text": "X = np.ascontiguousarray(X, dtype=np.float64)   # promote once, in RAM (~66 MB)"
+          },
+          {
+            "line": 52,
+            "text": "sq = np.einsum(\"ij,ij->i\", X, X)                # squared norms, float64"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 25,
+            "text": "- only the strict upper triangle is summed, then doubled, so the result is"
+          },
+          {
+            "line": 49,
+            "text": "def upper_triangle_distance_sum(X, block=BLOCK):"
+          },
+          {
+            "line": 72,
+            "text": "parts.append(float(np.triu(D, 1).sum()))"
+          },
+          {
+            "line": 102,
+            "text": "got = upper_triangle_distance_sum(X[:m], block=64)"
+          },
+          {
+            "line": 109,
+            "text": "upper = upper_triangle_distance_sum(X, block=BLOCK)"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 168.59375,
+        "timed_out": false,
+        "wall_sec": 0.780876958
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "claude-opus-5",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 3,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/claude-opus-5/opus_rep03_A/script.py",
+      "source_sha256": "e6abc49a62a2c9211b51c111c9251342c48961e0027e9ea448c087fa9bfefe68",
+      "trial_id": "opus_rep03_A"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "D_2DTelemetry",
+      "evidence_lines": {
+        "blocking_or_tiling": [],
+        "buffer_reuse": [
+          {
+            "line": 64,
+            "text": "np.maximum(G, 0, out=G)"
+          },
+          {
+            "line": 65,
+            "text": "np.sqrt(G, out=G)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 32,
+            "text": "X = np.load('vectors.npy')"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 58,
+            "text": "G = X[a:b] @ X[a:].T                     # (m, n-a) float32, one sgemm"
+          }
+        ],
+        "precision": [
+          {
+            "line": 3,
+            "text": "Sum of all pairwise Euclidean distances for an 8000 x 1024 float32 matrix."
+          },
+          {
+            "line": 23,
+            "text": "for non-zero-mean data.  Reductions are accumulated in float64."
+          },
+          {
+            "line": 25,
+            "text": "Memory budget: X (32.8 MB) + one block (512 x 8000 float32 = 16.4 MB) ~ 50 MB."
+          },
+          {
+            "line": 33,
+            "text": "if X.dtype != np.float32:"
+          },
+          {
+            "line": 34,
+            "text": "X = X.astype(np.float32)"
+          },
+          {
+            "line": 38,
+            "text": "# --- center (distances unchanged, big win for float32 accuracy) ---"
+          },
+          {
+            "line": 39,
+            "text": "mu = X.mean(axis=0, dtype=np.float64).astype(np.float32)"
+          },
+          {
+            "line": 42,
+            "text": "# --- squared norms, computed chunk-wise with float64 accumulation ---"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 11,
+            "text": "part of the Gram matrix belonging to the upper triangle (j >= i), which"
+          },
+          {
+            "line": 57,
+            "text": "# Gram block against columns [a, n)  -> only the upper triangle region"
+          },
+          {
+            "line": 68,
+            "text": "upper += float(np.sum(np.triu(G[:, :m], 1), dtype=np.float64))"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 102.796875,
+        "timed_out": false,
+        "wall_sec": 0.316269875
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "claude-opus-5",
+      "observable_source_features": {
+        "input_mode": "numpy_load",
+        "loop_structure": {
+          "for_loops": 2,
+          "max_for_nesting": 1,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": false,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/claude-opus-5/opus_rep03_D/script.py",
+      "source_sha256": "2d9ec811708e13a1d0ea408a2a8d3ebc412b37a2f207d3469467c79239f30c84",
+      "trial_id": "opus_rep03_D"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "A_Blind",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 40,
+            "text": "TARGET_BLOCK_BYTES = 256 * 1024 * 1024  # ~256 MB working block for the distances"
+          },
+          {
+            "line": 47,
+            "text": "chunk = max(1, TARGET_BLOCK_BYTES // (8 * n))"
+          },
+          {
+            "line": 66,
+            "text": "chunk = choose_chunk(n)"
+          },
+          {
+            "line": 86,
+            "text": "block_sum = 0.0"
+          },
+          {
+            "line": 70,
+            "text": "for i0 in range(0, n, chunk):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 81,
+            "text": "np.maximum(D2, 0.0, out=D2)        # kill round-off negatives"
+          },
+          {
+            "line": 82,
+            "text": "D = np.sqrt(D2, out=D2)            # in-place sqrt -> distances"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 112,
+            "text": "X = np.load(path)"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 76,
+            "text": "D2 = A @ B.T                       # (m x r) BLAS matmul"
+          }
+        ],
+        "precision": [
+          {
+            "line": 21,
+            "text": "* The full 8000x8000 distance matrix (~512 MB in float64) is never"
+          },
+          {
+            "line": 25,
+            "text": "* Data is promoted to float64 and mean-centred first.  Centring does not"
+          },
+          {
+            "line": 44,
+            "text": "\"\"\"Pick a row-block size so that one (chunk x n) float64 block stays modest.\"\"\""
+          },
+          {
+            "line": 58,
+            "text": "# float64 working copy, mean-centred for numerical stability."
+          },
+          {
+            "line": 59,
+            "text": "Xc = np.ascontiguousarray(X, dtype=np.float64)"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 23,
+            "text": "* Only the strict upper triangle (i < j) is computed -> half the FLOPs;"
+          }
+        ]
+      },
+      "execution": {
+        "correct": false,
+        "exit_code": 1,
+        "maxrss_mb": 19.953125,
+        "timed_out": false,
+        "wall_sec": 0.08890870799999999
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "claude-opus-5",
+      "observable_source_features": {
+        "input_mode": "numpy_load",
+        "loop_structure": {
+          "for_loops": 2,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/claude-opus-5/opus_rep04_A/script.py",
+      "source_sha256": "26fc9ce0b7662f283f80525596d4915925443b1c40869ac98064e59e05928e6b",
+      "trial_id": "opus_rep04_A"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "D_2DTelemetry",
+      "evidence_lines": {
+        "blocking_or_tiling": [],
+        "buffer_reuse": [
+          {
+            "line": 53,
+            "text": "np.maximum(D, 0.0, out=D)              # kill tiny negative round-off"
+          },
+          {
+            "line": 54,
+            "text": "np.sqrt(D, out=D)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 24,
+            "text": "X = np.load('vectors.npy')"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 46,
+            "text": "G = X[s:e] @ X[s:].T                   # float32, <= 4 MB"
+          }
+        ],
+        "precision": [
+          {
+            "line": 3,
+            "text": "Sum of all pairwise Euclidean distances for an 8000 x 1024 float32 matrix."
+          },
+          {
+            "line": 7,
+            "text": "* The full 8000x8000 distance matrix would need 256 MB (float32) / 512 MB"
+          },
+          {
+            "line": 8,
+            "text": "(float64), so it is never materialised.  Instead we stream over row-blocks."
+          },
+          {
+            "line": 14,
+            "text": "* Squared norms and all accumulations are done in float64 to keep the"
+          },
+          {
+            "line": 15,
+            "text": "final sum accurate; only the big matrix product stays in float32."
+          },
+          {
+            "line": 25,
+            "text": "if X.dtype != np.float32:"
+          },
+          {
+            "line": 26,
+            "text": "X = X.astype(np.float32)"
+          },
+          {
+            "line": 30,
+            "text": "# ---- squared norms in float64, computed in small chunks ----------------"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 12,
+            "text": "* Only the upper triangle is computed (block i vs. rows >= block start),"
+          },
+          {
+            "line": 38,
+            "text": "# ---- blocked upper-triangle accumulation ------------------------------"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 105.5625,
+        "timed_out": false,
+        "wall_sec": 0.401103625
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "claude-opus-5",
+      "observable_source_features": {
+        "input_mode": "numpy_load",
+        "loop_structure": {
+          "for_loops": 2,
+          "max_for_nesting": 1,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": false,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/claude-opus-5/opus_rep04_D/script.py",
+      "source_sha256": "e10156a50819edfe48534081032e5d1b069438191ccdcea5884e0c9185489f78",
+      "trial_id": "opus_rep04_D"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "A_Blind",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 34,
+            "text": "BLOCK = 512          # rows per block; tune for cache/RAM (512 -> ~32 MB temporaries)"
+          },
+          {
+            "line": 52,
+            "text": "for start in range(0, n, block):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 61,
+            "text": "np.maximum(d2, 0.0, out=d2)          # kill round-off negatives"
+          },
+          {
+            "line": 62,
+            "text": "d = np.sqrt(d2, out=d2)              # in-place sqrt"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 80,
+            "text": "X = np.load(FILENAME, mmap_mode=\"r\")     # memory-map: avoid a needless copy"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 59,
+            "text": "G = A @ X[start:].T                  # (m, n-start) BLAS GEMM"
+          }
+        ],
+        "precision": [
+          {
+            "line": 4,
+            "text": "of an 8,000 x 1,024 float32 matrix stored in 'vectors.npy'."
+          },
+          {
+            "line": 20,
+            "text": "* everything is promoted to float64 and the data is mean-centered first"
+          },
+          {
+            "line": 43,
+            "text": "# float64 working copy, mean-centered for numerical stability."
+          },
+          {
+            "line": 44,
+            "text": "X = np.array(X, dtype=np.float64, copy=True)"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 13,
+            "text": "processing the data in row blocks and only touching the strict upper triangle"
+          },
+          {
+            "line": 58,
+            "text": "# (upper triangle only -> each unordered pair visited once)."
+          },
+          {
+            "line": 66,
+            "text": "partials.append(float(np.triu(diag_part, k=1).sum()))"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 345.328125,
+        "timed_out": false,
+        "wall_sec": 0.69124425
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "claude-opus-5",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 1,
+          "max_for_nesting": 1,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/claude-opus-5/opus_rep05_A/script.py",
+      "source_sha256": "8f8b2fa97ea01761054d0f089fefc412f451d2befd66dce1a7e37f6f5de9ef7c",
+      "trial_id": "opus_rep05_A"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "D_2DTelemetry",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 12,
+            "text": "BLOCK = 256          # rows per block: 256 * 8000 * 4B = 8.2 MB working buffer"
+          },
+          {
+            "line": 32,
+            "text": "for s in range(0, n, BLOCK):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 42,
+            "text": "np.maximum(G, 0.0, out=G)                  # kill tiny negative round-off"
+          },
+          {
+            "line": 43,
+            "text": "np.sqrt(G, out=G)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 16,
+            "text": "X = np.load(FILENAME)"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 36,
+            "text": "G = X[s:e] @ X[:e].T                       # BLAS sgemm"
+          }
+        ],
+        "precision": [
+          {
+            "line": 4,
+            "text": "for an 8000 x 1024 float32 matrix, under 128 MB RAM / 10 s."
+          },
+          {
+            "line": 17,
+            "text": "if X.dtype != np.float32:"
+          },
+          {
+            "line": 18,
+            "text": "X = X.astype(np.float32, copy=False)"
+          },
+          {
+            "line": 23,
+            "text": "# shrink a lot -> much less float32 cancellation error in the Gram trick."
+          },
+          {
+            "line": 24,
+            "text": "mu = X.mean(axis=0, dtype=np.float64).astype(np.float32)"
+          },
+          {
+            "line": 27,
+            "text": "# Squared row norms (accumulated in float64, stored as float32 for in-place adds)"
+          },
+          {
+            "line": 28,
+            "text": "sq = np.einsum('ij,ij->i', X, X, dtype=np.float64).astype(np.float32)"
+          },
+          {
+            "line": 35,
+            "text": "# Gram block: (b x e) float32, only columns [0, e) -> lower triangular half"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 111.859375,
+        "timed_out": false,
+        "wall_sec": 0.346199125
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "claude-opus-5",
+      "observable_source_features": {
+        "input_mode": "numpy_load",
+        "loop_structure": {
+          "for_loops": 1,
+          "max_for_nesting": 1,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/claude-opus-5/opus_rep05_D/script.py",
+      "source_sha256": "a5d12243d42f246b632d1a038d098b8d429e4d3aa0d1c6bb2ce2eaebcf3e8ac5",
+      "trial_id": "opus_rep05_D"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "A_Blind",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 19,
+            "text": "BLOCK = 512          # rows of the distance matrix per chunk (~33 MB in float64)"
+          },
+          {
+            "line": 41,
+            "text": "for s in range(0, n, block):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 47,
+            "text": "np.maximum(D, 0.0, out=D)             # kill tiny negative round-off"
+          },
+          {
+            "line": 48,
+            "text": "np.sqrt(D, out=D)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 23,
+            "text": "X = np.load(path, mmap_mode=\"r\")          # avoid a double in-RAM copy"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 43,
+            "text": "D = X[s:e] @ Xt                       # BLAS dgemm: (b, n)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 3,
+            "text": "Sum of all pairwise Euclidean distances for an 8,000 x 1,024 float32 matrix."
+          },
+          {
+            "line": 9,
+            "text": "float64) is never materialized: it is built and reduced in row blocks."
+          },
+          {
+            "line": 19,
+            "text": "BLOCK = 512          # rows of the distance matrix per chunk (~33 MB in float64)"
+          },
+          {
+            "line": 26,
+            "text": "# float64 accumulation: the Gram trick below is numerically delicate in float32"
+          },
+          {
+            "line": 27,
+            "text": "return np.ascontiguousarray(X, dtype=np.float64)"
+          },
+          {
+            "line": 35,
+            "text": "X = X - X.mean(axis=0, dtype=np.float64)"
+          },
+          {
+            "line": 37,
+            "text": "sq = np.einsum(\"ij,ij->i\", X, X)          # squared norms, float64"
+          },
+          {
+            "line": 52,
+            "text": "partials.append(float(D.sum(dtype=np.float64)))"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 305.96875,
+        "timed_out": false,
+        "wall_sec": 1.3413002909999998
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "claude-opus-5",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 1,
+          "max_for_nesting": 1,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/claude-opus-5/opus_rep06_A/script.py",
+      "source_sha256": "29c05a3af460107de3650aa5a7d667bd3474bc4c1b15d10210e6c18f713a753c",
+      "trial_id": "opus_rep06_A"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "D_2DTelemetry",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 32,
+            "text": "BLOCK = 1000  # tile size: 1000*1000*4 B = 4 MB per tile"
+          },
+          {
+            "line": 85,
+            "text": "block_sum = float(G.sum(dtype=np.float64))"
+          },
+          {
+            "line": 44,
+            "text": "for s in range(0, n, BLOCK):"
+          },
+          {
+            "line": 53,
+            "text": "for s in range(0, n, BLOCK):"
+          },
+          {
+            "line": 60,
+            "text": "for s in range(0, n, BLOCK):"
+          },
+          {
+            "line": 69,
+            "text": "for i0 in range(0, n, BLOCK):"
+          },
+          {
+            "line": 73,
+            "text": "for j0 in range(i0, n, BLOCK):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 82,
+            "text": "np.maximum(G, 0.0, out=G)      # kill tiny negative round-off"
+          },
+          {
+            "line": 83,
+            "text": "np.sqrt(G, out=G)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 37,
+            "text": "mm = np.load('vectors.npy', mmap_mode='r')"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 76,
+            "text": "# G = Ai @ Aj^T  (single-precision BLAS sgemm)"
+          },
+          {
+            "line": 77,
+            "text": "G = Ai @ A[j0:j1].T"
+          }
+        ],
+        "precision": [
+          {
+            "line": 3,
+            "text": "Sum of all pairwise Euclidean distances for an 8000 x 1024 float32 matrix."
+          },
+          {
+            "line": 10,
+            "text": "We never materialize the full 8000x8000 matrix (that would be 256 MB in float32);"
+          },
+          {
+            "line": 12,
+            "text": "the FLOPs, and accumulate the tile sums in float64."
+          },
+          {
+            "line": 22,
+            "text": "data (float32)      : 8000*1024*4  = 32.8 MB"
+          },
+          {
+            "line": 23,
+            "text": "one tile (float32)  : 1000*1000*4  =  4.0 MB"
+          },
+          {
+            "line": 36,
+            "text": "# ---- load (memory-mapped, copied block-wise into one float32 buffer) ----"
+          },
+          {
+            "line": 40,
+            "text": "A = np.empty((n, d), dtype=np.float32)"
+          },
+          {
+            "line": 42,
+            "text": "# copy + accumulate column means in float64"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 111.375,
+        "timed_out": false,
+        "wall_sec": 0.402015167
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "claude-opus-5",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 5,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/claude-opus-5/opus_rep06_D/script.py",
+      "source_sha256": "763c946767f8cf32744192c4761f10d3f1d182d94099c2f460a9a78ba78e5df4",
+      "trial_id": "opus_rep06_D"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "A_Blind",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 8,
+            "text": "BLOCK_SIZE = 512"
+          },
+          {
+            "line": 40,
+            "text": "block_i = vectors[i_start:i_end]"
+          },
+          {
+            "line": 45,
+            "text": "block_j = vectors[j_start:j_end]"
+          },
+          {
+            "line": 61,
+            "text": "block_sum = float(np.sum(distances, dtype=np.float64))"
+          },
+          {
+            "line": 38,
+            "text": "for i_start in range(0, n, BLOCK_SIZE):"
+          },
+          {
+            "line": 43,
+            "text": "for j_start in range(i_start, n, BLOCK_SIZE):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 55,
+            "text": "np.maximum(distances, 0.0, out=distances)"
+          },
+          {
+            "line": 60,
+            "text": "np.sqrt(distances, out=distances)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 12,
+            "text": "source = np.load(FILENAME, mmap_mode=\"r\", allow_pickle=False)"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 49,
+            "text": "distances = block_i @ block_j.T"
+          }
+        ],
+        "precision": [
+          {
+            "line": 19,
+            "text": "if source.dtype != np.float32:"
+          },
+          {
+            "line": 21,
+            "text": "f\"Expected {FILENAME} to contain float32 values, \""
+          },
+          {
+            "line": 25,
+            "text": "# Float64 improves accuracy of squared norms, products, and accumulation."
+          },
+          {
+            "line": 26,
+            "text": "vectors = np.asarray(source, dtype=np.float64, order=\"C\")"
+          },
+          {
+            "line": 31,
+            "text": "\"ij,ij->i\", vectors, vectors, dtype=np.float64, optimize=True"
+          },
+          {
+            "line": 61,
+            "text": "block_sum = float(np.sum(distances, dtype=np.float64))"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 113.0625,
+        "timed_out": false,
+        "wall_sec": 0.595984291
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "gpt-5.6-sol",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 2,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "Float64",
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/gpt-5.6-sol/gpt_rep01_A/script.py",
+      "source_sha256": "f019a2cb2c64d1ad12a5bb54f0460a7bdb7a95c17eb44390a7c89755ffe7bc16",
+      "trial_id": "gpt_rep01_A"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "D_2DTelemetry",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 24,
+            "text": "block_size = 512"
+          },
+          {
+            "line": 31,
+            "text": "for i in range(0, n, block_size):"
+          },
+          {
+            "line": 36,
+            "text": "for j in range(i, n, block_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 47,
+            "text": "np.maximum(distances, 0.0, out=distances)"
+          },
+          {
+            "line": 48,
+            "text": "np.sqrt(distances, out=distances)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 15,
+            "text": "vectors = np.load(\"vectors.npy\", mmap_mode=\"r\", allow_pickle=False)"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 41,
+            "text": "distances = a @ b.T"
+          }
+        ],
+        "precision": [
+          {
+            "line": 17,
+            "text": "if vectors.shape != (8000, 1024) or vectors.dtype != np.float32:"
+          },
+          {
+            "line": 19,
+            "text": "f\"Expected an 8000 x 1024 float32 matrix, got \""
+          },
+          {
+            "line": 27,
+            "text": "norms = np.einsum(\"ij,ij->i\", vectors, vectors, dtype=np.float32)"
+          },
+          {
+            "line": 46,
+            "text": "# Remove small negative values caused by float32 roundoff."
+          },
+          {
+            "line": 54,
+            "text": "total += float(np.sum(distances, dtype=np.float64))"
+          },
+          {
+            "line": 57,
+            "text": "total += 2.0 * float(np.sum(distances, dtype=np.float64))"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 65.828125,
+        "timed_out": false,
+        "wall_sec": 0.34567962500000005
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "gpt-5.6-sol",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 2,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/gpt-5.6-sol/gpt_rep01_D/script.py",
+      "source_sha256": "9a0aa769c1da0955d2a24ead48ed3816dafc9e7f56ba3ae8adacacec8d34a69d",
+      "trial_id": "gpt_rep01_D"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "A_Blind",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 27,
+            "text": "block_size = 1024"
+          },
+          {
+            "line": 28,
+            "text": "block_totals = []"
+          },
+          {
+            "line": 55,
+            "text": "block_sum = float(np.sum(distances, dtype=np.float64))"
+          },
+          {
+            "line": 32,
+            "text": "for i0 in range(0, vectors.shape[0], block_size):"
+          },
+          {
+            "line": 36,
+            "text": "for j0 in range(i0, vectors.shape[0], block_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 48,
+            "text": "np.maximum(distances, 0.0, out=distances)"
+          },
+          {
+            "line": 54,
+            "text": "np.sqrt(distances, out=distances)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 10,
+            "text": "source = np.load(\"vectors.npy\", mmap_mode=\"r\", allow_pickle=False)"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 42,
+            "text": "distances = left @ right.T"
+          }
+        ],
+        "precision": [
+          {
+            "line": 8,
+            "text": "# Memory-map the input, then convert to float64 for numerically stable"
+          },
+          {
+            "line": 17,
+            "text": "if source.dtype != np.float32:"
+          },
+          {
+            "line": 19,
+            "text": "f\"vectors.npy must contain float32 values, got {source.dtype}\""
+          },
+          {
+            "line": 22,
+            "text": "vectors = np.asarray(source, dtype=np.float64)"
+          },
+          {
+            "line": 24,
+            "text": "\"ij,ij->i\", vectors, vectors, dtype=np.float64"
+          },
+          {
+            "line": 55,
+            "text": "block_sum = float(np.sum(distances, dtype=np.float64))"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 179.921875,
+        "timed_out": false,
+        "wall_sec": 0.627417958
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "gpt-5.6-sol",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 2,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/gpt-5.6-sol/gpt_rep02_A/script.py",
+      "source_sha256": "f16739bff23420b54e9bd029e8e185a5751ae4b5a88fbc2e2d9ddf6bf84ab238",
+      "trial_id": "gpt_rep02_A"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "D_2DTelemetry",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 22,
+            "text": "block_size = 512"
+          },
+          {
+            "line": 28,
+            "text": "block = vectors[start:stop]"
+          },
+          {
+            "line": 65,
+            "text": "block_sum = np.sum(distances, dtype=np.float64)"
+          },
+          {
+            "line": 26,
+            "text": "for start in range(0, n, block_size):"
+          },
+          {
+            "line": 41,
+            "text": "for i_start in range(0, n, block_size):"
+          },
+          {
+            "line": 46,
+            "text": "for j_start in range(i_start, n, block_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 33,
+            "text": "out=squared_norms[start:stop],"
+          },
+          {
+            "line": 58,
+            "text": "np.maximum(distances, 0.0, out=distances)"
+          },
+          {
+            "line": 64,
+            "text": "np.sqrt(distances, out=distances)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 8,
+            "text": "vectors = np.load(\"vectors.npy\", mmap_mode=\"r\", allow_pickle=False)"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 52,
+            "text": "distances = x_i @ x_j.T"
+          }
+        ],
+        "precision": [
+          {
+            "line": 16,
+            "text": "if vectors.dtype != np.float32:"
+          },
+          {
+            "line": 18,
+            "text": "f\"Expected vectors.npy to contain float32 data, got {vectors.dtype}\""
+          },
+          {
+            "line": 25,
+            "text": "squared_norms = np.empty(n, dtype=np.float32)"
+          },
+          {
+            "line": 51,
+            "text": "# The result remains float32, keeping peak memory well below 128 MB."
+          },
+          {
+            "line": 65,
+            "text": "block_sum = np.sum(distances, dtype=np.float64)"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 60.0,
+        "timed_out": false,
+        "wall_sec": 0.348523083
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "gpt-5.6-sol",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 3,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/gpt-5.6-sol/gpt_rep02_D/script.py",
+      "source_sha256": "da4cf75459f77b3744a17692667a780f38da0a8b81a5af8c07c624e2ee14ce2f",
+      "trial_id": "gpt_rep02_D"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "A_Blind",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 7,
+            "text": "BLOCK_SIZE = 1024"
+          },
+          {
+            "line": 25,
+            "text": "block_sums = []"
+          },
+          {
+            "line": 52,
+            "text": "block_total = float(np.sum(distances, dtype=np.float64))"
+          },
+          {
+            "line": 30,
+            "text": "for i0 in range(0, n, BLOCK_SIZE):"
+          },
+          {
+            "line": 35,
+            "text": "for j0 in range(0, i0 + 1, BLOCK_SIZE):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 47,
+            "text": "np.maximum(distances, 0.0, out=distances)"
+          },
+          {
+            "line": 51,
+            "text": "np.sqrt(distances, out=distances)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 11,
+            "text": "raw = np.load(INPUT_FILE, mmap_mode=\"r\", allow_pickle=False)"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 41,
+            "text": "distances = vi @ vj.T"
+          }
+        ],
+        "precision": [
+          {
+            "line": 17,
+            "text": "if raw.dtype != np.float32:"
+          },
+          {
+            "line": 18,
+            "text": "raise TypeError(f\"Expected float32 data, but found dtype {raw.dtype}\")"
+          },
+          {
+            "line": 20,
+            "text": "# Float64 reduces cancellation error in the Gram-matrix distance formula."
+          },
+          {
+            "line": 21,
+            "text": "vectors = np.array(raw, dtype=np.float64, order=\"C\", copy=True)"
+          },
+          {
+            "line": 52,
+            "text": "block_total = float(np.sum(distances, dtype=np.float64))"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 113.53125,
+        "timed_out": false,
+        "wall_sec": 0.681723833
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "gpt-5.6-sol",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 2,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "Float64",
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/gpt-5.6-sol/gpt_rep03_A/script.py",
+      "source_sha256": "73a2d18110044acd3bbad5dd09ed59f302b46cdf206c73e91a082ddd8dc07ad0",
+      "trial_id": "gpt_rep03_A"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "D_2DTelemetry",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 22,
+            "text": "block_size = 500"
+          },
+          {
+            "line": 26,
+            "text": "for i in range(0, vectors.shape[0], block_size):"
+          },
+          {
+            "line": 30,
+            "text": "for j in range(i, vectors.shape[0], block_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 35,
+            "text": "np.dot(a, b.T, out=work)"
+          },
+          {
+            "line": 41,
+            "text": "np.maximum(work, 0.0, out=work)"
+          },
+          {
+            "line": 42,
+            "text": "np.sqrt(work, out=work)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 7,
+            "text": "vectors = np.load(\"vectors.npy\", mmap_mode=\"r\")"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 35,
+            "text": "np.dot(a, b.T, out=work)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 9,
+            "text": "if vectors.shape != (8000, 1024) or vectors.dtype != np.float32:"
+          },
+          {
+            "line": 11,
+            "text": "f\"Expected an 8000 x 1024 float32 matrix, \""
+          },
+          {
+            "line": 15,
+            "text": "# Squared row norms, retained as float32 so block calculations remain"
+          },
+          {
+            "line": 18,
+            "text": "\"ij,ij->i\", vectors, vectors, dtype=np.float32, optimize=True"
+          },
+          {
+            "line": 23,
+            "text": "work = np.empty((block_size, block_size), dtype=np.float32)"
+          },
+          {
+            "line": 40,
+            "text": "# Suppress small negative values caused by float32 roundoff."
+          },
+          {
+            "line": 47,
+            "text": "total += np.sum(work, dtype=np.float64)"
+          },
+          {
+            "line": 50,
+            "text": "total += 2.0 * np.sum(work, dtype=np.float64)"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 54.203125,
+        "timed_out": false,
+        "wall_sec": 0.33916987499999995
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "gpt-5.6-sol",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 2,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/gpt-5.6-sol/gpt_rep03_D/script.py",
+      "source_sha256": "2a8319f6d37e8e7a386f1990ea8d9424edd08b5f537de81372a047f05637afd2",
+      "trial_id": "gpt_rep03_D"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "A_Blind",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 19,
+            "text": "block_size = 512"
+          },
+          {
+            "line": 47,
+            "text": "block_sum = float(np.sum(distances, dtype=np.float64))"
+          },
+          {
+            "line": 25,
+            "text": "for i0 in range(0, n, block_size):"
+          },
+          {
+            "line": 29,
+            "text": "for j0 in range(i0, n, block_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 40,
+            "text": "np.maximum(distances, 0.0, out=distances)"
+          },
+          {
+            "line": 46,
+            "text": "np.sqrt(distances, out=distances)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 8,
+            "text": "vectors = np.load(\"vectors.npy\", mmap_mode=\"r\", allow_pickle=False)"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 34,
+            "text": "distances = x @ y.T"
+          }
+        ],
+        "precision": [
+          {
+            "line": 12,
+            "text": "if vectors.dtype != np.float32:"
+          },
+          {
+            "line": 13,
+            "text": "raise TypeError(f\"Expected float32 data, got {vectors.dtype}\")"
+          },
+          {
+            "line": 47,
+            "text": "block_sum = float(np.sum(distances, dtype=np.float64))"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 65.703125,
+        "timed_out": false,
+        "wall_sec": 0.285501792
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "gpt-5.6-sol",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 2,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/gpt-5.6-sol/gpt_rep04_A/script.py",
+      "source_sha256": "1ad116a0503b51f95995164fd1b62376297799694bcdab5299c63d020c42f5da",
+      "trial_id": "gpt_rep04_A"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "D_2DTelemetry",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 25,
+            "text": "block_size = 512"
+          },
+          {
+            "line": 41,
+            "text": "for start in range(0, n, block_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 53,
+            "text": "out=distances,"
+          },
+          {
+            "line": 55,
+            "text": "np.multiply(distances, -2.0, out=distances)"
+          },
+          {
+            "line": 56,
+            "text": "np.add(distances, norms[start:stop, None], out=distances)"
+          },
+          {
+            "line": 57,
+            "text": "np.add(distances, norms[None, start:], out=distances)"
+          },
+          {
+            "line": 60,
+            "text": "np.maximum(distances, 0.0, out=distances)"
+          },
+          {
+            "line": 62,
+            "text": "np.sqrt(distances, out=distances)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 17,
+            "text": "vectors = np.load(\"vectors.npy\", mmap_mode=\"r\", allow_pickle=False)"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 49,
+            "text": "# ||x-y||^2 = ||x||^2 + ||y||^2 - 2*x@y"
+          },
+          {
+            "line": 50,
+            "text": "np.matmul("
+          }
+        ],
+        "precision": [
+          {
+            "line": 21,
+            "text": "if vectors.dtype != np.float32:"
+          },
+          {
+            "line": 22,
+            "text": "raise ValueError(f\"Expected float32 data, got {vectors.dtype}\")"
+          },
+          {
+            "line": 32,
+            "text": "dtype=np.float32,"
+          },
+          {
+            "line": 46,
+            "text": "distances = np.empty((rows, tail_size), dtype=np.float32)"
+          },
+          {
+            "line": 64,
+            "text": "within = distances[:, :rows].sum(dtype=np.float64)"
+          },
+          {
+            "line": 65,
+            "text": "cross = distances[:, rows:].sum(dtype=np.float64)"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 87.640625,
+        "timed_out": false,
+        "wall_sec": 0.32654275
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "gpt-5.6-sol",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 1,
+          "max_for_nesting": 1,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/gpt-5.6-sol/gpt_rep04_D/script.py",
+      "source_sha256": "a559b8583d65728f404222e4e1bdfe81c855eee346f87d2faa9c0187ecebc516",
+      "trial_id": "gpt_rep04_D"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "A_Blind",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 7,
+            "text": "BLOCK_SIZE = 512"
+          },
+          {
+            "line": 55,
+            "text": "block_sum = float(np.sum(distances_squared, dtype=np.float64))"
+          },
+          {
+            "line": 32,
+            "text": "for i in range(0, n, BLOCK_SIZE):"
+          },
+          {
+            "line": 37,
+            "text": "for j in range(i, n, BLOCK_SIZE):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 48,
+            "text": "np.maximum(distances_squared, 0.0, out=distances_squared)"
+          },
+          {
+            "line": 54,
+            "text": "np.sqrt(distances_squared, out=distances_squared)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 11,
+            "text": "vectors = np.load(FILE_NAME, allow_pickle=False)"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 42,
+            "text": "distances_squared = x @ y.T"
+          }
+        ],
+        "precision": [
+          {
+            "line": 17,
+            "text": "if vectors.dtype != np.float32:"
+          },
+          {
+            "line": 18,
+            "text": "raise ValueError(f\"Expected float32 data, got {vectors.dtype}\")"
+          },
+          {
+            "line": 20,
+            "text": "# Float64 reduces cancellation and accumulation error in the Gram formula:"
+          },
+          {
+            "line": 22,
+            "text": "vectors = np.ascontiguousarray(vectors, dtype=np.float64)"
+          },
+          {
+            "line": 24,
+            "text": "\"ij,ij->i\", vectors, vectors, dtype=np.float64"
+          },
+          {
+            "line": 55,
+            "text": "block_sum = float(np.sum(distances_squared, dtype=np.float64))"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 120.921875,
+        "timed_out": false,
+        "wall_sec": 0.5629487910000001
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "gpt-5.6-sol",
+      "observable_source_features": {
+        "input_mode": "numpy_load",
+        "loop_structure": {
+          "for_loops": 2,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "Float64",
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/gpt-5.6-sol/gpt_rep05_A/script.py",
+      "source_sha256": "d2ee29ea8c28153e73c205ec728dfd7f9e87879ceb49f15fdc8514bcec6e507d",
+      "trial_id": "gpt_rep05_A"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "D_2DTelemetry",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 36,
+            "text": "block_size = 512"
+          },
+          {
+            "line": 59,
+            "text": "block_sum = float(np.sum(squared, dtype=np.float64))"
+          },
+          {
+            "line": 40,
+            "text": "for i0 in range(0, row_count, block_size):"
+          },
+          {
+            "line": 44,
+            "text": "for j0 in range(i0, row_count, block_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 51,
+            "text": "np.maximum(squared, np.float32(0.0), out=squared)"
+          },
+          {
+            "line": 58,
+            "text": "np.sqrt(squared, out=squared)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 22,
+            "text": "vectors = np.load(\"vectors.npy\", mmap_mode=\"r\", allow_pickle=False)"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 47,
+            "text": "squared = left @ vectors[j0:j1].T"
+          }
+        ],
+        "precision": [
+          {
+            "line": 24,
+            "text": "if vectors.shape != (8000, 1024) or vectors.dtype != np.float32:"
+          },
+          {
+            "line": 26,
+            "text": "f\"Expected an (8000, 1024) float32 matrix, got \""
+          },
+          {
+            "line": 33,
+            "text": "\"ij,ij->i\", vectors, vectors, dtype=np.float32, optimize=False"
+          },
+          {
+            "line": 48,
+            "text": "squared *= np.float32(-2.0)"
+          },
+          {
+            "line": 51,
+            "text": "np.maximum(squared, np.float32(0.0), out=squared)"
+          },
+          {
+            "line": 56,
+            "text": "np.fill_diagonal(squared, np.float32(0.0))"
+          },
+          {
+            "line": 59,
+            "text": "block_sum = float(np.sum(squared, dtype=np.float64))"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 55.375,
+        "timed_out": false,
+        "wall_sec": 0.281070375
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "gpt-5.6-sol",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 3,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/gpt-5.6-sol/gpt_rep05_D/script.py",
+      "source_sha256": "0d39e521707a4acf266f5dac9a5124dffc8e8792f1aaecf19d794a652637be91",
+      "trial_id": "gpt_rep05_D"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "A_Blind",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 13,
+            "text": "chunk_size = 1000"
+          },
+          {
+            "line": 18,
+            "text": "v_chunk = vectors[i:end_i]"
+          },
+          {
+            "line": 19,
+            "text": "norms_chunk = norms_sq[i:end_i, np.newaxis]"
+          },
+          {
+            "line": 16,
+            "text": "for i in range(0, n, chunk_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 25,
+            "text": "np.maximum(dists_sq, 0.0, out=dists_sq)"
+          },
+          {
+            "line": 31,
+            "text": "np.sqrt(dists_sq, out=dists_sq)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 6,
+            "text": "vectors = np.load(\"vectors.npy\").astype(np.float64)"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 23,
+            "text": "norms_chunk + norms_sq[np.newaxis, :] - 2.0 * np.dot(v_chunk, vectors.T)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 5,
+            "text": "# Load vectors (8000 x 1024, float32) and cast to float64 for numerical precision"
+          },
+          {
+            "line": 6,
+            "text": "vectors = np.load(\"vectors.npy\").astype(np.float64)"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 10,
+            "text": "norms_sq = np.sum(vectors**2, axis=1)"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 306.375,
+        "timed_out": false,
+        "wall_sec": 1.161446041
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "gemini-3.7-flash",
+      "observable_source_features": {
+        "input_mode": "numpy_load",
+        "loop_structure": {
+          "for_loops": 2,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/gemini-3.7-flash/gemini_rep01_A/script.py",
+      "source_sha256": "482eefc092db26b0d72ec54d8b685d141925765b75097c14f146ad1cfbbaff6e",
+      "trial_id": "gemini_rep01_A"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "D_2DTelemetry",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 13,
+            "text": "batch_size = 1000"
+          },
+          {
+            "line": 18,
+            "text": "V_batch = V[i:end_i]"
+          },
+          {
+            "line": 16,
+            "text": "for i in range(0, n_samples, batch_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 28,
+            "text": "np.maximum(dists, 0.0, out=dists)"
+          },
+          {
+            "line": 32,
+            "text": "np.sqrt(dists, out=dists)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 6,
+            "text": "V = np.load('vectors.npy')"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 22,
+            "text": "dists = np.dot(V_batch, V.T)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 5,
+            "text": "# Load vectors (8000 x 1024, float32)"
+          },
+          {
+            "line": 10,
+            "text": "sq_norms = np.sum(V ** 2, axis=1, dtype=np.float32)"
+          },
+          {
+            "line": 34,
+            "text": "# Accumulate with float64 precision"
+          },
+          {
+            "line": 35,
+            "text": "total_dist += float(np.sum(dists, dtype=np.float64))"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 10,
+            "text": "sq_norms = np.sum(V ** 2, axis=1, dtype=np.float32)"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 124.90625,
+        "timed_out": false,
+        "wall_sec": 0.43909266599999996
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "gemini-3.7-flash",
+      "observable_source_features": {
+        "input_mode": "numpy_load",
+        "loop_structure": {
+          "for_loops": 1,
+          "max_for_nesting": 1,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/gemini-3.7-flash/gemini_rep01_D/script.py",
+      "source_sha256": "c5a5f9dd5ca2191b0105bc06caa9a2db7faa889460894f3e037cbccd3595485b",
+      "trial_id": "gemini_rep01_D"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "A_Blind",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 16,
+            "text": "chunk_size = 1000"
+          },
+          {
+            "line": 20,
+            "text": "X_chunk = X[i : i + chunk_size]"
+          },
+          {
+            "line": 21,
+            "text": "sq_norms_chunk = sq_norms[i : i + chunk_size]"
+          },
+          {
+            "line": 25,
+            "text": "gram_chunk = X_chunk @ X.T"
+          },
+          {
+            "line": 19,
+            "text": "for i in range(0, n, chunk_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 29,
+            "text": "np.maximum(dist_sq, 0.0, out=dist_sq)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 6,
+            "text": "vectors = np.load(\"vectors.npy\")"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 25,
+            "text": "gram_chunk = X_chunk @ X.T"
+          }
+        ],
+        "precision": [
+          {
+            "line": 5,
+            "text": "# Load vector data (8000 x 1024, float32)"
+          },
+          {
+            "line": 8,
+            "text": "# Cast to float64 to ensure high numerical precision during distance computation"
+          },
+          {
+            "line": 9,
+            "text": "X = vectors.astype(np.float64)"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 13,
+            "text": "sq_norms = np.sum(X**2, axis=1)"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 367.0625,
+        "timed_out": false,
+        "wall_sec": 1.203505459
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "gemini-3.7-flash",
+      "observable_source_features": {
+        "input_mode": "numpy_load",
+        "loop_structure": {
+          "for_loops": 1,
+          "max_for_nesting": 1,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/gemini-3.7-flash/gemini_rep02_A/script.py",
+      "source_sha256": "e9f20f417481bbd1cdd3ff9bf3335dc7ef6682b88f851f8f79e636512e339765",
+      "trial_id": "gemini_rep02_A"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "D_2DTelemetry",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 13,
+            "text": "chunk_size = 1000"
+          },
+          {
+            "line": 17,
+            "text": "for i_start in range(0, n, chunk_size):"
+          },
+          {
+            "line": 22,
+            "text": "for j_start in range(i_start, n, chunk_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 28,
+            "text": "dot = np.dot(v_i, v_j.T, out=np.empty((i_end - i_start, j_end - j_start), dtype=np.float32))"
+          },
+          {
+            "line": 32,
+            "text": "np.maximum(d_sq, 0.0, out=d_sq)"
+          },
+          {
+            "line": 33,
+            "text": "np.sqrt(d_sq, out=d_sq)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 6,
+            "text": "vectors = np.load(\"vectors.npy\")"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 27,
+            "text": "# Fast matrix dot product: v_i @ v_j.T"
+          },
+          {
+            "line": 28,
+            "text": "dot = np.dot(v_i, v_j.T, out=np.empty((i_end - i_start, j_end - j_start), dtype=np.float32))"
+          }
+        ],
+        "precision": [
+          {
+            "line": 5,
+            "text": "# Load vectors (8000 x 1024, float32 ~ 32.8 MB)"
+          },
+          {
+            "line": 10,
+            "text": "# Computing along axis=1 in float64 for numerical precision"
+          },
+          {
+            "line": 11,
+            "text": "sq_norms = np.sum(vectors.astype(np.float64) ** 2, axis=1)"
+          },
+          {
+            "line": 28,
+            "text": "dot = np.dot(v_i, v_j.T, out=np.empty((i_end - i_start, j_end - j_start), dtype=np.float32))"
+          },
+          {
+            "line": 37,
+            "text": "total_upper_dist += np.sum(np.triu(d_sq, k=1), dtype=np.float64)"
+          },
+          {
+            "line": 40,
+            "text": "total_upper_dist += np.sum(d_sq, dtype=np.float64)"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 11,
+            "text": "sq_norms = np.sum(vectors.astype(np.float64) ** 2, axis=1)"
+          },
+          {
+            "line": 37,
+            "text": "total_upper_dist += np.sum(np.triu(d_sq, k=1), dtype=np.float64)"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 170.3125,
+        "timed_out": false,
+        "wall_sec": 0.392669583
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "gemini-3.7-flash",
+      "observable_source_features": {
+        "input_mode": "numpy_load",
+        "loop_structure": {
+          "for_loops": 2,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/gemini-3.7-flash/gemini_rep02_D/script.py",
+      "source_sha256": "064906e3418150b3c707dd67c7cf6af2741c857d6b22cddca52926c73d3bd239",
+      "trial_id": "gemini_rep02_D"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "A_Blind",
+      "evidence_lines": {
+        "blocking_or_tiling": [],
+        "buffer_reuse": [
+          {
+            "line": 20,
+            "text": "np.maximum(gram, 0.0, out=gram)"
+          },
+          {
+            "line": 23,
+            "text": "np.sqrt(gram, out=gram)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 6,
+            "text": "vectors = np.load(\"vectors.npy\").astype(np.float64)"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 12,
+            "text": "gram = np.dot(vectors, vectors.T)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 5,
+            "text": "# Load vectors (8000 x 1024) and convert to float64 for precision"
+          },
+          {
+            "line": 6,
+            "text": "vectors = np.load(\"vectors.npy\").astype(np.float64)"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 9,
+            "text": "sq_norms = np.sum(vectors**2, axis=1)"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 671.515625,
+        "timed_out": false,
+        "wall_sec": 0.855562375
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "gemini-3.7-flash",
+      "observable_source_features": {
+        "input_mode": "numpy_load",
+        "loop_structure": {
+          "for_loops": 0,
+          "max_for_nesting": 0,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": false,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/gemini-3.7-flash/gemini_rep03_A/script.py",
+      "source_sha256": "9db8b054a2eabe2400a7acaa094b9c58a647b151a651a07947b65520d47bd0e7",
+      "trial_id": "gemini_rep03_A"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "D_2DTelemetry",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 14,
+            "text": "batch_size = 500"
+          },
+          {
+            "line": 18,
+            "text": "v_batch = v[i:i_end]"
+          },
+          {
+            "line": 19,
+            "text": "s_batch = norms_sq[i:i_end, None]"
+          },
+          {
+            "line": 16,
+            "text": "for i in range(0, n, batch_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 24,
+            "text": "np.maximum(d2_intra, 0.0, out=d2_intra)"
+          },
+          {
+            "line": 25,
+            "text": "np.sqrt(d2_intra, out=d2_intra)"
+          },
+          {
+            "line": 35,
+            "text": "np.maximum(d2_inter, 0.0, out=d2_inter)"
+          },
+          {
+            "line": 36,
+            "text": "np.sqrt(d2_inter, out=d2_inter)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 6,
+            "text": "v = np.load(\"vectors.npy\", mmap_mode=\"r\")"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 22,
+            "text": "g_intra = np.matmul(v_batch, v_batch.T)"
+          },
+          {
+            "line": 33,
+            "text": "g_inter = np.matmul(v_batch, v_rest.T)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 10,
+            "text": "# Compute in chunks if necessary, but 8000 float32s is negligible in memory"
+          },
+          {
+            "line": 11,
+            "text": "norms_sq = np.sum(v.astype(np.float32) ** 2, axis=1)"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 11,
+            "text": "norms_sq = np.sum(v.astype(np.float32) ** 2, axis=1)"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 216.046875,
+        "timed_out": false,
+        "wall_sec": 0.312480541
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "gemini-3.7-flash",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 1,
+          "max_for_nesting": 1,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/gemini-3.7-flash/gemini_rep03_D/script.py",
+      "source_sha256": "dde4ac8f4c517d46fd9174eaf76f49e9c43ba1d44fd98d3c1b82c65860d894d4",
+      "trial_id": "gemini_rep03_D"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "A_Blind",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 14,
+            "text": "batch_size = 2000"
+          },
+          {
+            "line": 18,
+            "text": "X_batch = X[i : i + batch_size]"
+          },
+          {
+            "line": 19,
+            "text": "sq_batch = sq_norms[i : i + batch_size]"
+          },
+          {
+            "line": 17,
+            "text": "for i in range(0, n, batch_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 26,
+            "text": "np.maximum(dists_sq, 0.0, out=dists_sq)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 6,
+            "text": "X = np.load(\"vectors.npy\").astype(np.float64)"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 22,
+            "text": "# X_batch @ X.T computes all inner products for the current batch"
+          },
+          {
+            "line": 23,
+            "text": "dists_sq = sq_batch + sq_norms.T - 2.0 * np.dot(X_batch, X.T)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 5,
+            "text": "# Load the vectors matrix (8000 x 1024 float32)"
+          },
+          {
+            "line": 6,
+            "text": "X = np.load(\"vectors.npy\").astype(np.float64)"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 9,
+            "text": "sq_norms = np.sum(X**2, axis=1, keepdims=True)"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 549.953125,
+        "timed_out": false,
+        "wall_sec": 1.215785083
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "gemini-3.7-flash",
+      "observable_source_features": {
+        "input_mode": "numpy_load",
+        "loop_structure": {
+          "for_loops": 1,
+          "max_for_nesting": 1,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/gemini-3.7-flash/gemini_rep04_A/script.py",
+      "source_sha256": "c10446ee3ec99f342bda7e6ad1d6660c28ca91418ffb34a6db32bddd483fa2d8",
+      "trial_id": "gemini_rep04_A"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "D_2DTelemetry",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 13,
+            "text": "block_size = 1000"
+          },
+          {
+            "line": 17,
+            "text": "for i in range(0, n_vectors, block_size):"
+          },
+          {
+            "line": 32,
+            "text": "for j in range(i_end, n_vectors, block_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 25,
+            "text": "np.maximum(d2_intra, 0.0, out=d2_intra)"
+          },
+          {
+            "line": 39,
+            "text": "np.maximum(d2_inter, 0.0, out=d2_inter)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 6,
+            "text": "vectors = np.load(\"vectors.npy\")"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 23,
+            "text": "dot_intra = v_i @ v_i.T"
+          },
+          {
+            "line": 37,
+            "text": "dot_inter = v_i @ v_j.T"
+          }
+        ],
+        "precision": [
+          {
+            "line": 5,
+            "text": "# Load vector data (8000 x 1024 float32, ~32.8 MB)"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 10,
+            "text": "norms_sq = np.sum(vectors**2, axis=1)"
+          },
+          {
+            "line": 28,
+            "text": "# Sum strictly upper triangle and double for symmetry (i != j)"
+          },
+          {
+            "line": 29,
+            "text": "total_dist += 2.0 * float(np.sum(np.triu(d_intra, k=1)))"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 114.34375,
+        "timed_out": false,
+        "wall_sec": 0.30416508400000003
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "gemini-3.7-flash",
+      "observable_source_features": {
+        "input_mode": "numpy_load",
+        "loop_structure": {
+          "for_loops": 2,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/gemini-3.7-flash/gemini_rep04_D/script.py",
+      "source_sha256": "c5d2017503bfa818cca1572d201f2edaed5c7fd2338fb61f8461cfbd1712d9f9",
+      "trial_id": "gemini_rep04_D"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "A_Blind",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 16,
+            "text": "chunk_size = 1000  # Process in chunks to maintain low memory footprint"
+          },
+          {
+            "line": 20,
+            "text": "v_chunk = vectors[i:end]"
+          },
+          {
+            "line": 21,
+            "text": "sq_norms_chunk = sq_norms[i:end]"
+          },
+          {
+            "line": 18,
+            "text": "for i in range(0, n, chunk_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 31,
+            "text": "np.maximum(dists_sq, 0.0, out=dists_sq)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 6,
+            "text": "vectors = np.load(\"vectors.npy\")"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 27,
+            "text": "- 2.0 * np.dot(v_chunk, vectors.T)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 8,
+            "text": "# Convert to float64 for numerical precision during distance computation"
+          },
+          {
+            "line": 9,
+            "text": "vectors = np.asarray(vectors, dtype=np.float64)"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 13,
+            "text": "sq_norms = np.sum(vectors**2, axis=1)"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 366.890625,
+        "timed_out": false,
+        "wall_sec": 1.060589708
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "gemini-3.7-flash",
+      "observable_source_features": {
+        "input_mode": "numpy_load",
+        "loop_structure": {
+          "for_loops": 1,
+          "max_for_nesting": 1,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/gemini-3.7-flash/gemini_rep05_A/script.py",
+      "source_sha256": "cd553f33e3726baebe256eeb69cae04133d41e98757ad57c393497a6e6938265",
+      "trial_id": "gemini_rep05_A"
+    },
+    {
+      "cohort": "fresh_128mb_direct_api",
+      "condition": "D_2DTelemetry",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 14,
+            "text": "num_blocks = (N + block_size - 1) // block_size"
+          },
+          {
+            "line": 16,
+            "text": "for i in range(num_blocks):"
+          },
+          {
+            "line": 31,
+            "text": "for j in range(i + 1, num_blocks):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 25,
+            "text": "np.maximum(d2_ii, 0.0, out=d2_ii)"
+          },
+          {
+            "line": 27,
+            "text": "np.sqrt(d2_ii, out=d2_ii)"
+          },
+          {
+            "line": 39,
+            "text": "np.maximum(d2_ij, 0.0, out=d2_ij)"
+          },
+          {
+            "line": 40,
+            "text": "np.sqrt(d2_ij, out=d2_ij)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 6,
+            "text": "X = np.load(filename, mmap_mode=\"r\")"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 23,
+            "text": "G_ii = Xi @ Xi.T"
+          },
+          {
+            "line": 37,
+            "text": "G_ij = Xi @ Xj.T"
+          }
+        ],
+        "precision": [
+          {
+            "line": 10,
+            "text": "# Sum in float64 for numerical precision"
+          },
+          {
+            "line": 11,
+            "text": "norms = np.sum(X.astype(np.float32) ** 2, axis=1)"
+          },
+          {
+            "line": 19,
+            "text": "Xi = np.array(X[i_start:i_end], dtype=np.float32)"
+          },
+          {
+            "line": 28,
+            "text": "total_dist += float(np.sum(d2_ii, dtype=np.float64))"
+          },
+          {
+            "line": 34,
+            "text": "Xj = np.array(X[j_start:j_end], dtype=np.float32)"
+          },
+          {
+            "line": 42,
+            "text": "total_dist += 2.0 * float(np.sum(d2_ij, dtype=np.float64))"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 11,
+            "text": "norms = np.sum(X.astype(np.float32) ** 2, axis=1)"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 165.1875,
+        "timed_out": false,
+        "wall_sec": 0.33194395800000004
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS child-process MaxRSS profile recorded in trial metadata; not cgroup enforcement",
+      "model_configured_id": "gemini-3.7-flash",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 2,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/06_replication/raw/gemini-3.7-flash/gemini_rep05_D/script.py",
+      "source_sha256": "5b2754a2b2134623cbda487a3f2856cfdcadb73fba2756deabf62429a727f652",
+      "trial_id": "gemini_rep05_D"
+    },
+    {
+      "cohort": "fresh_96mb_local_sweep",
+      "condition": "D_96MB_10s",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 25,
+            "text": "BS = 800  # tile size: 800*800*8 B = 5 MB per float64 tile"
+          },
+          {
+            "line": 37,
+            "text": "for i in range(0, n, BS):"
+          },
+          {
+            "line": 41,
+            "text": "for i in range(0, n, BS):"
+          },
+          {
+            "line": 46,
+            "text": "for i in range(0, n, BS):"
+          },
+          {
+            "line": 52,
+            "text": "for i0 in range(0, n, BS):"
+          },
+          {
+            "line": 56,
+            "text": "for j0 in range(i0, n, BS):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 66,
+            "text": "np.maximum(D, 0.0, out=D)          # kill tiny negatives"
+          },
+          {
+            "line": 67,
+            "text": "np.sqrt(D, out=D)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 29,
+            "text": "X = np.load(FILENAME)                      # 8000 x 1024 float32 -> 32 MB"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 61,
+            "text": "G = A @ B.T                        # float32 sgemm  (the hot spot)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 3,
+            "text": "Sum of all pairwise Euclidean distances for an 8000 x 1024 float32 matrix."
+          },
+          {
+            "line": 14,
+            "text": "* Squared norms and all accumulations are done in float64."
+          },
+          {
+            "line": 25,
+            "text": "BS = 800  # tile size: 800*800*8 B = 5 MB per float64 tile"
+          },
+          {
+            "line": 29,
+            "text": "X = np.load(FILENAME)                      # 8000 x 1024 float32 -> 32 MB"
+          },
+          {
+            "line": 30,
+            "text": "if X.dtype != np.float32:"
+          },
+          {
+            "line": 31,
+            "text": "X = X.astype(np.float32, copy=False)"
+          },
+          {
+            "line": 35,
+            "text": "# ---- 1. mean-center (blockwise, float64 accumulation) -----------------"
+          },
+          {
+            "line": 36,
+            "text": "mean = np.zeros(d, dtype=np.float64)"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 15,
+            "text": "* Only the upper triangle of tiles is computed; the result is doubled to get"
+          },
+          {
+            "line": 71,
+            "text": "# tile is symmetric: upper-triangle sum = half of full sum"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 62.46875,
+        "timed_out": false,
+        "wall_sec": 0.389359917
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS isolated-child RUSAGE_CHILDREN observed MaxRSS; not cgroup enforcement",
+      "model_configured_id": "claude-opus-5",
+      "observable_source_features": {
+        "input_mode": "numpy_load",
+        "loop_structure": {
+          "for_loops": 5,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/08_96mb_cgroup_pilot/raw/claude-opus-5/opus96_rep01_D/script.py",
+      "source_sha256": "fbc429c8f0173fc1a4f1cd5817e527d028266c463661575aa03dbb9809af8af9",
+      "trial_id": "opus96_rep01_D"
+    },
+    {
+      "cohort": "fresh_96mb_local_sweep",
+      "condition": "D_96MB_10s",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 39,
+            "text": "CHUNK = 1000  # rows per chunk for the float64 helper passes"
+          },
+          {
+            "line": 63,
+            "text": "bs = i1 - i0"
+          },
+          {
+            "line": 43,
+            "text": "for i in range(0, n, CHUNK):"
+          },
+          {
+            "line": 47,
+            "text": "for i in range(0, n, CHUNK):"
+          },
+          {
+            "line": 53,
+            "text": "for i in range(0, n, CHUNK):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 73,
+            "text": "np.maximum(D, 0.0, out=D)        # kill tiny negative round-off"
+          },
+          {
+            "line": 74,
+            "text": "np.sqrt(D, out=D)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 33,
+            "text": "X = np.load(\"vectors.npy\")"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 66,
+            "text": "G = X[i0:i1] @ X[i0:].T          # (bs, n - i0) float32"
+          }
+        ],
+        "precision": [
+          {
+            "line": 3,
+            "text": "Sum of all pairwise Euclidean distances for an 8000 x 1024 float32 matrix."
+          },
+          {
+            "line": 12,
+            "text": "(256 MB in float32) is never materialised.  Only the upper triangle is"
+          },
+          {
+            "line": 19,
+            "text": "* Squared norms are accumulated in float64."
+          },
+          {
+            "line": 20,
+            "text": "* The BLAS sgemm result is promoted to float64 before the subtraction,"
+          },
+          {
+            "line": 21,
+            "text": "the clamp at 0, the sqrt and the (pairwise, float64) summation."
+          },
+          {
+            "line": 25,
+            "text": "X (float32) 32.8 MB + block Gram (float32) 4.1 MB + block float64 8.2 MB"
+          },
+          {
+            "line": 34,
+            "text": "if X.dtype != np.float32:"
+          },
+          {
+            "line": 35,
+            "text": "X = X.astype(np.float32)"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 12,
+            "text": "(256 MB in float32) is never materialised.  Only the upper triangle is"
+          },
+          {
+            "line": 78,
+            "text": "# strict upper triangle of the diagonal square block"
+          },
+          {
+            "line": 80,
+            "text": "total += float(np.triu(sq, 1).sum())"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 82.109375,
+        "timed_out": false,
+        "wall_sec": 0.402576333
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS isolated-child RUSAGE_CHILDREN observed MaxRSS; not cgroup enforcement",
+      "model_configured_id": "claude-opus-5",
+      "observable_source_features": {
+        "input_mode": "numpy_load",
+        "loop_structure": {
+          "for_loops": 4,
+          "max_for_nesting": 1,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/08_96mb_cgroup_pilot/raw/claude-opus-5/opus96_rep02_D/script.py",
+      "source_sha256": "1ffd6dc2da655a2e994131f01581738e2c7f59eb0bdca68bde821e7a0bf39999",
+      "trial_id": "opus96_rep02_D"
+    },
+    {
+      "cohort": "fresh_96mb_local_sweep",
+      "condition": "D_96MB_10s",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 27,
+            "text": "BLOCK = 128          # rows per block: 128 * 8000 * 8 B = 8 MB per float64 buffer"
+          },
+          {
+            "line": 40,
+            "text": "for s in range(0, n, BLOCK):"
+          },
+          {
+            "line": 48,
+            "text": "for s in range(0, n, BLOCK):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 60,
+            "text": "np.maximum(D, 0.0, out=D)                 # kill tiny negatives"
+          },
+          {
+            "line": 61,
+            "text": "np.sqrt(D, out=D)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 32,
+            "text": "X = np.load(FILENAME)"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 52,
+            "text": "G = np.dot(X[s:e], X[:e].T)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 4,
+            "text": "8,000 x 1,024 float32 matrix stored in 'vectors.npy'."
+          },
+          {
+            "line": 10,
+            "text": "* The full 8000x8000 distance matrix would need 256 MB (float32) / 512 MB"
+          },
+          {
+            "line": 11,
+            "text": "(float64), which blows the 96 MB budget, so we never materialize it."
+          },
+          {
+            "line": 17,
+            "text": "* Accumulation of squared norms / distances is done in float64 to keep the"
+          },
+          {
+            "line": 27,
+            "text": "BLOCK = 128          # rows per block: 128 * 8000 * 8 B = 8 MB per float64 buffer"
+          },
+          {
+            "line": 33,
+            "text": "if X.dtype != np.float32:"
+          },
+          {
+            "line": 34,
+            "text": "X = X.astype(np.float32)"
+          },
+          {
+            "line": 38,
+            "text": "# ---- squared norms, accumulated in float64 for accuracy ------------------"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 15,
+            "text": "* Only the strict lower triangle is computed (half the FLOPs); the answer is"
+          },
+          {
+            "line": 46,
+            "text": "# ---- blocked accumulation of the strict lower triangle -------------------"
+          },
+          {
+            "line": 63,
+            "text": "# columns strictly left of the diagonal block: all are lower-triangle"
+          },
+          {
+            "line": 69,
+            "text": "total += float(np.tril(diag_blk, -1).sum(dtype=np.float64))"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 89.5625,
+        "timed_out": false,
+        "wall_sec": 0.381233042
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS isolated-child RUSAGE_CHILDREN observed MaxRSS; not cgroup enforcement",
+      "model_configured_id": "claude-opus-5",
+      "observable_source_features": {
+        "input_mode": "numpy_load",
+        "loop_structure": {
+          "for_loops": 2,
+          "max_for_nesting": 1,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/08_96mb_cgroup_pilot/raw/claude-opus-5/opus96_rep04_D/script.py",
+      "source_sha256": "63197d3419222bc0efde5f13cc5f18403e936a284b9919ee19ea8c7b66c592c3",
+      "trial_id": "opus96_rep04_D"
+    },
+    {
+      "cohort": "fresh_96mb_local_sweep",
+      "condition": "D_96MB_10s",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 21,
+            "text": "for i in range(0, n, block):"
+          },
+          {
+            "line": 26,
+            "text": "for i0 in range(0, n, block):"
+          },
+          {
+            "line": 30,
+            "text": "for j0 in range(i0, n, block):   # upper-triangular blocks only"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 41,
+            "text": "np.maximum(D2, 0.0, out=D2)  # kill round-off negatives"
+          },
+          {
+            "line": 42,
+            "text": "np.sqrt(D2, out=D2)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 11,
+            "text": "X = np.load(path)"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 35,
+            "text": "G = A @ B.T"
+          }
+        ],
+        "precision": [
+          {
+            "line": 10,
+            "text": "# (n x d) float32, C-contiguous straight from disk: ~32.8 MB for 8000x1024"
+          },
+          {
+            "line": 12,
+            "text": "if X.dtype != np.float32:"
+          },
+          {
+            "line": 13,
+            "text": "X = X.astype(np.float32, copy=False)"
+          },
+          {
+            "line": 19,
+            "text": "# Squared row norms in float64, computed blockwise (no 32 MB temporary)."
+          },
+          {
+            "line": 20,
+            "text": "sq = np.empty(n, dtype=np.float64)"
+          },
+          {
+            "line": 23,
+            "text": "sq[i:i + block] = np.einsum(\"ij,ij->i\", blk, blk, dtype=np.float64)"
+          },
+          {
+            "line": 34,
+            "text": "# Gram tile via BLAS sgemm  (<= 4 MB for 1000x1000 float32)"
+          },
+          {
+            "line": 37,
+            "text": "# D2 = |a|^2 + |b|^2 - 2 a.b   in float64 (<= 8 MB)"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 48,
+            "text": "# off-diagonal tile: mirror counts for the lower triangle"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 121.765625,
+        "timed_out": false,
+        "wall_sec": 0.430667125
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS isolated-child RUSAGE_CHILDREN observed MaxRSS; not cgroup enforcement",
+      "model_configured_id": "claude-opus-5",
+      "observable_source_features": {
+        "input_mode": "numpy_load",
+        "loop_structure": {
+          "for_loops": 3,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/08_96mb_cgroup_pilot/raw/claude-opus-5/opus96_rep06_D/script.py",
+      "source_sha256": "c66be06fef6c3746b9a062d681b138e390b785747b60fdde35dd0966b4c8a466",
+      "trial_id": "opus96_rep06_D"
+    },
+    {
+      "cohort": "fresh_96mb_local_sweep",
+      "condition": "D_96MB_10s",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 45,
+            "text": "BLOCK = 1000          # rows per tile -> 1000x1000 float32 tile = 4 MB"
+          },
+          {
+            "line": 84,
+            "text": "tile = np.empty((BLOCK, BLOCK), dtype=np.float32)"
+          },
+          {
+            "line": 72,
+            "text": "for s in range(0, n, BLOCK):"
+          },
+          {
+            "line": 78,
+            "text": "for s in range(0, n, BLOCK):"
+          },
+          {
+            "line": 82,
+            "text": "starts = list(range(0, n, BLOCK))"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 97,
+            "text": "np.dot(Ai, Aj.T, out=G)"
+          },
+          {
+            "line": 101,
+            "text": "np.maximum(G, 0.0, out=G)      # kill round-off negatives"
+          },
+          {
+            "line": 102,
+            "text": "np.sqrt(G, out=G)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 50,
+            "text": "mm = np.load(path, mmap_mode=\"r\")"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 16,
+            "text": "A_I @ A_J^T with a single BLAS sgemm call (fast, multi-threaded), turn it into"
+          },
+          {
+            "line": 96,
+            "text": "# G = -2 * Ai @ Aj^T   (single BLAS sgemm)"
+          },
+          {
+            "line": 97,
+            "text": "np.dot(Ai, Aj.T, out=G)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 4,
+            "text": "an 8,000 x 1,024 float32 matrix stored in 'vectors.npy'."
+          },
+          {
+            "line": 10,
+            "text": "The full 8000x8000 distance matrix would need 256 MB (float32), so we never"
+          },
+          {
+            "line": 17,
+            "text": "distances in place, and accumulate the sum in float64.  Only the upper-triangular"
+          },
+          {
+            "line": 25,
+            "text": "* Squared norms are accumulated in float64."
+          },
+          {
+            "line": 27,
+            "text": "* All block sums are accumulated with a float64 accumulator."
+          },
+          {
+            "line": 29,
+            "text": "Memory: data 32 MB + one 1000x1000 float32 tile (4 MB) + scratch  ->  well under 96 MB."
+          },
+          {
+            "line": 45,
+            "text": "BLOCK = 1000          # rows per tile -> 1000x1000 float32 tile = 4 MB"
+          },
+          {
+            "line": 48,
+            "text": "def load_float32(path):"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 81.9375,
+        "timed_out": false,
+        "wall_sec": 0.29722229200000005
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS isolated-child RUSAGE_CHILDREN observed MaxRSS; not cgroup enforcement",
+      "model_configured_id": "claude-opus-5",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 7,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/08_96mb_cgroup_pilot/raw/claude-opus-5/opus96_rep07_D/script.py",
+      "source_sha256": "2038f139a5b0f2570d0d62756008e44224f8a28763908938baf758e46b295ac2",
+      "trial_id": "opus96_rep07_D"
+    },
+    {
+      "cohort": "fresh_96mb_local_sweep",
+      "condition": "D_96MB_10s",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 26,
+            "text": "block_size = 500  # Exactly divides 8000; work matrix uses only 1 MiB."
+          },
+          {
+            "line": 60,
+            "text": "block_sum = float(np.sum(work, dtype=np.float64))"
+          },
+          {
+            "line": 39,
+            "text": "for i in range(0, n, block_size):"
+          },
+          {
+            "line": 43,
+            "text": "for j in range(i, n, block_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 47,
+            "text": "np.matmul(a, b.T, out=work)"
+          },
+          {
+            "line": 48,
+            "text": "np.multiply(work, -2.0, out=work)"
+          },
+          {
+            "line": 49,
+            "text": "np.add(work, ni[:, None], out=work)"
+          },
+          {
+            "line": 50,
+            "text": "np.add(work, nj[None, :], out=work)"
+          },
+          {
+            "line": 53,
+            "text": "np.maximum(work, 0.0, out=work)"
+          },
+          {
+            "line": 59,
+            "text": "np.sqrt(work, out=work)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 17,
+            "text": "vectors = np.load(\"vectors.npy\", mmap_mode=\"r\", allow_pickle=False)"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 47,
+            "text": "np.matmul(a, b.T, out=work)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 19,
+            "text": "if vectors.shape != (8000, 1024) or vectors.dtype != np.float32:"
+          },
+          {
+            "line": 21,
+            "text": "f\"Expected an (8000, 1024) float32 array, got \""
+          },
+          {
+            "line": 30,
+            "text": "\"ij,ij->i\", vectors, vectors, dtype=np.float32, optimize=False"
+          },
+          {
+            "line": 33,
+            "text": "work = np.empty((block_size, block_size), dtype=np.float32)"
+          },
+          {
+            "line": 52,
+            "text": "# Remove small negative values caused by float32 roundoff."
+          },
+          {
+            "line": 60,
+            "text": "block_sum = float(np.sum(work, dtype=np.float64))"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 37,
+            "text": "# Only the block upper triangle is evaluated. Off-diagonal blocks are"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 62.421875,
+        "timed_out": false,
+        "wall_sec": 0.39289691699999996
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS isolated-child RUSAGE_CHILDREN observed MaxRSS; not cgroup enforcement",
+      "model_configured_id": "gpt-5.6-sol",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 2,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/08_96mb_cgroup_pilot/raw/gpt-5.6-sol/gpt96_rep01_D/script.py",
+      "source_sha256": "ecd3685f558e550ce758b6530f1493d2636e31279ed91d39361641abed043046",
+      "trial_id": "gpt96_rep01_D"
+    },
+    {
+      "cohort": "fresh_96mb_local_sweep",
+      "condition": "D_96MB_10s",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 30,
+            "text": "block_size = 1000  # Divides 8000; distance buffer uses about 4 MB."
+          },
+          {
+            "line": 43,
+            "text": "for i in range(0, n, block_size):"
+          },
+          {
+            "line": 47,
+            "text": "for j in range(i, n, block_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 52,
+            "text": "np.matmul(xi, xj.T, out=distances)"
+          },
+          {
+            "line": 55,
+            "text": "np.multiply(distances, -2.0, out=distances)"
+          },
+          {
+            "line": 56,
+            "text": "np.add(distances, ni[:, None], out=distances)"
+          },
+          {
+            "line": 57,
+            "text": "np.add(distances, nj[None, :], out=distances)"
+          },
+          {
+            "line": 60,
+            "text": "np.maximum(distances, 0.0, out=distances)"
+          },
+          {
+            "line": 61,
+            "text": "np.sqrt(distances, out=distances)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 22,
+            "text": "vectors = np.load(\"vectors.npy\", mmap_mode=\"r\", allow_pickle=False)"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 51,
+            "text": "# distances initially holds Xi @ Xj.T."
+          },
+          {
+            "line": 52,
+            "text": "np.matmul(xi, xj.T, out=distances)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 26,
+            "text": "if vectors.dtype != np.float32:"
+          },
+          {
+            "line": 27,
+            "text": "raise ValueError(f\"Expected float32 data, got {vectors.dtype}\")"
+          },
+          {
+            "line": 35,
+            "text": "dtype=np.float32,"
+          },
+          {
+            "line": 39,
+            "text": "distances = np.empty((block_size, block_size), dtype=np.float32)"
+          },
+          {
+            "line": 59,
+            "text": "# Remove small negative values caused by float32 roundoff."
+          },
+          {
+            "line": 66,
+            "text": "total += float(np.sum(distances, dtype=np.float64))"
+          },
+          {
+            "line": 68,
+            "text": "total += 2.0 * float(np.sum(distances, dtype=np.float64))"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 63.984375,
+        "timed_out": false,
+        "wall_sec": 0.35077266700000004
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS isolated-child RUSAGE_CHILDREN observed MaxRSS; not cgroup enforcement",
+      "model_configured_id": "gpt-5.6-sol",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 2,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/08_96mb_cgroup_pilot/raw/gpt-5.6-sol/gpt96_rep02_D/script.py",
+      "source_sha256": "90d7136cf0d99f78eaedd85672e81a1ab9444823d254c32434f00864a425493a",
+      "trial_id": "gpt96_rep02_D"
+    },
+    {
+      "cohort": "fresh_96mb_local_sweep",
+      "condition": "D_96MB_10s",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 34,
+            "text": "block_size = 1024"
+          },
+          {
+            "line": 64,
+            "text": "block_sum = distances.sum(dtype=np.float64)"
+          },
+          {
+            "line": 40,
+            "text": "for i0 in range(0, n, block_size):"
+          },
+          {
+            "line": 45,
+            "text": "for j0 in range(i0, n, block_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 57,
+            "text": "np.maximum(distances, np.float32(0.0), out=distances)"
+          },
+          {
+            "line": 63,
+            "text": "np.sqrt(distances, out=distances)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 20,
+            "text": "vectors = np.load(\"vectors.npy\", mmap_mode=\"r\", allow_pickle=False)"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 51,
+            "text": "distances = np.matmul(xi, xj.T)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 22,
+            "text": "if vectors.shape != (8000, 1024) or vectors.dtype != np.float32:"
+          },
+          {
+            "line": 24,
+            "text": "f\"Expected an 8000 x 1024 float32 matrix, got \""
+          },
+          {
+            "line": 30,
+            "text": "\"ij,ij->i\", vectors, vectors, dtype=np.float32, optimize=False"
+          },
+          {
+            "line": 52,
+            "text": "distances *= np.float32(-2.0)"
+          },
+          {
+            "line": 56,
+            "text": "# Remove small negative values caused by float32 rounding."
+          },
+          {
+            "line": 57,
+            "text": "np.maximum(distances, np.float32(0.0), out=distances)"
+          },
+          {
+            "line": 61,
+            "text": "np.fill_diagonal(distances, np.float32(0.0))"
+          },
+          {
+            "line": 64,
+            "text": "block_sum = distances.sum(dtype=np.float64)"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 70.578125,
+        "timed_out": false,
+        "wall_sec": 0.33112875
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS isolated-child RUSAGE_CHILDREN observed MaxRSS; not cgroup enforcement",
+      "model_configured_id": "gpt-5.6-sol",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 3,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/08_96mb_cgroup_pilot/raw/gpt-5.6-sol/gpt96_rep03_D/script.py",
+      "source_sha256": "0c192ae327213b97c82f4b7e99dea3467827ea6a3bd3d6341e48c6330ed603b8",
+      "trial_id": "gpt96_rep03_D"
+    },
+    {
+      "cohort": "fresh_96mb_local_sweep",
+      "condition": "D_96MB_10s",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 27,
+            "text": "block_size = 256"
+          },
+          {
+            "line": 33,
+            "text": "block = vectors[start:end]"
+          },
+          {
+            "line": 64,
+            "text": "block_sum = distances.sum(dtype=np.float64)"
+          },
+          {
+            "line": 31,
+            "text": "for start in range(0, n, block_size):"
+          },
+          {
+            "line": 42,
+            "text": "for i0 in range(0, n, block_size):"
+          },
+          {
+            "line": 47,
+            "text": "for j0 in range(i0, n, block_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 54,
+            "text": "np.multiply(distances, -2.0, out=distances)"
+          },
+          {
+            "line": 57,
+            "text": "np.maximum(distances, 0.0, out=distances)"
+          },
+          {
+            "line": 63,
+            "text": "np.sqrt(distances, out=distances)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 19,
+            "text": "vectors = np.load(\"vectors.npy\", mmap_mode=\"r\")"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 53,
+            "text": "distances = np.matmul(a, b.T)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 23,
+            "text": "if vectors.dtype != np.float32:"
+          },
+          {
+            "line": 24,
+            "text": "raise ValueError(f\"Expected float32 data, got {vectors.dtype}\")"
+          },
+          {
+            "line": 30,
+            "text": "norms_sq = np.empty(n, dtype=np.float32)"
+          },
+          {
+            "line": 64,
+            "text": "block_sum = distances.sum(dtype=np.float64)"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 53.25,
+        "timed_out": false,
+        "wall_sec": 0.383225166
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS isolated-child RUSAGE_CHILDREN observed MaxRSS; not cgroup enforcement",
+      "model_configured_id": "gpt-5.6-sol",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 4,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/08_96mb_cgroup_pilot/raw/gpt-5.6-sol/gpt96_rep04_D/script.py",
+      "source_sha256": "24d84f58ab9f73031f9dfd933f05b3c371689ae91528046ac68f908e51ebebd3",
+      "trial_id": "gpt96_rep04_D"
+    },
+    {
+      "cohort": "fresh_96mb_local_sweep",
+      "condition": "D_96MB_10s",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 25,
+            "text": "block_size = 500"
+          },
+          {
+            "line": 58,
+            "text": "block_sum = float(np.sum(distances, dtype=np.float64))"
+          },
+          {
+            "line": 38,
+            "text": "for i0 in range(0, n, block_size):"
+          },
+          {
+            "line": 43,
+            "text": "for j0 in range(0, i0 + 1, block_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 48,
+            "text": "np.dot(a, b.T, out=distances)"
+          },
+          {
+            "line": 52,
+            "text": "np.maximum(distances, np.float32(0.0), out=distances)"
+          },
+          {
+            "line": 57,
+            "text": "np.sqrt(distances, out=distances)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 16,
+            "text": "vectors = np.load(\"vectors.npy\", mmap_mode=\"r\", allow_pickle=False)"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 48,
+            "text": "np.dot(a, b.T, out=distances)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 18,
+            "text": "if vectors.shape != (8000, 1024) or vectors.dtype != np.float32:"
+          },
+          {
+            "line": 20,
+            "text": "f\"Expected an (8000, 1024) float32 array, got \""
+          },
+          {
+            "line": 30,
+            "text": "dtype=np.float32,"
+          },
+          {
+            "line": 34,
+            "text": "distances = np.empty((block_size, block_size), dtype=np.float32)"
+          },
+          {
+            "line": 49,
+            "text": "distances *= np.float32(-2.0)"
+          },
+          {
+            "line": 52,
+            "text": "np.maximum(distances, np.float32(0.0), out=distances)"
+          },
+          {
+            "line": 55,
+            "text": "np.fill_diagonal(distances, np.float32(0.0))"
+          },
+          {
+            "line": 58,
+            "text": "block_sum = float(np.sum(distances, dtype=np.float64))"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 54.171875,
+        "timed_out": false,
+        "wall_sec": 0.333204958
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS isolated-child RUSAGE_CHILDREN observed MaxRSS; not cgroup enforcement",
+      "model_configured_id": "gpt-5.6-sol",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 2,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/08_96mb_cgroup_pilot/raw/gpt-5.6-sol/gpt96_rep05_D/script.py",
+      "source_sha256": "63b1b6e56438bd6289755dd14e1bbb651697e1a39de5d69623d16557136095c8",
+      "trial_id": "gpt96_rep05_D"
+    },
+    {
+      "cohort": "fresh_96mb_local_sweep",
+      "condition": "D_96MB_10s",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 10,
+            "text": "block_size = 1000"
+          },
+          {
+            "line": 12,
+            "text": "for i in range(0, n, block_size):"
+          },
+          {
+            "line": 19,
+            "text": "for i in range(0, n, block_size):"
+          },
+          {
+            "line": 33,
+            "text": "for j in range(i + block_size, n, block_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 27,
+            "text": "np.maximum(dist_sq, 0.0, out=dist_sq)"
+          },
+          {
+            "line": 29,
+            "text": "dist = np.sqrt(dist_sq, out=dist_sq)"
+          },
+          {
+            "line": 40,
+            "text": "np.maximum(dist_sq, 0.0, out=dist_sq)"
+          },
+          {
+            "line": 41,
+            "text": "dist = np.sqrt(dist_sq, out=dist_sq)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 6,
+            "text": "vectors = np.load('vectors.npy', mmap_mode='r')"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 25,
+            "text": "gram = np.dot(v_i, v_i.T)"
+          },
+          {
+            "line": 38,
+            "text": "gram = np.dot(v_i, v_j.T)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 11,
+            "text": "sq_norms = np.empty(n, dtype=np.float32)"
+          },
+          {
+            "line": 30,
+            "text": "total_dist += np.sum(dist, dtype=np.float64)"
+          },
+          {
+            "line": 43,
+            "text": "total_dist += 2.0 * np.sum(dist, dtype=np.float64)"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 14,
+            "text": "sq_norms[i:i_end] = np.sum(vectors[i:i_end] ** 2, axis=1)"
+          },
+          {
+            "line": 42,
+            "text": "# Factor of 2 accounts for symmetric lower triangle (j, i)"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 81.3125,
+        "timed_out": false,
+        "wall_sec": 0.322085333
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS isolated-child RUSAGE_CHILDREN observed MaxRSS; not cgroup enforcement",
+      "model_configured_id": "gemini-3.7-flash",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 3,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/08_96mb_cgroup_pilot/raw/gemini-3.7-flash/gemini96_rep01_D/script.py",
+      "source_sha256": "eedfa238a5bef72ef591aee4c47ccd7ec5ca98e4d6111e177e0345c743022b08",
+      "trial_id": "gemini96_rep01_D"
+    },
+    {
+      "cohort": "fresh_96mb_local_sweep",
+      "condition": "D_96MB_10s",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 13,
+            "text": "batch_size = 500  # Process in blocks to strictly adhere to the 96 MB RAM limit"
+          },
+          {
+            "line": 15,
+            "text": "for i in range(0, n_vectors, batch_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 25,
+            "text": "np.maximum(G, 0.0, out=G)"
+          },
+          {
+            "line": 26,
+            "text": "np.sqrt(G, out=G)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 6,
+            "text": "X = np.load(\"vectors.npy\")"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 16,
+            "text": "# Compute G = X_batch @ X.T (batch_size x 8000 float32 -> ~16 MB)"
+          },
+          {
+            "line": 17,
+            "text": "G = X[i : i + batch_size] @ X.T"
+          }
+        ],
+        "precision": [
+          {
+            "line": 5,
+            "text": "# Load vector data (8000 x 1024, float32 -> ~32 MB)"
+          },
+          {
+            "line": 16,
+            "text": "# Compute G = X_batch @ X.T (batch_size x 8000 float32 -> ~16 MB)"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 85.828125,
+        "timed_out": false,
+        "wall_sec": 0.385776542
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS isolated-child RUSAGE_CHILDREN observed MaxRSS; not cgroup enforcement",
+      "model_configured_id": "gemini-3.7-flash",
+      "observable_source_features": {
+        "input_mode": "numpy_load",
+        "loop_structure": {
+          "for_loops": 1,
+          "max_for_nesting": 1,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/08_96mb_cgroup_pilot/raw/gemini-3.7-flash/gemini96_rep02_D/script.py",
+      "source_sha256": "383d2e4868a50d7572da6b3117480e649f0f53f2163accde07b2788e5f3e8c59",
+      "trial_id": "gemini96_rep02_D"
+    },
+    {
+      "cohort": "fresh_96mb_local_sweep",
+      "condition": "D_96MB_10s",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 13,
+            "text": "block_size = 2000"
+          },
+          {
+            "line": 17,
+            "text": "block_i = vectors[i_start:i_end]"
+          },
+          {
+            "line": 22,
+            "text": "block_j = vectors[j_start:j_end]"
+          },
+          {
+            "line": 15,
+            "text": "for i_start in range(0, n_vectors, block_size):"
+          },
+          {
+            "line": 20,
+            "text": "for j_start in range(i_start, n_vectors, block_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 38,
+            "text": "np.maximum(sq_dists, 0.0, out=sq_dists)"
+          },
+          {
+            "line": 39,
+            "text": "np.sqrt(sq_dists, out=sq_dists)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 6,
+            "text": "vectors = np.load(\"vectors.npy\", mmap_mode=\"r\")"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 26,
+            "text": "dot = np.dot(block_i, block_j.T)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 34,
+            "text": "np.sqrt(dists_sq_upper), dtype=np.float64"
+          },
+          {
+            "line": 40,
+            "text": "total_dist += 2.0 * np.sum(sq_dists, dtype=np.float64)"
+          }
+        ],
+        "symmetry": [
+          {
+            "line": 31,
+            "text": "triu_idx = np.triu_indices(i_end - i_start, k=1)"
+          },
+          {
+            "line": 32,
+            "text": "dists_sq_upper = np.maximum(sq_dists[triu_idx], 0.0)"
+          }
+        ]
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 205.25,
+        "timed_out": false,
+        "wall_sec": 0.396056666
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS isolated-child RUSAGE_CHILDREN observed MaxRSS; not cgroup enforcement",
+      "model_configured_id": "gemini-3.7-flash",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 2,
+          "max_for_nesting": 2,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": true
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/08_96mb_cgroup_pilot/raw/gemini-3.7-flash/gemini96_rep03_D/script.py",
+      "source_sha256": "3e88bce1b45570bde649d0d8ac10b3c76f8304ad07656326e7301b9139dd90e9",
+      "trial_id": "gemini96_rep03_D"
+    },
+    {
+      "cohort": "fresh_96mb_local_sweep",
+      "condition": "D_96MB_10s",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 11,
+            "text": "chunk_size = 1000"
+          },
+          {
+            "line": 13,
+            "text": "chunk = X[i : min(i + chunk_size, N)]"
+          },
+          {
+            "line": 17,
+            "text": "batch_size = 800  # 800 x 8000 float32 matrix is ~25.6 MB, well within 96 MB RAM"
+          },
+          {
+            "line": 12,
+            "text": "for i in range(0, N, chunk_size):"
+          },
+          {
+            "line": 20,
+            "text": "for i in range(0, N, batch_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 31,
+            "text": "np.maximum(d, 0.0, out=d)"
+          },
+          {
+            "line": 32,
+            "text": "np.sqrt(d, out=d)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 6,
+            "text": "X = np.load(\"vectors.npy\", mmap_mode=\"r\")"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 25,
+            "text": "d = np.dot(A, X.T)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 10,
+            "text": "S = np.empty(N, dtype=np.float32)"
+          },
+          {
+            "line": 17,
+            "text": "batch_size = 800  # 800 x 8000 float32 matrix is ~25.6 MB, well within 96 MB RAM"
+          },
+          {
+            "line": 34,
+            "text": "total_dist += float(np.sum(d, dtype=np.float64))"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 89.28125,
+        "timed_out": false,
+        "wall_sec": 0.5592722499999999
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS isolated-child RUSAGE_CHILDREN observed MaxRSS; not cgroup enforcement",
+      "model_configured_id": "gemini-3.7-flash",
+      "observable_source_features": {
+        "input_mode": "numpy_mmap",
+        "loop_structure": {
+          "for_loops": 2,
+          "max_for_nesting": 1,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/08_96mb_cgroup_pilot/raw/gemini-3.7-flash/gemini96_rep04_D/script.py",
+      "source_sha256": "69b14a55a48f70d34cea3bb0ef8d55eff1dc28bfc7d09f5b19664cc906a275fb",
+      "trial_id": "gemini96_rep04_D"
+    },
+    {
+      "cohort": "fresh_96mb_local_sweep",
+      "condition": "D_96MB_10s",
+      "evidence_lines": {
+        "blocking_or_tiling": [
+          {
+            "line": 13,
+            "text": "batch_size = 500"
+          },
+          {
+            "line": 18,
+            "text": "V_chunk = V[i:i_end]"
+          },
+          {
+            "line": 16,
+            "text": "for i in range(0, N, batch_size):"
+          }
+        ],
+        "buffer_reuse": [
+          {
+            "line": 26,
+            "text": "np.maximum(D2, 0.0, out=D2)"
+          },
+          {
+            "line": 27,
+            "text": "np.sqrt(D2, out=D2)"
+          }
+        ],
+        "input_loading": [
+          {
+            "line": 6,
+            "text": "V = np.load('vectors.npy')"
+          }
+        ],
+        "matrix_operations": [
+          {
+            "line": 21,
+            "text": "G = np.dot(V_chunk, V[i:].T)"
+          }
+        ],
+        "precision": [
+          {
+            "line": 5,
+            "text": "# Load vectors (8000 x 1024 float32 matrix is ~32.8 MB)"
+          },
+          {
+            "line": 36,
+            "text": "total_dist_half += np.sum(D2[mask], dtype=np.float64)"
+          }
+        ],
+        "symmetry": []
+      },
+      "execution": {
+        "correct": true,
+        "exit_code": 0,
+        "maxrss_mb": 130.625,
+        "timed_out": false,
+        "wall_sec": 0.329491333
+      },
+      "interpretation_boundary": "Feature presence is source-observable. It does not establish that a feature alone caused the observed RSS.",
+      "measurement": "macOS isolated-child RUSAGE_CHILDREN observed MaxRSS; not cgroup enforcement",
+      "model_configured_id": "gemini-3.7-flash",
+      "observable_source_features": {
+        "input_mode": "numpy_load",
+        "loop_structure": {
+          "for_loops": 1,
+          "max_for_nesting": 1,
+          "while_loops": 0
+        },
+        "precision_tokens": [
+          "float32",
+          "float64"
+        ],
+        "uses_explicit_buffer_reset": false,
+        "uses_explicit_output_buffer": true,
+        "uses_named_block_batch_chunk_or_tile": true,
+        "uses_symmetry_related_terms": false
+      },
+      "source_parseable_python": true,
+      "source_path": "experiments/08_96mb_cgroup_pilot/raw/gemini-3.7-flash/gemini96_rep05_D/script.py",
+      "source_sha256": "618d46d870477ef8921a279795bc80f3458806b38e5699d13b093eb9f86b31cd",
+      "trial_id": "gemini96_rep05_D"
+    }
+  ],
+  "schema_version": "fresh-code-transformation-audit-v1",
+  "scope": {
+    "excluded_from_128mb_analysis": [
+      "opus_rep01_A",
+      "opus_rep01_D"
+    ],
+    "fresh_128mb_direct_api_scripts": 30,
+    "fresh_96mb_local_sweep_retained_executable_scripts": 15,
+    "not_retained_as_96mb_executable_programs": [
+      "opus96_rep03_D",
+      "opus96_rep05_D"
+    ]
+  }
+}

@@ -1,7 +1,17 @@
 # RESEARCH ROADMAP: Substrate & Self-Telemetry Conditioned Agentic Computation (SCAC)
 
 ## Project Overview
-Investigating whether projecting physical hardware constraints (RAM ceilings, CPU time limits) and runtime telemetry into an AI agent's inference context eliminates "Silicon Blindness" (kernel OOM kills, eager memory allocations, execution timeouts).
+
+This project advances the broader thesis that **execution context is a
+decision-relevant input to AI agents**. An agent that receives a task but not the
+environment in which it must act is substrate-blind: its plan is not deliberately
+conditioned on available memory, time, compute, tool reliability, quota, or cost.
+
+The completed code-generation study is the first inspectable proof of concept for
+this thesis. It tests whether static RAM and execution-time disclosure changes
+generated numerical implementations, correctness, observed process MaxRSS, and
+wall time. It does not claim to have evaluated CPU-quota, GPU/VRAM, tool-reliability,
+token-economy, or dynamic-telemetry dimensions; those are planned future studies.
 
 ---
 
@@ -32,15 +42,25 @@ Investigating whether projecting physical hardware constraints (RAM ceilings, CP
 - **Key Finding**: Disclosing 128 MB limit induced a **66.7% structural shift** to streaming chunked iterators (`pd.read_csv(chunksize=10000)`), achieving a **2.22x speedup** and eliminating memory kills.
 - **Report**: [`docs/01_phase1_gemini_csv_report.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/docs/01_phase1_gemini_csv_report.md)
 
-### Phase 2: High-Dimensional Matrix Operations (Completed ✅)
+### Phase 2: High-Dimensional Matrix Operations (Completed ✅; historical result requires careful use)
 - **Workload**: Pairwise Euclidean Distance on an $8,000 \times 1,024$ float32 matrix (`vectors.npy`, 32.8 MB).
-- **Key Finding**: In 10 paired GCE trials, Condition A (Blind) failed with **10/10 OOM Kills (`SIGKILL 137`)**, while Condition B (Substrate-Aware) achieved **9/10 Algorithmic Strategy Shifts (90.0%)** to memory-bounded streaming.
+- **Archived result**: In 10 paired GCE trials, Condition A recorded 10/10 OOM
+  kills and Condition B recorded 9/10 strategy divergences toward row streaming.
+  The raw `results.json` records **0/10 successful aware executions** (six OOM
+  kills and four timeouts), even though the preceding single-trial report records
+  one aware success. Do not report an aggregate Phase 2 success rate until this
+  artifact/prose discrepancy is reconciled.
 - **Report**: [`docs/02_phase2_gemini_euclidean_report.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/docs/02_phase2_gemini_euclidean_report.md)
 
 ### Phase 3: Multi-Model Frontier Evaluation & Statistical Validation (Completed ✅)
 - **Evaluated Models**: Google `gemini-3.7-flash`, Anthropic `claude-opus-5`, OpenAI `gpt-5.6-sol`, Anthropic `claude-sonnet-5`.
-- **4-Condition Ablation**: Proved quantitative boundary sensitivity and SOTA 2D Block Tiling Pareto-optimality.
-- **5-Paired Statistical Trials**: Proved statistically significant memory reduction ($p < 0.01$) and elevated 128 MB First-Pass Correctness Rate (FPCR) from $40\% \rightarrow 100\%$ on `claude-opus-5` and achieved $4.72\times$ memory reduction and $1.91\times$ speedup on `gpt-5.6-sol`.
+- **4-Condition Ablation**: Exploratory single-trial screen showing prompt-sensitive
+  implementation choices; it is not a replicated model-level estimate.
+- **Historical 5-pair post-hoc MaxRSS trials**: The canonical JSON reports
+  descriptive reductions from 238.40 to 93.57 MB for Claude and 162.65 to 98.57
+  MB for GPT, with respective observed-threshold fractions of 0/5 to 5/5 and 0/5
+  to 4/5. The paper does not currently specify a valid statistical test; this
+  roadmap therefore makes no significance claim from those five pairs.
 - **Reports**: [`docs/04_frontier_models_report.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/docs/04_frontier_models_report.md), [`docs/05_claude_opus_analysis_report.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/docs/05_claude_opus_analysis_report.md), and [`docs/06_statistical_paired_report.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/docs/06_statistical_paired_report.md).
 
 ### Phase 4: arXiv Manuscript Filing (In Progress 🔄)
@@ -55,7 +75,47 @@ Investigating whether projecting physical hardware constraints (RAM ceilings, CP
 - **Replication progress (2026-08-27):** The first post-amendment Claude pair (`opus_rep03`) completed with correct outputs in both conditions. Observed MaxRSS was 168.59 MB in the blind condition and 102.80 MB after telemetry disclosure. This is an additional replication observation, not a manuscript-level aggregate update.
 - **Live tracking rule:** `EXECUTION_TRACKER.md` is the authoritative pair-level ledger for the active direct-API campaign. It records historical, fresh direct-API, and subagent/proxy cohorts separately, updates the planned next pairs after each completed run, and never treats a planning count as a pooled statistical sample.
 - **Fresh Claude cohort complete (2026-08-27):** Five direct-API pairs (`rep02`–`rep06`) are archived under protocol v1.2. In the blind condition, four scripts were functionally correct but exceeded 128 MB and one failed under Python 3.9.6; all five telemetry scripts were correct and observed below 128 MB. This is a new cohort to compare with—not silently pool into—the historical canonical cohort.
-- **Scheduled direct-API batch complete (2026-08-27):** The planned Claude `rep04`–`rep06`, GPT `rep02`–`rep04`, and Gemini `rep02`–`rep04` pairs are archived and tracked. Manuscript updates remain deferred pending a cohort-level analysis that preserves negative and mixed outcomes.
+- **Complete direct-API campaign (2026-08-27):** All 32 predeclared v1.2 manifest
+  executions have terminal artifacts. Excluding the pre-guard duplicate
+  `opus_rep01` pair, the fresh direct cohort consists of five Claude, five GPT, and
+  five Gemini pairs. Its results are recorded in
+  [`docs/10_direct_api_cohort_analysis.md`](docs/10_direct_api_cohort_analysis.md)
+  and will remain separate from the historical cohorts in any manuscript revision.
+- **96 MB enforced-cgroup pilot (2026-08-27):** A separate GPT one-pair pilot used a
+  fresh Ubuntu cgroup v2 host with `MemoryMax=96M`, `MemorySwapMax=0`, and a 10 s
+  runtime limit; a 150 MB allocation positive control was OOM-killed. The blind
+  script OOM-killed, while the first 96 MB-aware script timed out at 10.086 s. This
+  demonstrates a changed implementation but not successful joint constraint
+  satisfaction; it is paused rather than extended automatically. See
+  [`experiments/08_96mb_cgroup_pilot/PILOT_PROTOCOL.md`](experiments/08_96mb_cgroup_pilot/PILOT_PROTOCOL.md).
+- **96 MB local boundary-sensitivity extension (2026-08-27):** The core adaptation
+  question is evaluated using local isolated-process MaxRSS rather than cgroup
+  survival. Five new 96 MB-aware outputs per model were run against separately
+  labelled fresh blind and 128 MB-aware reference distributions. GPT was 5/5
+  correct and observed <=96 MB (mean 60.88 MB); Claude was 4/5 (87.57 MB); and
+  Gemini was 3/5 (118.46 MB). All retained scripts were correct, but the latter
+  two cohorts include observed-RSS boundary misses. Two malformed Claude provider
+  responses were preserved and replaced only after a v1.5 manifest amendment
+  predeclared identical-prompt replacements. This supports resource-relevant
+  adaptation under tighter disclosure, not a deterministic or monotonic reduction
+  claim. See
+  [`experiments/08_96mb_cgroup_pilot/LOCAL_SWEEP_REPORT.md`](experiments/08_96mb_cgroup_pilot/LOCAL_SWEEP_REPORT.md).
+- **Evidence-package closure (2026-08-27):** The revised manuscript pathway now
+  includes a complete source-linked audit of 30 fresh 128 MB scripts and 15
+  retained executable 96 MB scripts, its machine-readable JSON companion, and two
+  reproducible vector figures generated directly from archived metadata. The
+  broad thesis remains that execution context is decision-relevant agent input;
+  the numerical code study is explicitly framed as a controlled proof of concept,
+  not evidence that every future telemetry dimension works. See
+  [`docs/13_fresh_code_transformation_audit.md`](docs/13_fresh_code_transformation_audit.md).
+  The manuscript remains local during author/affiliation clearance. Remaining
+  submission work is authorship plus final TeX/PDF rendering and independent
+  verification, not additional empirical collection.
+- **Software compatibility as a future substrate dimension:** One retained blind
+  Claude script used a Python 3.10-style union annotation and failed under the
+  pinned Python 3.9.6 runtime. This incident is not a causal experiment on version
+  disclosure, but it supports including interpreter/runtime version as an explicit
+  future execution-context dimension alongside physical resource constraints.
 
 ---
 

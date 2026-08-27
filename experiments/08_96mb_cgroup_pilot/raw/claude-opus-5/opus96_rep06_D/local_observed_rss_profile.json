@@ -1,0 +1,32 @@
+{
+  "trial_id": "opus96_rep06_D",
+  "measurement": "macOS isolated-child RUSAGE_CHILDREN MaxRSS; observed classification, not cgroup enforcement",
+  "environment": {
+    "platform": "macOS-15.5-arm64-arm-64bit",
+    "python_version": "3.9.6",
+    "numpy_version": "2.0.2",
+    "machine": "arm64",
+    "processor": "arm",
+    "thread_pinning": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    }
+  },
+  "profile": {
+    "wall_sec": 0.430667125,
+    "maxrss_mb": 121.765625,
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout": "TOTAL_DIST:2895556247.423121\n",
+    "stderr": "<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/08_96mb_cgroup_pilot/raw/claude-opus-5/opus96_rep06_D/script.py:35: RuntimeWarning: divide by zero encountered in matmul\n  G = A @ B.T\n<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/08_96mb_cgroup_pilot/raw/claude-opus-5/opus96_rep06_D/script.py:35: RuntimeWarning: overflow encountered in matmul\n  G = A @ B.T\n<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/08_96mb_cgroup_pilot/raw/claude-opus-5/opus96_rep06_D/script.py:35: RuntimeWarning: invalid value encountered in matmul\n  G = A @ B.T\n",
+    "total_dist": 2895556247.423121,
+    "correct": true,
+    "rel_error": 3.5649040013011296e-08,
+    "within_128m_budget": true,
+    "within_10s_budget": true
+  },
+  "timestamp_utc": "2026-08-27T07:49:16Z"
+}

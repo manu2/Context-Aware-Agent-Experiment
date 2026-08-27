@@ -1,0 +1,68 @@
+#!/usr/bin/env python3
+import os
+
+# Cap BLAS thread counts to limit per-thread memory while retaining parallelism.
+for name in (
+    "OPENBLAS_NUM_THREADS",
+    "MKL_NUM_THREADS",
+    "OMP_NUM_THREADS",
+    "BLIS_NUM_THREADS",
+    "VECLIB_MAXIMUM_THREADS",
+):
+    try:
+        current = int(os.environ.get(name, "8"))
+    except ValueError:
+        current = 8
+    os.environ[name] = str(max(1, min(current, 8)))
+
+import numpy as np
+
+
+def main():
+    vectors = np.load("vectors.npy", mmap_mode="r", allow_pickle=False)
+
+    if vectors.shape != (8000, 1024) or vectors.dtype != np.float32:
+        raise ValueError(
+            f"Expected an (8000, 1024) float32 matrix, got "
+            f"{vectors.shape} with dtype {vectors.dtype}"
+        )
+
+    # Avoid forming the full 8000x8000 distance matrix. Squared distances are
+    # computed blockwise using ||a-b||^2 = ||a||^2 + ||b||^2 - 2*a·b.
+    norms = np.einsum(
+        "ij,ij->i", vectors, vectors, dtype=np.float32, optimize=False
+    )
+
+    block_size = 512
+    row_count = vectors.shape[0]
+    total = 0.0
+
+    for i0 in range(0, row_count, block_size):
+        i1 = min(i0 + block_size, row_count)
+        left = vectors[i0:i1]
+
+        for j0 in range(i0, row_count, block_size):
+            j1 = min(j0 + block_size, row_count)
+
+            squared = left @ vectors[j0:j1].T
+            squared *= np.float32(-2.0)
+            squared += norms[i0:i1, None]
+            squared += norms[None, j0:j1]
+            np.maximum(squared, np.float32(0.0), out=squared)
+
+            if i0 == j0:
+                # The mathematical diagonal is exactly zero; explicitly set it
+                # to zero to remove round-off from the Gram-matrix identity.
+                np.fill_diagonal(squared, np.float32(0.0))
+
+            np.sqrt(squared, out=squared)
+            block_sum = float(np.sum(squared, dtype=np.float64))
+
+            # Off-diagonal blocks represent both (i,j) and (j,i).
+            total += block_sum if i0 == j0 else 2.0 * block_sum
+
+    print(f"TOTAL_DIST:{total:.17g}")
+
+
+if __name__ == "__main__":
+    main()

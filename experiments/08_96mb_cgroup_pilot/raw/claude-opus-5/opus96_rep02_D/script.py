@@ -1,0 +1,87 @@
+#!/usr/bin/env python3
+"""
+Sum of all pairwise Euclidean distances for an 8000 x 1024 float32 matrix.
+
+Strategy
+--------
+sum_{i,j} ||v_i - v_j|| = 2 * sum_{i<j} ||v_i - v_j||
+
+Distances are obtained from the Gram matrix identity
+    ||x - y||^2 = ||x||^2 + ||y||^2 - 2 <x, y>
+computed in *row blocks* so the full 8000x8000 distance matrix
+(256 MB in float32) is never materialised.  Only the upper triangle is
+touched, halving the FLOPs.
+
+Accuracy notes
+--------------
+* Data is mean-centred first (distances are invariant) which minimises
+  the ||x||^2 vs 2<x,y> cancellation.
+* Squared norms are accumulated in float64.
+* The BLAS sgemm result is promoted to float64 before the subtraction,
+  the clamp at 0, the sqrt and the (pairwise, float64) summation.
+
+Memory
+------
+X (float32) 32.8 MB + block Gram (float32) 4.1 MB + block float64 8.2 MB
+=> ~45 MB of arrays, comfortably inside the 96 MB budget.
+"""
+
+import numpy as np
+
+
+def main():
+    X = np.load("vectors.npy")
+    if X.dtype != np.float32:
+        X = X.astype(np.float32)
+    X = np.ascontiguousarray(X)
+    n, k = X.shape
+
+    CHUNK = 1000  # rows per chunk for the float64 helper passes
+
+    # ---- 1. mean-centre (improves conditioning, keeps distances identical)
+    mean = np.zeros(k, dtype=np.float64)
+    for i in range(0, n, CHUNK):
+        mean += X[i:i + CHUNK].astype(np.float64).sum(axis=0)
+    mean /= n
+    m32 = mean.astype(np.float32)
+    for i in range(0, n, CHUNK):
+        X[i:i + CHUNK] -= m32
+    del mean, m32
+
+    # ---- 2. squared norms in float64
+    nrm = np.empty(n, dtype=np.float64)
+    for i in range(0, n, CHUNK):
+        b = X[i:i + CHUNK].astype(np.float64)
+        nrm[i:i + CHUNK] = np.einsum("ij,ij->i", b, b)
+    del b
+
+    # ---- 3. blocked upper-triangular accumulation
+    total = 0.0
+    B = 128  # block rows -> 128*8000*8 B = 8.2 MB float64 buffer
+    for i0 in range(0, n, B):
+        i1 = min(i0 + B, n)
+        bs = i1 - i0
+
+        # Gram of this row block against all rows j >= i0 (float32 BLAS)
+        G = X[i0:i1] @ X[i0:].T          # (bs, n - i0) float32
+        D = G.astype(np.float64)         # promote for the cancellation step
+        del G
+
+        D *= -2.0
+        D += nrm[i0:i1, None]
+        D += nrm[None, i0:]
+        np.maximum(D, 0.0, out=D)        # kill tiny negative round-off
+        np.sqrt(D, out=D)
+
+        # everything strictly right of the diagonal square block
+        total += float(D[:, bs:].sum())
+        # strict upper triangle of the diagonal square block
+        sq = D[:, :bs]
+        total += float(np.triu(sq, 1).sum())
+        del D, sq
+
+    print("TOTAL_DIST:%.6f" % (2.0 * total))
+
+
+if __name__ == "__main__":
+    main()
