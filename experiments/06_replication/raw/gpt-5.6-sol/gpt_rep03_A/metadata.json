@@ -1,0 +1,44 @@
+{
+  "trial_id": "gpt_rep03_A",
+  "model_label": "gpt-5.6-sol",
+  "pair_id": "gpt_pair03",
+  "condition": "A_Blind",
+  "model_config": {
+    "research_label": "gpt-5.6-sol",
+    "api_model_id": "gpt-5.6-sol",
+    "provider": "openai",
+    "endpoint": "https://api.openai.com/v1/chat/completions",
+    "temperature": 1.0,
+    "max_completion_tokens": 8192,
+    "top_p": 1.0
+  },
+  "generation_time_sec": 43.192513458,
+  "environment": {
+    "platform": "macOS-15.5-arm64-arm-64bit",
+    "python_version": "3.9.6",
+    "numpy_version": "2.0.2",
+    "machine": "arm64",
+    "processor": "arm",
+    "thread_pinning": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    }
+  },
+  "profile": {
+    "wall_sec": 0.681723833,
+    "maxrss_mb": 113.53125,
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout": "TOTAL_DIST:2895556144.1993241\n",
+    "stderr": "<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/06_replication/raw/gpt-5.6-sol/gpt_rep03_A/script.py:41: RuntimeWarning: divide by zero encountered in matmul\n  distances = vi @ vj.T\n<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/06_replication/raw/gpt-5.6-sol/gpt_rep03_A/script.py:41: RuntimeWarning: overflow encountered in matmul\n  distances = vi @ vj.T\n<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/06_replication/raw/gpt-5.6-sol/gpt_rep03_A/script.py:41: RuntimeWarning: invalid value encountered in matmul\n  distances = vi @ vj.T\n",
+    "total_dist": 2895556144.199324,
+    "correct": true,
+    "rel_error": 0.0,
+    "within_128m_budget": true,
+    "within_10s_budget": true
+  },
+  "timestamp_utc": "2026-08-27T00:17:36Z"
+}

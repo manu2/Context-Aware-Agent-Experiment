@@ -1,0 +1,44 @@
+{
+  "trial_id": "gpt_rep03_D",
+  "model_label": "gpt-5.6-sol",
+  "pair_id": "gpt_pair03",
+  "condition": "D_2DTelemetry",
+  "model_config": {
+    "research_label": "gpt-5.6-sol",
+    "api_model_id": "gpt-5.6-sol",
+    "provider": "openai",
+    "endpoint": "https://api.openai.com/v1/chat/completions",
+    "temperature": 1.0,
+    "max_completion_tokens": 8192,
+    "top_p": 1.0
+  },
+  "generation_time_sec": 65.495749708,
+  "environment": {
+    "platform": "macOS-15.5-arm64-arm-64bit",
+    "python_version": "3.9.6",
+    "numpy_version": "2.0.2",
+    "machine": "arm64",
+    "processor": "arm",
+    "thread_pinning": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    }
+  },
+  "profile": {
+    "wall_sec": 0.33916987499999995,
+    "maxrss_mb": 54.203125,
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout": "TOTAL_DIST:2895556139.5889015\n",
+    "stderr": "",
+    "total_dist": 2895556139.5889015,
+    "correct": true,
+    "rel_error": 1.5922407930071205e-09,
+    "within_128m_budget": true,
+    "within_10s_budget": true
+  },
+  "timestamp_utc": "2026-08-27T00:18:43Z"
+}

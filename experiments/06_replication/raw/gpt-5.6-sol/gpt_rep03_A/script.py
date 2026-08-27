@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+
+import math
+import numpy as np
+
+INPUT_FILE = "vectors.npy"
+BLOCK_SIZE = 1024
+
+
+def main() -> None:
+    raw = np.load(INPUT_FILE, mmap_mode="r", allow_pickle=False)
+
+    if raw.shape != (8000, 1024):
+        raise ValueError(
+            f"Expected an (8000, 1024) matrix, but found shape {raw.shape}"
+        )
+    if raw.dtype != np.float32:
+        raise TypeError(f"Expected float32 data, but found dtype {raw.dtype}")
+
+    # Float64 reduces cancellation error in the Gram-matrix distance formula.
+    vectors = np.array(raw, dtype=np.float64, order="C", copy=True)
+    del raw
+
+    squared_norms = np.einsum("ij,ij->i", vectors, vectors)
+    block_sums = []
+    n = vectors.shape[0]
+
+    # Process only the lower block triangle. Off-diagonal blocks are doubled
+    # because the requested sum includes both (i, j) and (j, i).
+    for i0 in range(0, n, BLOCK_SIZE):
+        i1 = min(i0 + BLOCK_SIZE, n)
+        vi = vectors[i0:i1]
+        ni = squared_norms[i0:i1]
+
+        for j0 in range(0, i0 + 1, BLOCK_SIZE):
+            j1 = min(j0 + BLOCK_SIZE, n)
+            vj = vectors[j0:j1]
+            nj = squared_norms[j0:j1]
+
+            # ||a-b||² = ||a||² + ||b||² - 2(a·b)
+            distances = vi @ vj.T
+            distances *= -2.0
+            distances += ni[:, None]
+            distances += nj[None, :]
+
+            # Remove round-off artifacts before taking square roots.
+            np.maximum(distances, 0.0, out=distances)
+            if i0 == j0:
+                np.fill_diagonal(distances, 0.0)
+
+            np.sqrt(distances, out=distances)
+            block_total = float(np.sum(distances, dtype=np.float64))
+
+            block_sums.append(block_total if i0 == j0 else 2.0 * block_total)
+
+    total = math.fsum(block_sums)
+    print(f"TOTAL_DIST:{total:.17g}")
+
+
+if __name__ == "__main__":
+    main()

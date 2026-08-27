@@ -37,7 +37,7 @@ statistical sample.
 | Claude Opus 5 | `opus_rep05_A/D` | ✅ Complete | A: correct, 345.33 MB, 0.6912 s. D: correct, 111.86 MB, 0.3462 s. |
 | Claude Opus 5 | `opus_rep06_A/D` | ✅ Complete | A: correct, 305.97 MB, 1.3413 s. D: correct, 111.38 MB, 0.4020 s. |
 | GPT-5.6-Sol | `gpt_rep02_A/D` | ✅ Complete | A: correct, 179.92 MB, 0.6274 s. D: correct, 60.00 MB, 0.3485 s. |
-| GPT-5.6-Sol | `gpt_rep03_A/D` | ⏳ Pending | — |
+| GPT-5.6-Sol | `gpt_rep03_A/D` | ✅ Complete | A: correct, 113.53 MB, 0.6817 s. D: correct, 54.20 MB, 0.3392 s. |
 | GPT-5.6-Sol | `gpt_rep04_A/D` | ⏳ Pending | — |
 | Gemini 3.7 Flash | `gemini_rep02_A/D` | ⏳ Pending | — |
 | Gemini 3.7 Flash | `gemini_rep03_A/D` | ⏳ Pending | — |
