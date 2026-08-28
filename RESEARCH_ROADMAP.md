@@ -124,6 +124,51 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   disclosure, but it supports including interpreter/runtime version as an explicit
   future execution-context dimension alongside physical resource constraints.
 
+### Phase 5: ContractBench Operational-Contract Benchmark (Planned 🔄)
+
+- **Objective:** expand the numerical proof of concept into a new FSE-oriented
+  study asking whether truthful, target-environment execution contracts improve
+  correct first-pass operational suitability across distinct software tasks.
+- **Core task families:** bounded numerical computation; large-file streaming ETL;
+  runtime/dependency compatibility. The existing historical CSV/log tasks may
+  inform calibration but cannot be silently pooled with this new protocol.
+- **Interface conditions:** task-only, truthful natural-language contract, and an
+  automatically collected structured contract; a length-matched neutral-context
+  control will be evaluated on a predeclared subset.
+- **Execution standard:** versioned Linux containers and cgroup enforcement are
+  primary for resource-contract outcomes. The contract collector, container
+  manifest, evaluator, raw provider response, source, and execution trace are
+  archived per trial.
+- **Design gates:** independent context-isolated task review, hand-written
+  positive/negative calibration, a limited one-model pilot, then a frozen main
+  matrix. No provider calls are authorized until the design and calibration gates
+  pass.
+- **Protocol:** [`docs/14_fse_contractbench_protocol.md`](docs/14_fse_contractbench_protocol.md).
+
+### Phase 6: Dynamic Agent Harness Telemetry (Design complete; implementation planned)
+
+- **Objective:** test whether fresh, host-verified execution state changes
+  consequential multi-turn decisions and improves operational utility under
+  controlled memory pressure, tool degradation, and quota exhaustion.
+- **4D state:** hardware/resource pressure, tool reliability and latency, runtime
+  state and deadlines, and token/quota/cost economics, each with provenance,
+  freshness, window, and availability metadata.
+- **Architecture:** host-controlled sense–compress–inject–act–audit loop with an
+  append-only event log, deterministic versioned reducer, stable system prefix,
+  dynamic turn envelope, external enforcement, and trajectory oracle.
+- **Core scenarios:** ToolRoute, MemoryGovernor, and RetryBudget. Information
+  controls include semantic observation only, length-matched neutral state,
+  truthful structured telemetry, a natural-language subset, and stale-state
+  diagnostics.
+- **Design gates:** no provider trials until cgroup/tool-fault positive controls,
+  reducer/schema fixtures, simulator reproducibility, and context-isolated reviews
+  pass. All attempted trajectories remain in the denominator.
+- **Repository boundary:** freeze the protocol here, then implement the dynamic
+  harness in a separate repository with reciprocal pinned commit/release links.
+  Existing raw artifacts remain in place and are never pooled with Phase 2.
+- **Canonical whitepaper:** [`docs/15_dynamic_agent_telemetry_whitepaper.md`](docs/15_dynamic_agent_telemetry_whitepaper.md).
+- **Preserved independent draft:** [`docs/15_dynamic_telemetry_agent_loops_whitepaper.md`](docs/15_dynamic_telemetry_agent_loops_whitepaper.md).
+
 ---
 
 ## 3. Specification: The 3-Task Silicon Stress Suite
