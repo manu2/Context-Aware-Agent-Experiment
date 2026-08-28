@@ -40,7 +40,7 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
 - **Workload**: Out-of-Core CSV GroupBy Aggregation (`data.csv`, 85 MB).
 - **Environment**: Strict 128 MB RAM `cgroup v2` sandbox on Google Compute Engine (`e2-medium`).
 - **Key Finding**: Disclosing 128 MB limit induced a **66.7% structural shift** to streaming chunked iterators (`pd.read_csv(chunksize=10000)`), achieving a **2.22x speedup** and eliminating memory kills.
-- **Report**: [`docs/01_phase1_gemini_csv_report.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/docs/01_phase1_gemini_csv_report.md)
+- **Report**: [`docs/01_phase1_gemini_csv_report.md`](docs/01_phase1_gemini_csv_report.md)
 
 ### Phase 2: High-Dimensional Matrix Operations (Completed ✅; historical result requires careful use)
 - **Workload**: Pairwise Euclidean Distance on an $8,000 \times 1,024$ float32 matrix (`vectors.npy`, 32.8 MB).
@@ -50,7 +50,7 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   kills and four timeouts), even though the preceding single-trial report records
   one aware success. Do not report an aggregate Phase 2 success rate until this
   artifact/prose discrepancy is reconciled.
-- **Report**: [`docs/02_phase2_gemini_euclidean_report.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/docs/02_phase2_gemini_euclidean_report.md)
+- **Report**: [`docs/02_phase2_gemini_euclidean_report.md`](docs/02_phase2_gemini_euclidean_report.md)
 
 ### Phase 3: Multi-Model Frontier Evaluation & Statistical Validation (Completed ✅)
 - **Evaluated Models**: Google `gemini-3.7-flash`, Anthropic `claude-opus-5`, OpenAI `gpt-5.6-sol`, Anthropic `claude-sonnet-5`.
@@ -61,10 +61,10 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   MB for GPT, with respective observed-threshold fractions of 0/5 to 5/5 and 0/5
   to 4/5. The paper does not currently specify a valid statistical test; this
   roadmap therefore makes no significance claim from those five pairs.
-- **Reports**: [`docs/04_frontier_models_report.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/docs/04_frontier_models_report.md), [`docs/05_claude_opus_analysis_report.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/docs/05_claude_opus_analysis_report.md), and [`docs/06_statistical_paired_report.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/docs/06_statistical_paired_report.md).
+- **Reports**: [`docs/04_frontier_models_report.md`](docs/04_frontier_models_report.md), [`docs/05_claude_opus_analysis_report.md`](docs/05_claude_opus_analysis_report.md), and [`docs/06_statistical_paired_report.md`](docs/06_statistical_paired_report.md).
 
 ### Phase 4: arXiv Manuscript Filing (In Progress 🔄)
-- **Primary Document**: [`paper_draft.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/paper_draft.md)
+- **Primary Document**: [`paper_draft.md`](paper_draft.md)
 - **Target Category**: `cs.DC` (Distributed & Cluster Computing) / `cs.AI` (Artificial Intelligence).
 - **Current canonical revision (2026-08-28):** [`paper_draft.md`](paper_draft.md)
   contains the approved v6 manuscript with comparative 96 MB RSS/time presentation,

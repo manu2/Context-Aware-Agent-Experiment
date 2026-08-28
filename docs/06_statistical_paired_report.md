@@ -1,7 +1,7 @@
 # Canonical Paired Trial Report: Substrate-Aware Code Generation
 
-**Dataset**: [`experiments/05_paired_statistical_trials/canonical_paired_results.json`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/05_paired_statistical_trials/canonical_paired_results.json)  
-**Profiler**: [`experiments/05_paired_statistical_trials/profile_canonical_maxrss.py`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/05_paired_statistical_trials/profile_canonical_maxrss.py)  
+**Dataset**: [`canonical_paired_results.json`](../experiments/05_paired_statistical_trials/canonical_paired_results.json)
+**Profiler**: [`profile_canonical_maxrss.py`](../experiments/05_paired_statistical_trials/profile_canonical_maxrss.py)
 **Methodology**: Isolated subprocess execution measuring true OS Peak Resident Set Size (`resource.getrusage(RUSAGE_SELF).ru_maxrss`).
 
 ---

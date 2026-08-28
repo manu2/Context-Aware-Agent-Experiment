@@ -139,9 +139,9 @@ def main():
 
 ## 5. Artifact Index & Reproduction Scripts
 
-* **Full Audited Report**: [`local_experiments/frontier_model_benchmark/FRONTIER_REPORT.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/local_experiments/frontier_model_benchmark/FRONTIER_REPORT.md)
-* **Audited Execution JSON**: [`local_experiments/frontier_model_benchmark/frontier_benchmark_audited.json`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/local_experiments/frontier_model_benchmark/frontier_benchmark_audited.json)
+* **Full Audited Report**: [`FRONTIER_REPORT.md`](FRONTIER_REPORT.md)
+* **Audited Execution JSON**: [`frontier_benchmark_audited.json`](frontier_benchmark_audited.json)
 * **Claude Opus 5 Scripts**:
-  * Blind (Variant A, 131.88 MB OOM): [`a_claude-opus-5.py`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/local_experiments/frontier_model_benchmark/runs/a_claude-opus-5.py)
-  * Natural Language (Variant B, 48.20 MB): [`b_claude-opus-5.py`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/local_experiments/frontier_model_benchmark/runs/b_claude-opus-5.py)
-  * 2D Telemetry (Variant D, 61.47 MB / 0.394s SOTA): [`2d_claude-opus-5.py`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/local_experiments/frontier_model_benchmark/runs/2d_claude-opus-5.py)
+  * Blind (Variant A, 131.88 MB OOM): [`a_claude-opus-5.py`](runs/a_claude-opus-5.py)
+  * Natural Language (Variant B, 48.20 MB): [`b_claude-opus-5.py`](runs/b_claude-opus-5.py)
+  * 2D Telemetry (Variant D, 61.47 MB / 0.394s SOTA): [`2d_claude-opus-5.py`](runs/2d_claude-opus-5.py)

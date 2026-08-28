@@ -162,7 +162,7 @@ def query_llm_with_retry(prompt: str, max_retries: int = 5) -> str:
     import urllib.error
 
     gemini_key = os.environ.get("GEMINI_API_KEY")
-    project = "REDACTED_GCP_PROJECT"
+    project = os.environ.get("GCP_PROJECT", "")
     location = "us-central1"
 
     # Fetch OAuth access token for unlimited Vertex AI billing quota

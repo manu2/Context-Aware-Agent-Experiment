@@ -20,21 +20,21 @@ All agents operating in this codebase MUST read and maintain the following key f
 
 | File Path | Description | Responsibility / Maintenance Rule |
 |---|---|---|
-| [`AGENTS.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/AGENTS.md) | **This file.** Agent guidelines, document index, and codebase rules. | Update whenever new workflow rules or architecture shifts occur. |
-| [`README.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/README.md) | **Repository Overview & Quickstart.** Architecture, results summary, and navigation. | Keep aligned with current empirical results and directory structure. |
-| [`RESEARCH_ROADMAP.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/RESEARCH_ROADMAP.md) | **Master Research Architecture.** Contains 4D SST spec and multi-phase roadmap. | Update when expanding research scope or adding new experimental metrics. |
-| [`EXECUTION_TRACKER.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/EXECUTION_TRACKER.md) | **Live Deployment & Execution Log.** Stage-by-stage tracker for all completed runs. | Must be updated **in real time** as execution steps occur. |
-| [`paper_draft.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/paper_draft.md) | **Primary arXiv Manuscript.** Complete, self-contained publication paper. | Primary manuscript for preprint and conference filing. |
-| [`docs/`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/docs/) | **Granular Empirical Reports.** Detailed markdown reports for all phases & models. | Maintain individual reports for Phase 1, Phase 2, Frontier models, and Paired trials. |
-| [`experiments/`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/experiments/) | **Raw Code & Execution Traces.** 100% of generated Python scripts and JSON logs. | Never delete raw trial scripts; preserve full provenance. |
-| [`benchmarks/`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/benchmarks/) | **Executable Benchmark Harnesses.** Multi-model and GCE evaluation scripts. | Maintain fail-closed preflight assertions and robust error handling. |
+| [`AGENTS.md`](AGENTS.md) | **This file.** Agent guidelines, document index, and codebase rules. | Update whenever new workflow rules or architecture shifts occur. |
+| [`README.md`](README.md) | **Repository Overview & Quickstart.** Architecture, results summary, and navigation. | Keep aligned with current empirical results and directory structure. |
+| [`RESEARCH_ROADMAP.md`](RESEARCH_ROADMAP.md) | **Master Research Architecture.** Contains 4D SST spec and multi-phase roadmap. | Update when expanding research scope or adding new experimental metrics. |
+| [`EXECUTION_TRACKER.md`](EXECUTION_TRACKER.md) | **Live Deployment & Execution Log.** Stage-by-stage tracker for all completed runs. | Must be updated **in real time** as execution steps occur. |
+| [`paper_draft.md`](paper_draft.md) | **Primary arXiv Manuscript.** Complete, self-contained publication paper. | Primary manuscript for preprint and conference filing. |
+| [`docs/`](docs/) | **Granular Empirical Reports.** Detailed markdown reports for all phases & models. | Maintain individual reports for Phase 1, Phase 2, Frontier models, and Paired trials. |
+| [`experiments/`](experiments/) | **Raw Code & Execution Traces.** 100% of generated Python scripts and JSON logs. | Never delete raw trial scripts; preserve full provenance. |
+| [`benchmarks/`](benchmarks/) | **Executable Benchmark Harnesses.** Multi-model and GCE evaluation scripts. | Maintain fail-closed preflight assertions and robust error handling. |
 
 ---
 
 ## 3. Strict Operating Guidelines for Agents
 
 ### 1. Documentation & Plan Synchronization
-Whenever you perform an execution step, discover an edge case, or modify the architecture, you **MUST** update [`EXECUTION_TRACKER.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/EXECUTION_TRACKER.md) and [`RESEARCH_ROADMAP.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/RESEARCH_ROADMAP.md) immediately.
+Whenever you perform an execution step, discover an edge case, or modify the architecture, you **MUST** update [`EXECUTION_TRACKER.md`](EXECUTION_TRACKER.md) and [`RESEARCH_ROADMAP.md`](RESEARCH_ROADMAP.md) immediately.
 
 ### 2. Fail-Closed Experimental Integrity
 All experimental harnesses must include positive-control pre-flight checks (e.g. testing a 150MB allocation against a 128MB limit). Never disable preflight safety assertions to force a script to pass.

@@ -3,7 +3,7 @@
 **Repository Context**: Project Aether-Bus / SCAC (Substrate & Self-Telemetry Conditioned Agentic Computation)  
 **Experiment Date**: August 23, 2026  
 **Execution Node**: GCE `scac-matrix-node` (`e2-medium`, Ubuntu 24.04 LTS, zone `us-central1-a`)  
-**Target Model**: `gemini-2.5-flash` via Vertex AI REST API (`REDACTED_GCP_PROJECT`)  
+**Target Model**: `gemini-2.5-flash` via Vertex AI REST API (experimenter-configured project)
 **Sandbox Limit**: Linux Kernel `cgroup v2` Memory Limit: `128 MB RAM` (`MemoryMax=128M`, `MemorySwapMax=0`)  
 
 ---
@@ -49,7 +49,7 @@ This report documents the single-trial baseline verification for Phase 2 of the 
 
 ## 3. Code Generation & Memory Footprint Audit
 
-### **Condition A (Blind Script): [`single_test_EUC_A_blind.py`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/single_test_EUC_A_blind.py)**
+### **Condition A (Blind Script): [`single_test_EUC_A_blind.py`](../benchmarks/single_test_EUC_A_blind.py)**
 
 ```python
 # Lines 42-63 in single_test_EUC_A_blind.py
@@ -68,7 +68,7 @@ total_distance = np.sum(dist)
 
 ---
 
-### **Condition B (Aware Script): [`single_test_EUC_B_aware.py`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/single_test_EUC_B_aware.py)**
+### **Condition B (Aware Script): [`single_test_EUC_B_aware.py`](../benchmarks/single_test_EUC_B_aware.py)**
 
 ```python
 # Lines 39-70 in single_test_EUC_B_aware.py
@@ -109,5 +109,5 @@ Condition B Exit Code: 0 (SUCCESS PASS)
 ## 5. Conclusion & Trial Readiness
 
 1. **Definitive Signal Proven**: The Pairwise Euclidean Distance task achieves a **100% binary separation** between unconstrained execution (instant 1.024 GB OOM kill) and substrate-aware execution (32.03 MB streaming pass).
-2. **Quota Status**: Unlimited Vertex AI API enterprise quota enabled on project `REDACTED_GCP_PROJECT`.
+2. **Quota Status**: The experimenter had sufficient Vertex AI quota to complete the archived runs.
 3. **Next Step**: Execute 10 paired trials with 3.0s pacing and exponential backoff to measure statistical consistency across multiple runs.

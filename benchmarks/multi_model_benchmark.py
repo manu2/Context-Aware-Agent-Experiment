@@ -13,7 +13,7 @@ import numpy as np
 # =====================================================================
 # CONFIGURATION & MULTI-MODEL ROUTER
 # =====================================================================
-GCP_PROJECT = os.environ.get("GCP_PROJECT", "REDACTED_GCP_PROJECT")
+GCP_PROJECT = os.environ.get("GCP_PROJECT", "")
 GCP_LOCATION = os.environ.get("GCP_LOCATION", "us-central1")
 
 
@@ -22,7 +22,9 @@ def get_vertex_token() -> str:
     if token:
         return token
     try:
-        gcloud_bin = shutil.which("gcloud") or "<LOCAL_USER_HOME>/Downloads/google-cloud-sdk/bin/gcloud"
+        gcloud_bin = shutil.which("gcloud")
+        if not gcloud_bin:
+            return ""
         env = dict(os.environ)
         if "CLOUDSDK_PYTHON" not in env:
             env["CLOUDSDK_PYTHON"] = sys.executable

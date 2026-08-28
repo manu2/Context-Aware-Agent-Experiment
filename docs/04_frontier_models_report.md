@@ -87,5 +87,5 @@ for i0 in range(0, n, block_size):
 ## 4. Academic Rigor & Provenance Audit
 
 All scripts, outputs, and JSON profiles have been frozen for academic verification:
-* **Script Artifacts**: [`local_experiments/frontier_model_benchmark/runs/`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/local_experiments/frontier_model_benchmark/runs/)
-* **Audited JSON Trajectories**: [`local_experiments/frontier_model_benchmark/frontier_benchmark_audited.json`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/local_experiments/frontier_model_benchmark/frontier_benchmark_audited.json)
+* **Script Artifacts**: [`experiments/04_frontier_model_benchmark/runs/`](../experiments/04_frontier_model_benchmark/runs/)
+* **Audited JSON Trajectories**: [`frontier_benchmark_audited.json`](../experiments/04_frontier_model_benchmark/frontier_benchmark_audited.json)
