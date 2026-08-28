@@ -167,7 +167,7 @@ with up to 3.1x faster mean execution.
 fifth blind program is retained as a runtime-compatibility failure in the
 correctness/threshold denominator.
 
-![Figure 1: Paired relative observed-MaxRSS response for the fresh 128 MB cohort.](paper/figures/figure_1_paired_relative.pdf)
+![Figure 1: Paired relative observed-MaxRSS response for the fresh 128 MB cohort.](../../figures/figure_1_paired_relative.pdf)
 
 **Figure 1.** Each executable pair is indexed to its own blind MaxRSS result
 (blind = 100%). The figure preserves the one GPT higher-RSS outcome. Claude
@@ -225,7 +225,7 @@ normalized view below makes this visible without allowing Gemini's larger absolu
 memory scale to compress the other model cohorts. Exact measured-budget fit remains
 model-dependent.
 
-![Figure 2: Normalized observed-MaxRSS and wall-time distributions for the 96 MB condition-level extension.](paper/figures/figure_2_resource_time_distributions.pdf)
+![Figure 2: Normalized observed-MaxRSS and wall-time distributions for the 96 MB condition-level extension.](../../figures/figure_2_resource_time_distributions.pdf)
 
 **Figure 2.** Every retained executable observation is indexed to its configured
 model's executable blind-reference mean (100%). The upper row reports measured
@@ -296,7 +296,7 @@ release may be linked in a later version of this paper.
 
 ## Appendix A. Absolute resource profiles
 
-![Appendix Figure A1: Raw observed MaxRSS distributions across the 96 MB condition-level extension.](paper/figures/appendix_figure_a1_raw_memory.pdf)
+![Appendix Figure A1: Raw observed MaxRSS distributions across the 96 MB condition-level extension.](../../figures/appendix_figure_a1_raw_memory.pdf)
 
 **Figure A1.** Every retained executable MaxRSS observation is shown in native MB.
 Each panel uses its own MB scale to reveal the within-configuration distributions;

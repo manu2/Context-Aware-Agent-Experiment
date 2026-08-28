@@ -8,28 +8,23 @@ manuagrawal2013@gmail.com
 
 ## Abstract
 
-Autonomous AI agents increasingly select actions in environments whose memory,
-execution-time, runtime, compute, and operational constraints determine what counts
-as a suitable plan. We call the absence of this execution context from an agent's
-planning state *substrate blindness*. We test this general proposition through
-numerical code generation, where selected implementation choices and operational
-consequences are directly observable. Three frontier model configurations--Anthropic
-Claude Opus 5, OpenAI GPT-5.6-Sol, and Google Gemini 3.7 Flash--generate code for a
-high-dimensional pairwise Euclidean-distance task either from the task alone or
-with a 128 MB RAM and 10.0 s wall-time contract. Contract disclosure reduced
+Autonomous AI coding agents increasingly operate under memory, execution-time,
+runtime, and compute constraints that determine whether a program is suitable for
+its deployment environment. We call the absence of this information from an
+agent's planning context *substrate blindness*. We evaluate whether supplying an
+execution contract before generation changes the computational plan synthesized by
+three frontier model configurations: Anthropic Claude Opus 5, OpenAI GPT-5.6-Sol,
+and Google Gemini 3.7 Flash. On a high-dimensional pairwise Euclidean-distance
+task, zero-shot disclosure of a 128 MB RAM and 10.0 s wall-time contract reduced
 measured peak process memory in 13 of 14 executable paired comparisons and reduced
-mean wall time in all three cohorts, making execution up to 3.1x faster. Across the
-audited corpus, disclosure produced code changes such as bounded blocking, float32
-retention, upper-triangle traversal, and in-place or memory-mapped buffers. At the
-96 MB boundary, independently sampled substrate-aware cohorts achieved
-correct-and-within-96 MB observed-MaxRSS outcomes of 4/5 for Claude Opus 5, 5/5 for
-GPT-5.6-Sol, and 3/5 for Gemini 3.7 Flash, compared with blind-reference outcomes
-of 0/5, 1/5, and 0/5, respectively; condition-level mean MaxRSS and wall time were
-49-74% and 35-64% lower than blind references. These results establish a controlled
-proof of concept for substrate-aware agent planning: a minimal execution contract
-can induce proactive structural adaptation in generated programs, shifting
-computation away from unconstrained allocations and substantially improving observed
-resource-time profiles before execution.
+mean wall time in all three cohorts, making execution up to 3.1x faster. Generated
+programs adopted bounded blocking, float32 retention, upper-triangle traversal, and
+in-place or memory-mapped buffers. Under a 96 MB contract, correct-and-within-96 MB
+observed-MaxRSS outcomes rose from 0/5 to 4/5 for Claude Opus 5, from 1/5 to 5/5
+for GPT-5.6-Sol, and from 0/5 to 3/5 for Gemini 3.7 Flash; condition-level mean
+MaxRSS and wall time were 49-74% and 35-64% lower than blind references,
+respectively. These findings demonstrate that execution context is a first-class
+input to agent planning, enabling proactive runtime alignment before execution.
 
 ## 1. Silicon blindness
 
@@ -53,10 +48,6 @@ parts of the execution contract--including memory limits, runtime versions,
 timeouts, tool permissions, and quotas--even when that information is absent from
 the model's inference context. Supplying this context during planning lets an agent
 choose against the relevant operating envelope before it relies on runtime feedback.
-
-Supplying decision-relevant execution context during planning enables agents to
-choose resource-bounded implementations on the first pass, creating an opportunity
-to avoid error-driven retry loops, wasted tokens, and deployment mismatches.
 
 We call the failure to condition a plan on this information **substrate blindness**.
 The proposition of this paper is direct: execution context is decision-relevant
@@ -137,10 +128,6 @@ stated operating envelope. In the 96 MB Claude extension, two malformed provider
 responses were retained in the archive and replaced under a predeclared,
 identical-prompt rule before replacement generation.
 
-All measured-fit outcomes in this paper are defined as correct executions with
-locally observed `RUSAGE_CHILDREN` MaxRSS at or below the disclosed RAM threshold;
-wall time is reported relative to the disclosed 10.0 s target.
-
 One blind Claude program used Python 3.10-style union syntax and failed under the
 pinned Python 3.9.6 runtime. It is retained as a first-pass correctness failure;
 its continuous RSS and wall-time measurements do not enter executable-only means.
@@ -152,10 +139,8 @@ its continuous RSS and wall-time measurements do not enter executable-only means
 The effect is clear across the fresh paired cohort. In 13 of 14 executable A/D
 comparisons, the substrate-aware program has lower measured peak memory. Mean wall
 time also falls in every cohort: 2.52x for Claude, 1.68x for GPT, and 3.09x for
-Gemini. In this task, disclosure did not require a latency-memory trade-off: it
-shifted generated implementations toward block geometry, precision retention, traversal,
-and buffer-reuse choices that lowered mean MaxRSS and wall time in every cohort,
-with up to 3.1x faster mean execution.
+Gemini. The disclosed operating envelope guides models toward implementations that
+are simultaneously more memory-efficient and faster in this task.
 
 | Configured model ID | Blind mean MaxRSS | Substrate-aware mean MaxRSS | Executable-pair RSS direction | Blind mean wall time | Substrate-aware mean wall time | Correct / measured `<=128 MB` (blind -> aware) |
 |---|---:|---:|---|---:|---:|---|
@@ -167,12 +152,12 @@ with up to 3.1x faster mean execution.
 fifth blind program is retained as a runtime-compatibility failure in the
 correctness/threshold denominator.
 
-![Figure 1: Paired relative observed-MaxRSS response for the fresh 128 MB cohort.](paper/figures/figure_1_paired_relative.pdf)
+![Figure 1: Paired relative observed-MaxRSS response for the fresh 128 MB cohort.](../../figures/figure_1_paired_relative.pdf)
 
 **Figure 1.** Each executable pair is indexed to its own blind MaxRSS result
 (blind = 100%). The figure preserves the one GPT higher-RSS outcome. Claude
-`rep04_A` failed under the pinned Python 3.9.6 runtime and is excluded from
-executable-pair comparisons; the failure remains in the correctness denominator.
+`rep04_A` failed under Python 3.9.6 before MaxRSS profiling and therefore has no
+pair-indexed value; the failure remains in the correctness denominator.
 
 ### 4.2 How generated code adapts
 
@@ -199,9 +184,6 @@ We next supplied a 96 MB contract to five independently generated programs per
 model. This extension asks whether the stated envelope continues to shape generated
 implementations under a tighter boundary.
 
-The 96 MB extension consists of separately sampled condition-level cohorts; Table
-2 therefore reports condition-level comparisons across the three prompt conditions.
-
 | Configured model | Condition | Mean MaxRSS | RSS change vs blind | Mean wall time | Time change vs blind | Correct / `<=96 MB` |
 |---|---|---:|---:|---:|---:|---:|
 | `gpt-5.6-sol` | Blind reference | 118.63 MB | -- | 0.5507 s | -- | 1/5 |
@@ -214,9 +196,6 @@ The 96 MB extension consists of separately sampled condition-level cohorts; Tabl
 |  | 128 MB-aware reference | 158.16 MB | -65.0% | 0.3561 s | -67.6% | 0/5 |
 |  | 96 MB-aware | 118.46 MB | -73.8% | 0.3985 s | -63.8% | 3/5 |
 
-**Table 2.** Condition-level observed resource outcomes under blind, 128 MB-aware,
-and 96 MB-aware prompts.
-
 All 15 retained executable 96 MB programs are numerically correct and complete
 within the 10-second operating target. Relative to their blind references, the new
 96 MB-aware cohorts lower both mean MaxRSS and mean wall time for every evaluated
@@ -225,7 +204,7 @@ normalized view below makes this visible without allowing Gemini's larger absolu
 memory scale to compress the other model cohorts. Exact measured-budget fit remains
 model-dependent.
 
-![Figure 2: Normalized observed-MaxRSS and wall-time distributions for the 96 MB condition-level extension.](paper/figures/figure_2_resource_time_distributions.pdf)
+![Figure 2: Normalized observed-MaxRSS and wall-time distributions for the 96 MB condition-level extension.](../../figures/figure_2_resource_time_distributions.pdf)
 
 **Figure 2.** Every retained executable observation is indexed to its configured
 model's executable blind-reference mean (100%). The upper row reports measured
@@ -253,14 +232,14 @@ The paired design makes that earlier planning effect directly inspectable.
 ## 6. The broader substrate-awareness agenda
 
 The central finding is consequential: execution context that materially determines
-plan suitability belongs in an agent's planning state. The controlled result does
-not depend on a prescribed algorithm: a compact RAM/time contract alone shifted the
-generated implementation distribution. This is valuable even when a blind program
-happens to work under one environment, because suitability is defined by the
-environment in which deployment will actually occur.
+plan suitability should be available to an agent during planning. Providing the
+operating contract before generation changes the computational implementation an
+agent selects. This is valuable even when a blind program happens to work under one
+environment, because suitability is defined by the environment in which deployment
+will actually occur.
 
 The Python 3.9 runtime failure reported in Section 3.2 makes the same principle
-visible in software form. The controlled RAM/time experiment establishes the
+visible in software form. The controlled RAM/time experiment establishes the causal
 evidence in this paper; the failure shows that runtime version is another
 execution-context dimension that can determine whether generated code deploys
 successfully. Runtime version belongs alongside memory in the information an agent
@@ -274,15 +253,9 @@ the agent discovers only after a mismatch at runtime. The present result gives t
 agenda an empirical foundation: a minimal contract produces consequential changes
 in what the evaluated frontier configurations generate.
 
-Across the 96 MB condition, the measured MaxRSS x wall-time product was 67-90%
-lower than the blind-reference cohort means. This duration-weighted footprint
-creates a direct path to tighter provisioning and compound infrastructure savings in
-containerized and serverless deployments when the deployment contract is configured
-accordingly.
-
 ## 7. Research agenda and artifact availability
 
-This paper establishes a controlled demonstration in a numerical-code
+This paper establishes the first controlled demonstration in a numerical-code
 setting. The next studies extend the same intervention to runtime-version-aware
 generation, accelerator-aware multimodal computation, constrained data pipelines,
 and dynamic tool telemetry. Each will test the same core principle against the
@@ -296,7 +269,7 @@ release may be linked in a later version of this paper.
 
 ## Appendix A. Absolute resource profiles
 
-![Appendix Figure A1: Raw observed MaxRSS distributions across the 96 MB condition-level extension.](paper/figures/appendix_figure_a1_raw_memory.pdf)
+![Appendix Figure A1: Raw observed MaxRSS distributions across the 96 MB condition-level extension.](../../figures/appendix_figure_a1_raw_memory.pdf)
 
 **Figure A1.** Every retained executable MaxRSS observation is shown in native MB.
 Each panel uses its own MB scale to reveal the within-configuration distributions;

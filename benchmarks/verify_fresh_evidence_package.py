@@ -13,7 +13,11 @@ ROOT = Path(__file__).resolve().parents[1]
 DIRECT = ROOT / "experiments/06_replication/raw"
 SWEEP = ROOT / "experiments/08_96mb_cgroup_pilot/raw"
 AUDIT = ROOT / "experiments/06_replication/audit/fresh_code_transformation_audit.json"
-FIGURES = [ROOT / "paper/figures/fresh_128mb_paired_maxrss.pdf", ROOT / "paper/figures/fresh_boundary_sensitivity_maxrss.pdf"]
+FIGURES = [
+    ROOT / "paper/figures/figure_1_paired_relative.pdf",
+    ROOT / "paper/figures/figure_2_resource_time_distributions.pdf",
+    ROOT / "paper/figures/appendix_figure_a1_raw_memory.pdf",
+]
 DATASET = ROOT / "data/vectors.npy"
 DATASET_SHA256 = "199a60e06bcda58ec741348972ad881f50d5fa67b2f9fb6ea09f37c514ec6085"
 
@@ -96,7 +100,7 @@ def main() -> None:
     require(statuses["opus96_rep05_D"] == "response_invalid_truncated", "manifest labels truncated Claude response invalid")
     require(statuses["opus96_rep06_D"] == "replacement_for_truncated_opus96_rep05_D", "manifest retains Claude truncated-response replacement")
     require(statuses["opus96_rep07_D"] == "replacement_for_empty_opus96_rep03_D", "manifest retains Claude empty-response replacement")
-    require(all(path.exists() and path.stat().st_size > 1000 for path in FIGURES), "both checked-in PDF figures exist")
+    require(all(path.exists() and path.stat().st_size > 1000 for path in FIGURES), "all checked-in final PDF figures exist")
 
     if args.manuscript is None:
         print("SKIP manuscript text checks (pass --manuscript PATH for a local draft audit)")
@@ -109,9 +113,15 @@ def main() -> None:
         "| `claude-opus-5` | 256.48 MB* | 107.82 MB | lower 4/4 | 0.9109 s* | 0.3612 s | 0/5 -> 5/5 |",
         "| `gpt-5.6-sol` | 118.63 MB | 64.61 MB | lower 4/5; higher 1/5 | 0.5507 s | 0.3282 s | 4/5 -> 5/5 |",
         "| `gemini-3.7-flash` | 452.36 MB | 158.16 MB | lower 5/5 | 1.0994 s | 0.3561 s | 0/5 -> 2/5 |",
-        "| `gpt-5.6-sol` | 1/5 | 5/5 | 60.88 MB | 5/5 | 0.3582 s |",
-        "| `claude-opus-5` | 0/5 | 0/5 | 87.57 MB | 4/5 | 0.3802 s |",
-        "| `gemini-3.7-flash` | 0/5 | 0/5 | 118.46 MB | 3/5 | 0.3985 s |",
+        "| `gpt-5.6-sol` | Blind reference | 118.63 MB | -- | 0.5507 s | -- | 1/5 |",
+        "|  | 128 MB-aware reference | 64.61 MB | -45.5% | 0.3282 s | -40.4% | 5/5 |",
+        "|  | 96 MB-aware | 60.88 MB | -48.7% | 0.3582 s | -35.0% | 5/5 |",
+        "| `claude-opus-5` | Blind reference | 256.48 MB* | -- | 0.9109 s* | -- | 0/5 |",
+        "|  | 128 MB-aware reference | 107.82 MB | -58.0% | 0.3612 s | -60.4% | 0/5 |",
+        "|  | 96 MB-aware | 87.57 MB | -65.9% | 0.3802 s | -58.3% | 4/5 |",
+        "| `gemini-3.7-flash` | Blind reference | 452.36 MB | -- | 1.0994 s | -- | 0/5 |",
+        "|  | 128 MB-aware reference | 158.16 MB | -65.0% | 0.3561 s | -67.6% | 0/5 |",
+        "|  | 96 MB-aware | 118.46 MB | -73.8% | 0.3985 s | -63.8% | 3/5 |",
     )
     for row in expected_table_rows:
         require(row in paper, f"manuscript table row matches archived result: {row.split('|')[1].strip()}")
@@ -122,6 +132,8 @@ def main() -> None:
         "All 15 retained executable 96 MB programs are numerically correct",
         "independently generated",
         "model-dependent",
+        "**Table 2.**",
+        "locally observed `RUSAGE_CHILDREN` MaxRSS",
     )
     for statement in required_claims:
         require(" ".join(statement.split()) in normalized_paper, f"manuscript contains evidence-boundary claim: {statement!r}")

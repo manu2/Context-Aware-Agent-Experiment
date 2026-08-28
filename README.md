@@ -1,16 +1,15 @@
 # Substrate-Aware AI Agents
 
 This repository contains a controlled proof of concept for **substrate
-awareness**: giving an AI agent relevant execution context before it selects an
-implementation. The study evaluates one inspectable pathway--numerical code
-generation conditioned on a RAM/time contract--rather than claiming that every
-agent, workload, or operational setting has been validated.
+awareness**: giving an AI agent decision-relevant execution context before it
+selects an implementation. It tests the broader planning proposition through an
+inspectable pathway--numerical code generation conditioned on a RAM/time contract.
 
-The intended broader principle is simple: an agent's task says what to do, while
-execution context helps determine what is suitable to do in the environment where
-the action will run. Memory, time, compute availability, tool reliability, quota,
-and cost are potential examples. Only RAM/time-conditioned code generation is
-evaluated here.
+An agent's task says what to do; execution context helps determine which plan is
+suitable in the environment where the action will run. Memory, time, compute
+availability, runtime versions, tool reliability, quota, and cost are examples.
+The evaluated intervention supplies RAM/time context and records the resulting
+code, numerical output, MaxRSS, and wall time.
 
 ## Primary evidence: fresh direct-API cohort
 
@@ -32,23 +31,22 @@ continuous blind mean and paired MaxRSS direction. The GPT cohort contains one
 RSS regression; the Gemini disclosed outputs exceed the observed 128 MB boundary
 in three of five trials. These are results, not omissions.
 
-All primary MaxRSS values are isolated local macOS process observations. A value
-below a threshold is an observed-RSS classification, **not** a claim of Linux
-cgroup admission, survival, or enforced termination at that boundary.
+All primary MaxRSS values are isolated local macOS process observations. The
+threshold columns report correct executions whose observed process peak falls within
+the disclosed RAM envelope.
 
-## What the study establishes--and does not
+## What the study establishes
 
-The evidence supports a controlled, model-dependent proof of concept: a simple
-pre-execution resource contract changed the sampled generated implementations and
-usually lowered observed MaxRSS in this numerical task. The source-linked audit
-shows changes in resource-relevant implementation choices--for example input
-mapping, block parameters, data types, and temporary-buffer reuse--rather than a
-universal switch to a single algorithm.
+The evidence establishes a controlled, model-dependent proof of concept: a
+pre-execution resource contract changed the sampled generated implementations,
+lowered observed MaxRSS in 13 of 14 executable 128 MB comparisons, and lowered
+mean wall time in every model cohort. The source-linked audit identifies concrete
+resource-relevant choices--input mapping, block parameters, data types, traversal,
+and temporary-buffer reuse--rather than a universal switch to one algorithm.
 
-It does **not** establish universal exact resource compliance, cgroup survival,
-CPU-quota effects, production cost or reliability savings, or the effectiveness of
-runtime telemetry for tools, multimodal workflows, or other agent domains. Those
-are motivated next studies, each requiring a suitable task and operational metric.
+The manuscript develops the broader substrate-awareness agenda, including runtime
+compatibility, accelerators, tools, quota, reliability, and cost, as the next
+settings for this planning intervention.
 
 ## Reproduction and audit
 
@@ -64,8 +62,8 @@ shasum -a 256 data/vectors.npy
 # Rebuild the source-linked JSON and Markdown audit (no API calls).
 .venv/bin/python3 benchmarks/build_fresh_code_audit.py --overwrite
 
-# Re-render the two paper figures from archived metadata (no API calls).
-.venv/bin/python3 benchmarks/render_fresh_cohort_figures.py
+# Re-render the final paper figures from archived metadata (no API calls).
+.venv/bin/python3 benchmarks/render_final_paper_figures.py
 
 # Verify the fresh-cohort raw artifacts, audit digests, and figures.
 .venv/bin/python3 benchmarks/verify_fresh_evidence_package.py
@@ -86,12 +84,16 @@ not immutable model-weight snapshots.
 ## Artifact guide
 
 - [Canonical manuscript](paper_draft.md): the locally prepared arXiv manuscript,
-  including its author block, verified tables, and figure references. It remains
-  under author/affiliation clearance and is not part of a public code/artifact
-  release at this time.
+  including its author block, verified tables, and final figures. It presents the
+  broad substrate-awareness thesis through a controlled numerical-code-generation
+  proof of concept and remains under author/affiliation clearance.
 - [Manuscript figures](paper/figures/): reproducible vector PDFs used by the
   canonical manuscript. The final TeX package will include them with
   `\\includegraphics`.
+- [Internal review PDF](paper/review/substrate_aware_ai_agents_v6_review.pdf):
+  the rendered review copy prepared for author and affiliation clearance.
+- [Paper archive](paper/archive/): superseded drafts, figures, and rendered review
+  copies retained for revision provenance rather than publication use.
 - [Direct-API cohort analysis](docs/10_direct_api_cohort_analysis.md): complete fresh 128 MB row-level outcomes.
 - [Generated-code audit](docs/13_fresh_code_transformation_audit.md): all retained fresh sources, with a machine-readable [JSON companion](experiments/06_replication/audit/fresh_code_transformation_audit.json).
 - [96 MB local sweep report](experiments/08_96mb_cgroup_pilot/LOCAL_SWEEP_REPORT.md): separately sampled condition-level boundary-sensitivity extension.

@@ -19,7 +19,7 @@ from reportlab.pdfgen import canvas
 ROOT = Path(__file__).resolve().parents[1]
 DIRECT = ROOT / "experiments/06_replication/raw"
 SWEEP = ROOT / "experiments/08_96mb_cgroup_pilot/raw"
-OUTPUT = ROOT / "paper/figures"
+OUTPUT = ROOT / "paper/archive/figures"
 WIDTH, HEIGHT = 720, 320
 MODELS = [
     ("claude-opus-5", "Claude Opus 5", "opus_rep"),
@@ -142,10 +142,67 @@ def condition_distributions() -> None:
     c.save()
 
 
+def normalized_resource_time_v4() -> None:
+    """Render the v4 main 96 MB figure without cross-model scale compression.
+
+    Each model's blind mean is indexed to 100. Absolute values remain in Table 2
+    and the raw-observation distribution figure, which this figure complements.
+    """
+    path = OUTPUT / "normalized_resource_time_v4.pdf"
+    c = canvas.Canvas(str(path), pagesize=(WIDTH, HEIGHT))
+    c.setFillColor(colors.white); c.rect(0, 0, WIDTH, HEIGHT, fill=1, stroke=0)
+    header(c, "Execution context changes resource and time profiles", "Each model's blind mean is indexed to 100%; 128 MB and 96 MB are condition-level reference cohorts.")
+    panels = [(48, 366, "Mean observed MaxRSS (% of blind mean)", "maxrss_mb", "MB"), (402, 704, "Mean wall time (% of blind mean)", "wall_sec", "s")]
+    row_y = [224, 163, 102]
+    means = {}
+    for model, label, prefix in MODELS:
+        paired = pair_records(model, prefix)
+        blind = [a for _, a, _ in paired if a["correct"]]
+        aware128 = [d for _, _, d in paired]
+        sweep_prefix = "opus96_rep" if model == "claude-opus-5" else ("gpt96_rep" if model == "gpt-5.6-sol" else "gemini96_rep")
+        aware96 = read_96(model, sweep_prefix)
+        means[model] = {
+            "blind": {key: sum(record[key] for record in blind) / len(blind) for key in ("maxrss_mb", "wall_sec")},
+            "aware128": {key: sum(record[key] for record in aware128) / len(aware128) for key in ("maxrss_mb", "wall_sec")},
+            "aware96": {key: sum(record[key] for record in aware96) / len(aware96) for key in ("maxrss_mb", "wall_sec")},
+        }
+    for x0, x1, title, key, unit in panels:
+        c.setFillColor(colors.black); c.setFont("Helvetica-Bold", 9); c.drawCentredString((x0 + x1) / 2, 258, title)
+        plot_left, plot_right = x0 + 76, x1 - 8
+        for tick in (0, 25, 50, 75, 100):
+            x = plot_left + (plot_right - plot_left) * tick / 110
+            c.setStrokeColor(colors.HexColor("#e5e7eb")); c.line(x, 77, x, 240)
+            c.setFillColor(colors.HexColor("#475569")); c.setFont("Helvetica", 7); c.drawCentredString(x, 65, f"{tick}%")
+        for row, (model, label, _) in enumerate(MODELS):
+            y = row_y[row]
+            c.setFillColor(colors.HexColor("#0f172a")); c.setFont("Helvetica-Bold", 8); c.drawRightString(plot_left - 8, y - 3, label)
+            blind = means[model]["blind"][key]
+            values = [("blind", 100.0, colors.HexColor("#64748b")), ("aware128", 100 * means[model]["aware128"][key] / blind, PALETTE["aware128"]), ("aware96", 100 * means[model]["aware96"][key] / blind, PALETTE["aware96"])]
+            points = []
+            for name, relative, color in values:
+                x = plot_left + (plot_right - plot_left) * relative / 110
+                points.append((x, color))
+            c.setStrokeColor(colors.HexColor("#94a3b8")); c.setLineWidth(1.2); c.line(points[0][0], y, points[1][0], y); c.line(points[1][0], y, points[2][0], y)
+            for (name, relative, color), (x, _) in zip(values, points):
+                c.setFillColor(color); c.circle(x, y, 4, fill=1, stroke=0)
+                absolute = means[model][name][key]
+                label_text = f"{absolute:.2f} {unit}" if key == "maxrss_mb" else f"{absolute:.4f} {unit}"
+                label_offset = {"blind": 10, "aware128": 22, "aware96": 10}[name]
+                c.setFillColor(colors.HexColor("#334155")); c.setFont("Helvetica", 6.6); c.drawCentredString(x, y + label_offset, label_text)
+        c.setStrokeColor(colors.HexColor("#94a3b8")); c.rect(plot_left, 77, plot_right - plot_left, 163, stroke=1, fill=0)
+    legend_y = 38
+    for x, label, color in ((230, "blind reference", colors.HexColor("#64748b")), (363, "128 MB-aware", PALETTE["aware128"]), (501, "96 MB-aware", PALETTE["aware96"])):
+        c.setFillColor(color); c.circle(x, legend_y, 3.5, fill=1, stroke=0)
+        c.setFillColor(colors.HexColor("#334155")); c.setFont("Helvetica", 8); c.drawString(x + 7, legend_y - 3, label)
+    c.setFont("Helvetica", 7.5); c.setFillColor(colors.HexColor("#475569")); c.drawString(44, 18, "Absolute means and every individual observation are reported separately; 96 MB cohorts are independently generated, not matched triples.")
+    c.save()
+
+
 def main() -> None:
     OUTPUT.mkdir(parents=True, exist_ok=True)
     paired_rss()
     condition_distributions()
+    normalized_resource_time_v4()
     for path in sorted(OUTPUT.glob("fresh_*.pdf")):
         print(path.relative_to(ROOT))
 

@@ -66,7 +66,14 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
 ### Phase 4: arXiv Manuscript Filing (In Progress 🔄)
 - **Primary Document**: [`paper_draft.md`](file://<LOCAL_USER_HOME>/projects/vibe-coding/Context-Aware-Agent-Experiment/paper_draft.md)
 - **Target Category**: `cs.DC` (Distributed & Cluster Computing) / `cs.AI` (Artificial Intelligence).
-- **Next Step**: Benchmark Expansion on the 3-Task Silicon Stress Suite.
+- **Current canonical revision (2026-08-28):** [`paper_draft.md`](paper_draft.md)
+  contains the approved v6 manuscript with comparative 96 MB RSS/time presentation,
+  normalized and raw-observation figures, model-configuration disclosure, and
+  agent-harness framing. Earlier manuscript revisions are retained under
+  [`paper/archive/manuscripts/`](paper/archive/manuscripts/).
+- **Next Step**: Author review, then arXiv-compatible TeX/PDF rendering and
+  internal clearance; benchmark expansion remains future research rather than a
+  prerequisite to this preprint.
 - **Provenance boundary:** The archived exploratory subagent proxy pilot in `experiments/06_replication/raw/` is not primary evidence for named provider API models. Any such manuscript claim requires the frozen direct-API runner and its per-trial artifacts.
 - **Launch compatibility record:** Before the first successful direct-API generation, the protocol was versioned from `1.0-frozen` to `1.1-frozen`. `claude-opus-5` accepted authenticated model lookup but rejected a Messages request containing explicit non-default sampling controls; v1.1 therefore records provider-default Claude sampling, while preserving identical sampling treatment within every A/D pair. This correction does not alter the task, prompts, dataset, execution environment, or outcome measurements.
 - **Pilot integrity record:** The first `opus_rep01_A` launch was unintentionally invoked twice before the runner had a write-once artifact guard; the earlier response was overwritten and cannot be analyzed. The repository retains the surviving files, excludes the affected pair from pilot inference, and uses the already-predeclared `opus_rep02_A/D` pair as the clean replacement. The runner now refuses an occupied trial directory before it sends an API request.

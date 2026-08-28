@@ -108,3 +108,9 @@ statistical sample.
 - **Manuscript review status:** the next pass is manuscript-only: strengthen the
   positive narrative and related work without adding unsupported mechanism or
   model-family claims.
+- **Canonical manuscript promotion (2026-08-28):** `paper_draft.md` now contains
+  the approved v6 manuscript, including the comparative 96 MB table, normalized
+  joint memory/time figure, raw-observation appendix, exact provider labels,
+  agent-harness motivation, and the Python 3.9 compatibility illustration.
+  Superseded manuscript sources and rendered review copies are preserved under
+  `paper/archive/`; the canonical internal-review PDF is under `paper/review/`.

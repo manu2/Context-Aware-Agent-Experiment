@@ -1,7 +1,8 @@
 # Constraint-Sensitivity Framing Notes
 
 **Status:** Working notes for a later manuscript revision. This document does not
-change `paper_draft.md` and does not add a new experimental claim.
+change `paper_draft.md`; it reflects the completed, separately labelled 96 MB
+condition-level sweep.
 
 ## Core interpretation
 
@@ -17,18 +18,19 @@ large memory budget can make otherwise resource-expensive programs appear
 successful. The evidence of interest is the paired behavioral change after the
 boundary is disclosed.
 
-## The 96 MB example: correct use and limits
+## The 96 MB extension: correct use and limits
 
-The direct-API GPT blind pilot observed 113.06 MB MaxRSS, while its telemetry
-counterpart observed 65.83 MB. Therefore the blind program would be classified as
-over a *96 MB observed-RSS reference threshold*, while the telemetry program would
-be under it. This is a useful illustration of why accidental success at 128 MB and
-constraint-aware adaptation are different concepts.
+The direct-API GPT blind pilot observed 113.06 MB MaxRSS, while its 128 MB-aware
+counterpart observed 65.83 MB. This illustrates why accidental success at one
+reference boundary and constraint-aware adaptation are different concepts.
 
-It is **not** evidence that the blind program would be killed under a real 96 MB
-container cap, or that the model would generate the same program if prompted with
-96 MB. Neither counterfactual was tested. The present study should not introduce a
-96 MB prompt condition merely to make this rhetorical point.
+The project subsequently added a separately labelled `96 MB + 10 s` local sweep:
+five new aware generations each for GPT, Claude, and Gemini, with existing blind
+and 128 MB-aware cohorts used only as condition-level references. Correct and
+observed-`<=96 MB` outcomes were GPT 5/5, Claude 4/5, and Gemini 3/5. These are
+not matched three-condition trajectories and do not establish a cgroup-survival
+counterfactual for any blind program. See
+[`LOCAL_SWEEP_REPORT.md`](../experiments/08_96mb_cgroup_pilot/LOCAL_SWEEP_REPORT.md).
 
 ## Suggested manuscript framing
 
@@ -53,6 +55,21 @@ This framing accommodates model-specific outcomes. For example, the GPT blind
 pilot already met the 128 MB observed-RSS threshold, yet its telemetry counterpart
 still used substantially less memory. That is evidence of a paired resource-use
 change, not a contradiction.
+
+## Software-substrate illustration: Python runtime compatibility
+
+The retained `opus_rep04_A` blind response used a Python 3.10-style union
+annotation (`int | None`) and failed when that annotation was evaluated under the
+pinned Python 3.9.6 runtime. This is **not** an additional treatment result: the
+study did not disclose a Python version in a paired condition, so it cannot show
+that version disclosure would have prevented the failure.
+
+It is nevertheless a useful concrete illustration of the broader principle. The
+runtime version is execution context just as a memory limit is execution context;
+functionally plausible source can be unsuitable for the actual environment. In the
+paper, describe it as an observed compatibility incident that motivates a future
+controlled *runtime-version-aware generation* study, never as evidence of a tested
+causal effect.
 
 ## Repository evidence to cite later
 
