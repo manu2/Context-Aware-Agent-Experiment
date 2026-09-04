@@ -14,7 +14,7 @@ DIRECT = ROOT / "experiments/06_replication/raw"
 SWEEP = ROOT / "experiments/08_96mb_cgroup_pilot/raw"
 AUDIT = ROOT / "experiments/06_replication/audit/fresh_code_transformation_audit.json"
 FIGURES = [
-    ROOT / "paper/figures/figure_1_paired_relative.pdf",
+    ROOT / "paper/figures/figure_1_condition_cohorts.pdf",
     ROOT / "paper/figures/figure_2_resource_time_distributions.pdf",
     ROOT / "paper/figures/appendix_figure_a1_raw_memory.pdf",
 ]
@@ -72,9 +72,9 @@ def main() -> None:
         a_executable = [a["maxrss_mb"] for a, _ in pairs if a["correct"]]
         d_values = [d["maxrss_mb"] for _, d in pairs]
         executable = [(a, d) for a, d in pairs if a["correct"]]
-        require(round(mean(a_executable), 2) == expected_a, f"{model} blind mean is {expected_a:.2f} MB")
-        require(round(mean(d_values), 2) == expected_d, f"{model} disclosed mean is {expected_d:.2f} MB")
-        require(sum(d["maxrss_mb"] < a["maxrss_mb"] for a, d in executable) == expected_lower, f"{model} has {expected_lower}/{denominator} lower-RSS executable pairs")
+        require(round(mean(a_executable), 2) == expected_a, f"{model} task-only mean is {expected_a:.2f} MiB")
+        require(round(mean(d_values), 2) == expected_d, f"{model} disclosed mean is {expected_d:.2f} MiB")
+        require(sum(d["maxrss_mb"] < a["maxrss_mb"] for a, d in executable) == expected_lower, f"{model} has {expected_lower}/{denominator} lower-RSS index-aligned comparisons")
 
     sweep = {
         "GPT": (sweep_records("gpt-5.6-sol", "gpt96_rep", [1, 2, 3, 4, 5]), 60.88, 5),
@@ -83,8 +83,8 @@ def main() -> None:
     }
     for label, (records, expected_mean, expected_under_96) in sweep.items():
         require(all(record["correct"] and record["wall_sec"] < 10 for record in records), f"{label} retained 96 MB programs are correct and under 10 s")
-        require(round(mean([record["maxrss_mb"] for record in records]), 2) == expected_mean, f"{label} 96 MB mean is {expected_mean:.2f} MB")
-        require(sum(record["maxrss_mb"] <= 96 for record in records) == expected_under_96, f"{label} has {expected_under_96}/5 observed <=96 MB")
+        require(round(mean([record["maxrss_mb"] for record in records]), 2) == expected_mean, f"{label} 96 MB mean is {expected_mean:.2f} MiB")
+        require(sum(record["maxrss_mb"] <= 96 for record in records) == expected_under_96, f"{label} has {expected_under_96}/5 observed <=96 MiB")
 
     audit = load(AUDIT)
     require(len(audit["records"]) == 45, "code audit contains 45 retained source records")
@@ -110,24 +110,24 @@ def main() -> None:
     require(manuscript.exists(), f"manuscript exists: {manuscript}")
     paper = manuscript.read_text(encoding="utf-8")
     expected_table_rows = (
-        "| `claude-opus-5` | 256.48 MB* | 107.82 MB | lower 4/4 | 0.9109 s* | 0.3612 s | 0/5 -> 5/5 |",
-        "| `gpt-5.6-sol` | 118.63 MB | 64.61 MB | lower 4/5; higher 1/5 | 0.5507 s | 0.3282 s | 4/5 -> 5/5 |",
-        "| `gemini-3.7-flash` | 452.36 MB | 158.16 MB | lower 5/5 | 1.0994 s | 0.3561 s | 0/5 -> 2/5 |",
-        "| `gpt-5.6-sol` | Blind reference | 118.63 MB | -- | 0.5507 s | -- | 1/5 |",
-        "|  | 128 MB-aware reference | 64.61 MB | -45.5% | 0.3282 s | -40.4% | 5/5 |",
-        "|  | 96 MB-aware | 60.88 MB | -48.7% | 0.3582 s | -35.0% | 5/5 |",
-        "| `claude-opus-5` | Blind reference | 256.48 MB* | -- | 0.9109 s* | -- | 0/5 |",
-        "|  | 128 MB-aware reference | 107.82 MB | -58.0% | 0.3612 s | -60.4% | 0/5 |",
-        "|  | 96 MB-aware | 87.57 MB | -65.9% | 0.3802 s | -58.3% | 4/5 |",
-        "| `gemini-3.7-flash` | Blind reference | 452.36 MB | -- | 1.0994 s | -- | 0/5 |",
-        "|  | 128 MB-aware reference | 158.16 MB | -65.0% | 0.3561 s | -67.6% | 0/5 |",
-        "|  | 96 MB-aware | 118.46 MB | -73.8% | 0.3985 s | -63.8% | 3/5 |",
+        "| `claude-opus-5` | 256.48 MiB* | 107.82 MiB | lower 4/4 | 0.9109 s* | 0.3612 s | 0/5 -> 5/5 |",
+        "| `gpt-5.6-sol` | 118.63 MiB | 64.61 MiB | lower 4/5; higher 1/5 | 0.5507 s | 0.3282 s | 4/5 -> 5/5 |",
+        "| `gemini-3.7-flash` | 452.36 MiB | 158.16 MiB | lower 5/5 | 1.0994 s | 0.3561 s | 0/5 -> 2/5 |",
+        "| `gpt-5.6-sol` | Task-only reference | 118.63 MiB | -- | 0.5507 s | -- | 1/5 |",
+        "|  | 128 MB-contract reference | 64.61 MiB | -45.5% | 0.3282 s | -40.4% | 5/5 |",
+        "|  | 96 MB-contract | 60.88 MiB | -48.7% | 0.3582 s | -35.0% | 5/5 |",
+        "| `claude-opus-5` | Task-only reference | 256.48 MiB* | -- | 0.9109 s* | -- | 0/5 |",
+        "|  | 128 MB-contract reference | 107.82 MiB | -58.0% | 0.3612 s | -60.4% | 0/5 |",
+        "|  | 96 MB-contract | 87.57 MiB | -65.9% | 0.3802 s | -58.3% | 4/5 |",
+        "| `gemini-3.7-flash` | Task-only reference | 452.36 MiB | -- | 1.0994 s | -- | 0/5 |",
+        "|  | 128 MB-contract reference | 158.16 MiB | -65.0% | 0.3561 s | -67.6% | 0/5 |",
+        "|  | 96 MB-contract | 118.46 MiB | -73.8% | 0.3985 s | -63.8% | 3/5 |",
     )
     for row in expected_table_rows:
         require(row in paper, f"manuscript table row matches archived result: {row.split('|')[1].strip()}")
     normalized_paper = " ".join(paper.split())
     required_claims = (
-        "13 of 14 executable",
+        "13 of 14 executable index-aligned task-only versus contract-disclosed comparisons",
         "Mean wall time also falls in every cohort",
         "All 15 retained executable 96 MB programs are numerically correct",
         "independently generated",

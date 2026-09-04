@@ -128,9 +128,31 @@ statistical sample.
 - **Manuscript review status:** the next pass is manuscript-only: strengthen the
   positive narrative and related work without adding unsupported mechanism or
   model-family claims.
-- **Canonical manuscript promotion (2026-08-28):** `paper_draft.md` now contains
-  the approved v6 manuscript, including the comparative 96 MB table, normalized
-  joint memory/time figure, raw-observation appendix, exact provider labels,
-  agent-harness motivation, and the Python 3.9 compatibility illustration.
-  Superseded manuscript sources and rendered review copies are preserved under
-  `paper/archive/`; the canonical internal-review PDF is under `paper/review/`.
+- **arXiv preprint v7 revision (2026-09-03):** `paper_draft.md` now records the
+  completed manuscript-only revision: the single-turn experimental unit,
+  independent condition cohorts, exact measurement semantics, response handling,
+  and artifact availability are explicit. Figure 1 now compares within-model
+  normalized condition cohorts without implying statistical matching; Table 1 and
+  Appendix A retain the native MiB outcomes. No model generations or archived
+  results were changed. The frozen checklist is
+  [`docs/16_arxiv_preprint_v7_revision_plan.md`](docs/16_arxiv_preprint_v7_revision_plan.md).
+  The final review and submission PDFs are locally generated, ignored artifacts,
+  while `paper_draft.md`, checked-in vector figures, and the renderer are versioned.
+- **Final v7 polish (2026-09-04):** The manuscript now explicitly identifies
+  single-turn code generation as the implementation-selection primitive and the
+  numerical task as an inspectable deterministic micro-benchmark. Redundant
+  introduction framing and an ambiguous related-work antecedent were removed. The
+  review-PDF renderer now protects widows/orphans and uses dedicated white header
+  cells with proportional table columns. No empirical artifact, result, or claim
+  boundary changed.
+- **Submission-PDF preflight (2026-09-04):** Fixed multi-line Markdown bullet
+  parsing in the PDF renderer so every contribution item is a single,
+  correctly wrapped paragraph. Rebuilt the standalone PDF with embedded Arial and
+  Courier New TrueType fonts; it is eight pages, searchable, contains no
+  JavaScript or encryption, and passed the complete manuscript-evidence verifier.
+  No manuscript text, experimental result, or claim changed.
+- **Submission-PDF figure quality (2026-09-04):** Replaced the environment-dependent
+  low-resolution figure-preview fallback with native-vector drawing from the
+  checked-in figure definitions. The renderer preserves each figure's native
+  aspect ratio; Figure 2 is no longer vertically compressed. The final PDF contains
+  zero raster image objects and retains embedded manuscript fonts.

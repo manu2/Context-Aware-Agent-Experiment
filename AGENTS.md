@@ -8,9 +8,11 @@ This document serves as the authoritative guide for any AI coding or research ag
 ## 1. Project Purpose & Core Research Thesis
 
 ### Core Thesis
-Autonomous AI coding agents (such as those in Jeff Dean's *Discovery Loop*) currently suffer from **"Silicon Blindness"**—they treat execution containers as infinite black boxes, leading to eager memory allocations, kernel OOM kills (`SIGKILL` Exit 137), and wasteful retry loops.
+Autonomous AI coding agents (such as those in Jeff Dean's *Discovery Loop*) currently suffer from **"substrate blindness"**—they treat execution environments as unconstrained black boxes, choosing naive, eager implementations regardless of host resource realities.
 
-Instead of post-hoc error recovery, **SCAC** projects physical hardware limits (RAM ceilings, CPU quotas) and runtime telemetry directly into the agent's inference state. We investigate whether this enables autonomous agents to select memory-bounded algorithms (chunking, streaming, block-tiling) on their first attempt.
+Instead of relying solely on post-hoc error recovery, **substrate awareness** projects decision-relevant execution context—such as physical RAM ceilings and execution time budgets—directly into the agent's inference state before plan selection.
+
+The current primary paper demonstrates this through a controlled RAM/time-conditioned numerical code-generation study with local MaxRSS measurement (rather than an end-to-end cgroup-enforcement result). Future roadmap phases expand this foundation toward full OS cgroup limits, dynamic closed-loop telemetry, and multi-environment operational contracts.
 
 ---
 

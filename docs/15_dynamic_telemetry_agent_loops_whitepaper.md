@@ -386,7 +386,7 @@ Context-Aware-Agent-Experiment/
 
 ## 5.2 Verification & Experimental Integrity Safeguards
 
-In accordance with [`AGENTS.md`](file:///Users/manuagrawal/projects/vibe-coding/Context-Aware-Agent-Experiment/AGENTS.md):
+In accordance with [`AGENTS.md`](../AGENTS.md):
 1. **Pre-flight Assertion Gates**: All mock fault injectors and cgroup monitoring daemons must pass zero-cost positive control assertions (e.g., verifying that a simulated 150MB allocation triggers `memory.high` trip counts) before any provider API tokens are consumed.
 2. **Immutable Trajectory Provenance**: Every turn prompt, raw model response, injected telemetry block, and kernel trace will be atomically archived to `experiments/09_phase2_dynamic_telemetry/` as JSON Lines.
 3. **Statistical Power**: Every benchmark scenario will execute a minimum of $N = 10$ paired trials (20 trajectories per scenario, 60 trajectories per model cohort) evaluated with McNemar's test for categorical routing success and Wilcoxon signed-rank tests for trajectory efficiency and compute cost.

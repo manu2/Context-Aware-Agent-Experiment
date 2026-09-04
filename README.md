@@ -13,33 +13,35 @@ code, numerical output, MaxRSS, and wall time.
 
 ## Primary evidence: fresh direct-API cohort
 
-The primary cohort is 15 predeclared, fresh direct-API A/D pairs: five pairs each
-for configured provider model IDs `claude-opus-5`, `gpt-5.6-sol`, and
-`gemini-3.7-flash`. The conditions differ only in whether the code-generation
+The primary cohort is 15 predeclared, fresh direct-API task-only and
+contract-disclosed generations: five per condition for configured provider model
+IDs `claude-opus-5`, `gpt-5.6-sol`, and `gemini-3.7-flash`. Identically numbered
+A/D calls are traceability identifiers, not statistically matched generations. The
+conditions differ only in whether the code-generation
 prompt discloses a 128 MB RAM and 10-second wall-time contract. It supplies no
 algorithmic recipe and performs no execution-feedback repair before measurement.
 
-| Configured model ID | Executable A/D comparisons with lower disclosed MaxRSS | Mean MaxRSS, blind -> disclosed | Correct / observed `<=128 MB`, blind -> disclosed |
+| Configured model ID | Index-aligned comparisons with lower disclosed MaxRSS | Mean MaxRSS, task-only -> disclosed | Correct / observed `<128 MiB`, task-only -> disclosed |
 |---|---:|---:|---:|
-| `claude-opus-5` | 4/4 | 256.48 -> 107.82 MB | 0/5 -> 5/5 |
-| `gpt-5.6-sol` | 4/5 | 118.63 -> 64.61 MB | 4/5 -> 5/5 |
-| `gemini-3.7-flash` | 5/5 | 452.36 -> 158.16 MB | 0/5 -> 2/5 |
+| `claude-opus-5` | 4/4 | 256.48 -> 107.82 MiB | 0/5 -> 5/5 |
+| `gpt-5.6-sol` | 4/5 | 118.63 -> 64.61 MiB | 4/5 -> 5/5 |
+| `gemini-3.7-flash` | 5/5 | 452.36 -> 158.16 MiB | 0/5 -> 2/5 |
 
 One retained Claude blind script fails under the pinned Python 3.9 runtime and is
 therefore retained in correctness denominators but excluded from Claude's
-continuous blind mean and paired MaxRSS direction. The GPT cohort contains one
+continuous task-only mean and index-aligned MaxRSS comparison. The GPT cohort contains one
 RSS regression; the Gemini disclosed outputs exceed the observed 128 MB boundary
 in three of five trials. These are results, not omissions.
 
-All primary MaxRSS values are isolated local macOS process observations. The
-threshold columns report correct executions whose observed process peak falls within
-the disclosed RAM envelope.
+All primary MaxRSS values are isolated local macOS process observations, reported
+in MiB (`bytes / 2^20`). The task text retains its literal `128 MB` label; the
+archived primary scorer uses a strict `<128 MiB` observed threshold.
 
 ## What the study establishes
 
 The evidence establishes a controlled, model-dependent proof of concept: a
 pre-execution resource contract changed the sampled generated implementations,
-lowered observed MaxRSS in 13 of 14 executable 128 MB comparisons, and lowered
+lowered observed MaxRSS in 13 of 14 executable index-aligned 128 MB comparisons, and lowered
 mean wall time in every model cohort. The source-linked audit identifies concrete
 resource-relevant choices--input mapping, block parameters, data types, traversal,
 and temporary-buffer reuse--rather than a universal switch to one algorithm.
@@ -88,10 +90,11 @@ not immutable model-weight snapshots.
   broad substrate-awareness thesis through a controlled numerical-code-generation
   proof of concept and remains under author/affiliation clearance.
 - [Manuscript figures](paper/figures/): reproducible vector PDFs used by the
-  canonical manuscript. The final TeX package will include them with
-  `\\includegraphics`.
-- [Internal review PDF](paper/review/substrate_aware_ai_agents_v6_review.pdf):
-  the rendered review copy prepared for author and affiliation clearance.
+  canonical manuscript. These reproducible vector PDFs are the figures used by the
+  manuscript and can be regenerated locally.
+- Author-review PDF: The manuscript source and reproducible vector figures are
+  versioned in this repository. The author-review PDF is intentionally a local
+  build artifact; generate it with `python3 benchmarks/render_preprint_review_pdf.py`.
 - [Paper archive](paper/archive/): superseded drafts, figures, and rendered review
   copies retained for revision provenance rather than publication use.
 - [Direct-API cohort analysis](docs/10_direct_api_cohort_analysis.md): complete fresh 128 MB row-level outcomes.
@@ -107,9 +110,9 @@ the old canonical draft; it is not evidence validation for the working revision.
 
 ## Submission status
 
-The manuscript is locally complete and undergoing author/affiliation clearance; it
-is not an arXiv upload package yet. Before any submission, obtain clearance,
-convert the approved source to TeX/PDF, include the figures, and perform a final
-independent evidence/claim audit. arXiv itself does not require this JSON audit or
-code review; those are voluntary reproducibility measures for this empirical
-preprint. A decision to release source code and raw artifacts remains separate.
+The repository contains the finalized manuscript source, vector figures, and
+evidence-verification tooling. The public artifact accompanies the arXiv
+preprint; the archival submission PDF is generated locally from the
+manuscript source. arXiv itself does not require this JSON audit or code review;
+those are voluntary reproducibility measures for this empirical preprint. The
+repository is prepared to be made public with the preprint release.
