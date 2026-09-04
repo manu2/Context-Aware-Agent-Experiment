@@ -90,8 +90,7 @@ not immutable model-weight snapshots.
   broad substrate-awareness thesis through a controlled numerical-code-generation
   proof of concept and remains under author/affiliation clearance.
 - [Manuscript figures](paper/figures/): reproducible vector PDFs used by the
-  canonical manuscript. These reproducible vector PDFs are the figures used by the
-  manuscript and can be regenerated locally.
+  canonical manuscript, which can be regenerated locally from archived metadata.
 - Author-review PDF: The manuscript source and reproducible vector figures are
   versioned in this repository. The author-review PDF is intentionally a local
   build artifact; generate it with `python3 benchmarks/render_preprint_review_pdf.py`.
