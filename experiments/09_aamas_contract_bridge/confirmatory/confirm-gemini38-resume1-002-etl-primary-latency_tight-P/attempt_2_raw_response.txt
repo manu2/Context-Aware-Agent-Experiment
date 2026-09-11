@@ -1,0 +1,52 @@
+An implementation optimized for speed and memory within the 1.4-second wall-time limit and 512 MiB limit:
+
+```python
+import json
+import numpy as np
+import pandas as pd
+
+
+def main():
+    totals = {}
+
+    # Stream in chunks to strictly control peak memory while utilizing Pandas C engine
+    chunk_size = 500_000
+
+    chunks = pd.read_csv(
+        "transactions.csv",
+        usecols=["account_id", "category", "amount_cents"],
+        dtype={
+            "account_id": np.int64,
+            "category": "category",
+            "amount_cents": np.int64,
+        },
+        chunksize=chunk_size,
+    )
+
+    for chunk in chunks:
+        acc = chunk["account_id"].to_numpy()
+        mask = (acc % 11) < 7
+        if not np.any(mask):
+            continue
+
+        acc_m = acc[mask]
+        amt_m = chunk["amount_cents"].to_numpy()[mask]
+        cat_m = chunk["category"].to_numpy()[mask]
+
+        weights = (acc_m % 97) + 1
+        vals = amt_m * weights
+
+        sub_df = pd.DataFrame({"c": cat_m, "v": vals})
+        grouped = sub_df.groupby("c", observed=True)["v"].sum()
+
+        for c, v in grouped.items():
+            cat_name = str(c)
+            totals[cat_name] = totals.get(cat_name, 0) + int(v)
+
+    json_output = json.dumps(totals, sort_keys=True)
+    print(f"TOTAL:{json_output}")
+
+
+if __name__ == "__main__":
+    main()
+```

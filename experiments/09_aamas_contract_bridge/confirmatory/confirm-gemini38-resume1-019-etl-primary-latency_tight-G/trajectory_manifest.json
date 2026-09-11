@@ -1,0 +1,369 @@
+{
+  "execution_entry": [
+    "etl",
+    "primary",
+    "latency_tight",
+    "G"
+  ],
+  "execution_index": 19,
+  "infrastructure_replacement_for": "confirm-gemini38-v1-083-etl-primary-latency_tight-G",
+  "study_manifest": {
+    "archive_subdir": "confirmatory",
+    "budget_ledger_file": "gemini38_resume1_budget_ledger.json",
+    "budget_usd": 5.93417,
+    "campaign_priority": 1,
+    "development_only": false,
+    "execution_order": [
+      [
+        "etl",
+        "secondary",
+        "latency_tight",
+        "G"
+      ],
+      [
+        "etl",
+        "primary",
+        "latency_tight",
+        "P"
+      ],
+      [
+        "numerical",
+        "secondary",
+        "latency_tight",
+        "R"
+      ],
+      [
+        "numerical",
+        "primary",
+        "latency_tight",
+        "R"
+      ],
+      [
+        "numerical",
+        "primary",
+        "latency_tight",
+        "G"
+      ],
+      [
+        "etl",
+        "secondary",
+        "memory_tight",
+        "P"
+      ],
+      [
+        "numerical",
+        "secondary",
+        "memory_tight",
+        "G"
+      ],
+      [
+        "etl",
+        "secondary",
+        "memory_tight",
+        "R"
+      ],
+      [
+        "etl",
+        "secondary",
+        "memory_tight",
+        "G"
+      ],
+      [
+        "numerical",
+        "secondary",
+        "memory_tight",
+        "R"
+      ],
+      [
+        "etl",
+        "primary",
+        "latency_tight",
+        "P"
+      ],
+      [
+        "numerical",
+        "primary",
+        "memory_tight",
+        "R"
+      ],
+      [
+        "numerical",
+        "primary",
+        "memory_tight",
+        "P"
+      ],
+      [
+        "etl",
+        "primary",
+        "memory_tight",
+        "P"
+      ],
+      [
+        "numerical",
+        "primary",
+        "memory_tight",
+        "P"
+      ],
+      [
+        "etl",
+        "secondary",
+        "memory_tight",
+        "P"
+      ],
+      [
+        "numerical",
+        "secondary",
+        "latency_tight",
+        "R"
+      ],
+      [
+        "numerical",
+        "primary",
+        "memory_tight",
+        "P"
+      ],
+      [
+        "etl",
+        "primary",
+        "latency_tight",
+        "G"
+      ],
+      [
+        "numerical",
+        "primary",
+        "memory_tight",
+        "G"
+      ],
+      [
+        "etl",
+        "primary",
+        "memory_tight",
+        "R"
+      ],
+      [
+        "numerical",
+        "primary",
+        "memory_tight",
+        "G"
+      ],
+      [
+        "numerical",
+        "primary",
+        "memory_tight",
+        "R"
+      ],
+      [
+        "numerical",
+        "secondary",
+        "memory_tight",
+        "G"
+      ],
+      [
+        "etl",
+        "primary",
+        "latency_tight",
+        "G"
+      ],
+      [
+        "etl",
+        "primary",
+        "memory_tight",
+        "P"
+      ],
+      [
+        "numerical",
+        "secondary",
+        "latency_tight",
+        "R"
+      ],
+      [
+        "etl",
+        "secondary",
+        "memory_tight",
+        "G"
+      ],
+      [
+        "numerical",
+        "primary",
+        "latency_tight",
+        "R"
+      ],
+      [
+        "numerical",
+        "secondary",
+        "latency_tight",
+        "G"
+      ],
+      [
+        "numerical",
+        "primary",
+        "latency_tight",
+        "P"
+      ],
+      [
+        "etl",
+        "secondary",
+        "memory_tight",
+        "G"
+      ]
+    ],
+    "infrastructure_resume": {
+      "original_execution_indices": [
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96
+      ],
+      "reason": "32 consecutive pre-generation HTTP 429 failures",
+      "replacement_for": [
+        "confirm-gemini38-v1-065-etl-secondary-latency_tight-G",
+        "confirm-gemini38-v1-066-etl-primary-latency_tight-P",
+        "confirm-gemini38-v1-067-numerical-secondary-latency_tight-R",
+        "confirm-gemini38-v1-068-numerical-primary-latency_tight-R",
+        "confirm-gemini38-v1-069-numerical-primary-latency_tight-G",
+        "confirm-gemini38-v1-070-etl-secondary-memory_tight-P",
+        "confirm-gemini38-v1-071-numerical-secondary-memory_tight-G",
+        "confirm-gemini38-v1-072-etl-secondary-memory_tight-R",
+        "confirm-gemini38-v1-073-etl-secondary-memory_tight-G",
+        "confirm-gemini38-v1-074-numerical-secondary-memory_tight-R",
+        "confirm-gemini38-v1-075-etl-primary-latency_tight-P",
+        "confirm-gemini38-v1-076-numerical-primary-memory_tight-R",
+        "confirm-gemini38-v1-077-numerical-primary-memory_tight-P",
+        "confirm-gemini38-v1-078-etl-primary-memory_tight-P",
+        "confirm-gemini38-v1-079-numerical-primary-memory_tight-P",
+        "confirm-gemini38-v1-080-etl-secondary-memory_tight-P",
+        "confirm-gemini38-v1-081-numerical-secondary-latency_tight-R",
+        "confirm-gemini38-v1-082-numerical-primary-memory_tight-P",
+        "confirm-gemini38-v1-083-etl-primary-latency_tight-G",
+        "confirm-gemini38-v1-084-numerical-primary-memory_tight-G",
+        "confirm-gemini38-v1-085-etl-primary-memory_tight-R",
+        "confirm-gemini38-v1-086-numerical-primary-memory_tight-G",
+        "confirm-gemini38-v1-087-numerical-primary-memory_tight-R",
+        "confirm-gemini38-v1-088-numerical-secondary-memory_tight-G",
+        "confirm-gemini38-v1-089-etl-primary-latency_tight-G",
+        "confirm-gemini38-v1-090-etl-primary-memory_tight-P",
+        "confirm-gemini38-v1-091-numerical-secondary-latency_tight-R",
+        "confirm-gemini38-v1-092-etl-secondary-memory_tight-G",
+        "confirm-gemini38-v1-093-numerical-primary-latency_tight-R",
+        "confirm-gemini38-v1-094-numerical-secondary-latency_tight-G",
+        "confirm-gemini38-v1-095-numerical-primary-latency_tight-P",
+        "confirm-gemini38-v1-096-etl-secondary-memory_tight-G"
+      ],
+      "selection_rule": "only provider failures with zero generated attempts",
+      "source_commit": "43c9343"
+    },
+    "matrix": {
+      "conditions": [
+        "P",
+        "R",
+        "G"
+      ],
+      "environments": [
+        "memory_tight",
+        "latency_tight"
+      ],
+      "instances": {
+        "etl": [
+          "primary",
+          "secondary"
+        ],
+        "numerical": [
+          "primary",
+          "secondary"
+        ]
+      },
+      "repetitions_per_cell": 4
+    },
+    "maximum_attempts_per_trajectory": 2,
+    "maximum_provider_calls": 64,
+    "model": {
+      "documentation": "https://ai.google.dev/gemini-api/docs/latest-model",
+      "id": "gemini-3.8-flash",
+      "max_output_tokens": 32768,
+      "pricing_usd_per_million_tokens": {
+        "input": 0.75,
+        "output_including_thinking": 3.75
+      },
+      "pricing_verified_at_utc": "2026-09-11T14:42:00Z",
+      "provider": "google",
+      "temperature": null,
+      "thinking_level": "medium",
+      "top_p": null
+    },
+    "report_schema": "aamas-confirmatory-report/v1.0",
+    "run_id_prefix": "confirm-gemini38-resume1",
+    "schema_version": "aamas-confirmatory-infrastructure-resume/v1.0",
+    "status": "frozen_before_resume_calls",
+    "stopping_rule": "Run every frozen trajectory unless the provider budget cap, call cap, or a validity-critical infrastructure fault stops the campaign. Never stop for an inconvenient result.",
+    "task_files": {
+      "etl_primary": "etl_primary.json",
+      "etl_secondary": "etl_secondary.json",
+      "numerical_primary": "numerical_primary.json",
+      "numerical_secondary": "numerical_secondary.json"
+    }
+  },
+  "task_spec": {
+    "asset": {
+      "bytes": 38333733,
+      "name": "transactions.csv",
+      "rows": 3000000,
+      "sha256": "26c0b06bb123664d48b08243b30b48a5c1a5bd1e4df68bed75d9f06e0069313b"
+    },
+    "environments": {
+      "latency_tight": {
+        "cpu_cores": 1,
+        "memory_mib": 512,
+        "wall_seconds": 1.4
+      },
+      "memory_tight": {
+        "cpu_cores": 1,
+        "memory_mib": 128,
+        "wall_seconds": 4
+      }
+    },
+    "oracle": {
+      "comparison": "exact parsed JSON integer mapping",
+      "expected": {
+        "A": 584859984000,
+        "B": 582445702800,
+        "C": 584178107400,
+        "D": 585658510500,
+        "E": 584768685600,
+        "F": 583789773900,
+        "G": 584327166000,
+        "H": 585146828400
+      }
+    },
+    "prompt": "Write a complete Python program. The current directory contains transactions.csv with columns account_id, category, and amount_cents. CPython 3.11.2, NumPy 2.0.2, Pandas 2.2.3, and the Python standard library are available. For rows whose account_id modulo 11 is less than 7, compute for each category the exact sum of amount_cents multiplied by ((account_id modulo 97) + 1). Print exactly TOTAL:<JSON object>, with category keys sorted and no extra output. Do not modify the input file. Do not invoke external programs. The program has no network access.",
+    "schema_version": "aamas-task/v0.1",
+    "task_id": "etl_category_aggregation_primary"
+  }
+}

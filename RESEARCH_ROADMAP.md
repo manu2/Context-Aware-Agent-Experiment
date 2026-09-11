@@ -220,6 +220,20 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   fail-closed analysis program. It will produce no confirmatory inference until
   all three provider audits pass and the balanced 288-trajectory matrix is
   present.
+  After the user corrected the provider spending cap, resumption is staged through
+  one preselected operational canary: the first entry of the frozen 32-slot resume
+  order. It preserves the confirmatory condition and counts, and exists only to
+  verify provider access plus the end-to-end artifact path before the remaining
+  31 replacements are released.
+  The staged resume completed successfully on September 12. All 96 effective
+  Gemini trajectories pass the integrity audit. Proactive disclosure achieved
+  24/32 first-pass suitability, compared with 5/32 for reactive observation and
+  5/32 for generic efficiency guidance. The effect is uniform in the numerical
+  family (16/16 versus 0/16 and 0/16) and memory-tight ETL favors proactive
+  disclosure, while latency-tight ETL remains difficult across all conditions.
+  This mixed cell is retained as a boundary on contract interpretation, not used
+  to revise the frozen protocol. The Gemini gate passes and the existing Claude
+  and GPT manifests are cleared for execution.
 - **Preserved earlier FSE protocol:**
   [`docs/14_fse_contractbench_protocol.md`](docs/14_fse_contractbench_protocol.md)
   remains a future expansion reference and does not govern the AAMAS campaign.

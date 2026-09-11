@@ -1,0 +1,46 @@
+import numpy as np
+
+
+def main():
+    # Load input vectors (8000 x 1024, float32) and convert to float64 for numerical precision
+    X = np.load("vectors.npy").astype(np.float64)
+    N = X.shape[0]
+
+    # Precompute squared L2 norms for each vector
+    sq_norms = np.sum(X**2, axis=1)
+
+    total_dist = 0.0
+    block_size = 1000
+
+    # Exploit symmetry: ||v_i - v_j|| = ||v_j - v_i|| and ||v_i - v_i|| = 0
+    # Process pairwise distances block by block to minimize memory footprint
+    for i_start in range(0, N, block_size):
+        i_end = min(i_start + block_size, N)
+        X_i = X[i_start:i_end]
+        sq_i = sq_norms[i_start:i_end]
+
+        # Diagonal block: pairs within X_i where i < j
+        G_ii = X_i @ X_i.T
+        d2_ii = sq_i[:, None] + sq_i[None, :] - 2.0 * G_ii
+        np.maximum(d2_ii, 0.0, out=d2_ii)
+
+        idx = np.triu_indices(i_end - i_start, k=1)
+        total_dist += 2.0 * np.sum(np.sqrt(d2_ii[idx]))
+
+        # Off-diagonal blocks: pairs between X_i and X_j where j_start > i_start
+        for j_start in range(i_end, N, block_size):
+            j_end = min(j_start + block_size, N)
+            X_j = X[j_start:j_end]
+            sq_j = sq_norms[j_start:j_end]
+
+            G_ij = X_i @ X_j.T
+            d2_ij = sq_i[:, None] + sq_j[None, :] - 2.0 * G_ij
+            np.maximum(d2_ij, 0.0, out=d2_ij)
+
+            total_dist += 2.0 * np.sum(np.sqrt(d2_ij))
+
+    print(f"TOTAL:{total_dist}")
+
+
+if __name__ == "__main__":
+    main()

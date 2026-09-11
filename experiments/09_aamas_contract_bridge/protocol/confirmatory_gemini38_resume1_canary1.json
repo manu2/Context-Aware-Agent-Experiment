@@ -1,0 +1,51 @@
+{
+  "archive_subdir": "confirmatory",
+  "budget_ledger_file": "gemini38_resume1_budget_ledger.json",
+  "budget_usd": 5.93417,
+  "development_only": false,
+  "execution_order": [
+    [
+      "etl",
+      "secondary",
+      "latency_tight",
+      "G"
+    ]
+  ],
+  "infrastructure_resume": {
+    "original_execution_indices": [
+      65
+    ],
+    "parent_manifest": "confirmatory_gemini38_resume1.json",
+    "parent_manifest_sha256": "aff1e068a864961c7f9d706fd797b923acd5ec2d35be45875d0edb1435ccf1ba",
+    "reason": "One-trajectory operational canary after user corrected the provider spending cap",
+    "replacement_for": [
+      "confirm-gemini38-v1-065-etl-secondary-latency_tight-G"
+    ],
+    "selection_rule": "first trajectory in the already-frozen resume order; no outcome-based selection"
+  },
+  "maximum_attempts_per_trajectory": 2,
+  "maximum_provider_calls": 2,
+  "model": {
+    "id": "gemini-3.8-flash",
+    "max_output_tokens": 32768,
+    "pricing_usd_per_million_tokens": {
+      "input": 0.75,
+      "output_including_thinking": 3.75
+    },
+    "provider": "google",
+    "temperature": null,
+    "thinking_level": "medium",
+    "top_p": null
+  },
+  "report_schema": "aamas-confirmatory-report/v1.0",
+  "run_id_prefix": "confirm-gemini38-resume1",
+  "schema_version": "aamas-confirmatory-operational-canary/v1.0",
+  "status": "frozen_before_canary_call",
+  "stopping_rule": "Run this single preselected replacement trajectory. Continue the parent resume manifest only after its complete artifact chain passes audit.",
+  "task_files": {
+    "etl_primary": "etl_primary.json",
+    "etl_secondary": "etl_secondary.json",
+    "numerical_primary": "numerical_primary.json",
+    "numerical_secondary": "numerical_secondary.json"
+  }
+}

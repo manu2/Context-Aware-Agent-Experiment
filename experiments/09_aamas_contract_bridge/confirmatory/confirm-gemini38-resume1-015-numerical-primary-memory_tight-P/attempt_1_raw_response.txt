@@ -1,0 +1,57 @@
+```python
+import os
+
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
+import numpy as np
+
+
+def main():
+    X = np.load("vectors.npy", mmap_mode="r")
+    N, _ = X.shape
+    B = 1600
+
+    norms = np.empty(N, dtype=np.float64)
+    for i in range(0, N, B):
+        chunk = np.array(X[i : i + B], dtype=np.float64)
+        norms[i : i + B] = np.sum(chunk**2, axis=1)
+
+    total = 0.0
+    for i in range(0, N, B):
+        X_I = np.array(X[i : i + B], dtype=np.float64)
+        n_I = norms[i : i + B]
+
+        for j in range(i, N, B):
+            n_J = norms[j : j + B]
+            if i == j:
+                G = X_I @ X_I.T
+                G *= -2.0
+                G += n_I[:, None]
+                G += n_I[None, :]
+                np.maximum(G, 0.0, out=G)
+                np.sqrt(G, out=G)
+                np.fill_diagonal(G, 0.0)
+                total += float(np.sum(G))
+            else:
+                X_J = np.array(X[j : j + B], dtype=np.float64)
+                G = X_I @ X_J.T
+                del X_J
+                G *= -2.0
+                G += n_I[:, None]
+                G += n_J[None, :]
+                np.maximum(G, 0.0, out=G)
+                np.sqrt(G, out=G)
+                total += 2.0 * float(np.sum(G))
+            del G
+        del X_I
+
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()
+```

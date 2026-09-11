@@ -1,0 +1,42 @@
+```python
+import numpy as np
+
+
+def main():
+    # Load the vectors as float64 for high numerical precision
+    X = np.load("vectors.npy").astype(np.float64)
+    n_vectors = X.shape[0]
+
+    # Precompute squared norms of each vector
+    sq_norms = np.sum(X**2, axis=1)
+
+    # Compute the Gram matrix G = X @ X.T via optimized BLAS GEMM
+    G = X @ X.T
+
+    total_distance = 0.0
+    step = 1000
+
+    # Process in chunks to maintain low memory footprint and cache efficiency
+    for i in range(0, n_vectors, step):
+        end = min(i + step, n_vectors)
+        chunk_len = end - i
+
+        # Compute squared Euclidean distances: ||x_i - x_j||^2 = ||x_i||^2 + ||x_j||^2 - 2<x_i, x_j>
+        d2 = sq_norms[i:end, None] + sq_norms[None, :] - 2.0 * G[i:end]
+        np.maximum(d2, 0.0, out=d2)
+
+        # Explicitly zero out the diagonal entries (distance from vector to itself)
+        diag_rows = np.arange(chunk_len)
+        diag_cols = np.arange(i, end)
+        d2[diag_rows, diag_cols] = 0.0
+
+        # Compute Euclidean distance
+        np.sqrt(d2, out=d2)
+        total_distance += float(np.sum(d2))
+
+    print(f"TOTAL:{total_distance}")
+
+
+if __name__ == "__main__":
+    main()
+```

@@ -1,0 +1,12 @@
+{
+  "family": "numerical",
+  "features": [
+    "in_place_update"
+  ],
+  "primary_strategy": "rowwise_or_scalar_streaming",
+  "rationale": [
+    "distance work is expressed through loops without a matrix-product signature"
+  ],
+  "requires_adjudication": false,
+  "schema_version": "strategy-codebook/v0.1"
+}

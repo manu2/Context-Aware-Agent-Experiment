@@ -1,0 +1,43 @@
+An authentic prior run timed out (exit code 124) because row-by-row iteration (such as `iterrows()` or pure Python line-by-line overhead) on large CSV files is too slow.
+
+The revised solution below processes `transactions_secondary.csv` in chunks using vectorized Pandas and NumPy operations, ensuring minimal memory footprint, exact arbitrary-precision integer accumulation, and execution within seconds.
+
+```python
+import json
+import pandas as pd
+
+def main():
+    totals = {}
+
+    chunksize = 1_000_000
+    for chunk in pd.read_csv('transactions_secondary.csv', chunksize=chunksize):
+        # Handle potential leading/trailing whitespace or casing in header
+        col_map = {c.strip().lower(): c for c in chunk.columns}
+        acc_col = col_map['account_id']
+        cat_col = col_map['category']
+        amt_col = col_map['amount_cents']
+
+        acc = chunk[acc_col]
+        mask = (acc % 13) < 8
+        if not mask.any():
+            continue
+
+        filtered = chunk.loc[mask]
+        f_acc = filtered[acc_col]
+        f_amt = filtered[amt_col]
+        f_cat = filtered[cat_col]
+
+        # Multiplier: ((account_id % 89) + 3)
+        weights = (f_acc % 89) + 3
+        products = f_amt * weights
+
+        # Aggregate within the chunk and accumulate into arbitrary-precision Python ints
+        grouped = products.groupby(f_cat).sum()
+        for cat, val in grouped.items():
+            totals[cat] = totals.get(cat, 0) + int(val)
+
+    print(f"TOTAL:{json.dumps(totals, sort_keys=True)}")
+
+if __name__ == '__main__':
+    main()
+```

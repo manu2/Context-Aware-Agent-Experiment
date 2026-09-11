@@ -1,19 +1,19 @@
 {
-  "complete": 64,
+  "complete": 65,
   "condition_summary": {
     "G": {
       "final_suitable": 8,
       "final_wilson_95": [
-        0.21880653237281705,
-        0.6134184992377469
+        0.20751011368564493,
+        0.5912134622488425
       ],
       "first_pass_suitable": 5,
       "first_pass_wilson_95": [
-        0.11186170140766569,
-        0.468700877618744
+        0.10628013022636468,
+        0.4509117368295075
       ],
-      "n": 20,
-      "provider_calls": 35
+      "n": 21,
+      "provider_calls": 37
     },
     "P": {
       "final_suitable": 17,
@@ -45,7 +45,6 @@
     }
   },
   "incomplete": [
-    "confirm-gemini38-v1-065-etl-secondary-latency_tight-G",
     "confirm-gemini38-v1-066-etl-primary-latency_tight-P",
     "confirm-gemini38-v1-067-numerical-secondary-latency_tight-R",
     "confirm-gemini38-v1-068-numerical-primary-latency_tight-R",
@@ -79,11 +78,6 @@
     "confirm-gemini38-v1-096-etl-secondary-memory_tight-G"
   ],
   "infrastructure_failures": [
-    {
-      "error": "HTTP Error 429: Too Many Requests",
-      "error_type": "HTTPError",
-      "trajectory_id": "confirm-gemini38-v1-065-etl-secondary-latency_tight-G"
-    },
     {
       "error": "HTTP Error 429: Too Many Requests",
       "error_type": "HTTPError",
@@ -4408,6 +4402,84 @@
       "instance": "primary",
       "provider_tokens": 17871,
       "scheduled_trajectory_id": "confirm-gemini38-v1-064-etl-primary-latency_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.0134355,
+          "failure_type": "timeout",
+          "generation_seconds": 14.202758208999999,
+          "input_tokens": 169,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 156762112,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 3549,
+          "program_time_seconds": 1.7382815670000014,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8386323149999981
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.053787,
+          "failure_type": "timeout",
+          "generation_seconds": 53.884755791,
+          "input_tokens": 236,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 278216704,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 14296,
+          "program_time_seconds": 1.728246702000007,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.7986215009999853
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-resume1-001-etl-secondary-latency_tight-G",
+      "end_to_end_seconds": 71.72476781599998,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.0672225,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "provider_tokens": 18250,
+      "scheduled_trajectory_id": "confirm-gemini38-v1-065-etl-secondary-latency_tight-G"
     }
   ],
   "scheduled": 96,

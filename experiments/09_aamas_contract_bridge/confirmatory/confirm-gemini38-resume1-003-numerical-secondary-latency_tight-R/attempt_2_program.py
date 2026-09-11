@@ -1,0 +1,33 @@
+import numpy as np
+
+
+def main():
+    X = np.load("vectors_secondary.npy").astype(np.float64)
+    n = X.shape[0]
+    sq_norms = np.sum(X**2, axis=1)
+
+    total = 0.0
+    batch_size = 1000
+
+    for i in range(0, n, batch_size):
+        end = min(i + batch_size, n)
+        # Gram matrix for the current block against all vectors
+        g = X[i:end] @ X.T
+
+        # D^2 = ||x_i||^2 + ||x_j||^2 - 2 <x_i, x_j>
+        d2 = sq_norms[i:end, None] + sq_norms[None, :] - 2.0 * g
+
+        # Explicitly zero out exact self-distances
+        diag_idx = np.arange(i, end)
+        d2[diag_idx - i, diag_idx] = 0.0
+
+        np.maximum(d2, 0.0, out=d2)
+        np.sqrt(d2, out=d2)
+
+        total += float(np.sum(d2))
+
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()

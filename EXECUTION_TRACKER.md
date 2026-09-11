@@ -119,6 +119,7 @@ statistical sample.
 | **22.7** | E4 provider access and backend freeze | `docs/21_aamas_provider_canary_report.md` | ✅ **DONE** | Exact model access and current API schemas verified. GPT-5.6 Sol was first-pass suitable at 58.5 MiB/2.085 s for $0.0664. Claude Sonnet 5 returned two complete generations for $0.0739; attempt 1 timed out and attempt 2 was kernel OOM-killed. Both are development-only, retained without replacement, and excluded. Worker stopped after completion. |
 | **22.8** | E4 strategy codebook | `docs/20_aamas_strategy_codebook.md`, `src/aether_contract_bridge/strategy.py` | ✅ **FROZEN** | AST-based task-family labels plus orthogonal features and blinded adjudication rule frozen. All pilot attempts classified; no first-attempt program required adjudication. Operational suitability remains execution-derived. Ten interface tests pass. |
 | **22.9** | E4 secondary instances and protocol freeze | `docs/22_aamas_e4_protocol_freeze.md`, `protocol/E4_FREEZE_VALIDATION.json` | ✅ **FROZEN** | Independent numerical and ETL instances, hashes, oracles, and four envelopes frozen. The preserved first calibration failed only the provisional 1.4 s ETL latency cell; a pre-generation change to 1.7 s produced a complete 5/5 expected vs 0/5 opposed pass. Confirmatory N=4 gives 288 trajectories and 96 per condition; provider budgets sum to $30. Eleven tests and the fail-closed E4 validator pass. |
+| **22.10** | E5 Gemini 3.8 confirmatory cohort and provider gate | `docs/24_aamas_gemini_confirmatory_gate.md`, `analysis/gemini_e5_complete_audit.json` | ✅ **DONE / GATE PASSED** | All 96 effective trajectories and 158 calls completed for an estimated $4.961744. The audit reports zero integrity issues. P achieved 24/32 first-pass and 25/32 final suitability versus 5/32 and 8/32 for R and 5/32 and 10/32 for G. Numerical P was 16/16 first-pass across both instances/envelopes while R/G were 0/16; latency-tight ETL remained difficult in all conditions and is retained as a mixed result. Worker stopped; frozen Claude/GPT cohorts are approved to proceed. |
 
 ### Manuscript-closure status (2026-08-27)
 
@@ -241,3 +242,17 @@ statistical sample.
   integrity-passing 96-trajectory audits produce the exact balanced 288-run
   matrix. The cohort auditor now emits the compact execution, token, cost, and
   strategy evidence required by that analysis; all 13 unit tests pass.
+- **AAMAS Gemini resume canary (2026-09-11):** The user corrected the Gemini
+  account spending cap. Before releasing all 32 frozen replacements, an immutable
+  one-trajectory operational canary selects the first entry in the existing
+  resume order (original slot 65), retains the same model, prompt, environment,
+  archive namespace, and budget ledger, and caps execution at two provider calls.
+  This is an infrastructure gate only; the selected trajectory remains part of
+  the confirmatory cohort and its outcome cannot change whether the other 31 run.
+- **AAMAS Gemini cohort completion (2026-09-12):** All 32 outcome-neutral
+  replacements completed after the one-slot infrastructure gate, producing a
+  complete 96-trajectory effective cohort. The fail-closed audit passes with zero
+  integrity issues. P is 24/32 first-pass and 25/32 final versus R at 5/32 and
+  8/32 and G at 5/32 and 10/32. The estimated API cost is $4.961744 across 158
+  calls. The dedicated worker is stopped. The frozen Claude and GPT cohorts are
+  authorized to begin only under their existing manifests.

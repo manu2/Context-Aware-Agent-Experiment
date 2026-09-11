@@ -1,0 +1,39 @@
+import numpy as np
+
+
+def main():
+    vectors = np.load("vectors.npy")
+    n_rows = vectors.shape[0]
+
+    # Convert to float64 to ensure numerical precision and avoid overflow during summations
+    vectors_f64 = vectors.astype(np.float64)
+    sq_norms = np.sum(vectors_f64**2, axis=1)
+
+    chunk_size = 1000
+    total_distance = 0.0
+
+    # Process in row chunks to strictly bound peak memory usage
+    for i in range(0, n_rows, chunk_size):
+        i_end = min(i + chunk_size, n_rows)
+        v_chunk = vectors_f64[i:i_end]
+        norms_chunk = sq_norms[i:i_end]
+
+        # Dot products between current chunk and all rows: (chunk_size, n_rows)
+        dots = v_chunk @ vectors_f64.T
+
+        # ||u - v||^2 = ||u||^2 + ||v||^2 - 2 * <u, v>
+        d_sq = norms_chunk[:, None] + sq_norms[None, :] - 2.0 * dots
+        np.maximum(d_sq, 0.0, out=d_sq)
+
+        # Explicitly zero out the diagonal elements
+        for r in range(i_end - i):
+            d_sq[r, i + r] = 0.0
+
+        distances = np.sqrt(d_sq, out=d_sq)
+        total_distance += float(np.sum(distances))
+
+    print(f"TOTAL:{total_distance}")
+
+
+if __name__ == "__main__":
+    main()

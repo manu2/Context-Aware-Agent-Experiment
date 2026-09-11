@@ -1,0 +1,33 @@
+import csv
+import json
+from collections import defaultdict
+
+def main():
+    totals = defaultdict(int)
+    
+    with open('transactions.csv', mode='r', newline='', encoding='utf-8') as f:
+        reader = csv.reader(f)
+        try:
+            header = next(reader)
+        except StopIteration:
+            print("TOTAL:{}")
+            return
+
+        header_indices = {col.strip(): idx for idx, col in enumerate(header)}
+        aid_idx = header_indices['account_id']
+        cat_idx = header_indices['category']
+        amt_idx = header_indices['amount_cents']
+
+        for row in reader:
+            if not row:
+                continue
+            aid = int(row[aid_idx])
+            if aid % 11 < 7:
+                cat = row[cat_idx]
+                amt = int(row[amt_idx])
+                totals[cat] += amt * ((aid % 97) + 1)
+
+    print("TOTAL:" + json.dumps(totals, sort_keys=True))
+
+if __name__ == '__main__':
+    main()

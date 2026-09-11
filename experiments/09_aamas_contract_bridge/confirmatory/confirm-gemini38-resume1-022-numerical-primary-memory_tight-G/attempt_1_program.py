@@ -1,0 +1,37 @@
+import numpy as np
+
+
+def main():
+    # Load vectors and cast to float64 for precision and stability in GEMM
+    vectors = np.load("vectors.npy", mmap_mode=None).astype(np.float64)
+
+    # Compute squared norms of each vector: shape (N,)
+    sq_norms = np.sum(vectors**2, axis=1)
+
+    # Compute Gram matrix G = X @ X.T: shape (N, N)
+    # Using BLAS matrix multiplication for high performance
+    dist_matrix = vectors @ vectors.T
+
+    # Transform Gram matrix in-place to squared Euclidean distances:
+    # ||x_i - x_j||^2 = ||x_i||^2 + ||x_j||^2 - 2 * (x_i . x_j)
+    dist_matrix *= -2.0
+    dist_matrix += sq_norms[:, None]
+    dist_matrix += sq_norms[None, :]
+
+    # Clamp small negative values caused by floating-point rounding to 0
+    np.maximum(dist_matrix, 0.0, out=dist_matrix)
+
+    # Compute Euclidean distances in-place
+    np.sqrt(dist_matrix, out=dist_matrix)
+
+    # Ensure diagonal elements are strictly zero
+    np.fill_diagonal(dist_matrix, 0.0)
+
+    # Sum distances over all ordered pairs
+    total = float(np.sum(dist_matrix))
+
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()

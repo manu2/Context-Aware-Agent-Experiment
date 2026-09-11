@@ -1,0 +1,35 @@
+An implementation suited to the operating envelope is shown below.
+
+```python
+import json
+from collections import defaultdict
+import pandas as pd
+
+
+def main():
+    totals = defaultdict(int)
+
+    # Process in chunks to maintain low peak memory (< 128 MiB)
+    for chunk in pd.read_csv(
+        "transactions_secondary.csv", chunksize=100_000, keep_default_na=False
+    ):
+        mask = (chunk["account_id"] % 13) < 8
+        if not mask.any():
+            continue
+
+        filtered = chunk.loc[mask]
+        weights = (filtered["account_id"] % 89) + 3
+
+        # Using Python objects guarantees arbitrary-precision arithmetic without int64 overflow
+        prod = filtered["amount_cents"].astype(object) * weights
+        cat_sums = prod.groupby(filtered["category"]).sum()
+
+        for cat, val in cat_sums.items():
+            totals[cat] += int(val)
+
+    print(f"TOTAL:{json.dumps(totals, sort_keys=True)}")
+
+
+if __name__ == "__main__":
+    main()
+```

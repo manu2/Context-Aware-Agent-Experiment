@@ -1,0 +1,51 @@
+An efficient implementation in Python to compute the sum of Euclidean distances over all ordered pairs of rows.
+
+### Method Explanation
+
+The input array contains 8,000 vectors in 1,024 dimensions. Computing all $8000 \times 8000 = 64,000,000$ pairwise Euclidean distances using explicit differences or Python loops causes severe memory allocation overhead and single-threaded execution bottlenecks that lead to timeouts.
+
+We can compute the exact pairwise squared Euclidean distances efficiently using matrix multiplication:
+$$\|x_i - x_j\|_2^2 = \|x_i\|_2^2 + \|x_j\|_2^2 - 2 (x_i \cdot x_j)$$
+
+1. Subtracting the mean vector beforehand ensures translation invariance ($\|x_i - x_j\| = \|(x_i - c) - (x_j - c)\|$) and centers the data, guarding against catastrophic cancellation.
+2. Casting to `float64` maintains high numerical precision throughout.
+3. The Gram matrix $G = X X^T$ leverages multi-threaded BLAS GEMM kernels, running in seconds.
+4. Performing operations in-place on the distance matrix keeps peak memory usage around 512 MB and maximizes cache efficiency.
+
+### Python Source Code
+
+```python
+import numpy as np
+
+def main():
+    # Load input array
+    vectors = np.load('vectors.npy')
+    
+    # Convert to float64 for numerical precision
+    X = vectors.astype(np.float64)
+    
+    # Center vectors to maximize numerical stability (Euclidean distance is translation-invariant)
+    X -= np.mean(X, axis=0, keepdims=True)
+    
+    # Squared norms of each row
+    sq = np.sum(X ** 2, axis=1)
+    
+    # Compute Gram matrix using optimized multi-threaded BLAS
+    G = X @ X.T
+    
+    # Compute squared Euclidean distances in-place: sq_i + sq_j - 2 * (x_i . x_j)
+    G *= -2.0
+    G += sq[:, None]
+    G += sq[None, :]
+    
+    # Ensure exact zero on the diagonal and clip any numerical underflow below zero
+    np.fill_diagonal(G, 0.0)
+    np.maximum(G, 0.0, out=G)
+    np.sqrt(G, out=G)
+    
+    total = float(np.sum(G))
+    print(f"TOTAL:{total}")
+
+if __name__ == '__main__':
+    main()
+```

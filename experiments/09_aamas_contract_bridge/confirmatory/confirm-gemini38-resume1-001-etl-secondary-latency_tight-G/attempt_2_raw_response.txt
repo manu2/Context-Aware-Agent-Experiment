@@ -1,0 +1,48 @@
+An optimized and robust solution to compute the exact weighted sums per category. It processes `transactions_secondary.csv` in chunks to keep memory usage minimal, uses vectorized NumPy operations for speed to prevent execution timeouts on large files, and aggregates into Python arbitrary-precision integers to ensure exact sums.
+
+```python
+import sys
+import json
+from collections import defaultdict
+import numpy as np
+import pandas as pd
+
+def main():
+    totals = defaultdict(int)
+    chunksize = 1_000_000
+
+    for chunk in pd.read_csv(
+        'transactions_secondary.csv',
+        chunksize=chunksize,
+        usecols=['account_id', 'category', 'amount_cents'],
+        dtype={'account_id': np.int64, 'amount_cents': np.int64},
+        keep_default_na=False,
+        encoding='utf-8-sig'
+    ):
+        acc = chunk['account_id'].to_numpy()
+        mask = (acc % 13) < 8
+        if not np.any(mask):
+            continue
+
+        acc_filt = acc[mask]
+        mult = (acc_filt % 89) + 3
+        cents_filt = chunk['amount_cents'].to_numpy()[mask]
+
+        # Prevent potential int64 overflow when computing weighted cents
+        max_cents = np.max(np.abs(cents_filt)) if len(cents_filt) > 0 else 0
+        if max_cents > 10**16:
+            weighted = cents_filt.astype(object) * mult.astype(object)
+        else:
+            weighted = cents_filt * mult
+
+        cats_filt = chunk['category'].to_numpy()[mask]
+
+        grp = pd.Series(weighted).groupby(cats_filt, sort=False).sum()
+        for cat, val in grp.items():
+            totals[cat] += int(val)
+
+    print(f"TOTAL:{json.dumps(totals, sort_keys=True)}")
+
+if __name__ == '__main__':
+    main()
+```

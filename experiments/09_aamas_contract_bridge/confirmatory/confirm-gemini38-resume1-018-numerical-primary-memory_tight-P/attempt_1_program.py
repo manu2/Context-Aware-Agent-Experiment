@@ -1,0 +1,57 @@
+import os
+
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
+import gc
+import numpy as np
+
+
+def main():
+    mmap_vectors = np.load("vectors.npy", mmap_mode="r")
+    n_rows, n_cols = mmap_vectors.shape
+
+    vectors = np.empty((n_rows, n_cols), dtype=np.float64)
+    np.copyto(vectors, mmap_vectors)
+    del mmap_vectors
+
+    norms = np.empty(n_rows, dtype=np.float64)
+    for i in range(n_rows):
+        norms[i] = np.dot(vectors[i], vectors[i])
+
+    gc.collect()
+
+    chunk_size = 250
+    total = 0.0
+
+    for start in range(0, n_rows, chunk_size):
+        end = min(start + chunk_size, n_rows)
+        b_actual = end - start
+
+        chunk = vectors[start:end]
+        col_vectors = vectors[start:]
+
+        dist_sq = chunk @ col_vectors.T
+        dist_sq *= -2.0
+        dist_sq += norms[start:end, None]
+        dist_sq += norms[None, start:]
+
+        np.maximum(dist_sq, 0.0, out=dist_sq)
+        dist = np.sqrt(dist_sq, out=dist_sq)
+
+        np.fill_diagonal(dist[:, :b_actual], 0.0)
+
+        total += np.sum(dist[:, :b_actual])
+        if dist.shape[1] > b_actual:
+            total += 2.0 * np.sum(dist[:, b_actual:])
+
+        del dist_sq
+
+    print(f"TOTAL:{float(total)}")
+
+
+if __name__ == "__main__":
+    main()

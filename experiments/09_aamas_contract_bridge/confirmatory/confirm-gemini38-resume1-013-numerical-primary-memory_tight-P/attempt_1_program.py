@@ -1,0 +1,53 @@
+import numpy as np
+
+
+def main():
+    # Load the vectors
+    X = np.load("vectors.npy")
+    N, D = X.shape
+
+    # Process in blocks to stay well within the 128 MiB memory limit
+    B = 1000
+
+    # Precompute squared norms in float64 for numerical precision
+    sq_norms = np.empty(N, dtype=np.float64)
+    for i in range(0, N, B):
+        block = X[i : i + B].astype(np.float64)
+        sq_norms[i : i + B] = np.sum(block * block, axis=1)
+
+    total_half = 0.0
+
+    for i in range(0, N, B):
+        X_I = X[i : i + B].astype(np.float64)
+        sq_I = sq_norms[i : i + B]
+        len_I = len(X_I)
+
+        # Diagonal block (i == j)
+        G = X_I @ X_I.T
+        G *= -2.0
+        G += sq_I[:, None]
+        G += sq_I[None, :]
+        np.maximum(G, 0.0, out=G)
+
+        triu_i, triu_j = np.triu_indices(len_I, k=1)
+        total_half += float(np.sum(np.sqrt(G[triu_i, triu_j])))
+
+        # Off-diagonal blocks (i < j)
+        for j in range(i + B, N, B):
+            X_J = X[j : j + B].astype(np.float64)
+            sq_J = sq_norms[j : j + B]
+
+            G = X_I @ X_J.T
+            G *= -2.0
+            G += sq_I[:, None]
+            G += sq_J[None, :]
+            np.maximum(G, 0.0, out=G)
+            np.sqrt(G, out=G)
+            total_half += float(np.sum(G))
+
+    total = 2.0 * total_half
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()

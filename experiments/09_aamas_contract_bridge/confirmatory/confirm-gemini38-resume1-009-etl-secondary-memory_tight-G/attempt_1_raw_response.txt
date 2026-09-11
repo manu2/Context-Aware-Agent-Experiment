@@ -1,0 +1,55 @@
+An efficient and complete Python program to accomplish this task is provided below.
+
+```python
+import os
+import json
+from collections import defaultdict
+import pandas as pd
+
+
+def main():
+    filepath = 'transactions_secondary.csv'
+    if not os.path.exists(filepath):
+        print("TOTAL:{}")
+        return
+
+    totals = defaultdict(int)
+
+    try:
+        # Stream the CSV in chunks to minimize memory usage and maximize speed
+        reader = pd.read_csv(
+            filepath,
+            usecols=['account_id', 'category', 'amount_cents'],
+            dtype={'account_id': 'int64', 'category': 'str', 'amount_cents': 'int64'},
+            chunksize=500_000
+        )
+        
+        for chunk in reader:
+            # Filter rows whose account_id % 13 < 8
+            mask = (chunk['account_id'] % 13) < 8
+            sub = chunk[mask]
+            if sub.empty:
+                continue
+
+            multiplier = (sub['account_id'] % 89) + 3
+            
+            # Guard against potential 64-bit integer overflow on extreme values
+            if sub['amount_cents'].abs().max() < 100_000_000_000:
+                prod = sub['amount_cents'] * multiplier
+            else:
+                prod = sub['amount_cents'].astype(object) * multiplier.astype(object)
+
+            # Group by category within the chunk and accumulate to total
+            chunk_grouped = prod.groupby(sub['category']).sum()
+            for cat, val in chunk_grouped.items():
+                totals[str(cat)] += int(val)
+
+    except pd.errors.EmptyDataError:
+        pass
+
+    print(f"TOTAL:{json.dumps(totals, sort_keys=True)}")
+
+
+if __name__ == '__main__':
+    main()
+```
