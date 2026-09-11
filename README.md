@@ -107,6 +107,17 @@ cohort because their provenance and protocol precede the frozen direct-API desig
 `benchmarks/run_peer_reviewer.py` is retained solely as a historical checker for
 the old canonical draft; it is not evidence validation for the working revision.
 
+## Next research phase
+
+The next study targets AAMAS 2027 with a minimal reusable Execution Contract
+Bridge and an autonomous generate-execute-recover evaluation. Its primary
+comparison is proactive contract availability versus reactive discovery versus
+generic efficiency guidance across calibrated numerical and streaming-ETL
+environments. Development responses, API canary, pilot, and confirmatory evidence
+remain separate cohorts. The authoritative build-once plan, cost gates, scope
+lock, and protected review schedule are in
+[`docs/12_aamas_2027_hardened_research_plan.md`](docs/12_aamas_2027_hardened_research_plan.md).
+
 ## Submission status
 
 The repository contains the finalized manuscript source, vector figures, and

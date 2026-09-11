@@ -1,7 +1,7 @@
 # EXECUTION TRACKER: Live Deployment & Experiment Log
 
 ## Overall Status
-- **Current Stage**: Stage 21.0 (Dynamic SCAC telemetry design complete)
+- **Current Stage**: Stage 22.2 (AAMAS E0a complete; E0b calibration next)
 - **Active Experiment**: All 16 protocol-v1.2 manifest pairs have terminal archived
   artifacts. Fifteen included direct-API pairs are available for separately labelled
   cohort analysis; one Claude blind member is a retained runtime-compatibility failure and
@@ -17,12 +17,13 @@
   GPT 5/5, Claude 4/5, and Gemini 3/5. Two malformed Claude provider responses
   are retained and transparently replaced under manifest v1.5 before replacement
   generation; the reference cohorts remain separately labelled.
-- **Next research phase:** ContractBench is planned as a new, frozen FSE-oriented
-  benchmark rather than an extension or pooled reanalysis of the arXiv cohort.
-  Its protocol is [`docs/14_fse_contractbench_protocol.md`](docs/14_fse_contractbench_protocol.md).
-  The next authorized work is zero-cost task design, container/evaluator build,
-  and context-isolated review; no provider generation is authorized until the
-  protocol's calibration and pilot gates pass.
+- **Next research phase:** An AAMAS 2027 experiment-first Execution Contract Bridge
+  study is planned as a new cohort rather than an extension or pooled reanalysis
+  of the arXiv evidence. Its build-once vertical slice, zero-cost imported-response
+  smoke, direct-API canary, pilot, budget gate, confirmatory matrix, and protected
+  two-week review window are frozen in
+  [`docs/12_aamas_2027_hardened_research_plan.md`](docs/12_aamas_2027_hardened_research_plan.md).
+  No provider generation is authorized until E0/E1 pass.
 - **Dynamic-loop design (2026-08-28):** A research-and-strategy whitepaper now
   specifies the Phase 2 closed-loop control plane, 4D SST schema, prior-art
   boundary, three deterministic scenarios, information controls, metrics, and
@@ -107,8 +108,10 @@ statistical sample.
 | **18.3** | 96 MB Boundary-Sensitivity Extension | `experiments/08_96mb_cgroup_pilot/LOCAL_SWEEP_REPORT.md` | ✅ **DONE** | New 96 MB-aware local cohorts: GPT mean 60.88 MB (5/5 correct <=96), Claude 87.57 MB (4/5), Gemini 118.46 MB (3/5). Two malformed Claude responses are preserved; v1.5 predeclared identical-prompt replacements. The earlier enforced-cgroup pair is a separate operational diagnostic. |
 | **19.0** | Manuscript evidence-package closure | `docs/13_fresh_code_transformation_audit.md`, `paper/figures/` | ✅ **DONE** | Generated a 45-record source-linked audit (30 fresh 128 MB scripts and 15 retained executable 96 MB scripts), machine-readable JSON with source hashes/evidence lines, and two reproducible vector figures sourced from archived metadata. The working manuscript revision and README now lead with the fresh cohort and explicit evidence boundary. |
 | **19.1** | Local canonical manuscript promotion | `paper_draft.md` | ✅ **DONE** | Promoted the reviewed v3 manuscript with the independent-author block, current paired and boundary-sensitivity tables, related work, and both vector-figure references. Earlier working drafts remain preserved. Paper clearance and any code/artifact-release decision remain separate. |
-| **20.0** | ContractBench FSE expansion design | `docs/14_fse_contractbench_protocol.md` | 🔄 **IN PROGRESS** | Frozen planning protocol for a new multi-environment operational-contract benchmark: numerical resources, streaming ETL, and runtime/dependency compatibility. Start with context-isolated review and local calibration; do not generate provider trials before G0/G1. |
-| **21.0** | Dynamic SCAC telemetry design and consolidation | `docs/15_dynamic_agent_telemetry_whitepaper.md` | ✅ **DONE** | Consolidated two independent drafts into one canonical, evidence-audited design with a versioned 4D state, dual-tier injection, ToolRoute/MemoryGovernor/RetryBudget scenarios, causal controls, statistics, fail-closed gates, and a separate-repository implementation decision. The earlier draft remains preserved. |
+| **20.0** | ContractBench FSE expansion design | `docs/14_fse_contractbench_protocol.md` | ⏸️ **SUPERSEDED FOR CURRENT CAMPAIGN** | Preserved multi-environment FSE planning reference. The narrower experiment-first AAMAS plan at Stage 22.1 now governs implementation and provider authorization. |
+| **21.0** | Dynamic SCAC telemetry design and consolidation | `docs/15_dynamic_agent_telemetry_whitepaper.md` | ✅ **DONE** | Consolidated two independent drafts into one canonical, evidence-audited design with a versioned 4D state, dual-tier injection, ToolRoute/MemoryGovernor/RetryBudget scenarios, controlled comparisons, statistics, fail-closed gates, and a separate-repository implementation decision. The earlier draft remains preserved. |
+| **22.1** | AAMAS experiment-first plan and scope lock | `docs/12_aamas_2027_hardened_research_plan.md` | ✅ **FROZEN** | P/R/G design with GPT-5.6 Sol, Claude Sonnet 5, and Gemini 3.7 Flash across the full 360-trajectory matrix and a fail-closed $30 API cap. |
+| **22.2** | AAMAS E0a production-shaped vertical slice | `experiments/09_aamas_contract_bridge/`, `docs/17_aamas_e0a_report.md` | ✅ **DONE** | Bounded Debian 12 GCP worker with six-hour automatic stop; cgroup v2 memory/CPU controllers; direct-SSH imported-response execution; correctness/suitability scoring; immutable archival; measured-allocation, authentic `oom_kill`, and timeout controls. Five interface tests pass. No model API calls were made. |
 
 ### Manuscript-closure status (2026-08-27)
 
@@ -156,3 +159,32 @@ statistical sample.
   checked-in figure definitions. The renderer preserves each figure's native
   aspect ratio; Figure 2 is no longer vertically compressed. The final PDF contains
   zero raster image objects and retains embedded manuscript fonts.
+- **AAMAS 2027 precursor review (2026-09-11):** Independent review identified the
+  numerical-task opposed-envelope collapse, reactive-feedback confounding,
+  unsupported multi-agent scope, and the need for authentic Linux enforcement.
+  Those findings informed the authoritative Stage 22.1 plan; the earlier overbuilt
+  four-arm specification is superseded.
+- **AAMAS experiment-first revision (2026-09-11):** The authoritative plan now
+  preserves reusable interfaces while moving empirical contact forward: a
+  production-shaped zero-cost smoke is due Sep 13, a 12-trajectory direct-API
+  canary Sep 14, and a 24-trajectory non-pooled pilot Sep 17. The primary matrix
+  is P/R/G; active probing and representation ablations are gated subsets. Cloud
+  adapter breadth, resource slicing, skills, a third task, second harness, and
+  dynamic telemetry are deferred. Technical freeze is Sep 24 so one week remains
+  for internal/IP review and one week for submission contingency.
+- **AAMAS execution-plan amendment (2026-09-11):** Local inspection confirmed no
+  installed Docker command. E0a now selects a persistent Linux route, with GCP as
+  the default, and records contract-governed child time separately from worker and
+  end-to-end trajectory time. E0b measures interpreter/dependency RSS before
+  selecting ETL packages or thresholds. The second instances freeze at E4, and a
+  six-trajectory sanitized raw-evidence diagnostic is predeclared for E3. Planning
+  approved confirmatory set is GPT-5.6 Sol, Claude Sonnet 5, and Gemini 3.7 Flash
+  across the complete 360-trajectory matrix. API calls fail closed at $30, plus up
+  to $10 GCP credit; pilot billing replaces token assumptions before main calls.
+- **AAMAS E0a completion (2026-09-11):** The reusable contract bridge now includes
+  versioned evidence/contracts, deterministic P/R/G rendering, permanent imported-
+  response replay, a two-attempt decision policy, direct-SSH Linux execution,
+  cgroup v2 evidence, scoring, and append-only archives. The dedicated Debian 12
+  worker passed a suitable end-to-end fixture plus measurement, OOM-kill, and
+  timeout controls. Two pre-execution development failures remain visibly archived
+  and excluded. E0b calibration is next; API spend remains zero.

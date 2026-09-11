@@ -1,0 +1,11 @@
+Write a Python program that sums the integers from 1 through 100 and prints TOTAL:<value>.
+
+TARGET EXECUTION CONTRACT
+- Peak process memory limit: 64 MiB
+- Program wall-time limit: 5 seconds
+- CPU quota: 1 cores
+- Runtime: CPython 3.11 / Debian 12
+- Available packages: standard library only
+Select an implementation suited to this operating envelope.
+
+Return only one complete Python program.

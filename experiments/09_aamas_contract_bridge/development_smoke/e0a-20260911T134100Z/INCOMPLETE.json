@@ -1,0 +1,6 @@
+{
+  "status": "incomplete_development_attempt",
+  "stage": "cgroup_setup",
+  "included_in_results": false,
+  "note": "Failed closed because memory and CPU controllers had not been delegated to the experiment cgroup parent. No generated program executed. The worker was corrected and the successful E0a trajectory is archived separately."
+}

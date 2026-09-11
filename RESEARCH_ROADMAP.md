@@ -131,30 +131,51 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   verification, not additional empirical collection.
 - **Software compatibility as a future substrate dimension:** One retained blind
   Claude script used a Python 3.10-style union annotation and failed under the
-  pinned Python 3.9.6 runtime. This incident is not a causal experiment on version
-  disclosure, but it supports including interpreter/runtime version as an explicit
+  pinned Python 3.9.6 runtime. This incident was not a controlled version-disclosure
+  experiment, but it supports including interpreter/runtime version as an explicit
   future execution-context dimension alongside physical resource constraints.
 
-### Phase 5: ContractBench Operational-Contract Benchmark (Planned 🔄)
+### Phase 5: AAMAS Execution Contract Bridge Study (Planned 🔄)
 
-- **Objective:** expand the numerical proof of concept into a new FSE-oriented
-  study asking whether truthful, target-environment execution contracts improve
-  correct first-pass operational suitability across distinct software tasks.
-- **Core task families:** bounded numerical computation; large-file streaming ETL;
-  runtime/dependency compatibility. The existing historical CSV/log tasks may
-  inform calibration but cannot be silently pooled with this new protocol.
-- **Interface conditions:** task-only, truthful natural-language contract, and an
-  automatically collected structured contract; a length-matched neutral-context
-  control will be evaluated on a predeclared subset.
-- **Execution standard:** versioned Linux containers and cgroup enforcement are
-  primary for resource-contract outcomes. The contract collector, container
-  manifest, evaluator, raw provider response, source, and execution trace are
-  archived per trial.
-- **Design gates:** independent context-isolated task review, hand-written
-  positive/negative calibration, a limited one-model pilot, then a frozen main
-  matrix. No provider calls are authorized until the design and calibration gates
-  pass.
-- **Protocol:** [`docs/14_fse_contractbench_protocol.md`](docs/14_fse_contractbench_protocol.md).
+- **Objective:** evaluate execution-contract availability as agent state through
+  an autonomous generate–execute–recover loop, targeting AAMAS 2027 GAAI.
+- **Primary comparison:** proactive compiled contract versus reactive discovery
+  versus generic efficiency guidance. Generations are independent samples; all
+  conditions use authentic execution observations and at most one recovery turn.
+- **Core task families:** bounded numerical computation for graded adaptation and
+  streaming ETL for calibrated opposed environments. Runtime compatibility and
+  additional task families are deferred until after the primary submission.
+- **Minimal reusable system:** Linux/Docker target adapter, versioned evidence and
+  contract schemas, deterministic compiler/renderer, provider/import backends,
+  cgroup execution, agent loop, scorer, and immutable trajectory recorder.
+- **Experiment-first gates:** zero-cost imported-response smoke by September 13,
+  12-trajectory direct-API canary by September 14, 24-trajectory non-pooled pilot
+  by September 17, confirmatory protocol freeze September 18, and complete
+  technical freeze September 24.
+- **Execution and calibration amendment:** the current Mac has no Docker command,
+  so the first gate selects a persistent Linux execution route (GCP by default).
+  Contract-governed child time, worker/orchestration time, dependency baseline RSS,
+  and end-to-end trajectory time are recorded separately. Resource thresholds and
+  the ETL package stack remain calibration outputs rather than assumed constants.
+- **Representation diagnostic:** the pilot includes six sanitized raw-evidence
+  trajectories. Any behavioral compiler claim requires a frozen confirmatory
+  subset; otherwise compilation is presented as normalization, provenance,
+  precedence-resolution, and disclosure-safety infrastructure.
+- **Confirmatory model set:** GPT-5.6 Sol, Claude Sonnet 5, and Gemini 3.7 Flash
+  each run the complete frozen matrix (360 trajectories at `N=5`). The API spend
+  is fail-closed at $30; GCP execution is tracked separately against free credits.
+- **Protected delivery time:** September 25–October 1 is reserved for internal/IP
+  review and October 2–8 for contingency and submission. No new empirical scope
+  enters the primary matrix after the pilot gate.
+- **Authoritative plan:**
+  [`docs/12_aamas_2027_hardened_research_plan.md`](docs/12_aamas_2027_hardened_research_plan.md).
+- **Implementation status:** E0a passed on September 11 with the production-shaped
+  imported-response path and authentic cgroup v2 measurement/OOM/timeout controls.
+  E0b model-free workload and dependency-baseline calibration is next; provider
+  spend remains zero.
+- **Preserved earlier FSE protocol:**
+  [`docs/14_fse_contractbench_protocol.md`](docs/14_fse_contractbench_protocol.md)
+  remains a future expansion reference and does not govern the AAMAS campaign.
 
 ### Phase 6: Dynamic Agent Harness Telemetry (Design complete; implementation planned)
 

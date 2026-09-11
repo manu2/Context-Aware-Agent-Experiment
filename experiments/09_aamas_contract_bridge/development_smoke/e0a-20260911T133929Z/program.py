@@ -1,0 +1,2 @@
+values = range(1, 101)
+print(f"TOTAL:{sum(values)}")

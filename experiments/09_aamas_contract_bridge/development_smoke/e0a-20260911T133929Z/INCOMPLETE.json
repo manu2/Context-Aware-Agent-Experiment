@@ -1,0 +1,6 @@
+{
+  "status": "incomplete_development_attempt",
+  "stage": "before_execution_observation",
+  "included_in_results": false,
+  "note": "Initial remote invocation returned without a final summary. The repeat exposed missing cgroup controller delegation; the worker was corrected and the successful E0a trajectory is archived separately."
+}

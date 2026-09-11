@@ -1,0 +1,19 @@
+{
+  "schema_version": "aamas-manifest/v0.1",
+  "status": "development",
+  "conditions": ["P", "R", "G"],
+  "confirmatory_models": ["gpt-5.6-sol", "claude-sonnet-5", "gemini-3.7-flash"],
+  "confirmatory_n_per_cell": 5,
+  "confirmatory_trajectory_count": 360,
+  "maximum_attempts_per_trajectory": 2,
+  "api_budget_hard_cap_usd": 30.0,
+  "linux_worker": {
+    "project": "project-a9fc9225-58b8-41d1-bac",
+    "zone": "us-central1-a",
+    "instance": "aether-aamas-worker",
+    "os": "Debian 12",
+    "cgroup": "v2",
+    "automatic_stop_after": "6h"
+  },
+  "development_outputs_are_excluded": true
+}
