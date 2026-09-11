@@ -1,0 +1,43 @@
+{
+  "archive_subdir": "confirmatory",
+  "budget_ledger_file": "anthropic_sonnet_budget_ledger.json",
+  "budget_usd": 8.0,
+  "development_only": false,
+  "execution_order": [
+    [
+      "etl",
+      "secondary",
+      "latency_tight",
+      "R"
+    ]
+  ],
+  "maximum_attempts_per_trajectory": 2,
+  "maximum_provider_calls": 2,
+  "model": {
+    "effort": "medium",
+    "id": "claude-sonnet-5",
+    "max_output_tokens": 32768,
+    "pricing_usd_per_million_tokens": {
+      "input": 2.0,
+      "output_including_thinking": 10.0
+    },
+    "provider": "anthropic",
+    "thinking": "adaptive"
+  },
+  "operational_canary": {
+    "parent_manifest": "confirmatory_anthropic_sonnet.json",
+    "parent_manifest_sha256": "e662ae9c6f94284c9f3d21cb235dbbc5481d680e7cc91043e49a0e8cc6f91478",
+    "selection_rule": "first trajectory in the already-frozen randomized order; no outcome-based selection"
+  },
+  "report_schema": "aamas-confirmatory-report/v1.0",
+  "run_id_prefix": "confirm-anthropic-sonnet-v1",
+  "schema_version": "aamas-confirmatory-operational-canary/v1.0",
+  "status": "frozen_before_canary_call",
+  "stopping_rule": "Run this single preselected trajectory. Continue the parent manifest only after its complete artifact chain passes audit.",
+  "task_files": {
+    "etl_primary": "etl_primary.json",
+    "etl_secondary": "etl_secondary.json",
+    "numerical_primary": "numerical_primary.json",
+    "numerical_secondary": "numerical_secondary.json"
+  }
+}

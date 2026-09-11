@@ -234,6 +234,10 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   This mixed cell is retained as a boundary on contract interpretation, not used
   to revise the frozen protocol. The Gemini gate passes and the existing Claude
   and GPT manifests are cleared for execution.
+  Claude Sonnet 5 is campaign priority 2. Its first already-randomized trajectory
+  is frozen as a one-trajectory operational canary before any confirmatory Claude
+  call; the gate concerns provider/execution/artifact integrity only and cannot
+  stop the remaining cohort because of an inconvenient model outcome.
 - **Preserved earlier FSE protocol:**
   [`docs/14_fse_contractbench_protocol.md`](docs/14_fse_contractbench_protocol.md)
   remains a future expansion reference and does not govern the AAMAS campaign.
