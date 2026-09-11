@@ -1,0 +1,235 @@
+{
+  "attempted_this_invocation": [
+    {
+      "status": "complete",
+      "summary": "experiments/09_aamas_contract_bridge/api_provider_canary/provider-canary-anthropic-sonnet-v1-01-numerical-memory_tight-P/summary.json",
+      "trajectory_id": "provider-canary-anthropic-sonnet-v1-01-numerical-memory_tight-P"
+    }
+  ],
+  "complete_count": 1,
+  "development_only": true,
+  "final_suitable": 0,
+  "first_pass_suitable": 0,
+  "schema_version": "aamas-provider-canary-report/v0.1",
+  "summaries": [
+    {
+      "agent_loop_decision": {
+        "reason": "attempt_limit",
+        "stop": true
+      },
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "decision": {
+            "reason": "authentic_execution_feedback_required",
+            "stop": false
+          },
+          "execution": {
+            "backend": "gcp-cgroupv2/v0.1",
+            "cpu_stat": {
+              "burst_usec": 0,
+              "nr_bursts": 0,
+              "nr_periods": 81,
+              "nr_throttled": 5,
+              "system_usec": 844948,
+              "throttled_usec": 361745,
+              "usage_usec": 1489145,
+              "user_usec": 644197
+            },
+            "exit_code": 124,
+            "memory_events_after": {
+              "high": 0,
+              "low": 0,
+              "max": 6094,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_events_before": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_peak_bytes": 134217728,
+            "oom_killed": false,
+            "platform": "Linux 6.1.0-53-cloud-amd64",
+            "program_time_seconds": 8.039706383999999,
+            "psi_cpu": "some avg10=1.37 avg60=0.71 avg300=0.64 total=3535286\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+            "psi_memory": "some avg10=2.20 avg60=0.47 avg300=0.10 total=348956\nfull avg10=1.87 avg60=0.40 avg300=0.08 total=322640\n",
+            "stderr": "",
+            "stderr_truncated": false,
+            "stdout": "",
+            "stdout_truncated": false,
+            "timed_out": true,
+            "worker_time_seconds": 8.160907301999998
+          },
+          "generation": {
+            "backend": "anthropic-messages/v1",
+            "model": "claude-sonnet-5",
+            "request_metadata": {
+              "development_only": true,
+              "effort": "medium",
+              "estimated_cost_usd": 0.040802,
+              "generation_seconds": 41.472625542,
+              "input_tokens": 311,
+              "max_tokens": 32768,
+              "model": "claude-sonnet-5",
+              "output_tokens_including_thinking": 4018,
+              "prompt_sha256": "951a340a6bb5c2898f8959a6471ae2b4bdeddbc5b879884cd027c47296b3f9c0",
+              "provider": "anthropic",
+              "request_id": "req_011CewwBSJgzaU5Jo5WxiLMu",
+              "stop_reason": "end_turn",
+              "thinking": "adaptive"
+            }
+          },
+          "score": {
+            "correct": false,
+            "memory_exceedance_bytes": 0,
+            "suitable": false,
+            "within_memory": true,
+            "within_time": false
+          }
+        },
+        {
+          "attempt": 2,
+          "decision": {
+            "reason": "attempt_limit",
+            "stop": true
+          },
+          "execution": {
+            "backend": "gcp-cgroupv2/v0.1",
+            "cpu_stat": {
+              "burst_usec": 0,
+              "nr_bursts": 0,
+              "nr_periods": 18,
+              "nr_throttled": 7,
+              "system_usec": 334224,
+              "throttled_usec": 498504,
+              "usage_usec": 1176946,
+              "user_usec": 842721
+            },
+            "exit_code": -9,
+            "memory_events_after": {
+              "high": 0,
+              "low": 0,
+              "max": 1019,
+              "oom": 1,
+              "oom_group_kill": 1,
+              "oom_kill": 2
+            },
+            "memory_events_before": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_peak_bytes": 134217728,
+            "oom_killed": true,
+            "platform": "Linux 6.1.0-53-cloud-amd64",
+            "program_time_seconds": 1.8055724099999964,
+            "psi_cpu": "some avg10=3.98 avg60=1.09 avg300=0.71 total=4219288\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+            "psi_memory": "some avg10=0.77 avg60=0.39 avg300=0.11 total=430198\nfull avg10=0.58 avg60=0.33 avg300=0.09 total=397797\n",
+            "stderr": "",
+            "stderr_truncated": false,
+            "stdout": "",
+            "stdout_truncated": false,
+            "timed_out": false,
+            "worker_time_seconds": 1.892181088000001
+          },
+          "generation": {
+            "backend": "anthropic-messages/v1",
+            "model": "claude-sonnet-5",
+            "request_metadata": {
+              "development_only": true,
+              "effort": "medium",
+              "estimated_cost_usd": 0.033128,
+              "generation_seconds": 31.894890583,
+              "input_tokens": 419,
+              "max_tokens": 32768,
+              "model": "claude-sonnet-5",
+              "output_tokens_including_thinking": 3229,
+              "prompt_sha256": "2ab18a903428379edcf7f7db2aa9dbdbaa764b6e757137bf13fd305a2f8056bb",
+              "provider": "anthropic",
+              "request_id": "req_011CewwFLzKL4277HZaezfCP",
+              "stop_reason": "end_turn",
+              "thinking": "adaptive"
+            }
+          },
+          "score": {
+            "correct": false,
+            "memory_exceedance_bytes": 0,
+            "suitable": false,
+            "within_memory": true,
+            "within_time": true
+          }
+        }
+      ],
+      "condition": "P",
+      "development_only": true,
+      "end_to_end_time_seconds": 90.41535079200001,
+      "execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 18,
+          "nr_throttled": 7,
+          "system_usec": 334224,
+          "throttled_usec": 498504,
+          "usage_usec": 1176946,
+          "user_usec": 842721
+        },
+        "exit_code": -9,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 1019,
+          "oom": 1,
+          "oom_group_kill": 1,
+          "oom_kill": 2
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 134217728,
+        "oom_killed": true,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.8055724099999964,
+        "psi_cpu": "some avg10=3.98 avg60=1.09 avg300=0.71 total=4219288\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.77 avg60=0.39 avg300=0.11 total=430198\nfull avg10=0.58 avg60=0.33 avg300=0.09 total=397797\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.892181088000001
+      },
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "model": "claude-sonnet-5",
+      "schema_version": "trajectory-summary/v0.1",
+      "score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": true
+      },
+      "status": "complete",
+      "trajectory_id": "provider-canary-anthropic-sonnet-v1-01-numerical-memory_tight-P"
+    }
+  ],
+  "trajectory_count": 1,
+  "updated_at_utc": "2026-09-11T16:05:02.885305+00:00"
+}

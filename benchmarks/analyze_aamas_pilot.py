@@ -8,29 +8,13 @@ from hashlib import sha256
 import json
 from pathlib import Path
 import re
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+from aether_contract_bridge.strategy import classify_strategy
 PILOT = ROOT / "experiments/09_aamas_contract_bridge/api_pilot"
 ID = re.compile(r"-(\d+)-(numerical|etl)-(memory_tight|latency_tight)-([PRG])$")
-
-
-def strategy(family: str, source: str) -> str:
-    lowered = source.lower()
-    if family == "etl":
-        if "pandas" in lowered and "chunksize" in lowered:
-            return "pandas_chunked"
-        if "pandas" in lowered:
-            return "pandas_eager_or_vectorized"
-        if "import csv" in lowered or "open(" in lowered:
-            return "stdlib_streaming"
-        return "other"
-    has_loop = bool(re.search(r"\bfor\b.*\brange\s*\(", source, re.DOTALL))
-    has_product = "@" in source or "matmul" in lowered or ".dot(" in lowered
-    if has_loop and has_product:
-        return "blocked_or_streamed_matrix_product"
-    if has_product:
-        return "unblocked_matrix_product"
-    return "other"
 
 
 def main() -> int:
@@ -48,9 +32,10 @@ def main() -> int:
         for attempt in summary["attempts"]:
             number = attempt["attempt"]
             source = (directory / f"attempt_{number}_program.py").read_text()
+            strategy = classify_strategy(family, source)
             attempts.append({
                 "attempt": number,
-                "strategy": strategy(family, source),
+                "strategy": strategy.to_dict(),
                 "program_sha256": sha256(source.encode()).hexdigest(),
                 "score": attempt["score"],
                 "execution": attempt["execution"],
@@ -72,7 +57,8 @@ def main() -> int:
             "first_pass_suitable": sum(r["first_pass_suitable"] for r in subset),
             "final_suitable": sum(r["final_suitable"] for r in subset),
             "calls": sum(r["attempt_count"] for r in subset),
-            "first_strategy_counts": dict(Counter(r["attempts"][0]["strategy"] for r in subset)),
+            "first_strategy_counts": dict(Counter(r["attempts"][0]["strategy"]["primary_strategy"] for r in subset)),
+            "adjudication_required": sum(r["attempts"][0]["strategy"]["requires_adjudication"] for r in subset),
         }
     conditions = {}
     for condition in "PRG":

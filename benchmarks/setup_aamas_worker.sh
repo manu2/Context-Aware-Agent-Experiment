@@ -29,7 +29,14 @@ if not vectors_path.exists():
     vectors = rng.random((8000, 1024), dtype=np.float32)
     np.save(vectors_path, vectors)
 
+vectors_secondary_path = root / 'vectors_secondary.npy'
+if not vectors_secondary_path.exists():
+    rng = np.random.default_rng(314159)
+    vectors = rng.standard_normal((8000, 1024), dtype=np.float32)
+    np.save(vectors_secondary_path, vectors)
+
 transactions_path = root / 'transactions.csv'
+transactions_secondary_path = root / 'transactions_secondary.csv'
 rows = 3_000_000
 if not transactions_path.exists():
     with transactions_path.open('w', newline='') as handle:
@@ -39,8 +46,17 @@ if not transactions_path.exists():
         for i in range(rows):
             writer.writerow((i % 10000, categories[(i * 7) % 8], (i * 7919) % 100000))
 
+if not transactions_secondary_path.exists():
+    with transactions_secondary_path.open('w', newline='') as handle:
+        writer = csv.writer(handle, lineterminator='\n')
+        writer.writerow(('account_id', 'category', 'amount_cents'))
+        categories = ('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H')
+        for i in range(rows):
+            writer.writerow(((i * 37 + 17) % 12000, categories[(i * 5 + 3) % 8],
+                             (i * 3571 + 101) % 120000))
+
 manifest = {}
-for path in (vectors_path, transactions_path):
+for path in (vectors_path, vectors_secondary_path, transactions_path, transactions_secondary_path):
     digest = hashlib.sha256()
     with path.open('rb') as handle:
         for block in iter(lambda: handle.read(1024 * 1024), b''):

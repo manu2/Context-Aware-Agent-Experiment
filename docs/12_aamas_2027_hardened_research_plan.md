@@ -328,9 +328,13 @@ prompt or threshold changes are allowed after this gate.
 access to `gpt-5.6-sol` and `claude-sonnet-5`. Their current provider interfaces
 are implemented with explicit medium effort, no unsupported sampling controls,
 raw response/usage retention, and fail-closed ledgers. One development-only
-end-to-end canary per provider is frozen and remains to be executed. The Gemini
-pilot's observed billing supersedes the pre-pilot token assumptions below; fixed
-N and the total campaign cap will be selected after these two cost observations.
+end-to-end canary per provider completed through the production path. GPT-5.6 Sol
+was first-pass suitable for $0.0664. Claude Sonnet 5 returned two complete
+generations for $0.0739; the first timed out and the repair was OOM-killed. Both
+development outcomes are retained and excluded from confirmatory estimates. The
+Gemini pilot's observed billing supersedes the pre-pilot token assumptions below;
+the strategy codebook is frozen, while second-instance calibration and the fixed
+N/campaign cap remain before E4 completion.
 
 Both instances per task family must have frozen generators, task text, oracles,
 hashes, container image, package policy, and calibrated envelopes at this gate.

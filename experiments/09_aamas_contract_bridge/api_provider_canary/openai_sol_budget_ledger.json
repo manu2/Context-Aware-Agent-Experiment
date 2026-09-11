@@ -1,0 +1,22 @@
+{
+  "calls": 1,
+  "entries": [
+    {
+      "cached_input_tokens": 0,
+      "estimated_cost_usd": 0.066372,
+      "incomplete_reason": null,
+      "input_tokens": 203,
+      "model": "gpt-5.6-sol",
+      "output_tokens_including_reasoning": 3278,
+      "prompt_sha256": "951a340a6bb5c2898f8959a6471ae2b4bdeddbc5b879884cd027c47296b3f9c0",
+      "provider": "openai",
+      "reasoning_tokens": 2901,
+      "request_id": "req_76f25aed8853466b9bfd8af9627630b6",
+      "reserved_cost_usd": 0.656392,
+      "status": "complete",
+      "status_code": "completed"
+    }
+  ],
+  "estimated_cost_usd": 0.06637199999999999,
+  "schema_version": "api-budget-ledger/v0.1"
+}

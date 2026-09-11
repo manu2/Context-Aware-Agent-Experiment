@@ -1,24 +1,27 @@
 {
   "cell_summary": {
     "etl/latency_tight/G": {
+      "adjudication_required": 0,
       "calls": 2,
       "final_suitable": 2,
       "first_pass_suitable": 2,
       "first_strategy_counts": {
-        "pandas_chunked": 2
+        "dataframe_chunked": 2
       },
       "n": 2
     },
     "etl/latency_tight/P": {
+      "adjudication_required": 0,
       "calls": 3,
       "final_suitable": 2,
       "first_pass_suitable": 1,
       "first_strategy_counts": {
-        "pandas_eager_or_vectorized": 2
+        "dataframe_eager": 2
       },
       "n": 2
     },
     "etl/latency_tight/R": {
+      "adjudication_required": 0,
       "calls": 3,
       "final_suitable": 2,
       "first_pass_suitable": 1,
@@ -28,15 +31,17 @@
       "n": 2
     },
     "etl/memory_tight/G": {
+      "adjudication_required": 0,
       "calls": 2,
       "final_suitable": 2,
       "first_pass_suitable": 2,
       "first_strategy_counts": {
-        "pandas_chunked": 2
+        "dataframe_chunked": 2
       },
       "n": 2
     },
     "etl/memory_tight/P": {
+      "adjudication_required": 0,
       "calls": 2,
       "final_suitable": 2,
       "first_pass_suitable": 2,
@@ -46,6 +51,7 @@
       "n": 2
     },
     "etl/memory_tight/R": {
+      "adjudication_required": 0,
       "calls": 2,
       "final_suitable": 2,
       "first_pass_suitable": 2,
@@ -55,59 +61,65 @@
       "n": 2
     },
     "numerical/latency_tight/G": {
+      "adjudication_required": 0,
       "calls": 4,
       "final_suitable": 0,
       "first_pass_suitable": 0,
       "first_strategy_counts": {
-        "blocked_or_streamed_matrix_product": 1,
-        "unblocked_matrix_product": 1
+        "blocked_matrix_product": 1,
+        "eager_global_matrix": 1
       },
       "n": 2
     },
     "numerical/latency_tight/P": {
+      "adjudication_required": 0,
       "calls": 2,
       "final_suitable": 2,
       "first_pass_suitable": 2,
       "first_strategy_counts": {
-        "blocked_or_streamed_matrix_product": 1,
-        "unblocked_matrix_product": 1
+        "blocked_matrix_product": 1,
+        "eager_global_matrix": 1
       },
       "n": 2
     },
     "numerical/latency_tight/R": {
+      "adjudication_required": 0,
       "calls": 4,
       "final_suitable": 0,
       "first_pass_suitable": 0,
       "first_strategy_counts": {
-        "unblocked_matrix_product": 2
+        "eager_global_matrix": 2
       },
       "n": 2
     },
     "numerical/memory_tight/G": {
+      "adjudication_required": 0,
       "calls": 4,
       "final_suitable": 0,
       "first_pass_suitable": 0,
       "first_strategy_counts": {
-        "blocked_or_streamed_matrix_product": 1,
-        "unblocked_matrix_product": 1
+        "blocked_matrix_product": 1,
+        "eager_global_matrix": 1
       },
       "n": 2
     },
     "numerical/memory_tight/P": {
+      "adjudication_required": 0,
       "calls": 2,
       "final_suitable": 2,
       "first_pass_suitable": 2,
       "first_strategy_counts": {
-        "blocked_or_streamed_matrix_product": 2
+        "blocked_matrix_product": 2
       },
       "n": 2
     },
     "numerical/memory_tight/R": {
+      "adjudication_required": 0,
       "calls": 4,
       "final_suitable": 0,
       "first_pass_suitable": 0,
       "first_strategy_counts": {
-        "unblocked_matrix_product": 2
+        "eager_global_matrix": 2
       },
       "n": 2
     }
@@ -227,7 +239,19 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "blocked_or_streamed_matrix_product"
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "triangular_symmetry"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "P",
@@ -316,7 +340,18 @@
             "within_memory": true,
             "within_time": false
           },
-          "strategy": "pandas_eager_or_vectorized"
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_eager",
+            "rationale": [
+              "read_csv has no explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         },
         {
           "attempt": 2,
@@ -394,7 +429,18 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "pandas_eager_or_vectorized"
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_eager",
+            "rationale": [
+              "read_csv has no explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "P",
@@ -483,7 +529,18 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "unblocked_matrix_product"
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         },
         {
           "attempt": 2,
@@ -561,7 +618,20 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "blocked_or_streamed_matrix_product"
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "memory_map",
+              "triangular_symmetry"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "G",
@@ -650,7 +720,18 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "unblocked_matrix_product"
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         },
         {
           "attempt": 2,
@@ -728,7 +809,18 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "blocked_or_streamed_matrix_product"
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "R",
@@ -817,7 +909,19 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "pandas_chunked"
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "G",
@@ -906,7 +1010,19 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "blocked_or_streamed_matrix_product"
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "P",
@@ -995,7 +1111,19 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "pandas_chunked"
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "G",
@@ -1084,7 +1212,18 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "pandas_eager_or_vectorized"
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_eager",
+            "rationale": [
+              "read_csv has no explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "P",
@@ -1173,7 +1312,18 @@
             "within_memory": true,
             "within_time": false
           },
-          "strategy": "unblocked_matrix_product"
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         },
         {
           "attempt": 2,
@@ -1251,7 +1401,18 @@
             "within_memory": true,
             "within_time": false
           },
-          "strategy": "blocked_or_streamed_matrix_product"
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "R",
@@ -1340,7 +1501,18 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "stdlib_streaming"
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "R",
@@ -1429,7 +1601,18 @@
             "within_memory": true,
             "within_time": false
           },
-          "strategy": "blocked_or_streamed_matrix_product"
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         },
         {
           "attempt": 2,
@@ -1507,7 +1690,18 @@
             "within_memory": true,
             "within_time": false
           },
-          "strategy": "unblocked_matrix_product"
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "G",
@@ -1596,7 +1790,18 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "stdlib_streaming"
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "R",
@@ -1685,7 +1890,18 @@
             "within_memory": true,
             "within_time": false
           },
-          "strategy": "unblocked_matrix_product"
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         },
         {
           "attempt": 2,
@@ -1763,7 +1979,19 @@
             "within_memory": true,
             "within_time": false
           },
-          "strategy": "unblocked_matrix_product"
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "R",
@@ -1852,7 +2080,18 @@
             "within_memory": true,
             "within_time": false
           },
-          "strategy": "stdlib_streaming"
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         },
         {
           "attempt": 2,
@@ -1930,7 +2169,19 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "pandas_chunked"
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "R",
@@ -2019,7 +2270,18 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "stdlib_streaming"
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "P",
@@ -2108,7 +2370,19 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "unblocked_matrix_product"
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "P",
@@ -2197,7 +2471,19 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "pandas_chunked"
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "G",
@@ -2286,7 +2572,18 @@
             "within_memory": true,
             "within_time": false
           },
-          "strategy": "unblocked_matrix_product"
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         },
         {
           "attempt": 2,
@@ -2364,7 +2661,18 @@
             "within_memory": true,
             "within_time": false
           },
-          "strategy": "unblocked_matrix_product"
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "G",
@@ -2453,7 +2761,18 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "unblocked_matrix_product"
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         },
         {
           "attempt": 2,
@@ -2531,7 +2850,18 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "blocked_or_streamed_matrix_product"
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "R",
@@ -2620,7 +2950,20 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "blocked_or_streamed_matrix_product"
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "memory_map",
+              "triangular_symmetry"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         },
         {
           "attempt": 2,
@@ -2698,7 +3041,18 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "blocked_or_streamed_matrix_product"
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "G",
@@ -2787,7 +3141,18 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "stdlib_streaming"
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "P",
@@ -2876,7 +3241,19 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "pandas_chunked"
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "G",
@@ -2965,7 +3342,19 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "blocked_or_streamed_matrix_product"
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "P",
@@ -3054,7 +3443,18 @@
             "within_memory": true,
             "within_time": true
           },
-          "strategy": "stdlib_streaming"
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          }
         }
       ],
       "condition": "R",

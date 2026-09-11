@@ -19,18 +19,18 @@ This development pilot is used to freeze the confirmatory protocol and is never 
 
 | Family | Environment | Condition | First | Final | Initial strategies |
 |---|---|---:|---:|---:|---|
-| etl | latency_tight | G | 2/2 | 2/2 | `{'pandas_chunked': 2}` |
-| etl | latency_tight | P | 1/2 | 2/2 | `{'pandas_eager_or_vectorized': 2}` |
+| etl | latency_tight | G | 2/2 | 2/2 | `{'dataframe_chunked': 2}` |
+| etl | latency_tight | P | 1/2 | 2/2 | `{'dataframe_eager': 2}` |
 | etl | latency_tight | R | 1/2 | 2/2 | `{'stdlib_streaming': 2}` |
-| etl | memory_tight | G | 2/2 | 2/2 | `{'pandas_chunked': 2}` |
+| etl | memory_tight | G | 2/2 | 2/2 | `{'dataframe_chunked': 2}` |
 | etl | memory_tight | P | 2/2 | 2/2 | `{'stdlib_streaming': 2}` |
 | etl | memory_tight | R | 2/2 | 2/2 | `{'stdlib_streaming': 2}` |
-| numerical | latency_tight | G | 0/2 | 0/2 | `{'blocked_or_streamed_matrix_product': 1, 'unblocked_matrix_product': 1}` |
-| numerical | latency_tight | P | 2/2 | 2/2 | `{'blocked_or_streamed_matrix_product': 1, 'unblocked_matrix_product': 1}` |
-| numerical | latency_tight | R | 0/2 | 0/2 | `{'unblocked_matrix_product': 2}` |
-| numerical | memory_tight | G | 0/2 | 0/2 | `{'unblocked_matrix_product': 1, 'blocked_or_streamed_matrix_product': 1}` |
-| numerical | memory_tight | P | 2/2 | 2/2 | `{'blocked_or_streamed_matrix_product': 2}` |
-| numerical | memory_tight | R | 0/2 | 0/2 | `{'unblocked_matrix_product': 2}` |
+| numerical | latency_tight | G | 0/2 | 0/2 | `{'blocked_matrix_product': 1, 'eager_global_matrix': 1}` |
+| numerical | latency_tight | P | 2/2 | 2/2 | `{'blocked_matrix_product': 1, 'eager_global_matrix': 1}` |
+| numerical | latency_tight | R | 0/2 | 0/2 | `{'eager_global_matrix': 2}` |
+| numerical | memory_tight | G | 0/2 | 0/2 | `{'eager_global_matrix': 1, 'blocked_matrix_product': 1}` |
+| numerical | memory_tight | P | 2/2 | 2/2 | `{'blocked_matrix_product': 2}` |
+| numerical | memory_tight | R | 0/2 | 0/2 | `{'eager_global_matrix': 2}` |
 
 ## Gate reading
 

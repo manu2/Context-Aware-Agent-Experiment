@@ -186,7 +186,13 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   Authenticated read-only model lookups now also confirm access to the exact
   `gpt-5.6-sol` and `claude-sonnet-5` identifiers. Production-shaped backends for
   both current APIs are implemented with explicit effort and complete billing
-  metadata; minimal development-only execution canaries remain before E4 freeze.
+  metadata. Their development-only execution canaries are complete: GPT was
+  first-pass suitable for $0.0664, while Claude's two complete generations timed
+  out and then OOM-killed for $0.0739. The unfavorable Claude result is retained
+  without replacement. A task-family strategy codebook is also frozen; it labels
+  observable program structure but never substitutes for execution-derived
+  suitability. Second-instance calibration and the power/cost sample-size lock
+  remain before E4 freeze.
 - **Preserved earlier FSE protocol:**
   [`docs/14_fse_contractbench_protocol.md`](docs/14_fse_contractbench_protocol.md)
   remains a future expansion reference and does not govern the AAMAS campaign.

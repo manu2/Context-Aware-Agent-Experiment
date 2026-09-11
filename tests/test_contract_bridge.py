@@ -12,6 +12,7 @@ from aether_contract_bridge.agent_loop import AgentLoop
 from aether_contract_bridge.generation import ImportedResponseBackend, extract_python
 from aether_contract_bridge.models import RawSubstrateEvidence
 from aether_contract_bridge.rendering import ContractRenderer
+from aether_contract_bridge.strategy import classify_strategy
 from aether_contract_bridge.provider import (
     AnthropicMessagesBackend,
     BudgetLedger,
@@ -121,6 +122,17 @@ class ContractBridgeTests(unittest.TestCase):
             self.assertEqual(body["output_config"], {"effort": "medium"})
             self.assertNotIn("temperature", body)
             self.assertNotIn("top_p", body)
+
+    def test_frozen_strategy_codebook(self):
+        eager = "import numpy as np\nx=np.load('x.npy')\ny=x @ x.T\n"
+        blocked = "import numpy as np\nx=np.load('x.npy', mmap_mode='r')\nfor i in range(0,len(x),32):\n y=x[i:i+32] @ x.T\n"
+        frame = "import pandas as pd\ndf=pd.read_csv('x.csv')\n"
+        streaming = "import csv\nfor row in csv.reader(open('x.csv')):\n pass\n"
+        self.assertEqual(classify_strategy("numerical", eager).primary_strategy, "eager_global_matrix")
+        self.assertEqual(classify_strategy("numerical", blocked).primary_strategy, "blocked_matrix_product")
+        self.assertIn("memory_map", classify_strategy("numerical", blocked).features)
+        self.assertEqual(classify_strategy("etl", frame).primary_strategy, "dataframe_eager")
+        self.assertEqual(classify_strategy("etl", streaming).primary_strategy, "stdlib_streaming")
 
 
 if __name__ == "__main__":

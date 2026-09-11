@@ -1,0 +1,31 @@
+{
+  "calls": 2,
+  "entries": [
+    {
+      "estimated_cost_usd": 0.040802,
+      "input_tokens": 311,
+      "model": "claude-sonnet-5",
+      "output_tokens_including_thinking": 4018,
+      "prompt_sha256": "951a340a6bb5c2898f8959a6471ae2b4bdeddbc5b879884cd027c47296b3f9c0",
+      "provider": "anthropic",
+      "request_id": "req_011CewwBSJgzaU5Jo5WxiLMu",
+      "reserved_cost_usd": 0.328196,
+      "status": "complete",
+      "stop_reason": "end_turn"
+    },
+    {
+      "estimated_cost_usd": 0.033128,
+      "input_tokens": 419,
+      "model": "claude-sonnet-5",
+      "output_tokens_including_thinking": 3229,
+      "prompt_sha256": "2ab18a903428379edcf7f7db2aa9dbdbaa764b6e757137bf13fd305a2f8056bb",
+      "provider": "anthropic",
+      "request_id": "req_011CewwFLzKL4277HZaezfCP",
+      "reserved_cost_usd": 0.32836,
+      "status": "complete",
+      "stop_reason": "end_turn"
+    }
+  ],
+  "estimated_cost_usd": 0.07393,
+  "schema_version": "api-budget-ledger/v0.1"
+}
