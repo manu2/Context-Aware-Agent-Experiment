@@ -514,5 +514,8 @@ The full frozen campaign is complete: 288/288 effective trajectories across
 Gemini 3.8 Flash, Claude Sonnet 5, and GPT-5.6 Sol pass the fail-closed evidence
 audit. The deterministic confirmatory analysis, generated report, vector figures,
 and anonymous AAMAS manuscript are present. No additional primary generation is
-planned. Insert the OpenReview submission ID when assigned, rebuild the PDF, and
-run `benchmarks/verify_aamas_submission.py --release` before upload.
+planned. The deterministic anonymous supplementary artifact contains the frozen
+protocol, harness, effective trajectories, preserved interruption slots, analysis,
+and disclosure while omitting provider transport metadata. Insert the OpenReview
+submission ID when assigned, rebuild the PDF and supplement, and run
+`benchmarks/verify_aamas_submission.py --release` before upload.

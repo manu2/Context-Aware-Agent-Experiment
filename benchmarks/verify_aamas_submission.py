@@ -155,12 +155,27 @@ def pdf_issues(pdf: Path, release: bool) -> list[str]:
     return issues
 
 
-def supplement_issues() -> list[str]:
+def supplement_issues(require: bool = False) -> list[str]:
     issues: list[str] = []
-    for path in PACKAGE.glob("*.zip"):
+    archives = sorted(PACKAGE.glob("*.zip"))
+    if require and not archives:
+        return ["anonymous supplementary ZIP is missing"]
+    for path in archives:
         if path.stat().st_size > 25 * 1024 * 1024:
             issues.append(f"supplement exceeds 25 MiB: {path.name}")
         with zipfile.ZipFile(path) as archive:
+            names = archive.namelist()
+            required = {
+                "manifest.json",
+                "paper/aamas2027/SUPPLEMENT_README.md",
+                "paper/aamas2027/AI_ASSISTANCE_DISCLOSURE.md",
+                "experiments/09_aamas_contract_bridge/analysis/confirmatory_analysis.json",
+                "docs/28_aamas_confirmatory_results.md",
+            }
+            for name in sorted(required - set(names)):
+                issues.append(f"required supplement member missing: {name}")
+            if any(name.endswith("_provider_response.json") for name in names):
+                issues.append("provider transport envelope appears in supplement")
             for member in archive.infolist():
                 name = member.filename
                 if name.startswith("/") or ".." in Path(name).parts:
@@ -171,6 +186,29 @@ def supplement_issues() -> list[str]:
                     for label, pattern in IDENTITY_PATTERNS.items():
                         if pattern.search(text):
                             issues.append(f"{label} appears in supplement member {name}")
+            if "manifest.json" in names:
+                try:
+                    manifest = json.loads(archive.read("manifest.json"))
+                except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+                    issues.append(f"invalid supplement manifest: {exc}")
+                else:
+                    if manifest.get("schema_version") != "aamas-anonymous-supplement/v1.0":
+                        issues.append("unexpected supplement manifest schema")
+                    if manifest.get("trajectory_count") != 288:
+                        issues.append("supplement manifest does not declare 288 effective trajectories")
+                    if manifest.get("archived_trajectory_slots") != 320:
+                        issues.append("supplement manifest does not declare 320 archived trajectory slots")
+                    rows = manifest.get("files", [])
+                    listed = {row.get("path") for row in rows}
+                    actual = set(names) - {"manifest.json"}
+                    if listed != actual:
+                        issues.append("supplement manifest member set does not match archive")
+                    for row in rows:
+                        name = row.get("path")
+                        if name in actual:
+                            data = archive.read(name)
+                            if row.get("bytes") != len(data) or row.get("packaged_sha256") != sha256(data).hexdigest():
+                                issues.append(f"supplement digest mismatch: {name}")
     return issues
 
 
@@ -179,7 +217,7 @@ def main() -> int:
     parser.add_argument("--release", action="store_true", help="reject all placeholders and require final metadata")
     parser.add_argument("--pdf", type=Path, help="compiled PDF to inspect")
     args = parser.parse_args()
-    issues = source_issues(args.release) + evidence_issues() + supplement_issues()
+    issues = source_issues(args.release) + evidence_issues() + supplement_issues(require=args.release)
     if args.pdf:
         issues.extend(pdf_issues(args.pdf.resolve(), args.release))
     for issue in issues:

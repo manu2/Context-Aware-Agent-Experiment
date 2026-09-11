@@ -7,8 +7,10 @@
   trajectories; all three cohorts pass the fail-closed audit with zero integrity
   issues. The deterministic confirmatory analysis, generated report, vector
   figures, and anonymous AAMAS manuscript are complete. No additional primary
-  trials are planned. The remaining release step is to insert the OpenReview
-  submission ID and run the final fail-closed submission verifier.
+  trials are planned. A deterministic 3.43 MB anonymous supplement now packages
+  the protocol, harness, effective trajectories, interruption ledger, analysis,
+  and disclosure with per-member hashes. The remaining release step is to insert
+  the OpenReview submission ID and run the final fail-closed submission verifier.
 - **Published preprint experiment**: All 16 protocol-v1.2 manifest pairs have terminal archived
   artifacts. Fifteen included direct-API pairs are available for separately labelled
   cohort analysis; one Claude blind member is a retained runtime-compatibility failure and

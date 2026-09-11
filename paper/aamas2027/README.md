@@ -45,6 +45,17 @@ Draft verification:
 python benchmarks/verify_aamas_submission.py --pdf paper/aamas2027/main.pdf
 ```
 
+Build the deterministic anonymous supplement from the repository root:
+
+```bash
+python benchmarks/build_aamas_supplement.py
+```
+
+The resulting `paper/aamas2027/aamas2027_anonymous_supplement.zip` is a local
+submission artifact and is not committed. It contains 288 effective trajectories
+plus the preserved 32 pre-generation Gemini quota-interruption slots, omits
+provider transport envelopes, and records per-member source and packaged hashes.
+
 Final release verification (fail-closed on placeholders, submission ID, identity,
 page limit, official-template hashes, PDF metadata, and supplementary ZIP size):
 
