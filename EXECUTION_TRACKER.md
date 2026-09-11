@@ -221,6 +221,11 @@ statistical sample.
   failure, links every replacement to its original trajectory, allows at most 64
   calls, and limits additional estimated spend to $5.934170. No resume call has
   been issued; quota/billing access must first be verified.
+- **Gemini quota diagnosis (2026-09-11):** Read-only inspection of Google AI
+  Studio confirmed that project `gst-ai` remains on the Free tier and its billing
+  page reports that prepayment is required and no prepayment method is configured.
+  The frozen resume remains unstarted. Configure prepaid billing before resuming;
+  the experiment must not interpret the HTTP 429 interruption as a model outcome.
 - **AAMAS E5 partial evidence audit (2026-09-11):** The reusable cohort auditor
   verified all 64 completed Gemini trajectories with zero prompt, manifest,
   artifact, retry, model, or scoring inconsistencies. It identifies exactly 32

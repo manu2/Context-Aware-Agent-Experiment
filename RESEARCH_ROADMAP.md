@@ -212,6 +212,10 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   fail-closed cohort auditor now verifies prompt, manifest, provenance, retry,
   model, and scoring integrity and will not pass the cohort until all 96 effective
   slots are complete.
+  Read-only Google AI Studio inspection subsequently confirmed that project
+  `gst-ai` is on the Free tier with prepayment required and no prepayment method
+  configured. The next action is prepaid-billing setup; no scientific protocol
+  or outcome rule changes as a result.
 - **Preserved earlier FSE protocol:**
   [`docs/14_fse_contractbench_protocol.md`](docs/14_fse_contractbench_protocol.md)
   remains a future expansion reference and does not govern the AAMAS campaign.
