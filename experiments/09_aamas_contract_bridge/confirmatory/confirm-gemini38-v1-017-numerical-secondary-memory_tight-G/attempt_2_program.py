@@ -1,0 +1,41 @@
+import numpy as np
+
+
+def main():
+    X = np.load("vectors_secondary.npy")
+    N = X.shape[0]
+
+    # Convert to float64 to maintain high numerical precision and prevent overflow
+    X_64 = X.astype(np.float64)
+    sq_norms = np.sum(X_64**2, axis=1)
+
+    total_dist = 0.0
+    chunk_size = 1000
+
+    for i_start in range(0, N, chunk_size):
+        i_end = min(i_start + chunk_size, N)
+        X_chunk = X_64[i_start:i_end]
+        sq_chunk = sq_norms[i_start:i_end, None]
+
+        for j_start in range(i_start, N, chunk_size):
+            j_end = min(j_start + chunk_size, N)
+
+            # Compute dot product between chunk i and chunk j
+            dots = X_chunk @ X_64[j_start:j_end].T
+
+            # Squared Euclidean distance: ||x_i - x_j||^2 = ||x_i||^2 + ||x_j||^2 - 2 * (x_i . x_j)
+            dists_sq = sq_chunk + sq_norms[None, j_start:j_end] - 2.0 * dots
+            np.maximum(dists_sq, 0.0, out=dists_sq)
+            dists = np.sqrt(dists_sq)
+
+            if i_start == j_start:
+                np.fill_diagonal(dists, 0.0)
+                total_dist += np.sum(dists)
+            else:
+                total_dist += 2.0 * np.sum(dists)
+
+    print(f"TOTAL:{total_dist}")
+
+
+if __name__ == "__main__":
+    main()

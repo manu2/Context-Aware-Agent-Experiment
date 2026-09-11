@@ -1,0 +1,55 @@
+```python
+import os
+
+# Ensure single-threaded execution to prevent thread contention under 1 CPU quota
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
+import numpy as np
+
+
+def main():
+    X = np.load("vectors_secondary.npy")
+    N = X.shape[0]
+
+    # Precompute squared row norms in float64 for numerical precision
+    norms = np.sum(X.astype(np.float64) ** 2, axis=1)
+
+    block_size = 2000
+    total_dist = 0.0
+
+    for i in range(0, N, block_size):
+        X_i = X[i : i + block_size]
+        norm_i = norms[i : i + block_size]
+
+        for j in range(i, N, block_size):
+            X_j = X[j : j + block_size]
+            norm_j = norms[j : j + block_size]
+
+            # Fast BLAS sgemm on float32 blocks
+            G = X_i @ X_j.T
+
+            # Compute squared Euclidean distances in float64
+            D2 = G.astype(np.float64)
+            D2 *= -2.0
+            D2 += norm_i[:, None]
+            D2 += norm_j[None, :]
+
+            np.maximum(D2, 0.0, out=D2)
+            np.sqrt(D2, out=D2)
+
+            if i == j:
+                np.fill_diagonal(D2, 0.0)
+                total_dist += float(np.sum(D2))
+            else:
+                total_dist += 2.0 * float(np.sum(D2))
+
+    print(f"TOTAL:{total_dist}")
+
+
+if __name__ == "__main__":
+    main()
+```

@@ -1,0 +1,251 @@
+{
+  "agent_loop_decision": {
+    "reason": "attempt_limit",
+    "stop": true
+  },
+  "attempt_count": 2,
+  "attempts": [
+    {
+      "attempt": 1,
+      "decision": {
+        "reason": "authentic_execution_feedback_required",
+        "stop": false
+      },
+      "execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 8,
+          "nr_throttled": 4,
+          "system_usec": 261513,
+          "throttled_usec": 207058,
+          "usage_usec": 651853,
+          "user_usec": 390339
+        },
+        "exit_code": -9,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 37,
+          "oom": 1,
+          "oom_group_kill": 1,
+          "oom_kill": 2
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 134217728,
+        "oom_killed": true,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 0.7820945359999314,
+        "psi_cpu": "some avg10=1.14 avg60=2.60 avg300=1.76 total=31901459\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=3593\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=2715\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 0.8619168459999855
+      },
+      "generation": {
+        "backend": "google-generative-language/v1beta",
+        "model": "gemini-3.8-flash",
+        "request_metadata": {
+          "candidate_tokens": 254,
+          "development_only": false,
+          "estimated_cost_usd": 0.0211035,
+          "finish_reason": "STOP",
+          "generation_config": {
+            "maxOutputTokens": 32768,
+            "thinkingConfig": {
+              "thinkingLevel": "medium"
+            }
+          },
+          "generation_seconds": 21.738689541999975,
+          "input_tokens": 128,
+          "model": "gemini-3.8-flash",
+          "output_tokens_including_thoughts": 5602,
+          "prompt_sha256": "ad2104d5022a9d3e628d59562c6c3b6224fbae825b6456ee79861cbd98acb246",
+          "provider": "google",
+          "request_id": null,
+          "thinking_tokens": 5348
+        }
+      },
+      "score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": true
+      },
+      "strategy": {
+        "family": "numerical",
+        "features": [
+          "in_place_update"
+        ],
+        "primary_strategy": "eager_global_matrix",
+        "rationale": [
+          "global matrix/broadcast distance construction has no explicit outer blocking loop"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      }
+    },
+    {
+      "attempt": 2,
+      "decision": {
+        "reason": "attempt_limit",
+        "stop": true
+      },
+      "execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 7,
+          "nr_throttled": 3,
+          "system_usec": 261102,
+          "throttled_usec": 157656,
+          "usage_usec": 613648,
+          "user_usec": 352545
+        },
+        "exit_code": -9,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 53,
+          "oom": 1,
+          "oom_group_kill": 1,
+          "oom_kill": 2
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 134217728,
+        "oom_killed": true,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 0.7266922999999679,
+        "psi_cpu": "some avg10=0.10 avg60=1.66 avg300=1.64 total=32166154\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=4155\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=3139\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 0.7992637679999461
+      },
+      "generation": {
+        "backend": "google-generative-language/v1beta",
+        "model": "gemini-3.8-flash",
+        "request_metadata": {
+          "candidate_tokens": 462,
+          "development_only": false,
+          "estimated_cost_usd": 0.031041,
+          "finish_reason": "STOP",
+          "generation_config": {
+            "maxOutputTokens": 32768,
+            "thinkingConfig": {
+              "thinkingLevel": "medium"
+            }
+          },
+          "generation_seconds": 33.465404958000136,
+          "input_tokens": 193,
+          "model": "gemini-3.8-flash",
+          "output_tokens_including_thoughts": 8239,
+          "prompt_sha256": "163d1fa6d30063fcb7274d4b97124f06672f7c11485aeb4db15f211c7589ecb0",
+          "provider": "google",
+          "request_id": null,
+          "thinking_tokens": 7777
+        }
+      },
+      "score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": true
+      },
+      "strategy": {
+        "family": "numerical",
+        "features": [
+          "in_place_update"
+        ],
+        "primary_strategy": "blocked_matrix_product",
+        "rationale": [
+          "matrix products occur in an explicit iteration structure"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      }
+    }
+  ],
+  "condition": "R",
+  "development_only": false,
+  "end_to_end_time_seconds": 63.32265904200017,
+  "execution": {
+    "backend": "gcp-cgroupv2/v0.1",
+    "cpu_stat": {
+      "burst_usec": 0,
+      "nr_bursts": 0,
+      "nr_periods": 7,
+      "nr_throttled": 3,
+      "system_usec": 261102,
+      "throttled_usec": 157656,
+      "usage_usec": 613648,
+      "user_usec": 352545
+    },
+    "exit_code": -9,
+    "memory_events_after": {
+      "high": 0,
+      "low": 0,
+      "max": 53,
+      "oom": 1,
+      "oom_group_kill": 1,
+      "oom_kill": 2
+    },
+    "memory_events_before": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_peak_bytes": 134217728,
+    "oom_killed": true,
+    "platform": "Linux 6.1.0-53-cloud-amd64",
+    "program_time_seconds": 0.7266922999999679,
+    "psi_cpu": "some avg10=0.10 avg60=1.66 avg300=1.64 total=32166154\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=4155\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=3139\n",
+    "stderr": "",
+    "stderr_truncated": false,
+    "stdout": "",
+    "stdout_truncated": false,
+    "timed_out": false,
+    "worker_time_seconds": 0.7992637679999461
+  },
+  "final_suitable": false,
+  "first_pass_suitable": false,
+  "model": "gemini-3.8-flash",
+  "schema_version": "trajectory-summary/v0.1",
+  "score": {
+    "correct": false,
+    "memory_exceedance_bytes": 0,
+    "suitable": false,
+    "within_memory": true,
+    "within_time": true
+  },
+  "status": "complete",
+  "trajectory_id": "confirm-gemini38-v1-034-numerical-secondary-memory_tight-R"
+}

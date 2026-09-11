@@ -184,7 +184,7 @@ statistical sample.
   the default, and records contract-governed child time separately from worker and
   end-to-end trajectory time. E0b measures interpreter/dependency RSS before
   selecting ETL packages or thresholds. The second instances freeze at E4, and a
-  six-trajectory sanitized raw-evidence diagnostic is predeclared for E3. Planning
+  six-trajectory sanitized raw-evidence diagnostic is predeclared for E3. The
   planning set was GPT-5.6 Sol, Claude Sonnet 5, and Gemini 3.7 Flash across a
   provisional 360-trajectory matrix. E4 superseded this with Gemini 3.8 Flash and
   a 288-trajectory design. API calls fail closed at $30, plus up to $10 GCP
@@ -202,3 +202,12 @@ statistical sample.
   ~4–6 MiB/5.4 s. The frozen memory- and latency-tight contracts reliably admit
   the intended reference and reject the opposed one. Context-isolated P/R/G smoke
   completed through the same path; all outputs are development-only.
+- **AAMAS E5 Gemini-first gate (2026-09-11):** The 96-trajectory Gemini 3.8 Flash
+  confirmatory cohort reached all 96 scheduled slots under the frozen $9 cap.
+  Slots 1–64 completed; every provider request beginning at slot 65 failed with
+  HTTP 429, leaving 32 infrastructure-failed slots. The 103 completed calls cost
+  an estimated $3.066. The ledger also retains 32 un-settled reservations totaling
+  $3.936; these are not treated as billed calls. The worker was stopped. The 429
+  slots are infrastructure exclusions, not unsuitable model outcomes, and remain
+  permanently archived. Claude and GPT will not start until Gemini is completed
+  under an outcome-neutral resume rule and passes the conference-calibrated audit.

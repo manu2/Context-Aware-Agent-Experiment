@@ -1,0 +1,35 @@
+An authentic previous execution timed out (exit code 124) because naive pairwise distance computations across all $8000 \times 8000$ pairs allocate massive intermediate arrays and cannot leverage hardware-accelerated matrix operations.
+
+The program below computes the pairwise Euclidean distance matrix using BLAS-accelerated matrix multiplication (`X @ X.T`) in double precision with in-place operations, completing in seconds within strict memory limits.
+
+```python
+import numpy as np
+
+
+def main():
+    # Load vectors and convert to float64 for precision
+    X = np.load("vectors.npy").astype(np.float64)
+
+    # Compute squared norms: ||x_i||^2
+    sq_norms = np.einsum("ij,ij->i", X, X)
+
+    # Compute pairwise squared Euclidean distances: ||x_i - x_j||^2 = ||x_i||^2 + ||x_j||^2 - 2 (x_i . x_j)
+    D_sq = np.dot(X, X.T)
+    D_sq *= -2.0
+    D_sq += sq_norms[:, None]
+    D_sq += sq_norms[None, :]
+
+    # Clean up numerical inaccuracies
+    np.fill_diagonal(D_sq, 0.0)
+    np.maximum(D_sq, 0.0, out=D_sq)
+
+    # Take elementwise square root to obtain Euclidean distances
+    np.sqrt(D_sq, out=D_sq)
+
+    total = np.sum(D_sq)
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()
+```

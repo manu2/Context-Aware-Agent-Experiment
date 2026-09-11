@@ -1,0 +1,30 @@
+import csv
+from collections import defaultdict
+import json
+
+
+def main():
+    totals = defaultdict(int)
+
+    with open('transactions_secondary.csv', 'r', newline='', encoding='utf-8') as f:
+        reader = csv.reader(f)
+        header = next(reader)
+        idx_aid = header.index('account_id')
+        idx_cat = header.index('category')
+        idx_amt = header.index('amount_cents')
+
+        for row in reader:
+            if not row:
+                continue
+            aid = int(row[idx_aid])
+            if aid % 13 < 8:
+                cat = row[idx_cat]
+                amt = int(row[idx_amt])
+                totals[cat] += amt * ((aid % 89) + 3)
+
+    result_json = json.dumps(totals, sort_keys=True)
+    print(f"TOTAL:{result_json}")
+
+
+if __name__ == '__main__':
+    main()

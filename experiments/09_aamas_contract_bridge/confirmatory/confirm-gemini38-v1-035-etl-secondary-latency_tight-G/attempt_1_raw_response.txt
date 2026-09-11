@@ -1,0 +1,43 @@
+An efficient and complete Python program to solve the problem:
+
+```python
+from collections import defaultdict
+import json
+import pandas as pd
+
+
+def main():
+    totals = defaultdict(int)
+
+    # Process in chunks to maintain low memory usage and high performance
+    for chunk in pd.read_csv(
+        "transactions_secondary.csv",
+        usecols=["account_id", "category", "amount_cents"],
+        dtype={"account_id": "int64", "amount_cents": "int64"},
+        na_filter=False,
+        chunksize=250_000,
+    ):
+        # Filter rows where account_id % 13 < 8
+        mask = (chunk["account_id"] % 13) < 8
+        filtered = chunk[mask]
+        if filtered.empty:
+            continue
+
+        multiplier = (filtered["account_id"] % 89) + 3
+        contribution = filtered["amount_cents"] * multiplier
+
+        # Aggregate within the chunk
+        chunk_totals = contribution.groupby(
+            filtered["category"], sort=False
+        ).sum()
+        for cat, val in chunk_totals.items():
+            totals[cat] += int(val)
+
+    # Sort categories alphabetically
+    sorted_result = {k: totals[k] for k in sorted(totals.keys())}
+    print(f"TOTAL:{json.dumps(sorted_result, sort_keys=True)}")
+
+
+if __name__ == "__main__":
+    main()
+```

@@ -1,0 +1,75 @@
+An authentic previous execution timed out because row-by-row parsing (such as `csv.DictReader`) is too slow for large CSV files. The solution below uses `pandas` with chunked reading and vectorized NumPy operations to process millions of rows efficiently within seconds, while guarding against integer overflow.
+
+```python
+import os
+import json
+import numpy as np
+import pandas as pd
+from collections import defaultdict
+
+def main():
+    csv_file = 'transactions_secondary.csv'
+    if not os.path.exists(csv_file) or os.path.getsize(csv_file) == 0:
+        print("TOTAL:{}")
+        return
+
+    # Determine exact column names using a 0-row read
+    sample = pd.read_csv(csv_file, nrows=0)
+    col_map = {col.strip().strip('"').strip("'"): col for col in sample.columns}
+
+    acc_col = col_map['account_id']
+    cat_col = col_map['category']
+    amt_col = col_map['amount_cents']
+    usecols = [acc_col, cat_col, amt_col]
+
+    dtypes = {
+        acc_col: 'int64',
+        amt_col: 'int64',
+        cat_col: 'str',
+    }
+
+    totals = defaultdict(int)
+    chunksize = 1_000_000
+
+    for chunk in pd.read_csv(
+        csv_file,
+        usecols=usecols,
+        dtype=dtypes,
+        chunksize=chunksize,
+        keep_default_na=False,
+    ):
+        acc = chunk[acc_col].to_numpy()
+        mask = (acc % 13) < 8
+        if not mask.any():
+            continue
+
+        filtered_acc = acc[mask]
+        filtered_amt = chunk[amt_col].to_numpy()[mask]
+        filtered_cat = chunk[cat_col].to_numpy()[mask]
+
+        weights = (filtered_acc % 89) + 3
+
+        min_amt = int(filtered_amt.min())
+        max_amt = int(filtered_amt.max())
+        max_abs = max(abs(min_amt), abs(max_amt))
+
+        # Check for potential int64 overflow (max int64 is ~9.22e18)
+        # weights are in [3, 91]
+        if max_abs > 10**14:
+            vals = [int(a) * int(w) for a, w in zip(filtered_amt, weights)]
+            df_sub = pd.DataFrame({'cat': filtered_cat, 'val': vals})
+            grouped = df_sub.groupby('cat')['val'].sum()
+        else:
+            vals = filtered_amt * weights
+            df_sub = pd.DataFrame({'cat': filtered_cat, 'val': vals})
+            grouped = df_sub.groupby('cat')['val'].sum()
+
+        for cat, val in grouped.items():
+            totals[str(cat)] += int(val)
+
+    sorted_result = dict(sorted(totals.items()))
+    print(f"TOTAL:{json.dumps(sorted_result, sort_keys=True)}")
+
+if __name__ == '__main__':
+    main()
+```

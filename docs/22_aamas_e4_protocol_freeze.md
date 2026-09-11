@@ -16,10 +16,24 @@ The configurations are Gemini 3.8 Flash, GPT-5.6 Sol, and Claude Sonnet 5, all a
 explicit medium effort/thinking. The provider-specific manifests cap aggregate
 API spend at $30: $9, $13, and $8 respectively.
 
-The campaign executes Gemini 3.8 Flash first as the lowest-cost setup gate. GPT
-and Claude begin only after Gemini passes infrastructure, completeness, and
-artifact-integrity checks. This ordering does not alter sample inclusion,
-stopping rules, or the analysis plan.
+The campaign executes Gemini 3.8 Flash first as the lowest-cost setup gate. After
+the complete Gemini cohort, the campaign pauses for a conference-calibrated review
+of methodology, outcomes, completeness, and artifact integrity. GPT and Claude
+begin only if that review supports proceeding. This ordering does not alter sample
+inclusion, stopping rules, or the analysis plan.
+
+## E5 infrastructure interruption
+
+The first Gemini execution reached all 96 scheduled slots, but only slots 1–64
+completed. Every request beginning at slot 65 returned HTTP 429; the remaining 32
+slots are therefore infrastructure failures, not generated-program outcomes. All
+records are preserved. The 103 completed provider calls have estimated settled
+cost $3.066; 32 failed-call reservations totaling $3.936 remain visible in the
+ledger but are not interpreted as billed usage. The GCP worker was stopped.
+
+No later provider begins until the active Gemini quota/billing state is resolved,
+the missing slots are completed under a documented outcome-neutral resume rule,
+and the full cohort passes the predeclared review gate.
 
 ## Second-instance calibration
 

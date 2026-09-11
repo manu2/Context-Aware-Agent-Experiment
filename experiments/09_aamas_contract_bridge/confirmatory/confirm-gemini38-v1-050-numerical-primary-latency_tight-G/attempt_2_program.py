@@ -1,0 +1,35 @@
+import numpy as np
+
+# Load vectors and cast to float64 to prevent numerical errors and cancellation
+vectors = np.load("vectors.npy").astype(np.float64)
+n_rows = vectors.shape[0]
+
+# Precompute squared L2 norms for each row
+sq_norms = np.sum(vectors**2, axis=1, keepdims=True)
+
+total_distance = 0.0
+chunk_size = 2000
+
+# Process in chunks to maintain low memory footprint while maximizing BLAS throughput
+for i in range(0, n_rows, chunk_size):
+    chunk = vectors[i : i + chunk_size]
+    b = len(chunk)
+
+    # Gram matrix block: chunk @ vectors.T
+    gram = chunk @ vectors.T
+
+    # Squared Euclidean distances: ||u||^2 + ||v||^2 - 2 * (u . v)
+    dist_sq = -2.0 * gram
+    dist_sq += sq_norms[i : i + b]
+    dist_sq += sq_norms.T
+
+    # Ensure exact zero on the diagonal and clip negative values from precision limits
+    dist_sq[np.arange(b), np.arange(i, i + b)] = 0.0
+    np.maximum(dist_sq, 0.0, out=dist_sq)
+
+    # Compute Euclidean distances
+    np.sqrt(dist_sq, out=dist_sq)
+
+    total_distance += np.sum(dist_sq)
+
+print(f"TOTAL:{total_distance}")

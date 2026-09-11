@@ -1,0 +1,57 @@
+import csv
+import json
+import pandas as pd
+
+
+def main():
+    filename = "transactions_secondary.csv"
+
+    # Identify exact column names from the header
+    with open(filename, "r", encoding="utf-8", errors="replace") as f:
+        reader = csv.reader(f)
+        header = next(reader)
+
+    col_map = {c.strip(): c for c in header}
+    target_acc = col_map.get("account_id", "account_id")
+    target_cat = col_map.get("category", "category")
+    target_amt = col_map.get("amount_cents", "amount_cents")
+    usecols = [target_acc, target_cat, target_amt]
+
+    category_totals = {}
+
+    chunks = pd.read_csv(
+        filename,
+        usecols=usecols,
+        dtype={target_cat: str},
+        chunksize=1_000_000,
+        keep_default_na=False,
+    )
+
+    for chunk in chunks:
+        acc = chunk[target_acc]
+        mask = (acc % 13) < 8
+        if not mask.any():
+            continue
+
+        sub_acc = acc[mask]
+        sub_cat = chunk.loc[mask, target_cat]
+        sub_amt = chunk.loc[mask, target_amt]
+
+        mult = (sub_acc % 89) + 3
+
+        # Protect against potential int64 overflow while preserving exact precision
+        if (sub_amt.abs() > 10**16).any():
+            vals = sub_amt.astype(object) * mult.astype(object)
+        else:
+            vals = sub_amt * mult
+
+        grouped = vals.groupby(sub_cat).sum()
+        for cat, val in grouped.items():
+            category_totals[cat] = category_totals.get(cat, 0) + int(val)
+
+    output = json.dumps(category_totals, sort_keys=True)
+    print(f"TOTAL:{output}")
+
+
+if __name__ == "__main__":
+    main()

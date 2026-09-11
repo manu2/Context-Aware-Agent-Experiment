@@ -1,0 +1,27 @@
+import json
+import pandas as pd
+
+
+def main():
+    df = pd.read_csv(
+        "transactions.csv",
+        usecols=["account_id", "category", "amount_cents"],
+        dtype={"account_id": "int64", "amount_cents": "int64"},
+    )
+
+    mask = (df["account_id"] % 11) < 7
+    df = df[mask]
+
+    multiplier = (df["account_id"] % 97) + 1
+    # Use object dtype to ensure exact arbitrary-precision integer arithmetic
+    df["weighted_amount"] = df["amount_cents"].astype(object) * multiplier.astype(
+        object
+    )
+
+    result = df.groupby("category", sort=True)["weighted_amount"].sum().to_dict()
+
+    print(f"TOTAL:{json.dumps(result, sort_keys=True)}")
+
+
+if __name__ == "__main__":
+    main()

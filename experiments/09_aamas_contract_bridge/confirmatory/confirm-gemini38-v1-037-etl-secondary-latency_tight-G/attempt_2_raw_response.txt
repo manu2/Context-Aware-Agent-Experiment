@@ -1,0 +1,115 @@
+An optimized, robust implementation that reads `transactions_secondary.csv`, processes rows in vectorized chunks using NumPy and Pandas (or PyArrow when available) without unnecessary object materialization, and exits immediately.
+
+```python
+import os
+import sys
+import json
+import numpy as np
+
+def compute_totals(filename="transactions_secondary.csv"):
+    total_map = {}
+
+    # Fast path: PyArrow if available
+    try:
+        import pyarrow.csv as pacsv
+
+        table = pacsv.read_csv(
+            filename,
+            convert_options=pacsv.ConvertOptions(
+                include_columns=["account_id", "category", "amount_cents"],
+                auto_dict_encode=True,
+                auto_dict_max_cardinality=10000,
+            ),
+        )
+        acc = table["account_id"].to_numpy(zero_copy_only=False)
+        amt = table["amount_cents"].to_numpy(zero_copy_only=False)
+
+        mask = (acc % 13) < 8
+        acc_filt = acc[mask]
+        amt_filt = amt[mask]
+
+        cat_col = table["category"]
+        if hasattr(cat_col.type, "dictionary"):
+            cat_chunked = cat_col.combine_chunks()
+            indices = cat_chunked.indices.to_numpy(zero_copy_only=False)[mask]
+            dictionary = [s.as_py() for s in cat_chunked.dictionary]
+        else:
+            cat_dict = cat_col.dictionary_encode().combine_chunks()
+            indices = cat_dict.indices.to_numpy(zero_copy_only=False)[mask]
+            dictionary = [s.as_py() for s in cat_dict.dictionary]
+
+        valid = indices >= 0
+        if not np.all(valid):
+            indices = indices[valid]
+            acc_filt = acc_filt[valid]
+            amt_filt = amt_filt[valid]
+
+        if len(indices) > 0:
+            weights = (acc_filt % 89) + 3
+            vals = amt_filt * weights
+
+            totals = np.zeros(len(dictionary), dtype=np.int64)
+            np.add.at(totals, indices, vals)
+
+            u_idx = np.unique(indices)
+            for idx in u_idx:
+                total_map[dictionary[idx]] = int(totals[idx])
+
+        return total_map
+    except Exception:
+        pass
+
+    # High-performance chunked fallback: Pandas C engine + NumPy
+    import pandas as pd
+
+    chunksize = 2_000_000
+    for chunk in pd.read_csv(
+        filename,
+        usecols=["account_id", "category", "amount_cents"],
+        dtype={"account_id": np.int64, "category": "category", "amount_cents": np.int64},
+        chunksize=chunksize,
+        engine="c",
+    ):
+        acc = chunk["account_id"].to_numpy()
+        mask = (acc % 13) < 8
+        if not np.any(mask):
+            continue
+
+        acc_m = acc[mask]
+        amt_m = chunk["amount_cents"].to_numpy()[mask]
+        cat_col = chunk["category"]
+        codes = cat_col.cat.codes.to_numpy()[mask]
+        categories = cat_col.cat.categories
+
+        valid = codes >= 0
+        if not np.all(valid):
+            codes = codes[valid]
+            acc_m = acc_m[valid]
+            amt_m = amt_m[valid]
+
+        if len(codes) == 0:
+            continue
+
+        weights = (acc_m % 89) + 3
+        vals = amt_m * weights
+
+        u_codes, inv = np.unique(codes, return_inverse=True)
+        totals = np.zeros(len(u_codes), dtype=np.int64)
+        np.add.at(totals, inv, vals)
+
+        for c, tot in zip(u_codes, totals):
+            cat_name = categories[c]
+            total_map[cat_name] = total_map.get(cat_name, 0) + int(tot)
+
+    return total_map
+
+def main():
+    totals = compute_totals()
+    sorted_totals = dict(sorted(totals.items()))
+    sys.stdout.write(f"TOTAL:{json.dumps(sorted_totals)}\n")
+    sys.stdout.flush()
+    os._exit(0)
+
+if __name__ == "__main__":
+    main()
+```

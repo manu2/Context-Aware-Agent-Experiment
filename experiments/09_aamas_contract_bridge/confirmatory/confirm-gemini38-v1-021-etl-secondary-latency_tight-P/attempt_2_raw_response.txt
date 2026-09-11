@@ -1,0 +1,21 @@
+```python
+import json
+import pandas as pd
+
+df = pd.read_csv(
+    'transactions_secondary.csv',
+    usecols=['account_id', 'category', 'amount_cents'],
+    dtype={'account_id': 'int64', 'category': 'category', 'amount_cents': 'int64'}
+)
+
+mask = (df['account_id'] % 13) < 8
+filtered = df[mask]
+
+mult = (filtered['account_id'] % 89) + 3
+prod = filtered['amount_cents'] * mult
+
+totals = prod.groupby(filtered['category'], observed=True).sum()
+
+output = {str(k): int(v) for k, v in totals.items()}
+print(f"TOTAL:{json.dumps(output, sort_keys=True)}")
+```

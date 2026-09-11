@@ -1,0 +1,40 @@
+import numpy as np
+
+
+def main():
+    # Load the vectors
+    vectors = np.load("vectors_secondary.npy")
+
+    # Convert to float64 to ensure numerical stability and precision
+    vectors_f64 = vectors.astype(np.float64)
+    num_vectors = vectors_f64.shape[0]
+
+    # Precompute squared norms of each vector
+    sq_norms = np.sum(vectors_f64**2, axis=1)
+
+    total_distance = 0.0
+    block_size = 1000
+
+    for start_idx in range(0, num_vectors, block_size):
+        end_idx = min(start_idx + block_size, num_vectors)
+        block_len = end_idx - start_idx
+
+        # Compute dot products between the current block and all vectors: shape (block_len, num_vectors)
+        dots = vectors_f64[start_idx:end_idx] @ vectors_f64.T
+
+        # Squared Euclidean distances: ||u||^2 + ||v||^2 - 2 * (u . v)
+        sq_dists = sq_norms[start_idx:end_idx, None] + sq_norms[None, :] - 2.0 * dots
+        np.maximum(sq_dists, 0.0, out=sq_dists)
+
+        # Ensure diagonal elements (distance from vector to itself) are exactly zero
+        diag_cols = np.arange(start_idx, end_idx)
+        sq_dists[np.arange(block_len), diag_cols] = 0.0
+
+        dists = np.sqrt(sq_dists, out=sq_dists)
+        total_distance += dists.sum()
+
+    print(f"TOTAL:{total_distance}")
+
+
+if __name__ == "__main__":
+    main()

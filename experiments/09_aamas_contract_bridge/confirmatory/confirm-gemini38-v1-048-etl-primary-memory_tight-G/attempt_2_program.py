@@ -1,0 +1,63 @@
+import sys
+import json
+from collections import defaultdict
+import pandas as pd
+
+sys.set_int_max_str_digits(0)
+
+
+def main():
+    csv_file = 'transactions.csv'
+
+    # Read header to match column names robustly
+    header = pd.read_csv(csv_file, nrows=0).columns.tolist()
+    col_map = {c.strip(): c for c in header}
+    account_col = col_map.get('account_id', 'account_id')
+    category_col = col_map.get('category', 'category')
+    amount_col = col_map.get('amount_cents', 'amount_cents')
+    usecols = [account_col, category_col, amount_col]
+
+    totals = defaultdict(int)
+
+    # Process in chunks of 100,000 rows to maintain low memory usage
+    for chunk in pd.read_csv(
+        csv_file,
+        chunksize=100_000,
+        usecols=usecols,
+        dtype={category_col: 'str'},
+        na_filter=False,
+    ):
+        acc = chunk[account_col]
+        mask = (acc % 11) < 7
+        if not mask.any():
+            continue
+
+        sub = chunk.loc[mask]
+        acc_sub = sub[account_col]
+        amt_sub = sub[amount_col]
+        cat_sub = sub[category_col]
+
+        mult = (acc_sub % 97) + 1
+
+        # Fast vectorized path if values fit safely within 64-bit signed int
+        if pd.api.types.is_integer_dtype(amt_sub) and pd.api.types.is_integer_dtype(acc_sub):
+            max_abs = max(abs(amt_sub.min()), abs(amt_sub.max())) if len(amt_sub) > 0 else 0
+            if max_abs < 90_000_000_000_000_000:
+                val = amt_sub * mult
+                chunk_totals = val.groupby(cat_sub).sum()
+                for cat, s in chunk_totals.items():
+                    totals[cat] += int(s)
+                continue
+
+        # Fallback to arbitrary precision Python integers
+        val = amt_sub.astype(object) * mult.astype(object)
+        chunk_totals = val.groupby(cat_sub).sum()
+        for cat, s in chunk_totals.items():
+            totals[cat] += int(s)
+
+    out = json.dumps(totals, sort_keys=True)
+    print(f"TOTAL:{out}")
+
+
+if __name__ == '__main__':
+    main()

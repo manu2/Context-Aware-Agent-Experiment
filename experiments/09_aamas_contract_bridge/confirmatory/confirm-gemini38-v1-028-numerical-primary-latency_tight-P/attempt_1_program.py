@@ -1,0 +1,54 @@
+import os
+
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
+import numpy as np
+
+
+def main():
+    X = np.load("vectors.npy")
+    N = X.shape[0]
+
+    # Precompute squared L2 norms for each row
+    q = np.sum(X * X, axis=1)
+
+    total = 0.0
+    B = 2000
+    num_blocks = (N + B - 1) // B
+
+    for i in range(num_blocks):
+        start_i = i * B
+        end_i = min(start_i + B, N)
+        X_i = X[start_i:end_i]
+        q_i = q[start_i:end_i]
+
+        # Diagonal block (i == j)
+        G_ii = X_i @ X_i.T
+        D2_ii = q_i[:, None] + q_i[None, :] - 2.0 * G_ii
+        np.maximum(D2_ii, 0.0, out=D2_ii)
+        np.sqrt(D2_ii, out=D2_ii)
+        np.fill_diagonal(D2_ii, 0.0)
+        total += float(D2_ii.sum(dtype=np.float64))
+
+        # Off-diagonal blocks (i < j)
+        for j in range(i + 1, num_blocks):
+            start_j = j * B
+            end_j = min(start_j + B, N)
+            X_j = X[start_j:end_j]
+            q_j = q[start_j:end_j]
+
+            G_ij = X_i @ X_j.T
+            D2_ij = q_i[:, None] + q_j[None, :] - 2.0 * G_ij
+            np.maximum(D2_ij, 0.0, out=D2_ij)
+            np.sqrt(D2_ij, out=D2_ij)
+            total += 2.0 * float(D2_ij.sum(dtype=np.float64))
+
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,41 @@
+import numpy as np
+
+
+def main():
+    # Load the vectors
+    vectors = np.load("vectors.npy")
+    num_vectors = vectors.shape[0]
+
+    # Convert to float64 for numerical precision and prevent cancellation errors
+    X = vectors.astype(np.float64)
+    sq_norms = np.sum(X**2, axis=1)
+
+    total_distance = 0.0
+    batch_size = 1000
+
+    # Process in batches to balance memory usage and BLAS GEMM throughput
+    for i in range(0, num_vectors, batch_size):
+        end_i = min(i + batch_size, num_vectors)
+
+        # Compute dot products for the batch: (batch_size, 1024) @ (1024, num_vectors)
+        # Expansion: ||u - v||^2 = ||u||^2 + ||v||^2 - 2 * (u . v)
+        G = X[i:end_i] @ X.T
+        G *= -2.0
+        G += sq_norms[i:end_i, None]
+        G += sq_norms[None, :]
+
+        # Explicitly zero out the diagonal entries (distance to self is 0)
+        for r in range(end_i - i):
+            G[r, i + r] = 0.0
+
+        # Clamp any potential negative values from floating-point rounding to 0.0
+        np.maximum(G, 0.0, out=G)
+        np.sqrt(G, out=G)
+
+        total_distance += float(np.sum(G))
+
+    print(f"TOTAL:{total_distance}")
+
+
+if __name__ == "__main__":
+    main()

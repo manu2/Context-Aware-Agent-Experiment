@@ -197,8 +197,13 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   frozen at four repetitions per cell: 288 trajectories, 96 per condition, and
   provider caps totaling $30. The confirmatory analysis and integrity validator
   are frozen before the first main call. Paid execution is cost-gated: Gemini 3.8
-  Flash runs first, and GPT/Claude begin only after that path passes infrastructure,
-  completeness, and artifact-integrity checks.
+  Flash runs first, and GPT/Claude begin only after the complete Gemini cohort
+  passes a conference-calibrated review of methodology, outcomes, completeness,
+  and artifact integrity.
+- **E5 interruption:** Gemini completed 64/96 slots before 32 consecutive HTTP
+  429 provider failures. All failed slots are preserved as infrastructure
+  exclusions; they are not model outcomes. The worker is stopped, and later
+  providers remain gated pending an outcome-neutral Gemini resume and full audit.
 - **Preserved earlier FSE protocol:**
   [`docs/14_fse_contractbench_protocol.md`](docs/14_fse_contractbench_protocol.md)
   remains a future expansion reference and does not govern the AAMAS campaign.

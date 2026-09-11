@@ -1,0 +1,36 @@
+import json
+import numpy as np
+import pandas as pd
+
+
+def main():
+    filename = "transactions_secondary.csv"
+    totals = {}
+
+    for chunk in pd.read_csv(
+        filename,
+        usecols=["account_id", "category", "amount_cents"],
+        dtype={"account_id": np.int64, "category": str, "amount_cents": np.int64},
+        chunksize=250_000,
+    ):
+        mask = (chunk["account_id"] % 13) < 8
+        if not mask.any():
+            continue
+
+        sub = chunk[mask]
+        mult = (sub["account_id"] % 89) + 3
+
+        if sub["amount_cents"].abs().max() > 10**14:
+            val = sub["amount_cents"].astype(object) * mult.astype(object)
+        else:
+            val = sub["amount_cents"] * mult
+
+        grp = val.groupby(sub["category"]).sum()
+        for cat, s in grp.items():
+            totals[cat] = totals.get(cat, 0) + int(s)
+
+    print(f"TOTAL:{json.dumps(totals, sort_keys=True)}")
+
+
+if __name__ == "__main__":
+    main()

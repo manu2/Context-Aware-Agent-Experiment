@@ -1,0 +1,59 @@
+import os
+
+# Ensure single-threaded BLAS execution to avoid thread contention on 1 CPU core
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
+import numpy as np
+
+
+def main():
+    # Memory-map the array to keep baseline resident memory minimal
+    X = np.load("vectors_secondary.npy", mmap_mode="r")
+    N, _ = X.shape
+
+    # Process in blocks of 1000 to keep peak process memory well under 128 MiB
+    B = 1000
+
+    # Compute row squared norms in float64 block-by-block
+    sq_norms = np.empty(N, dtype=np.float64)
+    for i in range(0, N, B):
+        i_end = min(i + B, N)
+        sq_norms[i:i_end] = np.sum(X[i:i_end].astype(np.float64) ** 2, axis=1)
+
+    total_dist = 0.0
+
+    # Exploit symmetry: compute diagonal blocks and upper-triangular block pairs
+    for i in range(0, N, B):
+        i_end = min(i + B, N)
+        Xi = X[i:i_end].astype(np.float64)
+        sq_i = sq_norms[i:i_end]
+
+        # Diagonal block (i == j)
+        dot_ii = Xi @ Xi.T
+        d2 = sq_i[:, None] + sq_i[None, :] - 2.0 * dot_ii
+        np.maximum(d2, 0.0, out=d2)
+        np.sqrt(d2, out=d2)
+        np.fill_diagonal(d2, 0.0)
+        total_dist += np.sum(d2)
+
+        # Off-diagonal blocks (i < j)
+        for j in range(i + B, N, B):
+            j_end = min(j + B, N)
+            Xj = X[j:j_end].astype(np.float64)
+            sq_j = sq_norms[j:j_end]
+
+            dot_ij = Xi @ Xj.T
+            d2 = sq_i[:, None] + sq_j[None, :] - 2.0 * dot_ij
+            np.maximum(d2, 0.0, out=d2)
+            np.sqrt(d2, out=d2)
+            total_dist += 2.0 * np.sum(d2)
+
+    print(f"TOTAL:{total_dist}")
+
+
+if __name__ == "__main__":
+    main()

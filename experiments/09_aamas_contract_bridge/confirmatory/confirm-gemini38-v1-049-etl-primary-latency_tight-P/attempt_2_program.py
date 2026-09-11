@@ -1,0 +1,42 @@
+import json
+import pandas as pd
+
+
+def main():
+    df = pd.read_csv(
+        'transactions.csv',
+        usecols=['account_id', 'category', 'amount_cents'],
+        dtype={
+            'account_id': 'int64',
+            'category': 'category',
+            'amount_cents': 'int64',
+        },
+    )
+
+    mask = (df['account_id'] % 11) < 7
+    df_filtered = df[mask]
+
+    if df_filtered.empty:
+        print('TOTAL:{}')
+        return
+
+    mult = (df_filtered['account_id'] % 97) + 1
+
+    # Guard against 64-bit integer overflow on summation if values are huge
+    min_val = int(df_filtered['amount_cents'].min())
+    max_val = int(df_filtered['amount_cents'].max())
+    worst_case_sum = max(abs(min_val), abs(max_val)) * 98 * len(df_filtered)
+
+    if worst_case_sum > 9_000_000_000_000_000_000:
+        weighted = df_filtered['amount_cents'].astype(object) * mult
+    else:
+        weighted = df_filtered['amount_cents'] * mult
+
+    grouped = weighted.groupby(df_filtered['category'], observed=True).sum()
+
+    result = {str(k): int(v) for k, v in grouped.items()}
+    print(f'TOTAL:{json.dumps(result, sort_keys=True)}')
+
+
+if __name__ == '__main__':
+    main()

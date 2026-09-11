@@ -1,0 +1,47 @@
+An efficient implementation in Python to compute the sum of Euclidean distances over all ordered pairs of rows.
+
+### Method Explanation
+The array has dimensions $8000 \times 1024$. Computing pairwise differences $(x_i - x_j)$ elementwise across all $8000^2$ pairs requires tens of billions of operations and large memory allocations that cause execution timeouts.
+
+Instead, we express the squared Euclidean distance using the algebraic identity:
+$$\|x_i - x_j\|_2^2 = \|x_i\|_2^2 + \|x_j\|_2^2 - 2 \langle x_i, x_j \rangle$$
+
+By converting the vectors to `float64` for full precision, the pairwise inner products $\langle x_i, x_j \rangle$ are computed via a single BLAS-accelerated matrix multiplication ($X X^T$), which finishes in ~1 second. In-place operations are used to avoid unnecessary memory overhead.
+
+```python
+import numpy as np
+
+
+def main():
+    # Load vectors (8000 x 1024, float32)
+    vectors = np.load("vectors_secondary.npy")
+
+    # Upcast to float64 for numerical precision
+    X = vectors.astype(np.float64)
+
+    # Compute squared norms for each vector: shape (8000,)
+    norms = np.sum(X**2, axis=1)
+
+    # Compute Gram matrix G = X @ X.T using optimized BLAS dgemm
+    G = X @ X.T
+
+    # Compute pairwise squared distance: ||u - v||^2 = ||u||^2 + ||v||^2 - 2 * (u . v)
+    # Perform in-place operations on G to conserve memory
+    G *= -2.0
+    G += norms[:, None]
+    G += norms[None, :]
+
+    # Clean numerical inaccuracies and guarantee zero diagonal
+    np.fill_diagonal(G, 0.0)
+    np.maximum(G, 0.0, out=G)
+
+    # Compute Euclidean distance
+    np.sqrt(G, out=G)
+
+    total = float(np.sum(G))
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()
+```

@@ -1,0 +1,35 @@
+import os
+
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+
+import numpy as np
+
+
+def main():
+    X = np.load("vectors.npy")
+
+    sq_norms = np.sum(X * X, axis=1)
+
+    # Compute pairwise dot products
+    G = X @ X.T
+
+    # Compute squared Euclidean distances in-place:
+    # ||x_i - x_j||^2 = ||x_i||^2 + ||x_j||^2 - 2 <x_i, x_j>
+    G *= -2.0
+    G += sq_norms[:, None]
+    G += sq_norms[None, :]
+
+    np.clip(G, 0.0, None, out=G)
+    np.fill_diagonal(G, 0.0)
+
+    # Compute Euclidean distances in-place
+    np.sqrt(G, out=G)
+
+    total = float(np.sum(G, dtype=np.float64))
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,39 @@
+import numpy as np
+
+
+def main():
+    # Load vectors and cast to float64 for numerical precision
+    X = np.load("vectors_secondary.npy").astype(np.float64)
+    N = X.shape[0]
+
+    # Precompute squared L2 norms of each row
+    norms = np.sum(X**2, axis=1)
+
+    total = 0.0
+    chunk_size = 2000
+
+    for start in range(0, N, chunk_size):
+        end = min(start + chunk_size, N)
+        X_chunk = X[start:end]
+
+        # Use GEMM for fast pairwise inner products
+        dot = X_chunk @ X.T
+
+        # Compute squared Euclidean distances: ||u - v||^2 = ||u||^2 + ||v||^2 - 2<u, v>
+        d2 = norms[start:end, None] + norms[None, :] - 2.0 * dot
+
+        # Clamp small negative values caused by floating-point rounding
+        np.maximum(d2, 0.0, out=d2)
+
+        # Zero out the exact diagonal for this chunk
+        np.fill_diagonal(d2[:, start:end], 0.0)
+
+        # Compute Euclidean distance and accumulate sum
+        d = np.sqrt(d2, out=d2)
+        total += float(np.sum(d))
+
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()

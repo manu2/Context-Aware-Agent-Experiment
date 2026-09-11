@@ -1,0 +1,10 @@
+{
+  "attempts": [],
+  "condition": "P",
+  "end_to_end_time_seconds": 0.5099429169999894,
+  "error": "HTTP Error 429: Too Many Requests",
+  "error_type": "HTTPError",
+  "schema_version": "trajectory-summary/v0.1",
+  "status": "failed",
+  "trajectory_id": "confirm-gemini38-v1-078-etl-primary-memory_tight-P"
+}

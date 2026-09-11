@@ -1,0 +1,20 @@
+import json
+import pandas as pd
+
+
+def main():
+    df = pd.read_csv("transactions_secondary.csv")
+    filtered = df[df["account_id"] % 13 < 8]
+
+    # Use object dtype for arbitrary precision integer arithmetic
+    weights = (filtered["account_id"] % 89 + 3).astype(object)
+    values = filtered["amount_cents"].astype(object) * weights
+
+    grouped = values.groupby(filtered["category"]).sum().to_dict()
+    totals = {str(k): int(v) for k, v in grouped.items()}
+
+    print(f"TOTAL:{json.dumps(totals, sort_keys=True)}")
+
+
+if __name__ == "__main__":
+    main()

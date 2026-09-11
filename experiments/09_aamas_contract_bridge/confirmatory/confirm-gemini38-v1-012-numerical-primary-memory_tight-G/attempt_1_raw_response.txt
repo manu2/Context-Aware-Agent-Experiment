@@ -1,0 +1,56 @@
+An efficient implementation that computes the sum of Euclidean distances over all ordered pairs.
+
+It converts the vectors to `float64` and centers them to maintain numerical precision while using matrix multiplications to compute distances in blocks. By exploiting the symmetry of the Euclidean metric ($d(i, j) = d(j, i)$ and $d(i, i) = 0$), it only computes the strictly upper triangular pairs and doubles the result, minimizing both runtime and memory footprint.
+
+```python
+import numpy as np
+
+
+def main():
+    vectors = np.load("vectors.npy")
+
+    # Cast to float64 to ensure high numerical precision
+    X = vectors.astype(np.float64)
+
+    # Centering reduces the magnitude of squared norms, avoiding catastrophic cancellation
+    X -= np.mean(X, axis=0)
+
+    # Precompute squared norms for each vector
+    sq_norms = np.sum(X**2, axis=1)
+
+    N = X.shape[0]
+    B = 1000
+    upper_sum = 0.0
+
+    # Process in chunks to balance cache efficiency and memory overhead
+    for i in range(0, N, B):
+        end_i = min(i + B, N)
+        X_i = X[i:end_i]
+        sq_i = sq_norms[i:end_i]
+
+        # 1. Pairs within chunk i: r1 < r2
+        G_ii = X_i @ X_i.T
+        D2_ii = sq_i[:, None] + sq_i[None, :] - 2.0 * G_ii
+        np.maximum(D2_ii, 0.0, out=D2_ii)
+        np.sqrt(D2_ii, out=D2_ii)
+        upper_sum += np.sum(np.triu(D2_ii, k=1))
+
+        # 2. Pairs between chunk i and all subsequent rows
+        if end_i < N:
+            X_rest = X[end_i:]
+            sq_rest = sq_norms[end_i:]
+
+            G_ir = X_i @ X_rest.T
+            D2_ir = sq_i[:, None] + sq_rest[None, :] - 2.0 * G_ir
+            np.maximum(D2_ir, 0.0, out=D2_ir)
+            np.sqrt(D2_ir, out=D2_ir)
+            upper_sum += np.sum(D2_ir)
+
+    # Total over all ordered pairs (including zero diagonal): sum_{i,j} d(i,j) = 2 * sum_{i < j} d(i,j)
+    total = 2.0 * upper_sum
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()
+```

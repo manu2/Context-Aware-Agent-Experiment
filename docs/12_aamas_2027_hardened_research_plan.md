@@ -435,10 +435,13 @@ two-attempt campaign cost of **$26.05**; the provider manifests enforce an
 aggregate **$30** ceiling ($9 Gemini, $13 OpenAI, $8 Anthropic).
 
 Gemini 3.8 Flash runs first because it is the least expensive approved provider
-and has already passed the development pilot. GPT and Claude calls begin only
-after the Gemini confirmatory path passes infrastructure, completeness, and
-artifact-integrity checks. This gate minimizes avoidable spend without changing
-the frozen matrix, stopping rule, or analysis.
+and has already passed the development pilot. After its full cohort completes,
+the campaign pauses for a conference-calibrated review of methodology, condition
+effects, completeness, and artifact integrity. GPT and Claude calls begin only
+after that review supports proceeding. The gate corrects validity problems but
+does not add unrelated systems scope or optimize away unfavorable valid outcomes.
+It minimizes avoidable spend without changing the frozen matrix, stopping rule,
+or analysis.
 
 Keep the persistent Linux worker stopped outside calibration and campaign windows.
 Reserve up to **$10 of GCP credit** for VM compute, disk, and transfer; record the

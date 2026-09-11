@@ -1,0 +1,29 @@
+import numpy as np
+
+
+def main():
+    # Load input array and convert to float64 for numerical precision
+    X = np.load("vectors_secondary.npy").astype(np.float64)
+
+    # Squared L2 norms of each vector
+    sq_norms = np.sum(X**2, axis=1)
+
+    # Pairwise squared Euclidean distance: ||u - v||^2 = ||u||^2 + ||v||^2 - 2<u, v>
+    dist_sq = -2.0 * (X @ X.T)
+    dist_sq += sq_norms[:, None]
+    dist_sq += sq_norms[None, :]
+
+    # Clamp small negative values due to floating-point imprecision to zero
+    np.maximum(dist_sq, 0.0, out=dist_sq)
+    np.fill_diagonal(dist_sq, 0.0)
+
+    # Compute Euclidean distances
+    dist = np.sqrt(dist_sq, out=dist_sq)
+
+    # Sum across all ordered pairs
+    total = float(np.sum(dist))
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()

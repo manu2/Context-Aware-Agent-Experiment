@@ -1,0 +1,44 @@
+An optimized implementation using Pandas with fast C/PyArrow engine fallback, vectorized filtering, and integer aggregation to satisfy the execution limits:
+
+```python
+import json
+import numpy as np
+import pandas as pd
+
+
+def main():
+    # Read the required columns using the fastest available engine
+    try:
+        df = pd.read_csv(
+            "transactions_secondary.csv",
+            engine="pyarrow",
+            usecols=["account_id", "category", "amount_cents"],
+        )
+    except Exception:
+        df = pd.read_csv(
+            "transactions_secondary.csv",
+            engine="c",
+            usecols=["account_id", "category", "amount_cents"],
+            dtype={"account_id": np.int64, "category": str, "amount_cents": np.int64},
+        )
+
+    # Filter rows: account_id % 13 < 8
+    mask = (df["account_id"] % 13) < 8
+    df = df[mask]
+
+    # Compute contribution: amount_cents * ((account_id % 89) + 3)
+    mult = (df["account_id"] % 89) + 3
+    df["weighted_amount"] = df["amount_cents"] * mult
+
+    # Sum by category
+    grouped = df.groupby("category")["weighted_amount"].sum()
+
+    # Convert NumPy integer types to standard Python ints for JSON serialization
+    result = {str(cat): int(total) for cat, total in grouped.items()}
+
+    print(f"TOTAL:{json.dumps(result, sort_keys=True)}")
+
+
+if __name__ == "__main__":
+    main()
+```

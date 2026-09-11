@@ -1,0 +1,10 @@
+{
+  "attempts": [],
+  "condition": "P",
+  "end_to_end_time_seconds": 0.423881917000017,
+  "error": "HTTP Error 429: Too Many Requests",
+  "error_type": "HTTPError",
+  "schema_version": "trajectory-summary/v0.1",
+  "status": "failed",
+  "trajectory_id": "confirm-gemini38-v1-075-etl-primary-latency_tight-P"
+}

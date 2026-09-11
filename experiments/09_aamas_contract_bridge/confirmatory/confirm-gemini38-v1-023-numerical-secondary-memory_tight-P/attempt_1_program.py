@@ -1,0 +1,45 @@
+import numpy as np
+
+
+def main():
+    # Load vectors as read-only memory map to minimize memory footprint
+    X = np.load("vectors_secondary.npy", mmap_mode="r")
+    n, d = X.shape
+
+    # Precompute squared L2 norms of all rows
+    sq_norms = np.einsum("ij,ij->i", X, X)
+
+    total_dist = 0.0
+    block_size = 1000
+
+    for i_start in range(0, n, block_size):
+        i_end = min(i_start + block_size, n)
+        X_i = np.array(X[i_start:i_end], dtype=np.float32)
+        norms_i = sq_norms[i_start:i_end, None]
+
+        # 1. Diagonal block: pairs within the same block
+        # Gram matrix: X_i @ X_i.T
+        gram_ii = X_i @ X_i.T
+        dists_sq_ii = np.maximum(norms_i + norms_i.T - 2.0 * gram_ii, 0.0)
+        # Sum upper triangle strictly above diagonal
+        triu_idx = np.triu_indices(i_end - i_start, k=1)
+        total_dist += np.sum(np.sqrt(dists_sq_ii[triu_idx], dtype=np.float64))
+
+        # 2. Off-diagonal blocks: pairs with subsequent blocks (j > i)
+        for j_start in range(i_end, n, block_size):
+            j_end = min(j_start + block_size, n)
+            X_j = np.array(X[j_start:j_end], dtype=np.float32)
+            norms_j = sq_norms[None, j_start:j_end]
+
+            gram_ij = X_i @ X_j.T
+            dists_sq_ij = np.maximum(norms_i + norms_j - 2.0 * gram_ij, 0.0)
+            total_dist += np.sum(np.sqrt(dists_sq_ij, dtype=np.float64))
+
+    # Account for both ordered pairs (i, j) and (j, i); diagonal (i == j) is 0
+    total_dist *= 2.0
+
+    print(f"TOTAL:{total_dist:.10f}")
+
+
+if __name__ == "__main__":
+    main()

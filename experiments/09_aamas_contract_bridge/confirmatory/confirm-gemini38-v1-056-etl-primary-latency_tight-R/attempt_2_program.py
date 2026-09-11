@@ -1,0 +1,36 @@
+import json
+import pandas as pd
+
+
+def main():
+    totals = {}
+
+    # Stream in chunks to handle large files efficiently without high memory usage
+    for chunk in pd.read_csv(
+        'transactions.csv',
+        usecols=['account_id', 'category', 'amount_cents'],
+        dtype={
+            'account_id': 'int64',
+            'category': 'str',
+            'amount_cents': 'int64',
+        },
+        na_filter=False,
+        chunksize=1_000_000,
+    ):
+        filtered = chunk[(chunk['account_id'] % 11) < 7]
+        if filtered.empty:
+            continue
+
+        weight = (filtered['account_id'] % 97) + 1
+        val = filtered['amount_cents'] * weight
+
+        grouped = val.groupby(filtered['category']).sum()
+        for cat, amount in grouped.items():
+            totals[str(cat)] = totals.get(str(cat), 0) + int(amount)
+
+    output = json.dumps(totals, sort_keys=True)
+    print(f'TOTAL:{output}')
+
+
+if __name__ == '__main__':
+    main()

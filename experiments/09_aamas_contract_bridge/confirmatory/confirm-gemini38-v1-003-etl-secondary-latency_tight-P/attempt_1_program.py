@@ -1,0 +1,39 @@
+import json
+from collections import defaultdict
+import pandas as pd
+
+
+def main():
+    totals = defaultdict(int)
+
+    # Process in chunks to maintain low memory footprint (< 512 MiB)
+    for chunk in pd.read_csv(
+        "transactions_secondary.csv",
+        usecols=["account_id", "category", "amount_cents"],
+        dtype={
+            "account_id": "int64",
+            "category": "str",
+            "amount_cents": "int64",
+        },
+        keep_default_na=False,
+        chunksize=250000,
+    ):
+        # Filter rows whose account_id modulo 13 is less than 8
+        mask = (chunk["account_id"] % 13) < 8
+        sub = chunk[mask]
+        if sub.empty:
+            continue
+
+        # amount_cents * ((account_id % 89) + 3)
+        multipliers = (sub["account_id"] % 89) + 3
+        weighted_amounts = sub["amount_cents"] * multipliers
+
+        # Aggregate by category and accumulate into arbitrary-precision Python ints
+        for cat, val in weighted_amounts.groupby(sub["category"]).sum().items():
+            totals[cat] += int(val)
+
+    print(f"TOTAL:{json.dumps(totals, sort_keys=True)}")
+
+
+if __name__ == "__main__":
+    main()
