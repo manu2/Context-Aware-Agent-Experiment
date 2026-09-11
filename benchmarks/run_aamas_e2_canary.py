@@ -165,13 +165,17 @@ def main() -> int:
             execution.deploy()
             deployed = True
         try:
+            protocol_snapshot = {"study_manifest": manifest, "task_spec": spec,
+                                 "execution_index": index, "execution_entry": entry}
+            resume = manifest.get("infrastructure_resume")
+            if resume is not None:
+                protocol_snapshot["infrastructure_replacement_for"] = resume["replacement_for"][index - 1]
             summary = run_trajectory(
                 trajectory_id=trajectory_id, task=spec["prompt"], condition=condition,
                 evidence=evidence, generation_backend=generation, execution_backend=execution,
                 archive_root=canary_root,
                 correctness_oracle=oracle_for(family, spec),
-                protocol_snapshot={"study_manifest": manifest, "task_spec": spec,
-                                   "execution_index": index, "execution_entry": entry},
+                protocol_snapshot=protocol_snapshot,
                 strategy_classifier=lambda source: classify_strategy(family, source).to_dict(),
             )
             attempted.append({"trajectory_id": trajectory_id, "status": "complete", "summary": str(summary.relative_to(ROOT))})

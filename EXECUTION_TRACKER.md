@@ -216,3 +216,8 @@ statistical sample.
   local reservation, stop the runner immediately, and force a nonzero result
   until every scheduled trajectory is complete. The exact outcome-neutral resume
   rule is frozen in `docs/23_aamas_e5_infrastructure_interruption.md`.
+- **AAMAS E5 resume prepared (2026-09-11):** A machine-derived manifest freezes
+  only slots 65–96, verifies that each has zero generated attempts and an HTTP 429
+  failure, links every replacement to its original trajectory, allows at most 64
+  calls, and limits additional estimated spend to $5.934170. No resume call has
+  been issued; quota/billing access must first be verified.

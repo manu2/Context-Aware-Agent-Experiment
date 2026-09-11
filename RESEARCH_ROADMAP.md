@@ -206,7 +206,9 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   providers remain gated pending an outcome-neutral Gemini resume and full audit.
   The post-freeze fail-fast amendment is documented in
   `docs/23_aamas_e5_infrastructure_interruption.md`; it changes infrastructure
-  error handling only, not any treatment or outcome definition.
+  error handling only, not any treatment or outcome definition. The exact
+  32-slot, outcome-neutral Gemini resume manifest is prepared and frozen, but no
+  resume call is authorized until quota/billing availability is verified.
 - **Preserved earlier FSE protocol:**
   [`docs/14_fse_contractbench_protocol.md`](docs/14_fse_contractbench_protocol.md)
   remains a future expansion reference and does not govern the AAMAS campaign.

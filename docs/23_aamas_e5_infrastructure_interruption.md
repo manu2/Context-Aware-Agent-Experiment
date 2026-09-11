@@ -39,3 +39,9 @@ The discovered behavior justified a narrow post-freeze infrastructure repair:
 This amendment changes failure handling only. It does not change prompts,
 contracts, tasks, thresholds, model settings, sample allocation, outcomes, or the
 analysis plan.
+
+The frozen resume manifest is
+`experiments/09_aamas_contract_bridge/protocol/confirmatory_gemini38_resume1.json`.
+It contains the exact 32 original execution entries and replacement links, permits
+at most 64 completed generation attempts, and caps additional estimated spend at
+$5.934170 so total estimated Gemini spend cannot exceed the original $9 ceiling.
