@@ -324,7 +324,7 @@ Freeze model IDs/settings, task instances, conditions, sample size, stopping rul
 endpoints, exclusions, replacements, analysis, and maximum spend. No result-driven
 prompt or threshold changes are allowed after this gate.
 
-**Status: in progress September 11.** Authenticated read-only lookups confirm
+**Status: passed September 11.** Authenticated read-only lookups confirm
 access to `gpt-5.6-sol` and `claude-sonnet-5`. Their current provider interfaces
 are implemented with explicit medium effort, no unsupported sampling controls,
 raw response/usage retention, and fail-closed ledgers. One development-only
@@ -333,8 +333,11 @@ was first-pass suitable for $0.0664. Claude Sonnet 5 returned two complete
 generations for $0.0739; the first timed out and the repair was OOM-killed. Both
 development outcomes are retained and excluded from confirmatory estimates. The
 Gemini pilot's observed billing supersedes the pre-pilot token assumptions below;
-the strategy codebook is frozen, while second-instance calibration and the fixed
-N/campaign cap remain before E4 completion.
+the strategy codebook is frozen. Both secondary instances passed all four
+model-free envelopes 5/5 expected versus 0/5 opposed after one preserved,
+pre-generation ETL threshold correction. The fixed design uses `N=4`: 288
+trajectories, 96 per condition, and provider budget caps totaling $30. The
+analysis plan and execution-critical source hashes are frozen before main calls.
 
 Both instances per task family must have frozen generators, task text, oracles,
 hashes, container image, package policy, and calibrated envelopes at this gate.
@@ -343,13 +346,12 @@ hashes, container image, package policy, and calibrated envelopes at this gate.
 
 **Execution window: September 19–22**
 
-Default upper-bound design:
+Frozen confirmatory design:
 
-`2 families x 2 instances x 2 environments x 3 conditions x 3 models x N=5 = 360 trajectories`
+`2 families x 2 instances x 2 environments x 3 conditions x 3 models x N=4 = 288 trajectories`
 
-The pilot may justify another fixed N, recorded before confirmatory calls. With
-two generations maximum, 360 trajectories have a hard ceiling of 720 model calls;
-stop-on-success normally reduces this.
+With two generations maximum, 288 trajectories have a hard ceiling of 576 model
+calls; stop-on-success normally reduces this.
 
 The planned confirmatory configurations are GPT-5.6 Sol, Claude Sonnet 5,
 and Gemini 3.8 Flash. Final identifiers and settings freeze at E4. They are all full-matrix cohorts; none is relegated to a
@@ -401,16 +403,15 @@ executable deliverable. Never rerun a valid but inconvenient outcome.
 The following is retained as the **superseded pre-pilot planning estimate**. For
 budgeting only, it assumed an average trajectory consumes 2,300 input tokens and
 2,800 output/reasoning tokens, while the two-attempt ceiling consumes 4,300 input
-and 4,000 output/reasoning tokens. The manifest caps each generation at 4,096
-output tokens. As of September 11, 2026, the standard per-million-token input/output
+and 4,000 output/reasoning tokens. The confirmatory manifests cap each generation
+at 32,768 output tokens. As of September 11, 2026, the standard per-million-token input/output
 rates used here are Gemini 3.8 Flash $0.75/$3.75 through December 31, 2026,
 Claude Sonnet 5 $2/$10,
 GPT-5.6 Sol $4/$20, and Claude Opus 5 $5/$25; batch, caching, and fast-tier
-discounts or premiums are excluded. For the approved 360-trajectory matrix split
-evenly across GPT-5.6 Sol, Claude Sonnet 5, and Gemini 3.8 Flash, the estimated raw
-inference cost is about **$13.20** at the average-token assumption and **$19.68**
-if every trajectory reaches the two-attempt token ceiling. Pairwise alternatives
-are retained below only as planning provenance:
+discounts or premiums are excluded. For the superseded 360-trajectory planning
+matrix, the estimated raw inference cost was about **$13.20** at the average-token
+assumption and **$19.68** if every trajectory reached the two-attempt token ceiling.
+Pairwise alternatives are retained below only as planning provenance:
 
 | Main-model pairing | Expected raw inference cost | Two-attempt upper scenario |
 |---|---:|---:|
@@ -425,6 +426,19 @@ $30**, including those gates and contingency. Optional Q, any confirmatory U
 subset, or additional models require a separately declared budget before calls.
 The official rates and account tier are rechecked at E4, and provider-reported
 pilot usage replaces all token assumptions.
+
+### 8.2 Frozen post-pilot budget and provider order
+
+E4 freezes 288 confirmatory trajectories: 96 each for Gemini 3.8 Flash,
+GPT-5.6 Sol, and Claude Sonnet 5. Observed pilot/canary billing projects a
+two-attempt campaign cost of **$26.05**; the provider manifests enforce an
+aggregate **$30** ceiling ($9 Gemini, $13 OpenAI, $8 Anthropic).
+
+Gemini 3.8 Flash runs first because it is the least expensive approved provider
+and has already passed the development pilot. GPT and Claude calls begin only
+after the Gemini confirmatory path passes infrastructure, completeness, and
+artifact-integrity checks. This gate minimizes avoidable spend without changing
+the frozen matrix, stopping rule, or analysis.
 
 Keep the persistent Linux worker stopped outside calibration and campaign windows.
 Reserve up to **$10 of GCP credit** for VM compute, disk, and transfer; record the

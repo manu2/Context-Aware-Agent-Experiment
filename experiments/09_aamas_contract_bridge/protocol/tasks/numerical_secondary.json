@@ -1,0 +1,20 @@
+{
+  "schema_version": "aamas-task/v0.1",
+  "task_id": "numerical_pairwise_distance_secondary",
+  "prompt": "Write a complete Python program. The current directory contains vectors_secondary.npy, an 8000 by 1024 float32 NumPy array. CPython 3.11.2, NumPy 2.0.2, Pandas 2.2.3, and the Python standard library are available. Compute the sum of Euclidean distances over every ordered pair of rows, including the zero diagonal, and print exactly TOTAL:<decimal value>. Do not approximate or sample. Do not modify the input file. Do not invoke external programs. The program has no network access.",
+  "asset": {
+    "name": "vectors_secondary.npy",
+    "bytes": 32768128,
+    "sha256": "75525cd7fdaba7b2f4d87dbbfcada9b66c4f4092ed4a91520690ead608917410",
+    "generator": "NumPy 2.0.2 default_rng(314159).standard_normal((8000, 1024), dtype=float32)"
+  },
+  "oracle": {
+    "expected_approximately": 2896000776.569578,
+    "relative_tolerance": 1e-6,
+    "absolute_tolerance": 1e-3
+  },
+  "environments": {
+    "memory_tight": {"memory_mib": 128, "wall_seconds": 8, "cpu_cores": 1},
+    "latency_tight": {"memory_mib": 1024, "wall_seconds": 3.0, "cpu_cores": 1}
+  }
+}

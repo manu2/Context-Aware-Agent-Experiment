@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict
+import json
 from pathlib import Path
 from time import monotonic
 from typing import Callable
@@ -22,9 +23,16 @@ def run_trajectory(
     evidence: RawSubstrateEvidence, generation_backend: GenerationBackend,
     execution_backend: ExecutionBackend, archive_root: Path,
     correctness_oracle: Callable[[str], bool],
+    protocol_snapshot: dict | None = None,
+    strategy_classifier: Callable[[str], dict] | None = None,
 ) -> Path:
     started = monotonic()
     recorder = TrajectoryRecorder(archive_root, trajectory_id)
+    if protocol_snapshot is not None:
+        recorder.artifact(
+            "trajectory_manifest.json",
+            json.dumps(protocol_snapshot, indent=2, sort_keys=True) + "\n",
+        )
     contract = ContractCompiler().compile(evidence)
     prompt = ContractRenderer().render(task, condition, contract)
     recorder.event("contract_compiled", {"evidence": evidence.to_dict(), "contract": contract.to_dict()})
@@ -44,6 +52,11 @@ def run_trajectory(
             if generation.raw_provider_payload is not None:
                 recorder.artifact(f"attempt_{attempt}_provider_response.json", generation.raw_provider_payload)
             recorder.artifact(f"attempt_{attempt}_program.py", generation.extracted_program)
+            strategy = strategy_classifier(generation.extracted_program) if strategy_classifier else None
+            if strategy is not None:
+                recorder.artifact(f"attempt_{attempt}_strategy.json",
+                                  json.dumps(strategy, indent=2, sort_keys=True) + "\n")
+                recorder.event("strategy_classified", {"attempt": attempt, **strategy})
             observation = execution_backend.run(generation.extracted_program, contract)
             recorder.event("execution", {"attempt": attempt, **observation.to_dict()})
             score = score_execution(observation, contract, correctness_oracle)
@@ -54,6 +67,7 @@ def run_trajectory(
             attempts.append({"attempt": attempt, "generation": {"backend": generation.backend, "model": model,
                                                                   "request_metadata": generation.request_metadata},
                              "execution": observation.to_dict(), "score": score,
+                             "strategy": strategy,
                              "decision": {"stop": decision.stop, "reason": decision.reason}})
             if decision.stop:
                 break

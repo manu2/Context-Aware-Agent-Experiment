@@ -4,6 +4,7 @@ import sys
 from pathlib import Path
 import unittest
 import tempfile
+import importlib.util
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
@@ -133,6 +134,26 @@ class ContractBridgeTests(unittest.TestCase):
         self.assertIn("memory_map", classify_strategy("numerical", blocked).features)
         self.assertEqual(classify_strategy("etl", frame).primary_strategy, "dataframe_eager")
         self.assertEqual(classify_strategy("etl", streaming).primary_strategy, "stdlib_streaming")
+
+    def test_confirmatory_order_is_deterministic_and_balanced(self):
+        path = Path(__file__).resolve().parents[1] / "benchmarks/run_aamas_e2_canary.py"
+        spec = importlib.util.spec_from_file_location("aamas_runner", path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        manifest = {"order_seed": 7, "matrix": {
+            "instances": {"numerical": ["primary", "secondary"], "etl": ["primary", "secondary"]},
+            "environments": ["memory_tight", "latency_tight"],
+            "conditions": ["P", "R", "G"], "repetitions_per_cell": 4,
+        }}
+        first = module.execution_order(manifest)
+        self.assertEqual(first, module.execution_order(manifest))
+        self.assertEqual(len(first), 96)
+        self.assertEqual({tuple(row) for row in first}, {
+            (family, instance, environment, condition)
+            for family, instances in manifest["matrix"]["instances"].items()
+            for instance in instances for environment in manifest["matrix"]["environments"]
+            for condition in manifest["matrix"]["conditions"]
+        })
 
 
 if __name__ == "__main__":

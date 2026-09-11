@@ -110,7 +110,7 @@ statistical sample.
 | **19.1** | Local canonical manuscript promotion | `paper_draft.md` | ✅ **DONE** | Promoted the reviewed v3 manuscript with the independent-author block, current paired and boundary-sensitivity tables, related work, and both vector-figure references. Earlier working drafts remain preserved. Paper clearance and any code/artifact-release decision remain separate. |
 | **20.0** | ContractBench FSE expansion design | `docs/14_fse_contractbench_protocol.md` | ⏸️ **SUPERSEDED FOR CURRENT CAMPAIGN** | Preserved multi-environment FSE planning reference. The narrower experiment-first AAMAS plan at Stage 22.1 now governs implementation and provider authorization. |
 | **21.0** | Dynamic SCAC telemetry design and consolidation | `docs/15_dynamic_agent_telemetry_whitepaper.md` | ✅ **DONE** | Consolidated two independent drafts into one canonical, evidence-audited design with a versioned 4D state, dual-tier injection, ToolRoute/MemoryGovernor/RetryBudget scenarios, controlled comparisons, statistics, fail-closed gates, and a separate-repository implementation decision. The earlier draft remains preserved. |
-| **22.1** | AAMAS experiment-first plan and scope lock | `docs/12_aamas_2027_hardened_research_plan.md` | ✅ **FROZEN** | P/R/G design with GPT-5.6 Sol, Claude Sonnet 5, and Gemini 3.7 Flash across the full 360-trajectory matrix and a fail-closed $30 API cap. |
+| **22.1** | AAMAS experiment-first plan and scope lock | `docs/12_aamas_2027_hardened_research_plan.md` | ✅ **FROZEN** | P/R/G design with GPT-5.6 Sol, Claude Sonnet 5, and Gemini 3.8 Flash; the pilot-driven E4 freeze later fixed the full matrix at 288 trajectories and a fail-closed $30 API cap. |
 | **22.2** | AAMAS E0a production-shaped vertical slice | `experiments/09_aamas_contract_bridge/`, `docs/17_aamas_e0a_report.md` | ✅ **DONE** | Bounded Debian 12 GCP worker with six-hour automatic stop; cgroup v2 memory/CPU controllers; direct-SSH imported-response execution; correctness/suitability scoring; immutable archival; measured-allocation, authentic `oom_kill`, and timeout controls. Five interface tests pass. No model API calls were made. |
 | **22.3** | AAMAS E0b calibration and E1 isolated smoke | `experiments/09_aamas_contract_bridge/calibration/`, `docs/18_aamas_e0b_e1_report.md` | ✅ **DONE** | Frozen CPython 3.11.2/NumPy 2.0.2/Pandas 2.2.3 runtime, two hashed primary datasets, four opposed execution envelopes, numerical tolerance, and exact ETL oracle. All four cells passed 3/3 expected and 0/3 opposed references; numerical latency margin passed an additional 5/5 versus 0/5 check. Isolated P/R/G development fixtures all completed through the production path and remain excluded. API spend remains $0. |
 | **22.4** | AAMAS hardened canary and capacity correction | `experiments/09_aamas_contract_bridge/api_canary/`, `experiments/09_aamas_contract_bridge/calibration/e0_pre_pilot_security_controls.json` | ✅ **DONE** | Generated programs execute non-root, offline, with read-only datasets, `pids.max=64`, and 1 MiB stdout/stderr caps; all controls pass. Numerical latency was recalibrated to 3.0 s (5/5 vs 0/5). Gemini 3.8 v3 cost $0.293 and exposed 4,096-token truncation; excluded. V4 at 16,384 tokens cost $0.523 and produced 8/12 suitable outcomes: both proactive numerical cells passed while reactive/generic numerical cells failed. A faster model-generated streaming parser invalidated the original ETL opposition; the redesigned task passed 5/5 vs 0/5 in both environments. V5 cost $0.235 and produced 4/6 first-pass, 5/6 final suitability, with proactive first-pass success in both environments. All canaries remain excluded. |
@@ -118,6 +118,7 @@ statistical sample.
 | **22.6** | Post-pilot cost containment | `aether-aamas-worker` | ✅ **DONE** | Dedicated GCP worker stopped after E3 completion on September 11. Restart only for the next model-free calibration or predeclared provider gate. |
 | **22.7** | E4 provider access and backend freeze | `docs/21_aamas_provider_canary_report.md` | ✅ **DONE** | Exact model access and current API schemas verified. GPT-5.6 Sol was first-pass suitable at 58.5 MiB/2.085 s for $0.0664. Claude Sonnet 5 returned two complete generations for $0.0739; attempt 1 timed out and attempt 2 was kernel OOM-killed. Both are development-only, retained without replacement, and excluded. Worker stopped after completion. |
 | **22.8** | E4 strategy codebook | `docs/20_aamas_strategy_codebook.md`, `src/aether_contract_bridge/strategy.py` | ✅ **FROZEN** | AST-based task-family labels plus orthogonal features and blinded adjudication rule frozen. All pilot attempts classified; no first-attempt program required adjudication. Operational suitability remains execution-derived. Ten interface tests pass. |
+| **22.9** | E4 secondary instances and protocol freeze | `docs/22_aamas_e4_protocol_freeze.md`, `protocol/E4_FREEZE_VALIDATION.json` | ✅ **FROZEN** | Independent numerical and ETL instances, hashes, oracles, and four envelopes frozen. The preserved first calibration failed only the provisional 1.4 s ETL latency cell; a pre-generation change to 1.7 s produced a complete 5/5 expected vs 0/5 opposed pass. Confirmatory N=4 gives 288 trajectories and 96 per condition; provider budgets sum to $30. Eleven tests and the fail-closed E4 validator pass. |
 
 ### Manuscript-closure status (2026-08-27)
 
@@ -178,15 +179,16 @@ statistical sample.
   adapter breadth, resource slicing, skills, a third task, second harness, and
   dynamic telemetry are deferred. Technical freeze is Sep 24 so one week remains
   for internal/IP review and one week for submission contingency.
-- **AAMAS execution-plan amendment (2026-09-11):** Local inspection confirmed no
+- **AAMAS execution-plan amendment (2026-09-11; superseded at E4):** Local inspection confirmed no
   installed Docker command. E0a now selects a persistent Linux route, with GCP as
   the default, and records contract-governed child time separately from worker and
   end-to-end trajectory time. E0b measures interpreter/dependency RSS before
   selecting ETL packages or thresholds. The second instances freeze at E4, and a
   six-trajectory sanitized raw-evidence diagnostic is predeclared for E3. Planning
-  approved confirmatory set is GPT-5.6 Sol, Claude Sonnet 5, and Gemini 3.7 Flash
-  across the complete 360-trajectory matrix. API calls fail closed at $30, plus up
-  to $10 GCP credit; pilot billing replaces token assumptions before main calls.
+  planning set was GPT-5.6 Sol, Claude Sonnet 5, and Gemini 3.7 Flash across a
+  provisional 360-trajectory matrix. E4 superseded this with Gemini 3.8 Flash and
+  a 288-trajectory design. API calls fail closed at $30, plus up to $10 GCP
+  credit; observed canary/pilot billing replaced token assumptions before main calls.
 - **AAMAS E0a completion (2026-09-11):** The reusable contract bridge now includes
   versioned evidence/contracts, deterministic P/R/G rendering, permanent imported-
   response replay, a two-attempt decision policy, direct-SSH Linux execution,

@@ -9,6 +9,7 @@ import json
 import math
 import os
 from pathlib import Path
+import random
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,26 +25,31 @@ from aether_contract_bridge.provider import (
     OpenAIResponsesBackend,
     load_dotenv,
 )
+from aether_contract_bridge.strategy import classify_strategy
 
 
-EXPECTED_ETL = {"A": 584859984000, "B": 582445702800, "C": 584178107400, "D": 585658510500,
-                "E": 584768685600, "F": 583789773900, "G": 584327166000, "H": 585146828400}
+def oracle_for(family: str, spec: dict):
+    if family == "numerical":
+        expected = spec["oracle"]["expected_approximately"]
+        relative = spec["oracle"]["relative_tolerance"]
+        absolute = spec["oracle"]["absolute_tolerance"]
 
+        def numerical(output: str) -> bool:
+            try:
+                return math.isclose(float(output.strip().removeprefix("TOTAL:")), expected,
+                                    rel_tol=relative, abs_tol=absolute)
+            except ValueError:
+                return False
+        return numerical
+    expected = spec["oracle"]["expected"]
 
-def numerical_oracle(output: str) -> bool:
-    try:
-        return math.isclose(float(output.strip().removeprefix("TOTAL:")), 835795650.00869,
-                            rel_tol=1e-6, abs_tol=1e-3)
-    except ValueError:
-        return False
-
-
-def etl_oracle(output: str) -> bool:
-    try:
-        prefix, value = output.strip().split(":", 1)
-        return prefix == "TOTAL" and json.loads(value) == EXPECTED_ETL
-    except (ValueError, json.JSONDecodeError):
-        return False
+    def etl(output: str) -> bool:
+        try:
+            prefix, value = output.strip().split(":", 1)
+            return prefix == "TOTAL" and json.loads(value) == expected
+        except (ValueError, json.JSONDecodeError):
+            return False
+    return etl
 
 
 def generation_backend(manifest: dict, ledger: BudgetLedger):
@@ -78,6 +84,22 @@ def generation_backend(manifest: dict, ledger: BudgetLedger):
     raise ValueError(f"unsupported provider: {model['provider']}")
 
 
+def execution_order(manifest: dict) -> list[list[str]]:
+    if "execution_order" in manifest:
+        return manifest["execution_order"]
+    matrix = manifest["matrix"]
+    order = [
+        [family, instance, environment, condition]
+        for family, instances in matrix["instances"].items()
+        for instance in instances
+        for environment in matrix["environments"]
+        for condition in matrix["conditions"]
+        for _ in range(matrix["repetitions_per_cell"])
+    ]
+    random.Random(manifest["order_seed"]).shuffle(order)
+    return order
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--host", default=os.environ.get("AETHER_WORKER_HOST"), required=os.environ.get("AETHER_WORKER_HOST") is None)
@@ -87,8 +109,11 @@ def main() -> int:
         parser.error("--manifest must be a JSON filename without directories")
     load_dotenv(ROOT / ".env")
     manifest = json.loads((ROOT / "experiments/09_aamas_contract_bridge/protocol" / args.manifest).read_text())
-    task_specs = {name: json.loads((ROOT / f"experiments/09_aamas_contract_bridge/protocol/tasks/{name}_primary.json").read_text())
-                  for name in ("numerical", "etl")}
+    task_files = manifest.get("task_files", {
+        "numerical_primary": "numerical_primary.json", "etl_primary": "etl_primary.json",
+    })
+    task_specs = {key: json.loads((ROOT / "experiments/09_aamas_contract_bridge/protocol/tasks" / filename).read_text())
+                  for key, filename in task_files.items()}
     archive_subdir = manifest.get("archive_subdir", "api_canary")
     if Path(archive_subdir).name != archive_subdir:
         parser.error("archive_subdir in the manifest must be one directory name")
@@ -101,14 +126,25 @@ def main() -> int:
                           max_calls=manifest["maximum_provider_calls"])
     generation = generation_backend(manifest, ledger)
     prefix = manifest["run_id_prefix"]
+    order = execution_order(manifest)
     attempted = []
-    for index, (family, environment, condition) in enumerate(manifest["execution_order"], 1):
-        trajectory_id = f"{prefix}-{index:02d}-{family}-{environment}-{condition}"
+    deployed = False
+    for index, entry in enumerate(order, 1):
+        if len(entry) == 3:
+            family, environment, condition = entry
+            instance = "primary"
+            trajectory_id = f"{prefix}-{index:02d}-{family}-{environment}-{condition}"
+        elif len(entry) == 4:
+            family, instance, environment, condition = entry
+            trajectory_id = f"{prefix}-{index:03d}-{family}-{instance}-{environment}-{condition}"
+        else:
+            raise ValueError(f"invalid execution-order entry: {entry}")
+        task_key = f"{family}_{instance}"
         directory = canary_root / trajectory_id
         if directory.exists():
             attempted.append({"trajectory_id": trajectory_id, "status": "already_archived"})
             continue
-        spec = task_specs[family]
+        spec = task_specs[task_key]
         envelope = spec["environments"][environment]
         evidence = RawSubstrateEvidence(
             schema_version="raw-substrate-evidence/v0.1",
@@ -124,14 +160,18 @@ def main() -> int:
             worker_local_path=ROOT / "benchmarks/aether_execution_worker.py",
             assets={asset_name: f"/opt/aether-data/{asset_name}"},
         )
-        if index == 1:
+        if not deployed:
             execution.deploy()
+            deployed = True
         try:
             summary = run_trajectory(
                 trajectory_id=trajectory_id, task=spec["prompt"], condition=condition,
                 evidence=evidence, generation_backend=generation, execution_backend=execution,
                 archive_root=canary_root,
-                correctness_oracle=numerical_oracle if family == "numerical" else etl_oracle,
+                correctness_oracle=oracle_for(family, spec),
+                protocol_snapshot={"study_manifest": manifest, "task_spec": spec,
+                                   "execution_index": index, "execution_entry": entry},
+                strategy_classifier=lambda source: classify_strategy(family, source).to_dict(),
             )
             attempted.append({"trajectory_id": trajectory_id, "status": "complete", "summary": str(summary.relative_to(ROOT))})
         except Exception as exc:
@@ -153,7 +193,7 @@ def main() -> int:
     }
     (canary_root / f"{prefix}_report.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
     print(json.dumps({k: report[k] for k in ("trajectory_count", "complete_count", "first_pass_suitable", "final_suitable")}, indent=2))
-    return 0 if report["trajectory_count"] == len(manifest["execution_order"]) else 1
+    return 0 if report["trajectory_count"] == len(order) else 1
 
 
 if __name__ == "__main__":

@@ -43,3 +43,12 @@ All experimental harnesses must include positive-control pre-flight checks (e.g.
 
 ### 3. Preserving Raw Artifacts & Provenance
 Every test run, prompt variant, and generated script MUST be recorded to disk inside the appropriate `experiments/` subdirectory. Never delete historical execution runs.
+
+### 4. Cost-Aware Provider Gating
+For a new paid execution path, validate the end-to-end setup with the cheapest
+approved provider before issuing calls to more expensive providers. For the
+current AAMAS campaign, Gemini 3.8 Flash is the mandatory first confirmatory
+provider. GPT-5.6 Sol and Claude Sonnet 5 may start only after the Gemini path
+has passed infrastructure and artifact-integrity checks. This is an execution-
+order control only; all frozen model cohorts and unfavorable valid outcomes are
+still retained.

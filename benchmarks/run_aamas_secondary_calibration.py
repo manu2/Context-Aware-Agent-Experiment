@@ -77,7 +77,7 @@ ENVELOPES = {
                                  "expected": "numerical_eager", "opposed": "numerical_bounded"},
     "etl_memory_tight": {"memory_mib": 128, "wall_seconds": 4.0,
                           "expected": "etl_streaming", "opposed": "etl_dataframe"},
-    "etl_latency_tight": {"memory_mib": 512, "wall_seconds": 1.4,
+    "etl_latency_tight": {"memory_mib": 512, "wall_seconds": 1.7,
                            "expected": "etl_dataframe", "opposed": "etl_streaming"},
 }
 

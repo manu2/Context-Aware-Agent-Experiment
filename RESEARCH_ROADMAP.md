@@ -192,7 +192,13 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   without replacement. A task-family strategy codebook is also frozen; it labels
   observable program structure but never substitutes for execution-derived
   suitability. Second-instance calibration and the power/cost sample-size lock
-  remain before E4 freeze.
+  then passed: four envelopes each separated expected and opposed references 5/5
+  versus 0/5 after one preserved pre-generation ETL threshold correction. E4 is
+  frozen at four repetitions per cell: 288 trajectories, 96 per condition, and
+  provider caps totaling $30. The confirmatory analysis and integrity validator
+  are frozen before the first main call. Paid execution is cost-gated: Gemini 3.8
+  Flash runs first, and GPT/Claude begin only after that path passes infrastructure,
+  completeness, and artifact-integrity checks.
 - **Preserved earlier FSE protocol:**
   [`docs/14_fse_contractbench_protocol.md`](docs/14_fse_contractbench_protocol.md)
   remains a future expansion reference and does not govern the AAMAS campaign.

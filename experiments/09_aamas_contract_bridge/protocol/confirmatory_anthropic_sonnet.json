@@ -1,0 +1,31 @@
+{
+  "schema_version": "aamas-confirmatory/v1.0",
+  "report_schema": "aamas-confirmatory-report/v1.0",
+  "status": "frozen_before_calls",
+  "archive_subdir": "confirmatory",
+  "run_id_prefix": "confirm-anthropic-sonnet-v1",
+  "campaign_priority": 2,
+  "budget_ledger_file": "anthropic_sonnet_budget_ledger.json",
+  "development_only": false,
+  "model": {
+    "provider": "anthropic", "id": "claude-sonnet-5", "effort": "medium", "thinking": "adaptive",
+    "max_output_tokens": 32768,
+    "pricing_usd_per_million_tokens": {"input": 2.0, "output_including_thinking": 10.0},
+    "pricing_verified_at_utc": "2026-09-11T16:00:00Z",
+    "documentation": "https://platform.claude.com/docs/en/about-claude/models/whats-new-sonnet-5"
+  },
+  "task_files": {
+    "numerical_primary": "numerical_primary.json", "numerical_secondary": "numerical_secondary.json",
+    "etl_primary": "etl_primary.json", "etl_secondary": "etl_secondary.json"
+  },
+  "matrix": {
+    "instances": {"numerical": ["primary", "secondary"], "etl": ["primary", "secondary"]},
+    "environments": ["memory_tight", "latency_tight"], "conditions": ["P", "R", "G"],
+    "repetitions_per_cell": 4
+  },
+  "maximum_attempts_per_trajectory": 2,
+  "maximum_provider_calls": 192,
+  "budget_usd": 8.0,
+  "order_seed": 20260921,
+  "stopping_rule": "Run every frozen trajectory unless the provider budget cap, call cap, or a validity-critical infrastructure fault stops the campaign. Never stop for an inconvenient result."
+}
