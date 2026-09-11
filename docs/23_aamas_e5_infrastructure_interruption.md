@@ -45,3 +45,9 @@ The frozen resume manifest is
 It contains the exact 32 original execution entries and replacement links, permits
 at most 64 completed generation attempts, and caps additional estimated spend at
 $5.934170 so total estimated Gemini spend cannot exceed the original $9 ceiling.
+
+`benchmarks/audit_aamas_provider_cohort.py` is the fail-closed completion gate.
+Its diagnostic pass over the interrupted archive found zero integrity issues and
+exactly the 32 expected 429-affected slots. Normal mode fails until all 96
+effective slots are complete; incomplete analysis requires the explicit
+`--allow-incomplete` flag and is never a confirmatory result.

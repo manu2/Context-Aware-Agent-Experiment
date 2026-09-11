@@ -1,0 +1,955 @@
+{
+  "complete": 64,
+  "condition_summary": {
+    "G": {
+      "final_suitable": 8,
+      "final_wilson_95": [
+        0.21880653237281705,
+        0.6134184992377469
+      ],
+      "first_pass_suitable": 5,
+      "first_pass_wilson_95": [
+        0.11186170140766569,
+        0.468700877618744
+      ],
+      "n": 20,
+      "provider_calls": 35
+    },
+    "P": {
+      "final_suitable": 17,
+      "final_wilson_95": [
+        0.5656004682477829,
+        0.8987696001475147
+      ],
+      "first_pass_suitable": 16,
+      "first_pass_wilson_95": [
+        0.5184826598759762,
+        0.8684923971201053
+      ],
+      "n": 22,
+      "provider_calls": 28
+    },
+    "R": {
+      "final_suitable": 7,
+      "final_wilson_95": [
+        0.1636059318135624,
+        0.5268140225895723
+      ],
+      "first_pass_suitable": 4,
+      "first_pass_wilson_95": [
+        0.07306884583422052,
+        0.38516607437126543
+      ],
+      "n": 22,
+      "provider_calls": 40
+    }
+  },
+  "incomplete": [
+    "confirm-gemini38-v1-065-etl-secondary-latency_tight-G",
+    "confirm-gemini38-v1-066-etl-primary-latency_tight-P",
+    "confirm-gemini38-v1-067-numerical-secondary-latency_tight-R",
+    "confirm-gemini38-v1-068-numerical-primary-latency_tight-R",
+    "confirm-gemini38-v1-069-numerical-primary-latency_tight-G",
+    "confirm-gemini38-v1-070-etl-secondary-memory_tight-P",
+    "confirm-gemini38-v1-071-numerical-secondary-memory_tight-G",
+    "confirm-gemini38-v1-072-etl-secondary-memory_tight-R",
+    "confirm-gemini38-v1-073-etl-secondary-memory_tight-G",
+    "confirm-gemini38-v1-074-numerical-secondary-memory_tight-R",
+    "confirm-gemini38-v1-075-etl-primary-latency_tight-P",
+    "confirm-gemini38-v1-076-numerical-primary-memory_tight-R",
+    "confirm-gemini38-v1-077-numerical-primary-memory_tight-P",
+    "confirm-gemini38-v1-078-etl-primary-memory_tight-P",
+    "confirm-gemini38-v1-079-numerical-primary-memory_tight-P",
+    "confirm-gemini38-v1-080-etl-secondary-memory_tight-P",
+    "confirm-gemini38-v1-081-numerical-secondary-latency_tight-R",
+    "confirm-gemini38-v1-082-numerical-primary-memory_tight-P",
+    "confirm-gemini38-v1-083-etl-primary-latency_tight-G",
+    "confirm-gemini38-v1-084-numerical-primary-memory_tight-G",
+    "confirm-gemini38-v1-085-etl-primary-memory_tight-R",
+    "confirm-gemini38-v1-086-numerical-primary-memory_tight-G",
+    "confirm-gemini38-v1-087-numerical-primary-memory_tight-R",
+    "confirm-gemini38-v1-088-numerical-secondary-memory_tight-G",
+    "confirm-gemini38-v1-089-etl-primary-latency_tight-G",
+    "confirm-gemini38-v1-090-etl-primary-memory_tight-P",
+    "confirm-gemini38-v1-091-numerical-secondary-latency_tight-R",
+    "confirm-gemini38-v1-092-etl-secondary-memory_tight-G",
+    "confirm-gemini38-v1-093-numerical-primary-latency_tight-R",
+    "confirm-gemini38-v1-094-numerical-secondary-latency_tight-G",
+    "confirm-gemini38-v1-095-numerical-primary-latency_tight-P",
+    "confirm-gemini38-v1-096-etl-secondary-memory_tight-G"
+  ],
+  "infrastructure_failures": [
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-065-etl-secondary-latency_tight-G"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-066-etl-primary-latency_tight-P"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-067-numerical-secondary-latency_tight-R"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-068-numerical-primary-latency_tight-R"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-069-numerical-primary-latency_tight-G"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-070-etl-secondary-memory_tight-P"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-071-numerical-secondary-memory_tight-G"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-072-etl-secondary-memory_tight-R"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-073-etl-secondary-memory_tight-G"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-074-numerical-secondary-memory_tight-R"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-075-etl-primary-latency_tight-P"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-076-numerical-primary-memory_tight-R"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-077-numerical-primary-memory_tight-P"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-078-etl-primary-memory_tight-P"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-079-numerical-primary-memory_tight-P"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-080-etl-secondary-memory_tight-P"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-081-numerical-secondary-latency_tight-R"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-082-numerical-primary-memory_tight-P"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-083-etl-primary-latency_tight-G"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-084-numerical-primary-memory_tight-G"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-085-etl-primary-memory_tight-R"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-086-numerical-primary-memory_tight-G"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-087-numerical-primary-memory_tight-R"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-088-numerical-secondary-memory_tight-G"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-089-etl-primary-latency_tight-G"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-090-etl-primary-memory_tight-P"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-091-numerical-secondary-latency_tight-R"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-092-etl-secondary-memory_tight-G"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-093-numerical-primary-latency_tight-R"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-094-numerical-secondary-latency_tight-G"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-095-numerical-primary-latency_tight-P"
+    },
+    {
+      "error": "HTTP Error 429: Too Many Requests",
+      "error_type": "HTTPError",
+      "trajectory_id": "confirm-gemini38-v1-096-etl-secondary-memory_tight-G"
+    }
+  ],
+  "integrity_issues": [],
+  "manifest": "experiments/09_aamas_contract_bridge/protocol/confirmatory_gemini38.json",
+  "model": "gemini-3.8-flash",
+  "passed": false,
+  "rows": [
+    {
+      "attempt_count": 2,
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-v1-001-numerical-secondary-latency_tight-G",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-001-numerical-secondary-latency_tight-G"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-002-numerical-secondary-latency_tight-P",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-002-numerical-secondary-latency_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-003-etl-secondary-latency_tight-P",
+      "environment": "latency_tight",
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-003-etl-secondary-latency_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-004-etl-secondary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-004-etl-secondary-latency_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-005-etl-secondary-latency_tight-P",
+      "environment": "latency_tight",
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-005-etl-secondary-latency_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-v1-006-numerical-secondary-latency_tight-G",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-006-numerical-secondary-latency_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-v1-007-etl-primary-latency_tight-G",
+      "environment": "latency_tight",
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-007-etl-primary-latency_tight-G"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-008-numerical-secondary-memory_tight-P",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-008-numerical-secondary-memory_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-v1-009-etl-primary-latency_tight-G",
+      "environment": "latency_tight",
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-009-etl-primary-latency_tight-G"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-010-etl-primary-memory_tight-P",
+      "environment": "memory_tight",
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-010-etl-primary-memory_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-v1-011-numerical-primary-latency_tight-G",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-011-numerical-primary-latency_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-v1-012-numerical-primary-memory_tight-G",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-012-numerical-primary-memory_tight-G"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-013-etl-secondary-memory_tight-P",
+      "environment": "memory_tight",
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-013-etl-secondary-memory_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-v1-014-numerical-primary-latency_tight-G",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-014-numerical-primary-latency_tight-G"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-015-etl-primary-memory_tight-P",
+      "environment": "memory_tight",
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-015-etl-primary-memory_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-016-numerical-secondary-latency_tight-P",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-016-numerical-secondary-latency_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-v1-017-numerical-secondary-memory_tight-G",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-017-numerical-secondary-memory_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-018-etl-primary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-018-etl-primary-latency_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-019-numerical-primary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-019-numerical-primary-latency_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-020-numerical-secondary-memory_tight-P",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-020-numerical-secondary-memory_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-021-etl-secondary-latency_tight-P",
+      "environment": "latency_tight",
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-021-etl-secondary-latency_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-022-etl-secondary-memory_tight-P",
+      "environment": "memory_tight",
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-022-etl-secondary-memory_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-023-numerical-secondary-memory_tight-P",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-023-numerical-secondary-memory_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-024-numerical-primary-memory_tight-P",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-024-numerical-primary-memory_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-025-numerical-secondary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-025-numerical-secondary-memory_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-026-numerical-secondary-latency_tight-P",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-026-numerical-secondary-latency_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-v1-027-etl-primary-memory_tight-G",
+      "environment": "memory_tight",
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-027-etl-primary-memory_tight-G"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-028-numerical-primary-latency_tight-P",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-028-numerical-primary-latency_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-029-etl-secondary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-029-etl-secondary-memory_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-030-numerical-primary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-030-numerical-primary-latency_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-v1-031-etl-secondary-latency_tight-G",
+      "environment": "latency_tight",
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-031-etl-secondary-latency_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-032-etl-secondary-latency_tight-P",
+      "environment": "latency_tight",
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-032-etl-secondary-latency_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-033-numerical-secondary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-033-numerical-secondary-latency_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-034-numerical-secondary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-034-numerical-secondary-memory_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-v1-035-etl-secondary-latency_tight-G",
+      "environment": "latency_tight",
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-035-etl-secondary-latency_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-036-etl-secondary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-036-etl-secondary-latency_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-v1-037-etl-secondary-latency_tight-G",
+      "environment": "latency_tight",
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-037-etl-secondary-latency_tight-G"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-v1-038-etl-primary-memory_tight-G",
+      "environment": "memory_tight",
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-038-etl-primary-memory_tight-G"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-039-etl-secondary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-039-etl-secondary-memory_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-040-numerical-primary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-040-numerical-primary-memory_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-041-numerical-primary-latency_tight-P",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-041-numerical-primary-latency_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-v1-042-numerical-secondary-memory_tight-G",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-042-numerical-secondary-memory_tight-G"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-043-numerical-secondary-latency_tight-P",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-043-numerical-secondary-latency_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-044-etl-secondary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-044-etl-secondary-latency_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-v1-045-etl-secondary-memory_tight-G",
+      "environment": "memory_tight",
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-045-etl-secondary-memory_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-046-etl-secondary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-046-etl-secondary-latency_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-047-numerical-secondary-memory_tight-P",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-047-numerical-secondary-memory_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-v1-048-etl-primary-memory_tight-G",
+      "environment": "memory_tight",
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-048-etl-primary-memory_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-049-etl-primary-latency_tight-P",
+      "environment": "latency_tight",
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-049-etl-primary-latency_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-v1-050-numerical-primary-latency_tight-G",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-050-numerical-primary-latency_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-051-numerical-secondary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-051-numerical-secondary-memory_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-v1-052-numerical-secondary-latency_tight-G",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-052-numerical-secondary-latency_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-053-etl-primary-latency_tight-P",
+      "environment": "latency_tight",
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-053-etl-primary-latency_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-054-etl-primary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-054-etl-primary-memory_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-v1-055-numerical-primary-memory_tight-G",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-055-numerical-primary-memory_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-056-etl-primary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-056-etl-primary-latency_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-057-etl-primary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-057-etl-primary-memory_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "P",
+      "effective_trajectory_id": "confirm-gemini38-v1-058-numerical-primary-latency_tight-P",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-058-numerical-primary-latency_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "G",
+      "effective_trajectory_id": "confirm-gemini38-v1-059-etl-primary-memory_tight-G",
+      "environment": "memory_tight",
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-059-etl-primary-memory_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-060-etl-primary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-060-etl-primary-latency_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-061-etl-secondary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-061-etl-secondary-memory_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-062-etl-primary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-062-etl-primary-memory_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-063-numerical-primary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-063-numerical-primary-memory_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "condition": "R",
+      "effective_trajectory_id": "confirm-gemini38-v1-064-etl-primary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "scheduled_trajectory_id": "confirm-gemini38-v1-064-etl-primary-latency_tight-R"
+    }
+  ],
+  "scheduled": 96,
+  "schema_version": "aamas-provider-cohort-audit/v1.0"
+}

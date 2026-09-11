@@ -221,3 +221,9 @@ statistical sample.
   failure, links every replacement to its original trajectory, allows at most 64
   calls, and limits additional estimated spend to $5.934170. No resume call has
   been issued; quota/billing access must first be verified.
+- **AAMAS E5 partial evidence audit (2026-09-11):** The reusable cohort auditor
+  verified all 64 completed Gemini trajectories with zero prompt, manifest,
+  artifact, retry, model, or scoring inconsistencies. It identifies exactly 32
+  incomplete slots, all pre-generation HTTP 429 failures. Diagnostic counts are
+  P 16/22 first-pass and 17/22 final, R 4/22 and 7/22, and G 5/20 and 8/20;
+  these are explicitly incomplete and not confirmatory estimates.
