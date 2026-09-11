@@ -131,6 +131,8 @@ To regenerate the confirmatory analysis and AAMAS figures without provider calls
 
 Build instructions for the anonymous manuscript are in
 [`paper/aamas2027/README.md`](paper/aamas2027/README.md).
+The requirement-to-evidence audit and final release sequence are tracked in
+[`docs/29_aamas_submission_readiness.md`](docs/29_aamas_submission_readiness.md).
 
 ## Submission status
 
