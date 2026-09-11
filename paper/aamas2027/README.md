@@ -1,0 +1,53 @@
+# AAMAS 2027 anonymous manuscript package
+
+This directory is the working **double-blind** package for the AAMAS 2027 Main
+Technical Track. It is separate from the authored arXiv preprint and uses the
+conference's mandatory LaTeX class without layout modifications.
+
+## Official requirements captured here
+
+- anonymous `aamas` class in `sigconf` format;
+- eight content pages maximum, followed only by references;
+- OpenReview submission ID in `\\acmSubmissionID` after abstract registration;
+- PDF submission and optional anonymous supplementary ZIP (25 MB maximum);
+- no author identity, personal repository URL, acknowledgements, or identifying
+  PDF metadata in the review package.
+
+The official template was downloaded from
+`https://warwick.ac.uk/fac/sci/dcs/aamas2027/aamas_2027_template.zip` on
+2026-09-11. SHA-256 of the downloaded archive:
+`e70e88d36fd96db0777b9d00a1cd0bd1eecbbb28619e9e723dcf207a9bc6ce2a`.
+The unmodified `aamas.cls`, `ACM-Reference-Format.bst`, and `by.pdf` files are
+retained from that archive.
+
+## Build
+
+```bash
+latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+```
+
+The manuscript intentionally contains `CONFIRMATORY RESULT PENDING` markers.
+They are replaced only after all three 96-trajectory provider audits pass and the
+frozen 288-trajectory analysis completes. `benchmarks/verify_aamas_submission.py`
+blocks a release build while any marker remains.
+
+Draft verification:
+
+```bash
+python benchmarks/verify_aamas_submission.py --pdf paper/aamas2027/main.pdf
+```
+
+Final release verification (fail-closed on placeholders, submission ID, identity,
+page limit, official-template hashes, PDF metadata, and supplementary ZIP size):
+
+```bash
+python benchmarks/verify_aamas_submission.py --release --pdf paper/aamas2027/main.pdf
+```
+
+## Anonymity and publication
+
+The review PDF and supplementary ZIP must remain anonymous even though the
+related arXiv preprint and development repository are public. The camera-ready
+version may restore the author block and cite the public artifact. Do not include
+raw credentials, local paths, API account identifiers, git remotes, or chat
+exports in either package.

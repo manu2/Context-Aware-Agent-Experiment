@@ -248,6 +248,12 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   operational canary before any confirmatory GPT call. As with the earlier gates,
   only provider, worker, or artifact integrity controls continuation; the selected
   model outcome cannot do so.
+  The GPT canary passed the provider, worker, and artifact checks and was suitable
+  on its first attempt. The full frozen GPT manifest is now running sequentially
+  on the same worker. In parallel, an anonymous manuscript scaffold using the
+  hash-locked official AAMAS assets compiles and passes a fail-closed submission
+  verifier; numerical result placeholders remain until all three audits and the
+  preregistered 288-trajectory analysis pass.
 - **Preserved earlier FSE protocol:**
   [`docs/14_fse_contractbench_protocol.md`](docs/14_fse_contractbench_protocol.md)
   remains a future expansion reference and does not govern the AAMAS campaign.

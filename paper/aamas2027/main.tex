@@ -1,0 +1,319 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Anonymous AAMAS 2027 submission draft.
+%%% Official template downloaded 2026-09-11 from the AAMAS 2027 site.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[sigconf,anonymous]{aamas}
+
+\usepackage{balance}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{multirow}
+
+%%% AAMAS-2027 copyright block (from the official template; do not change).
+\makeatletter
+\gdef\@copyrightpermission{
+  \begin{minipage}{0.2\columnwidth}
+   \href{https://creativecommons.org/licenses/by/4.0/}{\includegraphics[width=0.90\textwidth]{by}}
+  \end{minipage}\hfill
+  \begin{minipage}{0.8\columnwidth}
+   \href{https://creativecommons.org/licenses/by/4.0/}{This work is licensed under a Creative Commons Attribution International 4.0 License.}
+  \end{minipage}
+  \vspace{5pt}
+}
+\makeatother
+
+\setcopyright{ifaamas}
+\acmConference[AAMAS 2027]{Proc.\@ of the 26th International Conference
+on Autonomous Agents and Multiagent Systems (AAMAS 2027)}{3--7 May 2027}{Hanoi, Vietnam}{M.~Baldoni, F.~Fang, W.~Yeoh, N.~Yorke-Smith (eds.)}
+\copyrightyear{2027}
+\acmYear{2027}
+\acmDOI{}
+\acmISBN{}
+
+\acmSubmissionID{PENDING}
+\submissionType{Research Paper Track}
+
+\title[Execution Contracts as Agent State]{Execution Contracts as Agent State: Proactive Substrate Awareness for Autonomous Code Generation}
+
+\author{Anonymous Author(s)}
+
+\newcommand{\resultpending}{\textbf{[CONFIRMATORY RESULT PENDING]}}
+
+\begin{abstract}
+Autonomous coding agents choose implementations whose suitability depends on
+the target environment, yet the model may select a plan before the environment's
+memory and time boundaries enter its planning state. We study \emph{execution
+contracts} as first-class agent state: compact, machine-derived descriptions of
+the resources that determine whether an implementation is admissible. We present
+an Execution Contract Bridge that inspects a target, compiles its effective
+contract, and controls when that state becomes visible in an autonomous
+generate--execute--recover loop. Our preregistered evaluation compares proactive
+contract disclosure with reactive discovery and generic efficiency guidance
+across three model configurations, two task families, two instances, and opposed
+memory- and latency-tight Linux environments. \resultpending. The results
+establish when pre-execution environment state changes implementation selection,
+first-pass operational suitability, and the execution work required before a
+correct, environment-suitable program is obtained.
+\end{abstract}
+
+\ccsdesc[500]{Computing methodologies~Intelligent agents}
+\ccsdesc[300]{Software and its engineering~Automatic programming}
+\ccsdesc[300]{Computer systems organization~Cloud computing}
+
+\keywords{autonomous agents, coding agents, context engineering, resource-aware planning, execution contracts, empirical evaluation}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+An autonomous coding agent does not merely produce text: it selects an
+implementation that will execute in a concrete environment. Two programs can be
+functionally equivalent yet differ radically in peak memory, latency, runtime
+compatibility, and deployability. When these environmental facts are absent from
+the planning state, the agent must either guess what the target can sustain or
+discover the boundary through execution failure.
+
+We call this information gap \emph{substrate blindness}. Prior work demonstrates
+that language-model agents can use observations from an environment to revise
+later actions~\cite{yao2023react,shinn2023reflexion,madaan2023selfrefine}. Our
+question concerns an earlier decision: what should happen when the deployment
+system already possesses decision-relevant environment state before the agent
+commits to an implementation? We hypothesize that compiling this state into an
+explicit execution contract enables the agent to choose against the target
+envelope on its first attempt.
+
+This is an agent-architecture question rather than a wording comparison. We build
+an Execution Contract Bridge between the execution substrate and a bounded
+generate--execute--recover loop. The bridge produces the same typed contract for
+all experimental conditions; the manipulation is when and how the agent can
+observe it. We compare proactive disclosure (P), reactive discovery after an
+unsuitable execution (R), and a generic instruction to balance memory and time
+(G). Every generated program is executed under authentic Linux cgroup v2 memory
+and CPU controls and a supervisor-enforced deadline.
+
+We make four contributions:
+\begin{itemize}
+  \item We formulate substrate blindness as missing decision-relevant state in
+  agent planning and operationalize substrate awareness through a typed execution
+  contract.
+  \item We implement a reusable bridge that inspects a target, compiles an
+  execution contract, renders condition-specific agent context, and preserves an
+  auditable generate--execute--recover trajectory.
+  \item We conduct a preregistered 288-trajectory evaluation spanning three
+  provider-configured models, two task families, independently generated task
+  instances, and opposed resource envelopes.
+  \item We isolate first-pass environment suitability from eventual recovery and
+  quantify execution failures, calls, tokens, latency, memory, and structural
+  implementation choices.
+\end{itemize}
+
+\section{Execution Contracts as Agent State}
+
+\subsection{Contract bridge}
+
+The bridge separates target inspection from agent-facing representation. A
+\texttt{SubstrateTargetAdapter} reads the effective runtime, dependency versions,
+memory maximum, CPU allocation, and supervisor deadline. A deterministic compiler
+normalizes this evidence into an \texttt{ExecutionContract} with explicit units,
+provenance, and target identity. The renderer then determines which portion of
+that state enters the model context.
+
+This separation is important for reuse: a local process, container, virtual
+machine, or cloud deployment can supply a different adapter while preserving the
+same contract and agent-loop interfaces. It also prevents the experimental
+treatment from changing the executor or scorer.
+
+\begin{figure}[t]
+  \centering
+  \fbox{\parbox{0.92\columnwidth}{\centering
+  Target adapter $\rightarrow$ raw substrate evidence $\rightarrow$ contract
+  compiler $\rightarrow$ condition renderer $\rightarrow$ model $\rightarrow$
+  cgroup execution $\rightarrow$ verified observation $\rightarrow$ bounded
+  recovery decision}}
+  \caption{Execution Contract Bridge and autonomous evaluation loop. The same
+  inspected target and execution backend serve every information condition.}
+  \Description{A left-to-right pipeline from a target adapter through substrate
+  evidence, contract compilation, condition rendering, model generation, cgroup
+  execution, verified observation, and a bounded recovery decision.}
+  \label{fig:bridge}
+\end{figure}
+
+\subsection{Information conditions}
+
+All conditions receive the identical task, runtime/package availability, safety
+rules, generation configuration, executor, and correctness oracle.
+\begin{description}
+  \item[P---Proactive contract.] The exact target memory, CPU, and wall-time
+  limits are visible before the first implementation is selected.
+  \item[R---Reactive discovery.] The initial state contains the task but not the
+  target limits. If the first program is unsuitable, the unedited execution
+  observation and effective contract are supplied for one recovery attempt.
+  \item[G---Generic efficiency.] The initial prompt requests balanced memory and
+  time efficiency without target values. An unsuitable execution receives the
+  same recovery evidence as R.
+\end{description}
+
+P tests whether known target state improves first-pass planning. R measures the
+work required to discover the same boundary through interaction. G separates
+specific environment information from a generic request for efficient code.
+
+\section{Experimental Design}
+
+\subsection{Tasks and opposed environments}
+
+We use two inspectable code-generation families. The numerical family computes a
+pairwise-distance aggregate over deterministic dense arrays. Candidate programs
+may materialize a quadratic intermediate or use bounded blocking, precision
+retention, symmetry, and buffer reuse. The ETL family computes exact conditional,
+weighted aggregations over deterministic CSV data. Candidate programs may use
+bounded streaming, chunked data frames, or eager vectorized data frames.
+
+Each family contains two independently generated instances with distinct assets,
+hashes, task constants, and correctness oracles. Each instance executes in two
+calibrated environments. The memory-tight environment admits the bounded strategy
+and rejects the opposed eager reference. The latency-tight environment admits the
+faster reference and rejects its slower opposed reference. Before any confirmatory
+generation, five repeated executions of every expected reference passed and five
+of every opposed reference failed under the frozen envelopes.
+
+\subsection{Models and sampling}
+
+The confirmatory matrix uses Google Gemini 3.8 Flash, OpenAI GPT-5.6 Sol, and
+Anthropic Claude Sonnet 5 at documented medium thinking/effort settings. Provider
+manifests freeze model identifiers, output limits, unsupported sampling controls,
+prices, call caps, and cost caps. Each model contributes
+$2\times2\times2\times3\times4=96$ independently generated trajectories, for 288
+total. Repetition indices are bookkeeping identifiers, not statistical pairs.
+Execution order is randomized from a frozen seed.
+
+The development canaries and 24-trajectory Gemini pilot were used only to validate
+the pipeline, calibrate task opposition, and freeze the confirmatory design. They
+are archived separately and are never pooled with confirmatory evidence.
+
+\subsection{Execution and scoring}
+
+Generated programs run non-root on a persistent Debian Linux worker with CPython
+3.11.2, NumPy 2.0.2, and Pandas 2.2.3. The executor removes network access, mounts
+the task asset read-only, limits process creation, constrains CPU and memory using
+cgroup v2, caps captured output, and enforces the task deadline. It records cgroup
+\texttt{memory.peak}, \texttt{memory.events}, \texttt{cpu.stat}, pressure-stall
+information, exit status, stdout/stderr, program time, and supervisor time. A
+positive-control preflight verifies that resource enforcement is active.
+
+Suitability requires an independently verified correct result, no timeout or OOM
+kill, and execution within both frozen memory and time bounds. Each trajectory
+allows one initial attempt and, only after an unsuitable result, at most one
+recovery attempt. Provider errors and malformed responses remain in the attempted
+run ledger; only pre-generation infrastructure failures may be replaced under the
+frozen outcome-neutral rule, with both records retained and linked.
+
+\subsection{Endpoints and analysis}
+
+The co-primary estimands are the equal-stratum-weighted risk differences in
+verified first-pass suitability for P$-$R and P$-$G across
+model$\times$family$\times$instance$\times$environment strata. We report raw
+counts and Wilson intervals, obtain two-sided $p$-values from 100,000
+within-stratum condition-label permutations (seed 20260924), and apply Holm's
+correction to the two primary contrasts. Secondary outcomes include final
+suitability within two attempts, calls and tokens per successful trajectory,
+failed executions, recovery latency, program time, peak memory, exceedance, and a
+strategy taxonomy frozen before confirmatory generation. Continuous contrasts
+use 20,000 stratified bootstrap resamples (seed 20260925). Failed executions are
+reported by type and never assigned invented resource values.
+
+\section{Results}
+
+\subsection{First-pass environment suitability}
+
+\resultpending
+
+\begin{table}[t]
+  \caption{Verified suitability by information condition. Values are populated
+  only after all three provider cohorts pass the frozen evidence audit.}
+  \label{tab:primary}
+  \centering
+  \begin{tabular}{lrrrr}\toprule
+  Condition & $N$ & First pass & Final & Calls \\\midrule
+  Proactive contract (P) & -- & -- & -- & -- \\
+  Reactive discovery (R) & -- & -- & -- & -- \\
+  Generic efficiency (G) & -- & -- & -- & -- \\\bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Where contract disclosure changes planning}
+
+\resultpending. Results will be stratified by model, family, instance, and
+environment. The section will report the numerical separation, the ETL
+memory/latency interaction, and the complete strategy-frequency matrix without
+collapsing heterogeneous environments into a universal model ranking.
+
+\subsection{Recovery work and resource behavior}
+
+\resultpending. This section will distinguish first-pass selection from eventual
+recovery and report calls, tokens, failed executions, end-to-end recovery latency,
+program time, memory peak, and exceedance alongside bootstrap intervals.
+
+\section{Discussion}
+
+The design tests a concrete architectural proposition: target constraints that
+already exist in the execution system should be represented as observable agent
+state before implementation selection. P and R ultimately receive the same
+contract; their difference is whether the agent can use it proactively or only
+after paying for an unsuitable execution. G tests whether target values contribute
+information beyond general efficiency intent.
+
+The opposed environments also reveal the limit of treating ``efficient'' as a
+single objective. A memory-minimizing implementation can miss a latency contract,
+while a fast eager implementation can violate a memory ceiling. Substrate-aware
+planning therefore concerns suitability for a particular target, not a universal
+ranking of algorithms or models.
+
+\subsection{Threats to validity}
+
+The evaluation uses two code-generation families and three provider-configured
+models; conclusions concern the tested agent loop and calibrated environments.
+Provider outputs are stochastic and model services evolve, so manifests preserve
+exact identifiers, settings, timestamps, and raw responses. The deterministic
+tasks make operational outcomes auditable but do not represent every software
+engineering workload. Strategy labels are secondary behavioral evidence;
+execution-derived correctness and resource admission determine suitability.
+
+The target worker is one controlled Linux configuration. This choice holds the
+substrate constant while manipulating its observability. Future evaluations can
+test portability across accelerators, runtimes, tools, quotas, and dynamically
+changing environments using the same adapter/contract boundary.
+
+\section{Related Work}
+
+ReAct and Reflexion demonstrate agents that revise behavior through environment
+interaction and feedback~\cite{yao2023react,shinn2023reflexion}. Self-Refine
+studies iterative model feedback~\cite{madaan2023selfrefine}. SWE-bench and
+SWE-agent ground coding agents in executable repositories and tool
+loops~\cite{jimenez2024swebench,yang2024sweagent}. EffiBench and Mercury evaluate
+the execution efficiency of generated code~\cite{huang2024effibench,du2024mercury}.
+Our work connects these lines by making the target execution envelope explicit
+before plan selection and comparing proactive state availability with both
+reactive discovery and generic efficiency guidance.
+
+Resource-aware scheduling traditionally treats CPU, memory, and deadlines as
+system-level constraints. Linux cgroup v2 exposes enforceable resource controls
+and accounting~\cite{linuxcgroupv2}. The Execution Contract Bridge projects the
+decision-relevant portion of that system state into the agent loop while retaining
+kernel evidence as the arbiter of operational suitability.
+
+\section{Conclusion}
+
+Execution constraints are not incidental metadata: they help define which
+implementation is suitable. This work turns those constraints into typed,
+provenance-bearing agent state and evaluates their proactive use against reactive
+discovery and generic efficiency guidance. \resultpending. The resulting bridge
+provides a reusable foundation for agents that plan against the environments in
+which their actions will actually execute.
+
+\balance
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\end{document}
