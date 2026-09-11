@@ -508,10 +508,11 @@ If the autonomous-trajectory contribution does not survive the pilot, preserve
 the reusable infrastructure and redirect it to a later software-engineering study.
 Do not rescue the submission by adding uncontrolled conditions.
 
-## 13. Immediate next action
+## 13. Completion state and next action
 
-Complete one predeclared, development-only end-to-end canary for GPT-5.6 Sol and
-Claude Sonnet 5, then stop the worker and use actual billed usage to set the fixed
-sample size and hard cap. In parallel, freeze the strategy codebook and complete
-model-free calibration of the second numerical and ETL instances. Only those
-validity-critical E4 items precede confirmatory generation.
+The full frozen campaign is complete: 288/288 effective trajectories across
+Gemini 3.8 Flash, Claude Sonnet 5, and GPT-5.6 Sol pass the fail-closed evidence
+audit. The deterministic confirmatory analysis, generated report, vector figures,
+and anonymous AAMAS manuscript are present. No additional primary generation is
+planned. Insert the OpenReview submission ID when assigned, rebuild the PDF, and
+run `benchmarks/verify_aamas_submission.py --release` before upload.

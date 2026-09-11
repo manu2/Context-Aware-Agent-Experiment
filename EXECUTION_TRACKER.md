@@ -1,22 +1,20 @@
 # EXECUTION TRACKER: Live Deployment & Experiment Log
 
 ## Overall Status
-- **Current Stage**: Stage 22.12 (GPT-5.6 Sol confirmatory cohort: infrastructure resume)
-- **Active Experiment**: The frozen 288-trajectory AAMAS campaign has complete,
-  integrity-passing Gemini 3.8 Flash and Claude Sonnet 5 cohorts. GPT-5.6 Sol is
-  executing sequentially under its precommitted 96-trajectory manifest after its
-  one-slot operational canary passed. Trajectories 1–80 are complete. Trajectory
-  81 preserved a genuine first attempt, then stopped when OpenAI returned HTTP
-  503 before the repair response. A narrow, pre-resume rule continues only the
-  archived attempt-2 prompt and then resumes slots 82–96. The runner remains
-  fail-closed against its call and cost caps; no outcome-dependent protocol
-  changes are permitted.
-- **Historical preprint experiment**: All 16 protocol-v1.2 manifest pairs have terminal archived
+- **Current Stage**: Stage 23 (AAMAS evidence and technical freeze)
+- **Active Experiment**: The frozen 288-trajectory AAMAS campaign is complete.
+  Gemini 3.8 Flash, Claude Sonnet 5, and GPT-5.6 Sol each contribute 96 effective
+  trajectories; all three cohorts pass the fail-closed audit with zero integrity
+  issues. The deterministic confirmatory analysis, generated report, vector
+  figures, and anonymous AAMAS manuscript are complete. No additional primary
+  trials are planned. The remaining release step is to insert the OpenReview
+  submission ID and run the final fail-closed submission verifier.
+- **Published preprint experiment**: All 16 protocol-v1.2 manifest pairs have terminal archived
   artifacts. Fifteen included direct-API pairs are available for separately labelled
   cohort analysis; one Claude blind member is a retained runtime-compatibility failure and
   `opus_rep01` remains excluded because of its pre-guard duplicate launch. Protocol
   v1.2 remains frozen; the locally canonical manuscript now reflects the complete
-  fresh cohort and remains under author/affiliation clearance.
+  fresh cohort and is published as arXiv:2609.05232.
 - **Separate boundary extension:** Five GPT `96 MB + 10 s` aware generations are
   locally profiled under protocol `96mb-local-sweep-v1.3`. They are all correct and
   observed below 96 MB; the result is a condition-level adaptation comparison, not
@@ -26,13 +24,12 @@
   GPT 5/5, Claude 4/5, and Gemini 3/5. Two malformed Claude provider responses
   are retained and transparently replaced under manifest v1.5 before replacement
   generation; the reference cohorts remain separately labelled.
-- **Next research phase:** An AAMAS 2027 experiment-first Execution Contract Bridge
-  study is planned as a new cohort rather than an extension or pooled reanalysis
-  of the arXiv evidence. Its build-once vertical slice, zero-cost imported-response
-  smoke, direct-API canary, pilot, budget gate, confirmatory matrix, and protected
-  two-week review window are frozen in
+- **AAMAS research phase:** The Execution Contract Bridge study is a new cohort,
+  not an extension or pooled reanalysis of the arXiv evidence. Its build-once
+  vertical slice, zero-cost imported-response smoke, direct-API canary, pilot,
+  budget gate, protocol freeze, and 288-trajectory confirmatory matrix are
+  complete and documented in
   [`docs/12_aamas_2027_hardened_research_plan.md`](docs/12_aamas_2027_hardened_research_plan.md).
-  No provider generation is authorized until E0/E1 pass.
 - **Dynamic-loop design (2026-08-28):** A research-and-strategy whitepaper now
   specifies the Phase 2 closed-loop control plane, 4D SST schema, prior-art
   boundary, three deterministic scenarios, information controls, metrics, and

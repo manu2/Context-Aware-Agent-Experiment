@@ -294,7 +294,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--audit", action="append", type=Path)
     parser.add_argument("--output", type=Path, default=ROOT / "experiments/09_aamas_contract_bridge/analysis/confirmatory_analysis.json")
-    parser.add_argument("--report", type=Path, default=ROOT / "docs/24_aamas_confirmatory_results.md")
+    parser.add_argument("--report", type=Path, default=ROOT / "docs/28_aamas_confirmatory_results.md")
     parser.add_argument("--permutations", type=int, default=PERMUTATIONS)
     parser.add_argument("--bootstraps", type=int, default=BOOTSTRAPS)
     args = parser.parse_args()

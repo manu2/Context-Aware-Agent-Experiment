@@ -135,7 +135,7 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   experiment, but it supports including interpreter/runtime version as an explicit
   future execution-context dimension alongside physical resource constraints.
 
-### Phase 5: AAMAS Execution Contract Bridge Study (Planned 🔄)
+### Phase 5: AAMAS Execution Contract Bridge Study (Evidence complete; manuscript in preparation 🔄)
 
 - **Objective:** evaluate execution-contract availability as agent state through
   an autonomous generate–execute–recover loop, targeting AAMAS 2027 GAAI.

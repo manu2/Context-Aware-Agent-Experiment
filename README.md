@@ -85,10 +85,11 @@ not immutable model-weight snapshots.
 
 ## Artifact guide
 
-- [Canonical manuscript](paper_draft.md): the locally prepared arXiv manuscript,
+- [Canonical manuscript](paper_draft.md): the source of the published
+  [arXiv preprint 2609.05232](https://arxiv.org/abs/2609.05232),
   including its author block, verified tables, and final figures. It presents the
   broad substrate-awareness thesis through a controlled numerical-code-generation
-  proof of concept and remains under author/affiliation clearance.
+  proof of concept.
 - [Manuscript figures](paper/figures/): reproducible vector PDFs used by the
   canonical manuscript, which can be regenerated locally from archived metadata.
 - Author-review PDF: The manuscript source and reproducible vector figures are
@@ -107,22 +108,34 @@ cohort because their provenance and protocol precede the frozen direct-API desig
 `benchmarks/run_peer_reviewer.py` is retained solely as a historical checker for
 the old canonical draft; it is not evidence validation for the working revision.
 
-## Next research phase
+## AAMAS study
 
-The next study targets AAMAS 2027 with a minimal reusable Execution Contract
-Bridge and an autonomous generate-execute-recover evaluation. Its primary
-comparison is proactive contract availability versus reactive discovery versus
-generic efficiency guidance across calibrated numerical and streaming-ETL
-environments. Development responses, API canary, pilot, and confirmatory evidence
-remain separate cohorts. The authoritative build-once plan, cost gates, scope
-lock, and protected review schedule are in
-[`docs/12_aamas_2027_hardened_research_plan.md`](docs/12_aamas_2027_hardened_research_plan.md).
+The completed AAMAS-oriented study evaluates a reusable Execution Contract Bridge
+inside an autonomous generate-execute-recover loop. Its frozen comparison is
+proactive contract availability versus reactive discovery versus generic
+efficiency guidance across calibrated numerical and streaming-ETL environments.
+The confirmatory matrix contains 288 trajectories: 96 per condition, balanced
+across three provider-configured models, two task families, two instances, two
+operating environments, and four repetitions. The authoritative protocol and
+frozen results are in
+[`docs/12_aamas_2027_hardened_research_plan.md`](docs/12_aamas_2027_hardened_research_plan.md)
+and [`docs/28_aamas_confirmatory_results.md`](docs/28_aamas_confirmatory_results.md).
+
+To regenerate the confirmatory analysis and AAMAS figures without provider calls:
+
+```bash
+.venv/bin/python3 benchmarks/analyze_aamas_confirmatory.py
+.venv/bin/python3 benchmarks/generate_aamas_figures.py
+.venv/bin/python3 benchmarks/verify_aamas_submission.py
+```
+
+Build instructions for the anonymous manuscript are in
+[`paper/aamas2027/README.md`](paper/aamas2027/README.md).
 
 ## Submission status
 
-The repository contains the finalized manuscript source, vector figures, and
-evidence-verification tooling. The public artifact accompanies the arXiv
-preprint; the archival submission PDF is generated locally from the
-manuscript source. arXiv itself does not require this JSON audit or code review;
-those are voluntary reproducibility measures for this empirical preprint. The
-repository is prepared to be made public with the preprint release.
+The repository is public and accompanies the arXiv preprint. It contains the
+finalized preprint source, vector figures, archived evidence, and verification
+tooling. The anonymous AAMAS manuscript is a separate working submission package;
+it intentionally omits author identity and any link that would reveal the public
+repository during double-blind review.
