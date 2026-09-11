@@ -238,6 +238,12 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   is frozen as a one-trajectory operational canary before any confirmatory Claude
   call; the gate concerns provider/execution/artifact integrity only and cannot
   stop the remaining cohort because of an inconvenient model outcome.
+  The Claude cohort is now complete and integrity-passing. Proactive disclosure
+  achieved 16/32 first-pass and 22/32 final suitability, compared with 1/32 and
+  9/32 for reactive observation and 2/32 and 7/32 for generic guidance. These
+  results independently replicate the first-pass advantage and retain the same
+  latency-tight ETL boundary observed with Gemini. GPT-5.6 Sol is the final frozen
+  provider cohort.
 - **Preserved earlier FSE protocol:**
   [`docs/14_fse_contractbench_protocol.md`](docs/14_fse_contractbench_protocol.md)
   remains a future expansion reference and does not govern the AAMAS campaign.

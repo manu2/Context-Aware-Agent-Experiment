@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "ErsFCpABCBEYAipAo60qxN/4YXSjVgz/vOdZyDqZOzzQ0OVTXkl2wr4+X3dc1XRDh5HuHU4WRJ9jA4589mcmyZVwb50pcNKmOGAnRTIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQxOTI4YjBmYi05OWI4LTRkODEtOTFlMS1jMmZkNzhkOWZjNmOoAc2hkdUGEgzNxnekTjpuqVUxa98aDOy6c5vp+RUS+p+IOiIw99C5D2Y6qfka/dutewKdYaRdVK0CJJlwH7rQrMFFfDoro9cs5HOFBJCfZkiZe1EVKtcDvw/l+M90HAa1UMHNCYYiCLQ3SaDcF2YU+hGm0EQrx4xZZg/vGq2x7YI4gNjKhapawUaK4XBrEaJhuOYTUL9Y7HuvVjxBk3wep/ZdryWGKiQDlSOrI/xNFSXv730TBuqH3A5OFAsY8EnlBw/42dwFMdZH+qn8uVh/UAL0BlTh5AXcC6/egsUiDOPb8ueSkeeRHeXfMIiZmA68nQSu9QXvE5xwNIBRIbZiAKbPYb/TsP9JgbT11qcQGlyOWSXOzi3iIvMaVa8QkWhMljWVg3NQSQGGvaa21u4GjHQ2dvbIbtixWvLLQp+vXNU3r5WL5lk0Lq6QNaQ4T3Yg8/sLHyLKalDVX14HpmqT2iqjM/ccJeC3PINMrv12EaXY6nOmN3qSbWdA8mzmzinbI3j/44lLgI9BxCv5fGCxGPv9zZK3ITREViHASWrZ6LqOLBYWJqgBCAtKNVib14G5OB+/UNL+TtlcMwXMBTlILE8dEcDUYUCpfJn2XQAcFQkyF+N6SuHf2iDmkpdbJc7y9CIxlG1/1cavZMKuKPl9SIfCuwBJmQiwUEB8rvAJTFLkVmfP2aDHW4rha+EjElkmVl1RKGsgms8oPrf96KMlxmEUm2pANWQXupSrsu6WGAE=",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef main():\n    X = np.load('vectors.npy', mmap_mode='r')\n    X = np.asarray(X, dtype=np.float64)\n    n = X.shape[0]\n\n    sq_norms = np.einsum('ij,ij->i', X, X)\n\n    total = 0.0\n    chunk_size = 500\n\n    for start in range(0, n, chunk_size):\n        end = min(start + chunk_size, n)\n        block = X[start:end]  # (b, d)\n\n        # Compute squared distances: ||a||^2 + ||b||^2 - 2 a.b\n        dots = block @ X.T  # (b, n)\n        d2 = sq_norms[start:end, None] + sq_norms[None, :] - 2.0 * dots\n        np.maximum(d2, 0.0, out=d2)  # avoid tiny negative due to floating point\n        d = np.sqrt(d2)\n\n        total += np.sum(d, dtype=np.float64)\n\n    print(f\"TOTAL:{total:.10f}\")\n\nif __name__ == '__main__':\n    main()\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexAzmMjR8ajaNzmtt8bz",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 188,
+    "output_tokens": 551,
+    "output_tokens_details": {
+      "thinking_tokens": 188
+    },
+    "service_tier": "standard"
+  }
+}

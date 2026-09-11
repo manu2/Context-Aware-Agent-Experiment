@@ -1,0 +1,34 @@
+import numpy as np
+
+def main():
+    X = np.load("vectors_secondary.npy")
+    X = np.asarray(X, dtype=np.float64)  # promote for accurate computation
+    n = X.shape[0]
+
+    norms = np.einsum('ij,ij->i', X, X)  # squared norms, shape (n,)
+
+    total = 0.0
+    block_size = 1000  # balance memory vs speed
+
+    for start in range(0, n, block_size):
+        end = min(start + block_size, n)
+        Xb = X[start:end]  # (b, d)
+
+        # Compute dot products between block rows and all rows
+        G = Xb @ X.T  # (b, n)
+
+        # squared distances: ||a||^2 + ||b||^2 - 2*a.b
+        sq_dists = norms[start:end, None] + norms[None, :] - 2.0 * G
+
+        # numerical issues can cause tiny negative values due to floating point
+        np.maximum(sq_dists, 0.0, out=sq_dists)
+
+        dists = np.sqrt(sq_dists)
+
+        total += dists.sum(dtype=np.float64)
+
+    # Print exact decimal value
+    print(f"TOTAL:{total:.10f}")
+
+if __name__ == "__main__":
+    main()

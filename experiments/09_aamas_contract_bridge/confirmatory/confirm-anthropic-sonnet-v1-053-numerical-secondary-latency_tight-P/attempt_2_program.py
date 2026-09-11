@@ -1,0 +1,41 @@
+import os
+# Limit BLAS/OpenMP threads before numpy is imported, since we only have 1 CPU core.
+os.environ.setdefault("OMP_NUM_THREADS", "1")
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
+os.environ.setdefault("MKL_NUM_THREADS", "1")
+os.environ.setdefault("NUMEXPR_NUM_THREADS", "1")
+os.environ.setdefault("VECLIB_MAXIMUM_THREADS", "1")
+
+import numpy as np
+
+def main():
+    X = np.load("vectors_secondary.npy")  # (8000, 1024) float32
+    if X.dtype != np.float32:
+        X = X.astype(np.float32, copy=False)
+
+    n = X.shape[0]
+
+    # Squared norms of each row (float64 for later precision use, but keep float32 for BLAS matmul)
+    sq32 = np.einsum('ij,ij->i', X, X, dtype=np.float32)
+
+    total = 0.0
+    block = 500  # rows per block, keeps memory small and cache-friendly
+
+    Xt = X.T  # view, no copy
+
+    for start in range(0, n, block):
+        end = min(start + block, n)
+        Xi = X[start:end]                 # (b, d)
+        G = Xi @ Xt                       # (b, n) float32 via BLAS sgemm
+        d2 = sq32[start:end, None] + sq32[None, :] - 2.0 * G
+        # Numerical noise can make tiny negatives; clip to zero.
+        np.maximum(d2, 0.0, out=d2)
+        # Use float64 for the sqrt/sum step to keep precision under control.
+        d2_64 = d2.astype(np.float64, copy=False)
+        np.sqrt(d2_64, out=d2_64)
+        total += d2_64.sum()
+
+    print(f"TOTAL:{total}")
+
+if __name__ == "__main__":
+    main()

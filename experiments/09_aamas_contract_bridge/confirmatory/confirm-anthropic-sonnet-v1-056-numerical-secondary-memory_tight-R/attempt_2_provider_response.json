@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "Er0HCpABCBEYAipAjOWjMPk61/Qm4XZsZ7gTQw3PyqawQORCc6SMC2l2R4fSkTXABFBlqdHmH+O6AKXoYS/PSAHRhjehFVNw+9fKeDIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQxOTI4YjBmYi05OWI4LTRkODEtOTFlMS1jMmZkNzhkOWZjNmOoAZarkdUGEgxg53nWb+Gt2RTPgAYaDNRgC6srRzldsocFgCIwRJ545OfAXdyuuzwsvWyS50z94H23CA5eoFcuRlvZWTJo52GY5LvU14W5zBUfnchFKtkF6pdIukYpROK1k6w6XsYI3cRerxDf8dzz/+KlczyqUx0oaboFwZbMurKLgWTYbMuBbu+YrFR42xgIaLu7K932j01kzmw5ggeCsjpJOGdUK5f/oFky7/T8C/pLMgqJ4xFO3vzaQvuPpIprFg89BFBZOO+hM+QW5LCRHTD8uhKRlXe+T7v9Nf2VqhxdtRcnQHEYge7EyCprwZaY7laO8vWCi/YyhzHtz4uzKE7zUViFLfmp6NN8Qq2+qRnJzy8G5HYAL6dbdoFry9PNPG+c6Bx7nv9VeT/EprvyD6eZFXamcU0sJoY1LBNfvnKX3gjQ5ws+z8SvArjGkV6YbkLr9fR6dW3Y5FDOq11tLRvxVxJKiPdsVQ+2E1dejr/mVYUrXcTskAG2YYHPQZ9TFWQZFOueJ8iaoXHUSNx+rGcZ4gmOyoPZLmZzLP9nkdIdX29XCs6kWdYSq1rkMQbWVVAkoZaycbsbpuHUybtxPqWEVPCamkpZFEPTuFbuR7EQAcLCqhqDo8GwttbQWqzOIrBSq+pKQtGgWRXabQPOES1RXR0lQtBjMabLrk3yiZQtrYU/NJQGYvePIMn5I9Y3Fk5jTcU67RCYKyeM+eGN4zp8jtBqLTHtnET7FK6QmaxMQh9Hj6qnYrbRfRtMbCmrcfoiaD/EQ2q6ydhYjZ3y+nbVyA3HU9t1myddWcc6AVRxxuN5Qrh0M0lo6gAcdOCfM5WLut3o6mFBje1F/IZHBLFYOBeP77T4/U0RJMk3xh+cemPrwpAEQ3E6rs8V/PWmvrDeEH1IRkq1SzAmRev+OYp9Hpo+1xqfntUV5oPiISt6BRtf/5cEfTK2+42TInlBSB97qY5g1K4b8sy5aHiS3bP/YeClMii0ZlGvmi0KztNhgKzYltV7XC56bAXXse/mJZLx4H3DRFUsfN6jgJ3cZua/cJRsEsqRtX+4/R/HiiNkvA4GfTGaZivw3LHFK8RXGAE=",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef main():\n    X = np.load(\"vectors_secondary.npy\", mmap_mode=\"r\")\n    n = X.shape[0]\n\n    # Precompute squared norms for all rows (float64 for accuracy)\n    # Load in chunks to avoid excessive memory use from full float64 copy\n    norm_chunk = 1000\n    sq_norms = np.empty(n, dtype=np.float64)\n    for start in range(0, n, norm_chunk):\n        end = min(start + norm_chunk, n)\n        block = X[start:end].astype(np.float64)\n        sq_norms[start:end] = np.einsum('ij,ij->i', block, block)\n\n    total = 0.0\n    chunk_size = 200  # rows per outer chunk\n\n    for i0 in range(0, n, chunk_size):\n        i1 = min(i0 + chunk_size, n)\n        Xi = X[i0:i1].astype(np.float64)  # (b, d)\n        sq_i = sq_norms[i0:i1]  # (b,)\n\n        for j0 in range(0, n, chunk_size):\n            j1 = min(j0 + chunk_size, n)\n            Xj = X[j0:j1].astype(np.float64)  # (c, d)\n            sq_j = sq_norms[j0:j1]  # (c,)\n\n            # squared distances: ||xi||^2 + ||xj||^2 - 2 xi.xj\n            dot = Xi @ Xj.T  # (b, c)\n            sq_dist = sq_i[:, None] + sq_j[None, :] - 2.0 * dot\n            np.maximum(sq_dist, 0.0, out=sq_dist)  # avoid tiny negatives from fp error\n            dist = np.sqrt(sq_dist)\n            total += dist.sum()\n\n    # Print with full precision decimal formatting\n    print(f\"TOTAL:{total:.10f}\")\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexCYvb8QETkUWBUdCJBS",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 300,
+    "output_tokens": 927,
+    "output_tokens_details": {
+      "thinking_tokens": 272
+    },
+    "service_tier": "standard"
+  }
+}

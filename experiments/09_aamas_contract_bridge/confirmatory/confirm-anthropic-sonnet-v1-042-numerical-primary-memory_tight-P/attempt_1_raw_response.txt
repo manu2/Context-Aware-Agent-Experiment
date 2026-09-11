@@ -1,0 +1,39 @@
+```python
+import numpy as np
+
+def main():
+    X = np.load('vectors.npy')  # (8000, 1024) float32, read-only usage
+    X = np.ascontiguousarray(X, dtype=np.float32)
+    N, D = X.shape
+
+    # ---- Compute row squared norms in float64 precision, chunked to save memory ----
+    norms = np.empty(N, dtype=np.float64)
+    norm_chunk = 1000
+    for i in range(0, N, norm_chunk):
+        blk = X[i:i + norm_chunk].astype(np.float64)
+        norms[i:i + norm_chunk] = np.einsum('ij,ij->i', blk, blk)
+
+    total = 0.0
+    block = 200  # rows per block to bound memory usage
+
+    Xt = X.T  # view, no copy (transpose just changes strides)
+
+    for i in range(0, N, block):
+        Xi = X[i:i + block]                 # (b, D) float32
+        G = Xi @ Xt                         # (b, N) float32, BLAS matmul
+        G64 = G.astype(np.float64)          # promote for precision
+        ni = norms[i:i + block][:, None]
+        nj = norms[None, :]
+        d2 = ni + nj - 2.0 * G64
+        np.maximum(d2, 0.0, out=d2)
+        np.sqrt(d2, out=d2)
+        total += d2.sum()
+
+        # free temporaries explicitly
+        del G, G64, d2
+
+    print(f"TOTAL:{total:.6f}")
+
+if __name__ == "__main__":
+    main()
+```

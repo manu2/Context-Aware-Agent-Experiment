@@ -1,0 +1,29 @@
+import numpy as np
+
+def main():
+    vecs = np.load("vectors_secondary.npy")
+    vecs = vecs.astype(np.float64, copy=False)
+    n = vecs.shape[0]
+
+    norms = np.einsum('ij,ij->i', vecs, vecs)
+
+    total = 0.0
+    block_size = 500  # keep memory usage modest
+
+    for start in range(0, n, block_size):
+        end = min(start + block_size, n)
+        block = vecs[start:end]
+
+        dot = block @ vecs.T  # (block_len, n)
+        dist_sq = norms[start:end, None] + norms[None, :] - 2.0 * dot
+        np.maximum(dist_sq, 0.0, out=dist_sq)
+        dist = np.sqrt(dist_sq)
+
+        total += dist.sum(dtype=np.float64)
+
+        del dot, dist_sq, dist
+
+    print(f"TOTAL:{total:.10f}")
+
+if __name__ == "__main__":
+    main()

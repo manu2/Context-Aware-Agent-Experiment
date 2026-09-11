@@ -1,0 +1,34 @@
+import numpy as np
+
+def main():
+    vectors = np.load('vectors.npy', mmap_mode='r')
+    n = vectors.shape[0]
+
+    # Use float64 for accurate accumulation
+    V = np.asarray(vectors, dtype=np.float64)
+    sq_norms = np.einsum('ij,ij->i', V, V)
+
+    total = 0.0
+    block_size = 500
+
+    for start in range(0, n, block_size):
+        end = min(start + block_size, n)
+        block = V[start:end]  # (b, d)
+
+        # Compute dot products between block and all rows
+        dots = block @ V.T  # (b, n)
+
+        # dist^2 = ||xi||^2 + ||xj||^2 - 2*xi.xj
+        d2 = sq_norms[start:end, None] + sq_norms[None, :] - 2.0 * dots
+
+        # Numerical safety: clip small negative values to zero
+        np.maximum(d2, 0.0, out=d2)
+
+        dists = np.sqrt(d2)
+
+        total += dists.sum()
+
+    print(f"TOTAL:{total}")
+
+if __name__ == '__main__':
+    main()

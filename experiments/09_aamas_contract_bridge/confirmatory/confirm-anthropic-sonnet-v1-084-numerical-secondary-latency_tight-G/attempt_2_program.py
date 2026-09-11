@@ -1,0 +1,32 @@
+import numpy as np
+
+def main():
+    X = np.load('vectors_secondary.npy')
+    X = np.asarray(X, dtype=np.float64)
+    n = X.shape[0]
+
+    # Precompute squared norms
+    norms = np.einsum('ij,ij->i', X, X)
+
+    total = 0.0
+    block = 500  # balance memory vs speed; 500x8000 float64 block ~ 32MB
+
+    Xt = X.T  # reuse transposed view for matmul
+
+    for start in range(0, n, block):
+        end = min(start + block, n)
+        Xi = X[start:end]
+
+        # Dot products between block rows and all rows (BLAS-accelerated)
+        dots = Xi @ Xt
+
+        d2 = norms[start:end, None] + norms[None, :] - 2.0 * dots
+        np.maximum(d2, 0.0, out=d2)  # guard against tiny negative values from floating point
+        np.sqrt(d2, out=d2)
+
+        total += d2.sum(dtype=np.float64)
+
+    print(f"TOTAL:{total}")
+
+if __name__ == '__main__':
+    main()

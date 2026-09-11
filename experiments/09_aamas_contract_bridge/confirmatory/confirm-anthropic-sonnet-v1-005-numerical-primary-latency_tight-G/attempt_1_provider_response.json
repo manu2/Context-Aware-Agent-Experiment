@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "EpwMCpABCBEYAipAa7JVAJUbnOFuvPBk1UpX2uZhm/aYnGcFi4UwO/yhfEzqOaxLJ3+Lx7vAciI8+yeAubuZ3ietJS24wif1KQHyBzIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQxOTI4YjBmYi05OWI4LTRkODEtOTFlMS1jMmZkNzhkOWZjNmOoAfWdkdUGEgw+RueRID4uJoWqj+YaDMI+uvNqxTPKu5z++iIwGaRyOJQqgOG28DyEdFaIl8UFXxXk+kvqeO8ld1PUb1/HhP/D08eGvKzDhLbUcEXzKrgKFYfRHPPYMxDRlNAqu5qPsIwX0D8HTdzo6sZw7Co6EeK5njB1iuGxv/GRDAqScdG2VI9n6U/ccj8KeWB9laLFeu9lJSVBhx759NunNn49bt2DMvv479mQbFMkdUC5eme2LVkfXuNhgzWegOq63bg0iKXUYWhy1acT6czArecdOaDJovVvxlY+YsAN9uPM4i85geWTxdvpHlCsgUOg6EBz9QISy0szd6cU17qKp5037wGDdCp4bZhvDwdbZZm+L4QjMSeacUQhyOLsZ3LoRUJg/KXaH0eD3d6gF7Kuh1cG8UYpbUDtYP0urrLKSejOmAOZO59Yoe2QvWr5iHgNAJTdO8D21ckxJriwKvXa11Z7xqpk8ijKN3gGluTFxT9ulHDh/JYhxuvwAMtPQU3pkAkAnGv0m9I4CSWrfzpz4IRypRHKv6/IALXFxOVLk/6pyop+bpyZSnEljyTuihd6I2eRAq5gZm6lwIFyWzC6W5khhH1/fEuCZnbLZ23Plbzge3swsn2UcdYjx2MtMa5AOwlkPHjdOw7Dvrve6i4lTO4wzd5oUMt3gN3W0vtEEYklAcUFkksHxbDrzONKcjJNTRS9YACBorEqOrVTqS8jMQZEufaQ+EQp7Rn4tFxR7zFGq0iz9+ARhp/oUavlKr/NSZ9cO7b+5NOVniHku5JQQRsf1OZ12OrtbaXzUWzjdmF7XbOsZNIxTDXmrGQKzpgHdvi4tJ4KLfng1K/RjRrBxwPQ/5tOjZE8MpWKpytMqmj3xfCmIOk3Qxe3cLdhH7Nejuo1Hpcd1wvdKyz4lqd5tHaFpXc8Nxbt/8p9ehxw8NC4MsP5CDPIH/Uiy75KPMVHHlYFNKPdz6n+rg3n4PwicKvODVakwVD7ustpRh9cTtDR2Cp+wNwKycawAJPw9htlkdPWnikVdMyPGd2uHbmSCNqAXHcv9qKGFhs/xaQes/ZVc0dwQYG03BmtictzVY8brNwePI8xlPEcqYEdp4L73SbOStI3jYlgqHqjAvSPOIF8iWQIOm5UWWQIv+DY2JB5wio8lzwoOKvGvwBoGMQnCHtH+E6llUBDthQsUPRrf1XYTlnfz2HEeqyltHjjl+kBLlLM4I7UNQYcX6QRQbQEgS14yXUt4C90rzgXals0N8g1nPSLlwqeNdpgkUr9yi6T82YBe5BlUZNh36ctcdtPIB/oRrCOogbG6Jm3VbY4mnDpCHANVWhaCnHvaqCdssKo8oidecLywdHdJ8BljKbIeq5gorOHs4Y1zEU6oiC6RVi+saFu2T9hNwaqExu6lKq9xqf5dYq5SHouciXeYOaudchyoUpkT/IUpN1I7+/wmxc25NY/Y4XjzK7Ym/ODO0twipI5Fn3+Pqd8l6L+V0v2QVBWgxoBKgyJg4yqvrmRg6OU+iVVWSq6LFQVP6xPCu4Y1TZUqMx44kK0NuzI/IPD52Jp3X0fkcNRRWZk1Ug5X/KAhk843UfKU15ov8AfnpzkVntCGyixJLUT7eI0mHGBXgers3pf1aJbp09VIt/cGsv97rvPl+a+WWFnmsg+aQ9F+gsG8qU/Jdep0Nzj0oeJzn+bpeyi7gyIotfDpjCdYFgK2ejWzSw8SppHkoHkrqDeUKdgGPsWA+EP7VHXHhvRGglNXjd/4avKgdQmdQ018dRYaTbk6UY6BS1OafO4KxVH6QmOly9dAQ6sSpqnn7FclRAhDslwviD1e3qPDUeryhzRyUmu48hMr+aU+d5BnZqzTuT/JMifEt/9OmIXCP7pvZaV4XPJ5mP1ZkGt1BgB",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "import numpy as np\n\ndef main():\n    X = np.load('vectors.npy', mmap_mode='r')\n    X = np.asarray(X, dtype=np.float64)\n    n = X.shape[0]\n\n    norms = np.einsum('ij,ij->i', X, X)\n\n    total = 0.0\n    block_size = 500\n\n    for start in range(0, n, block_size):\n        end = min(start + block_size, n)\n        block = X[start:end]\n\n        dots = block @ X.T\n\n        d2 = norms[start:end, None] + norms[None, :] - 2.0 * dots\n        np.maximum(d2, 0.0, out=d2)\n        np.sqrt(d2, out=d2)\n\n        total += d2.sum()\n\n    print(f\"TOTAL:{total:.6f}\")\n\nif __name__ == '__main__':\n    main()",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexAPg9jAVRpF5scNTY3t",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 226,
+    "output_tokens": 797,
+    "output_tokens_details": {
+      "thinking_tokens": 523
+    },
+    "service_tier": "standard"
+  }
+}

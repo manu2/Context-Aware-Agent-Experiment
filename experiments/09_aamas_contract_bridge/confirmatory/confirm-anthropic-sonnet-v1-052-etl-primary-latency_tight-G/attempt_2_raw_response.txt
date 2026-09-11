@@ -1,0 +1,53 @@
+```python
+import sys
+import json
+from collections import defaultdict
+import pandas as pd
+import numpy as np
+
+def main():
+    totals = defaultdict(int)
+
+    chunksize = 500_000
+    usecols = ["account_id", "category", "amount_cents"]
+    dtype = {
+        "account_id": np.int64,
+        "category": "category",
+        "amount_cents": np.int64,
+    }
+
+    for chunk in pd.read_csv(
+        "transactions.csv",
+        usecols=usecols,
+        dtype=dtype,
+        chunksize=chunksize,
+        engine="c",
+    ):
+        acc = chunk["account_id"].to_numpy()
+        mask = (acc % 11) < 7
+        if not mask.any():
+            continue
+
+        acc_f = acc[mask]
+        amt_f = chunk["amount_cents"].to_numpy()[mask]
+        cat_f = chunk["category"].to_numpy()[mask]
+
+        weight = (acc_f % 97) + 1
+        # amount * weight, use int64 - values should be exact,
+        # but to be safe against overflow, use Python ints via object array
+        # only when necessary. Try fast path first with int64.
+        product = amt_f.astype(np.int64) * weight.astype(np.int64)
+
+        # Group by category using pandas groupby for correctness
+        s = pd.Series(product, index=cat_f)
+        grouped = s.groupby(level=0, sort=False, observed=True).sum()
+
+        for cat, val in grouped.items():
+            totals[str(cat)] += int(val)
+
+    result = {k: totals[k] for k in sorted(totals.keys())}
+    print("TOTAL:" + json.dumps(result))
+
+if __name__ == "__main__":
+    main()
+```

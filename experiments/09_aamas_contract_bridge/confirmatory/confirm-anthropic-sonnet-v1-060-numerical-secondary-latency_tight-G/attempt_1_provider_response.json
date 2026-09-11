@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "Ev8FCpABCBEYAipAWH3DBVdB8UYXQKKQB3hAiVjtEDO9SYXfmevTUeofjVAM211slsiw3p50jQddmhDRddjxtU/mcr+5OC1iXatUVzIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQxOTI4YjBmYi05OWI4LTRkODEtOTFlMS1jMmZkNzhkOWZjNmOoAeurkdUGEgyuBBcnyHDyKmVJ3a4aDCn7Y/fB4i3QSjt2iyIwT167rs9BdYOGKYdzWApayt6g8nQ0u0wFSASMDMWbpbkhPcuZvVByJGGZEHFnWdEmKpsEPUM9M/2Gw5Y41FR98njyk5PkkYiKqo4cdZ9skDvd/1vVj012DpkIFlxHDJeyyXpTme0eYgxdINr8b0v3fn+oOm0cLCyy9GsL07Vd2PC0B8yAtmmyIkR72MVC5TUZh4ynFjNoLQLGO9VaY0lXSSph3Yj4DiGL/CeHDvPwFo73eUrJlMU1z/BbqLtITTk/YPfut661BLVP2z9Ciz5try2+JHaWot3OtRJ44K0rxmPniyBLN3pJrIBCfZmKcUCpwpGIGgo1YN8dfhAOl9Det4i7CAbYDf2TORxcfZuCiP+N2QhlJT3sily0WqK7JAEgJoTb4NBVUmibx44ch7503m/SpzuG9Qm34fNbmt3eEdtBXHmTjRLxzmXakLfo7TMvlS95tTspPvqVJ5WoPhTaS5csI437DRXP0LGQHNgGzxRY2mtt+AHdkABHSM3yACc9Yfwfs1ZJKeLRWBMqlnyOkPcFK+MyGYZ6xqSfGR1EsSr/d60OG0Af3fCGEUWBpvFgbbwypL4iwPTKLf0C6ezg/5vx4hK2OBphuVygIy8aFfGAfJ8KvPTfhBjxyahDPGIYB2mYb5DBiu5YabNvNjFDMh4r42OVLBpk2ucI4fvRtINAGxcIn61wcuYh3cSbzxrQrglPBQJmOFx60klD5599R1DCWV63OHkOT3BCO3o5oKzb1H4KU9cKSiS5SuUIBAddXtzv4H8Ce6z6seBG/MgYAQ==",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef main():\n    X = np.load('vectors_secondary.npy')\n    X = X.astype(np.float64, copy=False)\n    n = X.shape[0]\n    sq_norms = np.einsum('ij,ij->i', X, X)\n\n    block_size = 500\n    total = 0.0\n\n    for start in range(0, n, block_size):\n        end = min(start + block_size, n)\n        Xb = X[start:end]\n        # dot products between block and all rows\n        dots = Xb @ X.T  # shape (block, n)\n        d2 = sq_norms[start:end, None] + sq_norms[None, :] - 2.0 * dots\n        np.maximum(d2, 0.0, out=d2)\n        d = np.sqrt(d2)\n        total += d.sum()\n\n    print(f\"TOTAL:{total:.10f}\")\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexCfKyxrGpSPnePDdQC5",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 230,
+    "output_tokens": 508,
+    "output_tokens_details": {
+      "thinking_tokens": 207
+    },
+    "service_tier": "standard"
+  }
+}

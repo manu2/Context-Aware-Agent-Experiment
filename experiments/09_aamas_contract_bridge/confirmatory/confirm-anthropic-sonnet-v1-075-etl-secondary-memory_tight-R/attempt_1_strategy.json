@@ -1,0 +1,12 @@
+{
+  "family": "etl",
+  "features": [
+    "pandas"
+  ],
+  "primary_strategy": "dataframe_eager",
+  "rationale": [
+    "read_csv has no explicit chunksize"
+  ],
+  "requires_adjudication": false,
+  "schema_version": "strategy-codebook/v0.1"
+}

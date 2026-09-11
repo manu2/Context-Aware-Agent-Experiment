@@ -1,0 +1,35 @@
+import numpy as np
+
+def main():
+    X = np.load('vectors_secondary.npy', mmap_mode='r')
+    X = np.asarray(X, dtype=np.float32)  # ensure float32, loaded into memory (32MB for 8000x1024)
+
+    n = X.shape[0]
+    norms = np.einsum('ij,ij->i', X, X, dtype=np.float64).astype(np.float32)
+
+    total = np.float64(0.0)
+
+    block = 500  # rows per block, keeps temporary memory small
+
+    Xt = X.T  # view, no copy (transpose just changes strides)
+
+    for start in range(0, n, block):
+        end = min(start + block, n)
+        Xi = X[start:end]                      # (b, d)
+        dots = Xi @ Xt                          # (b, n) float32, BLAS matmul
+
+        # squared distances: ||a||^2 + ||b||^2 - 2*a.b
+        sq = norms[start:end][:, None] + norms[None, :]
+        sq -= 2.0 * dots
+        np.maximum(sq, 0.0, out=sq)             # guard against tiny negative values
+        np.sqrt(sq, out=sq)
+
+        total += sq.sum(dtype=np.float64)
+
+        del Xi, dots, sq
+
+    # Print without scientific notation, with reasonable decimal precision
+    print(f"TOTAL:{total:.6f}")
+
+if __name__ == "__main__":
+    main()

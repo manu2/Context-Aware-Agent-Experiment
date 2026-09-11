@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "EqILCpABCBEYAipAt6zbSTs3xyaEAtgAGf2v24VA2eLwun/LX42BsWdOnvlbNPOEaOiNQ2WdXyoBROvkI12TuU96ZRJPFtTQ9m3W1TIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQxOTI4YjBmYi05OWI4LTRkODEtOTFlMS1jMmZkNzhkOWZjNmOoAf+tkdUGEgxnG7kJ+i3mQ+huMNYaDIfMGfyrTsdM3DfrXyIwqHI3jmlnn8LfRgSCpsII79OtlwkKbBgekQWz/gsPNahT8TRNRogYFxa98gOKsUHzKr4JuUYU/th4qJe9DubDDIqznpNQ1ztUdGTeVqqoc0etjBNZ3JcxKdBqCBfXpLRJLPp2A/Nv2NQ4Ntz8Q0/0zAO5PtnQ5oMCpvlB3RaMp5649qSIZtcHG3955n37H4+hTRsgm3ehWAYqVabvUJmZj3hMrNNY88NhJG2iiXrALuM5FjffOntEaa7AM0zLcqJbGzmEFb9/Wj1U/el7/S2dbNv43Nrj6+2+LnDV8cbluXxnhGzQh1dALQ4Wb7QemIhfa3IG4d/l9uKLdZz7go5Vt/wjJMt2g5Bp7V2MLI+Ie2BU0nOf3u0QVJK2LbjdgTudLQJ+SzXLa5OaANdyr0wHfrpheqKAY1HCFlxglXbY4MdByB31aMcXg4n94kXM/PHrBY/f3Vd8CCmhjc2gEGRHRxOOq3MRhCFAC5oeoGIw+6v7T5irgxm9DpcnA0gmyCvT7y7orrePLdeYlebF5OcaaWpC0SYxY79IzMUXVZNfj7WYYp4U88ylKjK0SA1NTA2NB35yE917NuKhm2hk0p3fsh4EDT4jdHNL1TqUTVuNRECAec7BXfrl8oyL3WNI5QSkg5bWh+zAFVKue5ML1lao1wFyuap9B1zLnk4B5AyJgLBDZ+F7RBEcNQCzqfZkAYkiVNAn3DL3+IheG+oRn1r7qTvWa3ciWARIupWLOKhwNwO97NN/atYRpB6FJFYRhYwdIncnnwo+qMajWyjOKHGymgulNDcn4goA7noCRD2DHv4RJHjn2UHPu4a8q38gt7s/Om3O2Ee+a49fOSl0x1wtfruZrigLG+Zb/9XFroPEUL/+7baK07FXFm6P5VIrEfsIitim2QZxg/omtNt+XPXP2lMx4IK1YBW0iqHEWDPtFbAyxRk5zmgf9DaS6UReyfYyqQ3PR8FpX0ouJPIGmuvXo+qnaBtiiU/GvkKYaVO9SckZGX4MNeZ2Dcm7GR5Y16ojsVhfteHbhvpa5l3cXVNCDtr2cdbwBBsD/swdO9NU1w3AbQdMT0HRrjs04a+DipK5OsGMJZK7cBQfz4D1ODYM9RjljihQ+ka8O8XPryYkx28fD0DIq/qa3gakDiC7ib6lAB5pc1DP3hz2OauDxobXW8YnqOBAm81O5Nuom0qiIZZCfqwhfDx5Fov+XUsFzn8nZqoPkDnKayW9FDR9UiFggDgX9dUHDsRFRUu5gxdoeR55Lp/2N01vf5Wv0ztq5/r+sV6ZfPud0AvHVqeonMH+o5hGGXQEfgf4zugGtdfphxGyzh/Otu8kbgZsJX8qMPOZnWkN0VhmTpl8B233epkk+QWSm1twf9kaY+AA02kRqiF1w6JX6T8zXdLSGql/ExoLxaph6bXtMcLk8cPU6BUUXXYyl8rW0DQ56dmRkh9enOSV2y/DvthMyIl4KVyI3/bEkzqsg+B91AZms+z/NL1unt1PLrgrYVdsLI6zfT35hUkdxtvQqIjOq9BJ339HXLocyiEQ+Kk62kkSlegnZBLtqr0I+45USERlHbghnPSLqKPyRWZ1Lg8Zi9uGbQufVVk5aflS2rGHFO6aC+lXt2pgPrrelcHRbCR6JzCp/pAa3onzioCcqXQY3R0dftNyutx7jfvHZdjmzxqOsu4ykA6HQWUYAQ==",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "import numpy as np\n\ndef main():\n    X = np.load('vectors.npy')  # (8000, 1024) float32\n    X64 = X.astype(np.float64)\n    n = X64.shape[0]\n    norms = np.sum(X64 * X64, axis=1)  # (n,)\n\n    total = 0.0\n    block = 500\n    for start in range(0, n, block):\n        end = min(start + block, n)\n        chunk = X64[start:end]  # (b, d)\n        dots = chunk @ X64.T  # (b, n)\n        sq = norms[start:end][:, None] + norms[None, :] - 2.0 * dots\n        np.maximum(sq, 0.0, out=sq)\n        dist = np.sqrt(sq)\n        total += dist.sum()\n\n    print(f\"TOTAL:{total:.10f}\")\n\nif __name__ == '__main__':\n    main()",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexD1PhGMy4Z4Fu1SzyE1",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 296,
+    "output_tokens": 807,
+    "output_tokens_details": {
+      "thinking_tokens": 516
+    },
+    "service_tier": "standard"
+  }
+}

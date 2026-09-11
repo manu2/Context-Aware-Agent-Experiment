@@ -1,0 +1,24 @@
+```python
+import pandas as pd
+import json
+
+df = pd.read_csv(
+    "transactions.csv",
+    usecols=["account_id", "category", "amount_cents"],
+    dtype={"account_id": "int64", "amount_cents": "int64", "category": "str"},
+)
+
+mask = (df["account_id"].to_numpy() % 11) < 7
+acc = df["account_id"].to_numpy()[mask]
+amt = df["amount_cents"].to_numpy()[mask]
+cat = df["category"].to_numpy()[mask]
+
+weight = (acc % 97) + 1
+value = amt * weight
+
+result = pd.Series(value, index=cat).groupby(level=0).sum()
+
+out = {k: int(v) for k, v in sorted(result.items())}
+
+print("TOTAL:" + json.dumps(out))
+```

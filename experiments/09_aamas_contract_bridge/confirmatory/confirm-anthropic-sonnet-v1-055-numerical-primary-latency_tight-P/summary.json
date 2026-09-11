@@ -1,0 +1,243 @@
+{
+  "agent_loop_decision": {
+    "reason": "verified_suitable",
+    "stop": true
+  },
+  "attempt_count": 2,
+  "attempts": [
+    {
+      "attempt": 1,
+      "decision": {
+        "reason": "authentic_execution_feedback_required",
+        "stop": false
+      },
+      "execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 30,
+          "nr_throttled": 29,
+          "system_usec": 207279,
+          "throttled_usec": 2819717,
+          "usage_usec": 3005077,
+          "user_usec": 2797798
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 138510336,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.0241962449999846,
+        "psi_cpu": "some avg10=15.10 avg60=6.56 avg300=3.87 total=69280135\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=23374\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=19803\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 3.0914445680000426
+      },
+      "generation": {
+        "backend": "anthropic-messages/v1",
+        "model": "claude-sonnet-5",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.016184,
+          "generation_seconds": 15.667293875000041,
+          "input_tokens": 312,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 1556,
+          "prompt_sha256": "6905124f1591d5221f17ecce751b4625c5a1025cee3c4c20aa27201a93f02c0e",
+          "provider": "anthropic",
+          "request_id": "req_011CexCUMGYW3LNBQcJDbcby",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "strategy": {
+        "family": "numerical",
+        "features": [
+          "float32_explicit",
+          "in_place_update"
+        ],
+        "primary_strategy": "blocked_matrix_product",
+        "rationale": [
+          "matrix products occur in an explicit iteration structure"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      }
+    },
+    {
+      "attempt": 2,
+      "decision": {
+        "reason": "verified_suitable",
+        "stop": true
+      },
+      "execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 17,
+          "nr_throttled": 0,
+          "system_usec": 168129,
+          "throttled_usec": 0,
+          "usage_usec": 1578720,
+          "user_usec": 1410590
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 313819136,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.635526499999969,
+        "psi_cpu": "some avg10=1.12 avg60=4.25 avg300=3.54 total=69338487\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=23374\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=19803\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:835795682.843313\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.718519029999925
+      },
+      "generation": {
+        "backend": "anthropic-messages/v1",
+        "model": "claude-sonnet-5",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.02389,
+          "generation_seconds": 22.52600458400002,
+          "input_tokens": 420,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 2305,
+          "prompt_sha256": "cfb6829ce9810a9ad1dae082a6b183c31814560e0e6c934886b6cf87e35f4359",
+          "provider": "anthropic",
+          "request_id": "req_011CexCVz2QfzREiK6sno7Hq",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "score": {
+        "correct": true,
+        "memory_exceedance_bytes": 0,
+        "suitable": true,
+        "within_memory": true,
+        "within_time": true
+      },
+      "strategy": {
+        "family": "numerical",
+        "features": [
+          "float32_explicit",
+          "in_place_update"
+        ],
+        "primary_strategy": "eager_global_matrix",
+        "rationale": [
+          "global matrix/broadcast distance construction has no explicit outer blocking loop"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      }
+    }
+  ],
+  "condition": "P",
+  "development_only": false,
+  "end_to_end_time_seconds": 49.870083457999954,
+  "execution": {
+    "backend": "gcp-cgroupv2/v0.1",
+    "cpu_stat": {
+      "burst_usec": 0,
+      "nr_bursts": 0,
+      "nr_periods": 17,
+      "nr_throttled": 0,
+      "system_usec": 168129,
+      "throttled_usec": 0,
+      "usage_usec": 1578720,
+      "user_usec": 1410590
+    },
+    "exit_code": 0,
+    "memory_events_after": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_events_before": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_peak_bytes": 313819136,
+    "oom_killed": false,
+    "platform": "Linux 6.1.0-53-cloud-amd64",
+    "program_time_seconds": 1.635526499999969,
+    "psi_cpu": "some avg10=1.12 avg60=4.25 avg300=3.54 total=69338487\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=23374\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=19803\n",
+    "stderr": "",
+    "stderr_truncated": false,
+    "stdout": "TOTAL:835795682.843313\n",
+    "stdout_truncated": false,
+    "timed_out": false,
+    "worker_time_seconds": 1.718519029999925
+  },
+  "final_suitable": true,
+  "first_pass_suitable": false,
+  "model": "claude-sonnet-5",
+  "schema_version": "trajectory-summary/v0.1",
+  "score": {
+    "correct": true,
+    "memory_exceedance_bytes": 0,
+    "suitable": true,
+    "within_memory": true,
+    "within_time": true
+  },
+  "status": "complete",
+  "trajectory_id": "confirm-anthropic-sonnet-v1-055-numerical-primary-latency_tight-P"
+}

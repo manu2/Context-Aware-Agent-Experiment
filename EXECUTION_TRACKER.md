@@ -120,7 +120,8 @@ statistical sample.
 | **22.8** | E4 strategy codebook | `docs/20_aamas_strategy_codebook.md`, `src/aether_contract_bridge/strategy.py` | ✅ **FROZEN** | AST-based task-family labels plus orthogonal features and blinded adjudication rule frozen. All pilot attempts classified; no first-attempt program required adjudication. Operational suitability remains execution-derived. Ten interface tests pass. |
 | **22.9** | E4 secondary instances and protocol freeze | `docs/22_aamas_e4_protocol_freeze.md`, `protocol/E4_FREEZE_VALIDATION.json` | ✅ **FROZEN** | Independent numerical and ETL instances, hashes, oracles, and four envelopes frozen. The preserved first calibration failed only the provisional 1.4 s ETL latency cell; a pre-generation change to 1.7 s produced a complete 5/5 expected vs 0/5 opposed pass. Confirmatory N=4 gives 288 trajectories and 96 per condition; provider budgets sum to $30. Eleven tests and the fail-closed E4 validator pass. |
 | **22.10** | E5 Gemini 3.8 confirmatory cohort and provider gate | `docs/24_aamas_gemini_confirmatory_gate.md`, `analysis/gemini_e5_complete_audit.json` | ✅ **DONE / GATE PASSED** | All 96 effective trajectories and 158 calls completed for an estimated $4.961744. The audit reports zero integrity issues. P achieved 24/32 first-pass and 25/32 final suitability versus 5/32 and 8/32 for R and 5/32 and 10/32 for G. Numerical P was 16/16 first-pass across both instances/envelopes while R/G were 0/16; latency-tight ETL remained difficult in all conditions and is retained as a mixed result. Worker stopped; frozen Claude/GPT cohorts are approved to proceed. |
-| **22.11** | E5 Claude Sonnet 5 confirmatory cohort | `protocol/confirmatory_anthropic_sonnet.json` | 🔄 **CANARY FROZEN** | Campaign priority 2 follows the passed Gemini gate. Before any Claude confirmatory call, the first entry of the already-frozen randomized order is locked as a one-trajectory operational canary with the parent manifest hash and a two-call cap. Its outcome cannot govern continuation; only artifact or infrastructure integrity can. |
+| **22.11** | E5 Claude Sonnet 5 confirmatory cohort | `docs/25_aamas_claude_confirmatory_gate.md`, `analysis/claude_e5_complete_audit.json` | ✅ **DONE / GATE PASSED** | All 96 trajectories and 173 calls completed for an estimated $1.980382. The audit reports zero integrity issues. P achieved 16/32 first-pass and 22/32 final suitability versus R at 1/32 and 9/32 and G at 2/32 and 7/32. Proactive disclosure was 8/8 first-pass in memory-tight ETL, sharply reduced OOM kills, and dominated numerical outcomes; latency-tight ETL remained difficult across conditions. Worker stopped; frozen GPT cohort is approved. |
+| **22.12** | E5 GPT-5.6 Sol confirmatory cohort | `protocol/confirmatory_openai_sol.json` | ⏳ **NEXT** | Campaign priority 3 begins after the independently passed Gemini and Claude gates. Use the unchanged frozen manifest, one preselected operational canary, and the existing fail-closed audit before completing the cohort. |
 
 ### Manuscript-closure status (2026-08-27)
 
@@ -257,3 +258,8 @@ statistical sample.
   8/32 and G at 5/32 and 10/32. The estimated API cost is $4.961744 across 158
   calls. The dedicated worker is stopped. The frozen Claude and GPT cohorts are
   authorized to begin only under their existing manifests.
+- **AAMAS Claude cohort completion (2026-09-12):** All 96 trajectories completed
+  and passed the fail-closed audit with zero integrity issues. P achieved 16/32
+  first-pass and 22/32 final suitability, versus R at 1/32 and 9/32 and G at
+  2/32 and 7/32. The cohort used 173 calls and an estimated $1.980382, below the
+  frozen $8 cap. The worker is stopped and the GPT cohort is cleared to proceed.

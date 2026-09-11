@@ -1,0 +1,36 @@
+import numpy as np
+
+def main():
+    X = np.load('vectors.npy', mmap_mode='r')  # avoid loading whole file redundantly if large
+    n = X.shape[0]
+
+    # Load as float64 once for accurate dot products; array is small enough (8000x1024)
+    Xd = np.array(X, dtype=np.float64)
+
+    norms = np.einsum('ij,ij->i', Xd, Xd)
+
+    B = 1000  # block size, tuned for memory/time balance
+    total = 0.0
+
+    for i in range(0, n, B):
+        Ai = Xd[i:i+B]
+        ni = norms[i:i+B]
+        for j in range(i, n, B):
+            Bj = Xd[j:j+B]
+            nj = norms[j:j+B]
+
+            dot = Ai @ Bj.T
+            d2 = ni[:, None] + nj[None, :] - 2.0 * dot
+            np.maximum(d2, 0.0, out=d2)
+            np.sqrt(d2, out=d2)
+
+            s = d2.sum()
+            if i == j:
+                total += s
+            else:
+                total += 2.0 * s
+
+    print(f"TOTAL:{total:.10f}")
+
+if __name__ == "__main__":
+    main()

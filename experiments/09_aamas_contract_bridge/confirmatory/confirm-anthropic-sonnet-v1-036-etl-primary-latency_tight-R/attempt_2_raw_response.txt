@@ -1,0 +1,35 @@
+```python
+import pandas as pd
+import json
+
+def main():
+    df = pd.read_csv(
+        "transactions.csv",
+        usecols=["account_id", "category", "amount_cents"],
+        dtype={"account_id": "int64", "category": "string", "amount_cents": "int64"},
+        engine="c",
+    )
+
+    acc = df["account_id"].to_numpy(dtype="int64", copy=False)
+    amt = df["amount_cents"].to_numpy(dtype="int64", copy=False)
+
+    mask = (acc % 11) < 7
+    if mask.any():
+        acc_f = acc[mask]
+        amt_f = amt[mask]
+        multiplier = (acc_f % 97) + 1
+        values = amt_f * multiplier
+
+        cats = df["category"].to_numpy()[mask]
+
+        result_series = pd.Series(values, index=cats).groupby(level=0).sum()
+        result = {str(k): int(v) for k, v in result_series.items()}
+    else:
+        result = {}
+
+    sorted_result = {k: result[k] for k in sorted(result.keys())}
+    print("TOTAL:" + json.dumps(sorted_result))
+
+if __name__ == "__main__":
+    main()
+```

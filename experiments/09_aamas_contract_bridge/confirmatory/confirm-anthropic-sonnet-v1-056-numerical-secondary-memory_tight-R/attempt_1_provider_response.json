@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "EogJCpABCBEYAipAFjIfWc/Njic8MdnpVbmt7zmFShboctWih5eT6woF5LtKUVehTPG9WJ5q/znAAJ42w1qM1cQjuIrzAH6NB6bZojIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQxOTI4YjBmYi05OWI4LTRkODEtOTFlMS1jMmZkNzhkOWZjNmOoAYqrkdUGEgwUA/VpWWk6Wt5hqWkaDNaV9QNfucLcHZbuiyIwPg9NYnvckSxIzWK3qchnwbELONmJzF6uDjQMqVrKz621uVGK+xp0dXcNEWgW2wlNKqQHdGYRXaLB56dQs10r++8iQHJKD86AOMuyloOsh/yOna3utW9tYekQpBvWdP6FRUUs8vNiynacJ+/FFXRSAExDeZJtc25q/MkKDFgA/E/ZV3cEyoC/2IYAw9fBmBy4fdXe9CGa/pg8sWg3mclxSvLY76/PwZDCEJjVvD8s7/5atZ/USLTibB6y8B1sNtURlwaro5+0/Ci0/VZ43CHZu2ywU0vOiDTloHOg0XVb4EKCI9u2knShDro6fJdF40LV2UcbPCfsK8+LR/STq+mihriko39jHK8e4lEzPlDnJ5/r7I/pk+U441X2I1WFxlURS/8h9QuqWfiA+fuxZt2/gqg5YCC+PHgOWMCKmz27TmJBVXrCNtBAc++aKCUxH36Z7UsA+WNSbIGt87ihrtAxjgBmAi5Adq8VP+PyxpkKbIIpEJ96BIDo5tkcoHwdRPTRgEV/M5e30bGytxnLybacWwrDT2mvbrbJ+XJP4tAldWSzmx4xpYA61dW85A7paeg1jUuXJg3sYSP4ZeKLNX694dtXb4EHH2j4ld4VMs0CdRZ5oImrrMuiZjfB0PlubyAoOoqdPgivTUhfZtlT3ba4a4gokZnenNC5NE/oU8jlN1I+KbnTpXZpM2Ys526EiIVzItP9TVOYksqdU42K5RCGQR2ErFVkJ5zN03M/W5MH936VSnMdzV9jRmFg0KW0yn9206qlta6qRAdSu8sUF8gB6Ef1owdIgvrBdCnygYCXRIJ1G0o0ZIiRhnysn51FL7HkNVC06cK9cQ5hkSZ7Qh8FbHtXbQ80hNR3JFrgCYyPt/IFAcmOv+jBymZJwuZcAFVNFYa1MxFswctPmj4hMurgxEq66whsyvr+EGnjzSF7Sb8GzJ+xMMFYgGC0PFEU+BmTEC2k+5TYPo38B+J3dlWQ6u3EFknzTxY5RPbdEQFMZ+G5y8z4tlO9QAUVhmogXyLAwZr1N1aDOn5gOwPD3oKktkaZ6rI+Gr3IE4CRFC4nF4rD5cPEcRla6/Opn8RIi6Q1I9j1wGRjAp+Qr3w7kiODSLixB4esNFlZpN1y2O9AGkWxMRlzQwHDrs42W3lG+pBvtAr8hQ+ZZKvKcwvGZzOIs5PxZ/8xdE9meutwrpeq+KBHknLG8BiTSXTuM/Xs7AY1VKbbIw8Mhoj+EcioDcuMhaRaUdPDntu7rQ7VOL96pGF4+s59OXAL5suR/8R1nifwuDWmA9JXPe07jcfXt7lGA7s+qrogetsYAQ==",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef main():\n    X = np.load(\"vectors_secondary.npy\")\n    X = X.astype(np.float64, copy=False)\n    n = X.shape[0]\n\n    norms = np.einsum('ij,ij->i', X, X)\n\n    total = 0.0\n    chunk_size = 500  # adjust for memory/performance balance\n\n    for start in range(0, n, chunk_size):\n        end = min(start + chunk_size, n)\n        Xi = X[start:end]\n\n        dots = Xi @ X.T  # shape (chunk, n)\n        sq_dists = norms[start:end, None] + norms[None, :] - 2.0 * dots\n        np.maximum(sq_dists, 0.0, out=sq_dists)\n        dists = np.sqrt(sq_dists)\n\n        total += dists.sum()\n\n    # total is a numpy float64 scalar; convert to Python float for printing\n    total = float(total)\n    print(f\"TOTAL:{total!r}\")\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexCY39Ei49RtPAiit4EU",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 192,
+    "output_tokens": 742,
+    "output_tokens_details": {
+      "thinking_tokens": 396
+    },
+    "service_tier": "standard"
+  }
+}

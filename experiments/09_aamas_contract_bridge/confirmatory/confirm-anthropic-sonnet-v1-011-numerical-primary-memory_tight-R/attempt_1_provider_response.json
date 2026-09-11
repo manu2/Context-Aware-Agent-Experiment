@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "EqELCpABCBEYAipANjk2uGSE6HvrSLaU0A8wyT9Zu7IcBu3raEw+XdwVq86KxTStHMvHcswidXPzE91vB6fKQTyG4O1NkKi1J0lc1TIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQxOTI4YjBmYi05OWI4LTRkODEtOTFlMS1jMmZkNzhkOWZjNmOoAbmfkdUGEgxwkZa/qsc0kJV8G7IaDEPozvCjgZn3Hg/MYyIwRqiY57+TiEN0kKhHagPi82GGMlm7dB4/7s01bAIt+ccnE9Dp5irMBlE8JlJPYrBOKr0JUOeKiwRWiozw8ChpRNwqsa/6m3PeE7GolAr22jkdkHQC0rOvxH/4tcCFdh8Mf/WlV6DXdqg/Lv/TCuaLR2mF3hesa0DlpQvkm2fdyJQwaScRFOdqlYFX0YED4youeD6LqexfEEM1ucI4PAuq/wc9QWXe6thTo00nPW7Kerhw/cdCxERVL+AscICpks2q1xFZbpvVFmLfOtgmaRWPi4dxf+My0adoWvH8IIIs3pDQPRo4yD+x75+WMgQbf/cIUJTUQkMZ0K6PHT6jcUOcaip+vu1J9pnShWkDGBfKmgV7Xfgap7Sbx4Pq2XlbRBQSuYqtP0Vb8PkkQBHRLD4YlH3G1bbnH7WAcPI3ptLoVw6kxZ2IRXKkmfIqsbAO7HX9y3gEL/UhmGUQQf4PcqxQMEXGI9CZO/zJIlzbG1kh1Pg4HHs8svQOJYgfb1XnwsqYNt5+EayOoUJzxSgrPQGITMDswfLO+BAYROpo046m6lZyi9S6uCyK5GyuAsNW6WLTpfctXyK7mgQKZNPvHQISu5qJqU+gh6RXGJCXAkS3XPUc90mowFwznGZmykOTEKA7VR3MCLcouOW75K036btRbenPlBvG8peZoke9rJVxBxjoDmI7UGLFx83Oy652ak3NzhxBiIsWRBa77dmguVyNftLQ3hdfuofzPpQ7SoLmYdU5/cTnUmuWXbgB1ZrxpYHKZLQNBq74H1UlP5VF8lgIWbyNwrmthmR6DCW1qiwYNTQNvoAZoVP0v3BzWNgURz2mloobJ+FTuzIu1jA5MfyWHKvfG0uSGFJjMaD3fCx81WwL28lo8GRHYks/2Qxm4sO046YQGXmU8TTC/EvZiMatrS2F0mVUT9ttbMtwIJrw7o28lbg4MebV0XAEfPfw/83EuI/UyGlRdWL7q9LtY4R/tqGLkn6RgeyQNFuk2njnUiXLMADWcditINlVGhuI/A/1Z7ZZ+VqyXe4bJ9cR/u05lDt6/yTNnrCzqNwyx0NrvOcVSa4KEJhYMt9KrRs9laLDugIuHbD729rmB6Uyyf0LGMCM6VlbomTH0onip0Fx6Yj2ofXmCnUfwPOUBgLZUZ+OPWkMMdxUnI2MWfTY6XucdmkUq9/xakJsegApmqVspUvZLaXycH2QireCAfp9ZeuZktm9+MI5EOQiAnXqrizGdOefSrHcKJwTIOspm7q+M32LZb0gi6elXX1w9sswrDwY2xfZ27UXd1I6ps5e0UyrbK0sAB+QBibjebu76k0KKPyaOciHLjaIio52IFe80cExiUfosH2GXGDF/EVNusDnBx+WuVgb0VSPQMfBQq2ghHVWBFf7ttsOJv9u2XgBNnC4M6ps2xjQw7fkOvU5102Fcb9Ck7uDv7L/XWRishcghbrp90IbaNl7FT9A9XfjlA+9EVpDKbOYjBpD6tOY0HmX/CosdhQJKOYvz0sU3eNfQ6zOYDAsJ+ijdAeCwXQ4mSj6gnu3ksw/M9tGwv/l5Sf7j2AxHMRnsQLu2NkoN8jJs7opmUq67cV07LejHyfUkdWuqaylXILcP+JuIoDZxa/iGOtCeAmLtStspGarb9WVJ5+eNdukk5NtwnxBFwtV8v4nznVStv+G9uKyC+Yrecgu2hgB",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef main():\n    # Load vectors, use float64 for accurate distance computation\n    vecs = np.load(\"vectors.npy\").astype(np.float64)\n    n = vecs.shape[0]\n\n    # squared norms of each row\n    sq_norms = np.einsum('ij,ij->i', vecs, vecs)\n\n    total = 0.0\n    chunk_size = 500  # process rows in chunks to limit memory usage\n\n    for start in range(0, n, chunk_size):\n        end = min(start + chunk_size, n)\n        chunk = vecs[start:end]  # shape (c, d)\n\n        # dot products between chunk and all vectors\n        dots = chunk @ vecs.T  # shape (c, n)\n\n        # squared distances: ||a||^2 + ||b||^2 - 2*a.b\n        sq_dists = sq_norms[start:end, None] + sq_norms[None, :] - 2.0 * dots\n\n        # numerical issues can cause tiny negative values; clip them\n        np.maximum(sq_dists, 0.0, out=sq_dists)\n\n        dists = np.sqrt(sq_dists)\n\n        total += dists.sum()\n\n    # Print with high precision decimal representation\n    print(f\"TOTAL:{total:.10f}\")\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexAe9bdNpumnKFZ2DRao",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 188,
+    "output_tokens": 951,
+    "output_tokens_details": {
+      "thinking_tokens": 509
+    },
+    "service_tier": "standard"
+  }
+}

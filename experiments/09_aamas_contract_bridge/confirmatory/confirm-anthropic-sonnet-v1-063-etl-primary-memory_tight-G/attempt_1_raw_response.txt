@@ -1,0 +1,29 @@
+```python
+import json
+import pandas as pd
+
+def main():
+    df = pd.read_csv(
+        "transactions.csv",
+        usecols=["account_id", "category", "amount_cents"],
+        dtype={"account_id": "int64", "amount_cents": "int64"},
+    )
+
+    mask = (df["account_id"].to_numpy() % 11) < 7
+    df = df.loc[mask]
+
+    weights = (df["account_id"].to_numpy() % 97) + 1
+    weighted = df["amount_cents"].to_numpy(dtype=object) * weights.astype(object)
+
+    result = {}
+    categories = df["category"].to_numpy()
+    for cat, val in zip(categories, weighted):
+        result[cat] = result.get(cat, 0) + int(val)
+
+    sorted_result = {k: result[k] for k in sorted(result.keys())}
+
+    print("TOTAL:" + json.dumps(sorted_result))
+
+if __name__ == "__main__":
+    main()
+```

@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "EtcJCpABCBEYAipAe0x2InY0QnnGfasHVGS1LIL6hg8+LsG4TONQlp1AJE7kSOZ4uwH86RcSy0oT3AgN96BHsoOlsj6GEmYMSzUTyjIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQxOTI4YjBmYi05OWI4LTRkODEtOTFlMS1jMmZkNzhkOWZjNmOoAdikkdUGEgw7bvrhIuhdymQmsCYaDGetG+/yBnjqrvGbZSIwS9yYzYFkMfZzCGMxZ6PBLuB1OPROzIztSekvgTvf951qZYBLt5C3xYMB+EbGrvo5KvMH6o2XmwVFcytdAHkt5OmG9thArno7uNWRCW2l1iAD/WrfJPB7iLp7aen123uYfhkxw4O+eBBtP1cFyEpj7Rn5SvVzg9DW1ZFALCJNbHg8SKmWCyJad7WAeqS1oDRXACAXE7ENCbrC68dM8nwm0SgY6B9jFJn3GpPA/tr1KKVrxzSJVsn3hEK6uyn0w6RG8CXtrHSw57TK9dqO7ikgcsvdK+P1Z1DN0jwi3IS9tuicGZKIvGR5EWnsqxBlksKEL0PLEmRZkLwCmewbwWORtvMU30S2oKAITizH3hbZKUojesIe3wUu55DbmCuEusxCqmYwUJuVndvm7BRm+V8+Ca/8CW8lZNxvHgfRaLy7/pMwfdlcuIlZQGNJvEvei8JZmN3EpA4OZRm1h8NEDAiZUtX9dUnPVJRwt4pUwM6EDqcpsW/5KA7Maj+2CSAPyWu2OuGrqckSEfGl+1AR+kYwR4anwvG/kRat1XLQLzD1QhiMzJPH1pa+TwvfSbMT+oyEuop99yAjvhNdiihFXQGnpQotwchnXJVgRQDzkxw+k9erBx+JavHqqBabFfCV5TuBJinv7fLh1mhpq5jmtju7hi0j5/ZmB5Ny1c4PznyA/51xPEuH8OmptqZPoV2XE21Fs5HMUWpTZceRo36FjzczgpON+kZPFTd0df8QVrcdv1YVUOxAGCtggmVm4I7WFSus1TqZI1MNqW62orPDNWZSma+rn8mJGVPojCDCeKkFKJ4gk6C050L7WkTfJCF3rhl77UzLm5SJZVABRHTQ8li1IAE8SZeZS5EaiWbLGiyu1EbXDZNThTMfoFUUfoZwVCgumT55aWYq/AHitapFGsTk6090T8HZtqnWPzvLGpytp2KcT3HFYSpDZdPK/U8ekb6zK2NSNf79tExN9pp4bjr69sULmGT0Wqf75JerTFyzOvmG1IkDyHu7I7MNFGBHeL5Ahe2ViV2F6nyZezoZUgbhcJpmN9ZPzQxm0TEhnoN6FbNkGm8Xw+bA2lCjCN5uab532toxOyHB9SK0l005DSaqJ80ar+Mjj9qymO6eInlveTdvSLQQD18+gIIuuuit9kNA1r2j8P28WCMDXLjO0UHV2vcVQQ80ZDLJedGae1GuJi4P4BEXg4uzw/97ezuGgquHPn32LPmCiF9009vIVKlZ0Ox+a48SXFQBpCjVdZgVmK8+PDBGbz7pKupgCzAhfXW+FlZupQxbzeX/baE/mmsguGNSpB4RdYScJkN14MeKIEm+WPfLbvcJT6T7jLrM9qSDsVzLdiPQweWssTq8Lb1D0PR4/0TeOVLM0hJJhbRX1cgVY7Keny1Tck++BO8Z9mCSTyLH0fHUGAE=",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef main():\n    X = np.load(\"vectors.npy\", mmap_mode=\"r\")  # (8000, 1024) float32\n    n = X.shape[0]\n\n    # Load into memory as float64 for accurate dot products\n    X64 = np.asarray(X, dtype=np.float64)\n\n    sq_norms = np.einsum('ij,ij->i', X64, X64)\n\n    total = 0.0\n    chunk_size = 500  # tune for memory/speed balance\n\n    for start in range(0, n, chunk_size):\n        end = min(start + chunk_size, n)\n        block = X64[start:end]  # (chunk, 1024)\n\n        # Compute dot products between block and all rows\n        dots = block @ X64.T  # (chunk, n)\n\n        # squared distances: ||a||^2 + ||b||^2 - 2 a.b\n        d2 = sq_norms[start:end, None] + sq_norms[None, :] - 2.0 * dots\n\n        # Numerical safety: clip small negatives to zero\n        np.maximum(d2, 0.0, out=d2)\n\n        d = np.sqrt(d2)\n\n        total += d.sum()\n\n    # total is a Python float; format as decimal\n    print(f\"TOTAL:{total:.10f}\")\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexBVhKCzT6AqcUKXiuzj",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 296,
+    "output_tokens": 824,
+    "output_tokens_details": {
+      "thinking_tokens": 386
+    },
+    "service_tier": "standard"
+  }
+}

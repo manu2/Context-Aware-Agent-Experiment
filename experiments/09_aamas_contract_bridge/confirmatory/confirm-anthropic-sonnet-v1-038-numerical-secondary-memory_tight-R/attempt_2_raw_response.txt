@@ -1,0 +1,49 @@
+```python
+import numpy as np
+
+def main():
+    X = np.load("vectors_secondary.npy", mmap_mode="r")
+    n = X.shape[0]
+
+    # Work in float64 for accuracy but stream in chunks to bound memory usage.
+    chunk_size = 250  # rows per chunk -> chunk x n distance block computed at a time
+
+    # Precompute squared norms of all rows (n floats, negligible memory)
+    norms = np.empty(n, dtype=np.float64)
+    for start in range(0, n, chunk_size):
+        end = min(start + chunk_size, n)
+        block = np.asarray(X[start:end], dtype=np.float64)
+        norms[start:end] = np.einsum('ij,ij->i', block, block)
+
+    total = 0.0
+
+    for start in range(0, n, chunk_size):
+        end = min(start + chunk_size, n)
+        A = np.asarray(X[start:end], dtype=np.float64)  # (m, d)
+        m = end - start
+
+        # dot products between this chunk and all rows: (m, n)
+        # computed in sub-chunks over columns too, to bound memory further
+        col_chunk = 1000
+        row_norms = norms[start:end]  # (m,)
+
+        for cstart in range(0, n, col_chunk):
+            cend = min(cstart + col_chunk, n)
+            B = np.asarray(X[cstart:cend], dtype=np.float64)  # (k, d)
+            dots = A @ B.T  # (m, k)
+
+            col_norms = norms[cstart:cend]  # (k,)
+
+            sq = row_norms[:, None] + col_norms[None, :] - 2.0 * dots
+            np.maximum(sq, 0.0, out=sq)  # guard against tiny negative values from floating point error
+            dists = np.sqrt(sq)
+
+            total += dists.sum()
+
+    # total is a numpy float64; convert to Python float for printing
+    total = float(total)
+    print(f"TOTAL:{total!r}" if False else f"TOTAL:{total:.10f}")
+
+if __name__ == "__main__":
+    main()
+```

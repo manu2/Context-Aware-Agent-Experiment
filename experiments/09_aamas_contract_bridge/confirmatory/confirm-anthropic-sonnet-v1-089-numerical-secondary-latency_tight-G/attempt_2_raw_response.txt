@@ -1,0 +1,37 @@
+```python
+import numpy as np
+
+def main():
+    X = np.load("vectors_secondary.npy", mmap_mode="r")
+    X = np.asarray(X, dtype=np.float64)  # promote to double for accurate distances
+    n = X.shape[0]
+
+    sq_norms = np.einsum('ij,ij->i', X, X)
+
+    block_size = 500
+    total = 0.0
+
+    for start in range(0, n, block_size):
+        end = min(start + block_size, n)
+        block = X[start:end]  # (b, d)
+
+        # dot products between block and all rows
+        dots = block @ X.T  # (b, n)
+
+        # squared distances: ||a||^2 + ||b||^2 - 2*a.b
+        sq_dists = sq_norms[start:end, None] + sq_norms[None, :] - 2.0 * dots
+
+        # numerical noise can create tiny negative values
+        np.maximum(sq_dists, 0.0, out=sq_dists)
+
+        dists = np.sqrt(sq_dists)
+
+        total += dists.sum()
+
+    # total is sum over all ordered pairs (including zero diagonal)
+    # Print as decimal value
+    print(f"TOTAL:{total:.10f}")
+
+if __name__ == "__main__":
+    main()
+```

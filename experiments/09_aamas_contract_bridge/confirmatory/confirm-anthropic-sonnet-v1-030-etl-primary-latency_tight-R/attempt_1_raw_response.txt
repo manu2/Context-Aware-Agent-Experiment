@@ -1,0 +1,19 @@
+```python
+import pandas as pd
+import json
+
+df = pd.read_csv("transactions.csv")
+
+mask = (df["account_id"] % 11) < 7
+filtered = df.loc[mask].copy()
+
+weight = (filtered["account_id"] % 97) + 1
+filtered["weighted"] = filtered["amount_cents"].astype("int64") * weight.astype("int64")
+
+result = filtered.groupby("category")["weighted"].sum()
+
+result_dict = {str(k): int(v) for k, v in result.items()}
+sorted_dict = dict(sorted(result_dict.items()))
+
+print("TOTAL:" + json.dumps(sorted_dict))
+```

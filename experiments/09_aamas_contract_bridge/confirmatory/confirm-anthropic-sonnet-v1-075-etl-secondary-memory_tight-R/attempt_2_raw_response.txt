@@ -1,0 +1,29 @@
+import pandas as pd
+import json
+from collections import defaultdict
+
+totals = defaultdict(int)
+
+chunksize = 200_000
+
+for chunk in pd.read_csv(
+    "transactions_secondary.csv",
+    usecols=["account_id", "category", "amount_cents"],
+    dtype={"account_id": "int64", "amount_cents": "int64"},
+    chunksize=chunksize,
+):
+    mask = (chunk["account_id"] % 13) < 8
+    if not mask.any():
+        continue
+    sub = chunk.loc[mask]
+
+    factors = (sub["account_id"] % 89) + 3
+    # Compute contributions as Python ints to keep exactness
+    contributions = sub["amount_cents"].astype(object) * factors.astype(object)
+
+    for cat, val in zip(sub["category"], contributions):
+        totals[cat] += int(val)
+
+result = {k: totals[k] for k in sorted(totals.keys())}
+
+print("TOTAL:" + json.dumps(result))

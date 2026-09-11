@@ -1,0 +1,24 @@
+import numpy as np
+
+def main():
+    X = np.load("vectors.npy").astype(np.float64)
+    n = X.shape[0]
+
+    norms = np.einsum('ij,ij->i', X, X)
+
+    total = 0.0
+    block = 500
+
+    for start in range(0, n, block):
+        end = min(start + block, n)
+        A = X[start:end]
+        dots = A @ X.T
+        sq_dist = norms[start:end, None] + norms[None, :] - 2.0 * dots
+        np.maximum(sq_dist, 0.0, out=sq_dist)
+        dist = np.sqrt(sq_dist)
+        total += dist.sum(dtype=np.float64)
+
+    print(f"TOTAL:{total:.10f}")
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,37 @@
+```python
+import pandas as pd
+import json
+from collections import defaultdict
+
+sums = defaultdict(int)
+
+chunksize = 500_000
+
+for chunk in pd.read_csv(
+    'transactions.csv',
+    usecols=['account_id', 'category', 'amount_cents'],
+    dtype={'account_id': 'int64', 'amount_cents': 'int64', 'category': 'category'},
+    chunksize=chunksize,
+):
+    acc = chunk['account_id'].to_numpy()
+    mask = (acc % 11) < 7
+    if not mask.any():
+        continue
+
+    sub_acc = acc[mask]
+    amt = chunk['amount_cents'].to_numpy()[mask]
+    mult = (sub_acc % 97) + 1
+    val = amt * mult  # int64 arithmetic
+
+    cats = chunk['category'].to_numpy()[mask]
+
+    # Build a small DataFrame just for grouping, using minimal columns
+    tmp = pd.DataFrame({'category': cats, 'value': val})
+    g = tmp.groupby('category', observed=True)['value'].sum()
+
+    for cat, v in g.items():
+        sums[cat] += int(v)
+
+result = {str(k): sums[k] for k in sorted(sums, key=lambda x: str(x))}
+print("TOTAL:" + json.dumps(result))
+```

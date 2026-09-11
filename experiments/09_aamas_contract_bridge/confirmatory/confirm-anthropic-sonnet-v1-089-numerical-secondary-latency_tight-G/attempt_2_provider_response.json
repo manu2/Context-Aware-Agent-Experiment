@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "EoMJCpABCBEYAipAMbEr51h85XWzdWQO1FDf0YBcl9I5MTsJ9egOOyKflomJqK41EtRSJWcdmlmlCmSEvFmkS16AVQxJBonlTnvDXjIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQxOTI4YjBmYi05OWI4LTRkODEtOTFlMS1jMmZkNzhkOWZjNmOoAb6ykdUGEgwub89ry5Xq5+SPDMIaDMT+7WwulrQQv/66zCIwF1P8gVuZovEx976Bh0jh5zYTh/CmYmn2w5WP3xJgIukAxm/4+I23SNskKDGclhPiKp8HgGoWFUBnURSpkX6KmRH+t8DXsneRuqXU777SZc2mlh4u/LSf03df3q/1hhECRwR2FnuyiQh9aKbJjJ7xrRYR1WylM8Jdrkl3llnVJZ7TB3lzHOYyKVu/kizxt5a6dN/MHPOP+OYi3wPKbOgyPxd1cmCFuxULx/TkSxao4jiZjJvC7xImZYEiYb3kEYQBNRyue9MZVByEhJ7cyaqF6wcALIe4lR1EXnOgizSIYqSu16gDWRP5QMHxwCIu1crG8APIxFWOXH5QwMgc8rIck/TCkL1cP/HFFdnB4LJmr46lLm3U5r/iUGBEd29hjs9y6U9L59wOA94se2fJbOA/TmlDfiLxqgL3Cint9arBLz/TZ/F9bcaNuvs0pW7VD6GpzyoGtB5VyW96SSAzOVaUNpIltXCrF062qzcWsJB45QLLGTGquIr8DmqFIn5AXtwur0C0b4jRLoYWpSMt23jYR+yD5vlKE4Cdo0769QaqvqEQGUwGx8lwi+zv55qMtYQwAIALl7ssO4sZsJjt+nKxJtSOzlngEVa6jsSOAYkX/VO5Mt35fwoD2+VXwC853PyHuoUGeDmk5n7qL5tGjTv2tkq2qAIcORUWYErKF5xJJrblYQXqpFnbCFzK2pkgzNq3Ez0tZpsn+dNulBzoInuTMD2VPcDTPqF9goHdKICBt7LxMZH6B87pPr1AyYk0F9wCpTHaPuB1rozsjEveP9DrbidzCh63wW6isHaEtK2GttJeaUx4LOtBi7YftoQn+qz6oMdcqr0+oMLQUqXpSlwdzghU5/LD7naCnb029XwMEi4kFN6YrN07iZFZZxnOzQu6eM5uJ/IXqpSuCVY0TTU9I4ye8zy6a6X8v3KeBfynJF28OL1/hnUE+F8QeEVrH6se1L43AO+appwZb+EApL0QG5W9KEdZKrUX+nubSHUgbREzie1cAEuE+ZpR6hf9GMX9L2jMf8+YpELQKhS/KQFXXHvpDF2olrJeGZOY0Ma0ZMc3kRR39ZFcry1PVws8E6IV/zcdqUJJQT9Oh3aPenGbLR5EkZO4PZqLiMnjS04OFCr0OXq1viCKLrvOSdpXTLBZFYe7ORLW+4l+qMPxY3JAwHRxKhYUbK60qRCQYdgypK2Mp+B7lwMlu7s7SqiG+Tt49zsbKlCieB9wsYd/P41C+5rVTuvRXjPu4+E2ek3Q3q43ly/foVrgC71TKuiTKSASjiBjPHTsGJiZ8l19UokxP70pGAE=",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef main():\n    X = np.load(\"vectors_secondary.npy\", mmap_mode=\"r\")\n    X = np.asarray(X, dtype=np.float64)  # promote to double for accurate distances\n    n = X.shape[0]\n\n    sq_norms = np.einsum('ij,ij->i', X, X)\n\n    block_size = 500\n    total = 0.0\n\n    for start in range(0, n, block_size):\n        end = min(start + block_size, n)\n        block = X[start:end]  # (b, d)\n\n        # dot products between block and all rows\n        dots = block @ X.T  # (b, n)\n\n        # squared distances: ||a||^2 + ||b||^2 - 2*a.b\n        sq_dists = sq_norms[start:end, None] + sq_norms[None, :] - 2.0 * dots\n\n        # numerical noise can create tiny negative values\n        np.maximum(sq_dists, 0.0, out=sq_dists)\n\n        dists = np.sqrt(sq_dists)\n\n        total += dists.sum()\n\n    # total is sum over all ordered pairs (including zero diagonal)\n    # Print as decimal value\n    print(f\"TOTAL:{total:.10f}\")\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexDjnTtmupbBPHopZCzT",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 338,
+    "output_tokens": 781,
+    "output_tokens_details": {
+      "thinking_tokens": 362
+    },
+    "service_tier": "standard"
+  }
+}

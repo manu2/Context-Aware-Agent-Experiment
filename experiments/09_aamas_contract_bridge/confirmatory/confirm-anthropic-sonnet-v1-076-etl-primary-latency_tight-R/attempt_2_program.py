@@ -1,0 +1,26 @@
+import pandas as pd
+import json
+
+def main():
+    df = pd.read_csv(
+        "transactions.csv",
+        usecols=["account_id", "category", "amount_cents"],
+        dtype={"account_id": "int64", "amount_cents": "int64", "category": "string"},
+    )
+
+    mod11 = df["account_id"] % 11
+    mask = mod11 < 7
+    df = df.loc[mask]
+
+    weight = (df["account_id"] % 97) + 1
+    contrib = df["amount_cents"].astype("int64") * weight.astype("int64")
+
+    result = contrib.groupby(df["category"]).sum()
+
+    out = {str(k): int(v) for k, v in result.items()}
+    out_sorted = dict(sorted(out.items()))
+
+    print("TOTAL:" + json.dumps(out_sorted))
+
+if __name__ == "__main__":
+    main()

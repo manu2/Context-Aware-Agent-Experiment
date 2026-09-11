@@ -1,0 +1,30 @@
+import numpy as np
+
+def main():
+    X = np.load("vectors.npy", mmap_mode='r')
+    X = np.asarray(X, dtype=np.float64)  # promote for accurate sqrt/sum
+
+    n = X.shape[0]
+    sq_norms = np.einsum('ij,ij->i', X, X)
+
+    total = 0.0
+    chunk = 500  # rows per block, keeps memory manageable while using BLAS
+
+    for start in range(0, n, chunk):
+        end = min(start + chunk, n)
+        block = X[start:end]  # (b, d)
+
+        # dot products between block and all rows
+        dots = block @ X.T  # (b, n)
+
+        d2 = sq_norms[start:end, None] + sq_norms[None, :] - 2.0 * dots
+        np.maximum(d2, 0.0, out=d2)  # guard against tiny negative values from rounding
+        dists = np.sqrt(d2)
+
+        total += dists.sum()
+
+    # total is a numpy float64 scalar; format as decimal
+    print(f"TOTAL:{total:.10f}")
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,29 @@
+```python
+import numpy as np
+
+def main():
+    X = np.load('vectors_secondary.npy').astype(np.float64, copy=False)
+    N = X.shape[0]
+
+    sq_norms = np.einsum('ij,ij->i', X, X)
+
+    total = 0.0
+    block = 500  # balance memory vs speed
+
+    for start in range(0, N, block):
+        end = min(start + block, N)
+        Xi = X[start:end]
+
+        # squared distances for this block against all rows
+        d2 = sq_norms[start:end, None] + sq_norms[None, :] - 2.0 * (Xi @ X.T)
+        # numerical safety: clip tiny negative values from floating point error
+        np.maximum(d2, 0.0, out=d2)
+
+        d = np.sqrt(d2)
+        total += d.sum(dtype=np.float64)
+
+    print(f"TOTAL:{total!r}")
+
+if __name__ == "__main__":
+    main()
+```

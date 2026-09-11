@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "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",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef main():\n    X = np.load('vectors_secondary.npy')\n    X = X.astype(np.float64, copy=False)\n    n = X.shape[0]\n\n    sq_norms = np.einsum('ij,ij->i', X, X)\n\n    total = 0.0\n    block_size = 500\n\n    for start in range(0, n, block_size):\n        end = min(start + block_size, n)\n        Xb = X[start:end]\n\n        # Dot products between block rows and all rows\n        gram = Xb @ X.T  # shape (block, n)\n\n        # Squared distances: ||a||^2 + ||b||^2 - 2 a.b\n        dist_sq = sq_norms[start:end, None] + sq_norms[None, :] - 2.0 * gram\n\n        # Numerical safety: clip small negative values to zero\n        np.maximum(dist_sq, 0.0, out=dist_sq)\n\n        dist = np.sqrt(dist_sq)\n\n        total += dist.sum()\n\n    # Print with high precision decimal formatting\n    print(f\"TOTAL:{total:.10f}\")\n\nif __name__ == '__main__':\n    main()\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexBiYjt9xEeJg9UUZEVS",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 192,
+    "output_tokens": 967,
+    "output_tokens_details": {
+      "thinking_tokens": 584
+    },
+    "service_tier": "standard"
+  }
+}

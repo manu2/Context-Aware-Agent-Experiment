@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "EqsKCpABCBEYAipAlPPfvQcRq9XSLLiFRS0O1ORd1ezPT5mD9vYkKW7jAZq57nSzZghya5mhlDHffnTFKh3NcqY6kcxB5UiTEOdYCDIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQxOTI4YjBmYi05OWI4LTRkODEtOTFlMS1jMmZkNzhkOWZjNmOoAY60kdUGEgx+igm4sznGT88ABBwaDPwKSYC7Y39Nlg5M7iIw0+TakOCsFD4TPda387sg3R8Am+GnCQmYamxEFPQIC/RnK2yNW5vrcaCZI/WLI5JmKscIuCQcFSWJ80Sy6f9I1y8SCkBKXN8ZcgwfOtKQhd/34KFly/pmD3Q6xxxj/NWry6YOiD7vADybDrdNjUvg+NqOGRLtmGZaD7/G6rYg1e6GR4f75ZhMi2ytxSVjJXGGTNQUdeAIwsH118W1Vqrzl2qaBG3uvXzbEh6dbQlZmjpDBX9eodNlDhqjR5gQOPNp0bDB8bbCqyc8iLUvpi/+kXJLbomQZpLDj4B8RVwELYD4FQYTsxxvC+K3px3rhBErYyQ3ha+YYndaqFJ/eBwc/4TcxLEk8ep1gCuLXDKVPWzHrvLTJTaQt/r3IaIElb1VyjVK1uAnqg7pJZeySNHSOCiItIc1RSZBN9BnLDSJ6EH/z30czp9KNqIi1Vo8PLA1L9NilLjHWuCRnKTXBneuJT3CGu4TsHhwVSrTICdAjms665xAm8Xwg0yoNFw4ui9DilDqfFZ2Et3YOeWWwN76IOzP2i7ttpvho7Lx3FQOT3YzVFFSkc1q93qzZG9KfxrgnCRk9QkDC04JJr45kV90+Z1snz7KsHtPsXmkma/vkf/TQ3dItBdoDOPzUpQ1V3Scg/sA1oTjmVn8tiWEoBXOEx98nPQzGbvc+lBYKw0j+pW1fT4tZH7QDuy9NIRLxiEnYPlgGsUKizg9PWbJ5Kx7njTvdf1zFoLHG1H2jTTPHaLuiDNVDh5ReE3MVf2Yd+Ds/r+9iVQHwbrnoCENpydCKXhRy1w7rVuyBC+8S1HcVa04o6ujydbD0+1RC1vwF53TsuFhWY7mjlOqNmCFLGtPtWZaVCS7MncR+DSAIKpnxrOa1gsrhLwzevmxFpqNC8mu9jSUmZWxHzCKQqxmf5nPhDqkDgVWdbAWq3QtR7FYqKejMC4iLsdMhMKPL4VVFvdLdD3yPEz2nyYiXDvtkkIq9jVQcLA8zTdVN+100ZZOWBR0X93EQFizeJGlr0otA7g4V4BNv9dF/GqoCQ8+yWpXumDqE9kErSGzOEXErB8akeNJRDBenpstiZNzeI2jBHgtARfes6nJowl0hnkdRZZSP+ell5IOr5RihKSz+ZolCmPS01sdSawc3Tci+1IDkrX3tU4YY4qTJwDRHjEsb/dMGAXoaj+OydMI8WliU1BsNI5qa8+mbvRdoyXkaaKJmKawOfz42ZHLlZQHZLi73MnH1J6fUgg1A3kfV3kBGh+iYdKNvsSC0TkvDwXM3eSvNE19DnyIuP9IE9+kK+Z6BBb8BlfLZCnQsJJf/hnU2SDGNcsMVxLs7Imix5aVQ7WPn7yPWg4VI8DB6V1h8JhOOqUQWCFBmVZlLsLrHbAhIYmA/eam0jZ8uF+oc7QgpdaGPn+Z+ptZFZLqzCtvO/grCJqc71k7mhV6y2jKLl61qsJrx9YDNM8uvI/Zyv7SBt5wiGMLgmsaUkReoOhfXbguiRRBjp4plXSKBdF8CG8qm6lQb1HftyZZCNGEdO3vGAE=",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef main():\n    X = np.load(\"vectors_secondary.npy\")\n    X = X.astype(np.float64, copy=False)\n    n = X.shape[0]\n\n    sq_norms = np.einsum('ij,ij->i', X, X)\n\n    total = 0.0\n    chunk_size = 500  # process rows in chunks to limit memory usage\n\n    for start in range(0, n, chunk_size):\n        end = min(start + chunk_size, n)\n        chunk = X[start:end]\n\n        # squared distances: ||a||^2 + ||b||^2 - 2 a.b\n        dots = chunk @ X.T\n        d2 = sq_norms[start:end, None] + sq_norms[None, :] - 2.0 * dots\n\n        # numerical safety: clamp tiny negative values to zero\n        np.maximum(d2, 0.0, out=d2)\n\n        dists = np.sqrt(d2)\n        total += dists.sum()\n\n    print(f\"TOTAL:{total!r}\")\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexE19phTKEGhtZKQTGy1",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 192,
+    "output_tokens": 788,
+    "output_tokens_details": {
+      "thinking_tokens": 434
+    },
+    "service_tier": "standard"
+  }
+}

@@ -1,0 +1,19 @@
+Write a complete Python program. The current directory contains transactions.csv with columns account_id, category, and amount_cents. CPython 3.11.2, NumPy 2.0.2, Pandas 2.2.3, and the Python standard library are available. For rows whose account_id modulo 11 is less than 7, compute for each category the exact sum of amount_cents multiplied by ((account_id modulo 97) + 1). Print exactly TOTAL:<JSON object>, with category keys sorted and no extra output. Do not modify the input file. Do not invoke external programs. The program has no network access.
+
+TARGET EXECUTION CONTRACT
+- Peak process memory limit: 512 MiB
+- Program wall-time limit: 1.4 seconds
+- CPU quota: 1 cores
+- Runtime: CPython 3.11.2
+- Available packages: numpy==2.0.2, pandas==2.2.3
+Select an implementation suited to this operating envelope.
+
+Return only one complete Python program.
+
+AUTHENTIC FIRST EXECUTION OBSERVATION
+- Exit code: 124
+- Timed out: true
+- Kernel OOM kill observed: false
+- Stdout (tail): ''
+- Stderr (tail): ''
+Revise the implementation using this execution evidence. Return only one complete Python program.

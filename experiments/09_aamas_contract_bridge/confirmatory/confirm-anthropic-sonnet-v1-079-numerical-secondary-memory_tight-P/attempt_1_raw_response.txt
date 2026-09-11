@@ -1,0 +1,44 @@
+```python
+import numpy as np
+
+def main():
+    X = np.load('vectors_secondary.npy', mmap_mode='r')  # (8000, 1024) float32
+    n = X.shape[0]
+
+    # Precompute squared norms in float64 for accuracy, but keep memory small
+    # Process norms in chunks too, to avoid loading whole X as float64
+    norms = np.empty(n, dtype=np.float64)
+    norm_chunk = 1000
+    for start in range(0, n, norm_chunk):
+        end = min(start + norm_chunk, n)
+        block = np.asarray(X[start:end], dtype=np.float32)
+        norms[start:end] = np.sum(block.astype(np.float64) ** 2, axis=1)
+
+    total = np.float64(0.0)
+    block_size = 200
+
+    # Load full X once as float32 array in memory (32 MB), needed for matmuls
+    X_full = np.asarray(X, dtype=np.float32)
+
+    for start in range(0, n, block_size):
+        end = min(start + block_size, n)
+        Xb = X_full[start:end]  # (b, 1024) float32
+
+        # dot product block x full, float32 matmul then cast to float64
+        dot = Xb @ X_full.T  # (b, n) float32
+        dot64 = dot.astype(np.float64)
+
+        # squared distances
+        sq = norms[start:end, None] + norms[None, :] - 2.0 * dot64
+        np.maximum(sq, 0.0, out=sq)
+        dist = np.sqrt(sq)
+
+        total += np.sum(dist)
+
+        del dot, dot64, sq, dist
+
+    print(f"TOTAL:{total:.10f}")
+
+if __name__ == '__main__':
+    main()
+```

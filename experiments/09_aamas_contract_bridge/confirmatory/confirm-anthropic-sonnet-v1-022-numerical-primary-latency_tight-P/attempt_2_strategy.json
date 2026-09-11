@@ -1,0 +1,14 @@
+{
+  "family": "numerical",
+  "features": [
+    "float32_explicit",
+    "in_place_update",
+    "triangular_symmetry"
+  ],
+  "primary_strategy": "blocked_matrix_product",
+  "rationale": [
+    "matrix products occur in an explicit iteration structure"
+  ],
+  "requires_adjudication": false,
+  "schema_version": "strategy-codebook/v0.1"
+}

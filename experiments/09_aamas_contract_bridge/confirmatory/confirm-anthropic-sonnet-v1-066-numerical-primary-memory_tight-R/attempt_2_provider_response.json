@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "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",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef main():\n    X = np.load('vectors.npy', mmap_mode='r')  # (8000, 1024) float32\n    n = X.shape[0]\n\n    # Compute in float64 for accuracy, but keep memory usage low by\n    # working on row blocks rather than materializing full arrays at once.\n    Xf = np.asarray(X, dtype=np.float64)  # ~64MB, needed for BLAS speed\n    norms = np.einsum('ij,ij->i', Xf, Xf)  # (n,) float64\n\n    total = np.float64(0.0)\n    block_size = 500  # tune to keep memory usage low\n\n    for start in range(0, n, block_size):\n        end = min(start + block_size, n)\n        block = Xf[start:end]  # (b, 1024)\n\n        # dot products between block rows and all rows\n        dots = block @ Xf.T  # (b, n) float64, e.g. 500*8000*8 = 32MB\n\n        # squared distances: ||xi||^2 + ||xj||^2 - 2*xi.xj\n        sq = norms[start:end, None] + norms[None, :] - 2.0 * dots\n\n        # numerical noise can make tiny negatives; clip to zero\n        np.maximum(sq, 0.0, out=sq)\n\n        dist = np.sqrt(sq)\n\n        total += dist.sum(dtype=np.float64)\n\n        # free memory explicitly\n        del dots, sq, dist\n\n    # Print as exact decimal value of the float64 total\n    # Use repr-like formatting with full precision, but as plain decimal\n    print(f\"TOTAL:{total:.10f}\")\n\nif __name__ == '__main__':\n    main()\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexCv2BoxbV6fExCck6Ys",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 296,
+    "output_tokens": 1095,
+    "output_tokens_details": {
+      "thinking_tokens": 530
+    },
+    "service_tier": "standard"
+  }
+}

@@ -1,0 +1,39 @@
+import numpy as np
+
+def main():
+    X = np.load('vectors_secondary.npy', mmap_mode='r')
+    n = X.shape[0]
+
+    # Compute squared norms in float64
+    norms = np.empty(n, dtype=np.float64)
+    block_size = 200
+
+    for start in range(0, n, block_size):
+        end = min(start + block_size, n)
+        chunk = np.asarray(X[start:end], dtype=np.float64)
+        norms[start:end] = np.einsum('ij,ij->i', chunk, chunk)
+
+    total = 0.0
+
+    for start in range(0, n, block_size):
+        end = min(start + block_size, n)
+        chunk = np.asarray(X[start:end], dtype=np.float64)
+        # dot products between chunk and all rows, computed in sub-blocks to save memory
+        dots = np.empty((end - start, n), dtype=np.float64)
+        sub_block = 500
+        for s2 in range(0, n, sub_block):
+            e2 = min(s2 + sub_block, n)
+            other = np.asarray(X[s2:e2], dtype=np.float64)
+            dots[:, s2:e2] = chunk @ other.T
+
+        sq_dists = norms[start:end, None] + norms[None, :] - 2.0 * dots
+        np.maximum(sq_dists, 0.0, out=sq_dists)
+        dists = np.sqrt(sq_dists)
+        total += np.sum(dists)
+
+        del chunk, dots, sq_dists, dists
+
+    print(f"TOTAL:{total:.10f}")
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "Eo4JCpABCBEYAipAGn8ipcukkQ5ZgQYJ9zNvtKnUNpeexYmhZvIwerAgcMT5iv+10O4gnvL0Y4/i5TUvXGh3kmPzEYleok/fsML9hjIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQxOTI4YjBmYi05OWI4LTRkODEtOTFlMS1jMmZkNzhkOWZjNmOoAY2zkdUGEgxJmv+Ndjcccu5SxHIaDFsH70/MnG+QIw61mCIwt9ea/grhKaT1K4suNs0Myx5SpvCI/firCZ1N4yH4O0aYk7KvkUSUoKIuSNpniWSAKqoHwOQxjqs8yT1npVecjlTzDNRyX7/0QATXmIf+i2dlMrPf1PKj7PQ1zzmJP76lCifqDRpBryW5gKLZ1QJ+4uhPi88UKWCG6n7VNz6D3CVdBN5wfv+vxhN+JIQl/oVcaddaiLzii9gK+6i5G9VecTSYJE42SIDKgzHWf5rAZDxwzGZQp7M1iT75JtBZL36ezYqwXU8IH0v3tXfhvxm7NqV562HCFkMCyygLd9BgWWuQY17CExvY8rlpe2m3DYXQWF4qglBD9kjojBW9wKHoTVZDWKpSz7o8vsyT/P7xHR3C4j/Mw3pDATdQfUoLovNKXpNLtUZc4Zn8Hel9/H8FAy0l1uU1hApMymr3xniMQ9buboOJj+jsDh0s0Oh8MlR7YbaWsQ2L6sPnedRfqpI/L/IOCsQW3wDfzJpglSfQMYRKhmCLeCyVAHEMtGBl5cGW7qCDs3hZRlTeC7/r4UT76Zf4VHrhiyEe/8F0BINQGGGdnIY0CFa+mzid5E/ElQKDprWKgyRRl5Mrc0QDjeenWyvvJod+TULbFnbvYFHf8mh7XcpY5gQoHbrr5MMc0UxIH/EAYLNKngQi4F1VV26BgZY/5GfSTeWK+0qevuyBcz6mmX9UqxKH1OY+EgVRye2C16ANt77+isDwmTXF70+2F7lNmtjqb5X1LPc6ce21PiPg0TeGlYrYHPrPNPrRp79ms36DPyvqiZn3NAc+uExG1kHei0tlknaTub5xFQL+vEFxQ6ymc3vcjReK5sjFyUFkV0rrw0gnYh/v6ZFIt20sqIxKDnILBFVLUhcadMpGGeWC0Fl58/apccWH7LF8Sag0VSsNcpwc6fpbmxihu+2SHNn1csBHPIKWrSj1swOXDY8+BUcwdg5x5E4gFQFeGKWzmWSpFp3sTlNM8nXANe1A8sJ+lmB/5DQk4Eh1rx6KgcJKvS2U5S/1TnKK/mxgQNJgpeed9ta2FJflSq4zAjdsIcZLn011wFndFELB5ixPb5UaMizxhl/eV0xGD6jIswrn4D9C++UIhEfsV2zfgNKnIK2pxbz+nooQiaWneS/vMbkL2Od0HPSEQ+z4wLkjXTXxtkV4ir9LIJpLcyUoVrOwhGtWpMt0JqIFPiE9CBSb/168Z6W4vz7aeE3zi6rBikYq5fHnsNdA7qM2WM9W976Bkoza6gA33KsGEedJyvgGxktR1p10xYx/LxNFFCfCoveARVO2Q9bzRRoqJYWWpIWAMZnHiUDsLOjL4bnbkTAYAQ==",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef main():\n    # Memory-map the input to avoid loading it fully into RAM as float64\n    vectors = np.load('vectors.npy', mmap_mode='r')  # shape (8000, 1024), float32\n    n = vectors.shape[0]\n\n    # Compute squared norms in float64, using chunks to limit memory\n    norm_block = 1000\n    norms = np.empty(n, dtype=np.float64)\n    for start in range(0, n, norm_block):\n        end = min(start + norm_block, n)\n        chunk = vectors[start:end].astype(np.float64)\n        norms[start:end] = np.einsum('ij,ij->i', chunk, chunk)\n\n    total = 0.0\n    row_block = 200  # process this many rows at a time to bound memory\n\n    for start in range(0, n, row_block):\n        end = min(start + row_block, n)\n        block = vectors[start:end].astype(np.float64)  # (b, 1024)\n\n        # Compute dot products between this block and all rows, in column-chunks\n        col_block = 2000\n        dist_sum_block = np.zeros(end - start, dtype=np.float64)\n\n        for cstart in range(0, n, col_block):\n            cend = min(cstart + col_block, n)\n            other = vectors[cstart:cend].astype(np.float64)  # (c, 1024)\n\n            dots = block @ other.T  # (b, c)\n\n            sq_dists = norms[start:end, None] + norms[None, cstart:cend] - 2.0 * dots\n            np.maximum(sq_dists, 0.0, out=sq_dists)\n            dists = np.sqrt(sq_dists)\n\n            dist_sum_block += dists.sum(axis=1)\n\n            del other, dots, sq_dists, dists\n\n        total += dist_sum_block.sum()\n        del block, dist_sum_block\n\n    # Format as decimal (total is a float64 sum)\n    print(f\"TOTAL:{total:.10f}\")\n\nif __name__ == '__main__':\n    main()\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexDqjPX3VJbYpTvW86G2",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 296,
+    "output_tokens": 1014,
+    "output_tokens_details": {
+      "thinking_tokens": 341
+    },
+    "service_tier": "standard"
+  }
+}

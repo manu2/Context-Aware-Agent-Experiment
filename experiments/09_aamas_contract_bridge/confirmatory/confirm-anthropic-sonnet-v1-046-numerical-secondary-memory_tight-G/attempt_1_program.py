@@ -1,0 +1,30 @@
+import numpy as np
+
+def main():
+    X = np.load("vectors_secondary.npy", mmap_mode='r')
+    n = X.shape[0]
+    X = np.asarray(X, dtype=np.float64)  # load fully in float64 for precision
+
+    norms = np.einsum('ij,ij->i', X, X)
+
+    total = 0.0
+    block_size = 500
+
+    for start in range(0, n, block_size):
+        end = min(start + block_size, n)
+        Xb = X[start:end]
+
+        # squared distances: ||a||^2 + ||b||^2 - 2 a.b
+        dots = Xb @ X.T  # (block_size, n)
+        sq_dists = norms[start:end, None] + norms[None, :] - 2.0 * dots
+        np.maximum(sq_dists, 0.0, out=sq_dists)  # avoid tiny negative due to fp error
+
+        dists = np.sqrt(sq_dists)
+        total += dists.sum()
+
+    # total is a numpy float64 scalar; convert to Python float for printing
+    total_val = float(total)
+    print(f"TOTAL:{total_val:.10f}")
+
+if __name__ == "__main__":
+    main()

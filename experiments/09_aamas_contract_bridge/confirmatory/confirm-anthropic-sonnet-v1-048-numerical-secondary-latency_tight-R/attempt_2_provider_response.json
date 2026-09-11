@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "EqkHCpABCBEYAipAaocQleIjS5c6JUoAyd0gZvYpGO2KUCf/OzAZS2raoYyUrF8amJ3NCJVGjVirK3ObyhNBf4ZyDW4yTCfiCBHk3jIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQxOTI4YjBmYi05OWI4LTRkODEtOTFlMS1jMmZkNzhkOWZjNmOoAeeokdUGEgy8nR/rkgYM8O4mEdIaDClkdmwewQQC684LaSIwH+jGfpOFY2mPuHg1dy0GAoshuo2DnQqCiovSTxaOpn22yeJG6Tv6r7brQzMJLsUaKsUFEps7Jz+TrihxXSJglHPM4myjSmDTK2PvTPtDY218xRdHy7unpXhkzryttGusabnsmhO09HWbkH0GqlmVLYf2chDhUAzI2HhI5e+UZQ9xq4l2H+qQy4+aKSzq53XV8VMk53SMahqZ/RETobrK/zioy/PhjIrb0Awt0ovrX6MsuSDDgee/aRRh3AGmwTA7gsbYHtcNj9Ha2gFUGgqrBBlmPgwNtYszPHaa8yWGQNOXjSHVPrjOU/iNUW0dydaMkW6MAEuozFa2Omc79szHY7sqALwtxpMNgMcRPjrzFgGyVUyWkY/5v2XyvcqgAUArhi6449+FQuT4DRrIMuTnCFTRyELb0xXx5TEXg98Yhkf3M5zvJ5HHPzXhmCLGoH5VjYX65Fp2E5aZYPf1Cr5nA4u5ysqfFQwC8e1RQj2Yd53msS3++tsafCBdViNwaSSQZzg2UdQkxRYrFVimng9GXzUSsY9B1QeQZVehz6qO/L7qFQX7EYhefijCsV+XNMR5pXjsf2v0/whPaPyUUy0KVZ2SIV3QDChfVj4mFwV1b9EuQvi7eb5WtJYeom8pmxdKxtVvz1gQZ5XjUQPqc8Axx6Tug+6jTuylhkK7RtBafvmvMC5cOVMtsbV4FKn4HBQaHYBejgZsk9asm06BwuAXl71thGDjfJjkwnHubpO4wGEST90RoKwBw46otK2g3R/GKrAcerVRfPEcBHAA+qxpww5MLZVALUXE+n1OrXuKxOZT3hX6zfWdlABXGW0fB58Uk3iLptG55I/gLiFG9/nLybhCQC0e7vKG4dLa94CRnTv+xjxml8VXSVbSV9hei0poHMndWKCdcNWlLwIF9sGYPQHeb7I7brjsXzuPXvKRcLrWMOvk47AdonvbJcGOx/XsN4w6BGxvgbUtIy58yBfpizHeZzVWe0Lljwiusflnned4QVF/qWdTFxgB",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef main():\n    X = np.load(\"vectors_secondary.npy\", mmap_mode=\"r\")\n    n = X.shape[0]\n\n    # Use float64 for accurate norms and dot products\n    X64 = np.asarray(X, dtype=np.float64)\n\n    norms = np.einsum('ij,ij->i', X64, X64)\n\n    total = 0.0\n    block = 500  # tune for memory/speed balance\n\n    for start in range(0, n, block):\n        end = min(start + block, n)\n        A = X64[start:end]  # (b, d)\n        # dot products between A and all rows\n        dots = A @ X64.T  # (b, n)\n        # squared distances: norms[i] + norms[j] - 2*dots\n        sq = norms[start:end, None] + norms[None, :] - 2.0 * dots\n        np.maximum(sq, 0.0, out=sq)\n        dists = np.sqrt(sq)\n        total += dists.sum()\n\n    # total is a Python float summed via numpy; format as decimal\n    print(f\"TOTAL:{total:.10f}\")\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexCAevvZ3Zc7Aspd2eZC",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 300,
+    "output_tokens": 656,
+    "output_tokens_details": {
+      "thinking_tokens": 274
+    },
+    "service_tier": "standard"
+  }
+}

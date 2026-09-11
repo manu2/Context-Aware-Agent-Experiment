@@ -1,0 +1,27 @@
+import pandas as pd
+import json
+from collections import defaultdict
+
+totals = defaultdict(int)
+
+usecols = ['account_id', 'category', 'amount_cents']
+dtypes = {'account_id': 'int64', 'amount_cents': 'int64', 'category': 'string'}
+
+for chunk in pd.read_csv(
+    'transactions_secondary.csv',
+    usecols=usecols,
+    dtype=dtypes,
+    chunksize=200000
+):
+    mask = (chunk['account_id'] % 13) < 8
+    if not mask.any():
+        continue
+    sub = chunk.loc[mask]
+    weight = (sub['account_id'] % 89) + 3
+    contrib = sub['amount_cents'] * weight
+    grouped = contrib.groupby(sub['category']).sum()
+    for cat, val in grouped.items():
+        totals[cat] += int(val)
+
+result = {k: totals[k] for k in sorted(totals.keys())}
+print("TOTAL:" + json.dumps(result))

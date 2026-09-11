@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "EtUFCpABCBEYAipAHbNM0jgaPKzSpWZvy2r2EnvIoArV5IHHuWi++YUoMHGJmaV2XsCM1b/Vju+xMXCvI4pwOcijCDatnJ/sVN5ZPTIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQxOTI4YjBmYi05OWI4LTRkODEtOTFlMS1jMmZkNzhkOWZjNmOoAa+ykdUGEgxlzY6HsTazXBAN2hcaDEob6+Y/VGCpq0sqbSIwrnE8LVyPo8zrhcvs9i08C1MLgsPCRyjoKHN16iH6r6OHIuqn5M9ixfoQ4dbU3IOIKvEDdU+ShNq8aLA8NoYA6TeXz8f7Jx5m5dpnDb8WkXcu7GAIhAY56eIK/IubBef2NlSq3QCd3XvUidWYjG3vI4n4kTQDiXGJP05HAxGHCrD4xzMzD8mtZtuLsw9IIXHmsZZZ27XirW0+Ym9WrQmg6VJniFCj3SwhtttaRZDlGdpOiuBRDPZRhly+xRsIg+5H9GMWckorjEyKRF3GvQ5AGMKqmwUIwN2OV25C/20AzEQP0y4fvEN83G76WtXpQ+O+trrE2rmZj7cEjO4GkbeT50fXbalUpn8SU4FyfZX/ZNxAqKAAgRgKtAuJNKByMD7MrRGoqN2Em6IhlAIqhCq9RgR/7/RFZ9tdKe+y/NQ/3lW/BEWccSIy+gAj541irN+q2lbabkeeW8y10iliJZi6mzafsSSZleYgLT7jWdzhvEcjL7zEXriWQG++E8nAquHnK/xq9oQlNabNPNCXXfzjmlRvErkzYOcTtC68kJQJG1BwrasySw6/jcbNvFIESOR5nAalbLAWjhn7pSrQj6+bo1JuiZdcR9kHDCVqNHv3bd2o/aP1DX25JQWXkG7QcgFZHutMO5WCZgZcP8tiQc9llt8ciqg7qxtqk1BF9kOJb7lt5Ulrqo0Fb2vjf0ytrFygFoZptfa0TV/ZTYwKoCbIYaKpJjAYAQ==",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef main():\n    X = np.load(\"vectors_secondary.npy\", mmap_mode=\"r\")\n    n = X.shape[0]\n    X = np.asarray(X, dtype=np.float64)\n\n    norms = np.einsum('ij,ij->i', X, X)\n\n    block = 500\n    total = 0.0\n\n    for start in range(0, n, block):\n        end = min(start + block, n)\n        Xi = X[start:end]\n        dots = Xi @ X.T\n        d2 = norms[start:end, None] + norms[None, :] - 2.0 * dots\n        np.maximum(d2, 0.0, out=d2)\n        d = np.sqrt(d2)\n        total += d.sum()\n\n    print(f\"TOTAL:{total:.10f}\")\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexDixFjitALoA8H1MWJa",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 230,
+    "output_tokens": 472,
+    "output_tokens_details": {
+      "thinking_tokens": 196
+    },
+    "service_tier": "standard"
+  }
+}

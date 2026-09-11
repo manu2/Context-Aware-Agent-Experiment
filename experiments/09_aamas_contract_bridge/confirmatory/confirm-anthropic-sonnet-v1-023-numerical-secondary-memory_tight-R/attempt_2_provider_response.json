@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "EvkKCpABCBEYAipAAYWJljY9SQGmCYj362dQCnWjhgYXeYLqqE6ojKvPzxe8z5FvQZsmj7/sXJtp11P1DMhk+bQJBsYXnAuGL5W/wTIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQxOTI4YjBmYi05OWI4LTRkODEtOTFlMS1jMmZkNzhkOWZjNmOoAdOikdUGEgyOiUkDJOgKYRyWtjQaDDei8VKAisQe3c/FxCIwzpo5w1PQFRbrzYPVRqzxlpR0MjZj9RwCWFUKPO0jrueZ18lnboeFqjh3dGaYpTbcKpUJKoFkWQyvMMimsV5YScK6iCE87XeXeLUXfiIUS6Admiz+7HUX/wdbX6+grr3aQd2e/VAfNlrb5aIiV10poE7WdkkxLssF9gMh3oiHHCE0acntchRSiUVrmtl5aSWkBew7Ii2wFCoCxd6tg8gW2J0jPN0MjyuvexWQzKD0qrhkGglL9i5j1UeMBVxNLHGJp938fBoP4oI8pyvBgCMpx8QgRsdJjwcoP3MPqtAPhIPUtGI3UsaAVzoThXHKfuekDmtU1Pf8925iWblCkuNWzEin4ihAWYnaLCKImyueIyuLIfZLEvYWnQrwqYjZCTuM/7NclcALGem+gMwoaSbn9gRIG3oipGX/3Jk/JgZr/3chOH9mmldgjmWmlLcNWQb2m0ugczqnYguMVIDdOlaGAhomncZd/L0m+JTeROAqZymusJSTFmoLDW5/3XO9gAErIxRx9LW6o8bGHvLAdxkR8ZQvgNrv/Pn95jBkVmaWow7rq3Uy1UDnU+Hgq0nj4/ho7kRU2HAHuQxxD8VE8bAhVpKeKdWwMRPpD2K+FcdjAZsVf1qBV/YZ/tOOqTvQx1UaTLP7zju/EpYpzFk3RfklpIFK9XTmeZpiifH6sQ6wKgnpOvJU+qJ0tyK76hPW7r3Ygh4E4cQRRWGcWqm8Idt6VdHiDrK1g7PwjvMCMd4hXl5hw52YTZjYRXyW4xk/ILvE9J83WMDxYIwqNbFwEAFlSu5S5wZvjMQbbO91PZqgWZnCpAN6kwaq63L42kEQ1YuJN8hTt8LZMn8CEF37yd4AQlmKOByr+Rj74lvCkQ6RfFQnA8Vo9flmEObGqp7GNpHomLga8S4/MzWK260WpfRuifDVpBVnVS00jgU52cx2IAGeN2eAYnZxnUCoLIQlrJK+rtH+/fbidsxeYbDZc8iY5uHLfmyORWSNn5amwobshf9m8u5lQ5rp4AVTk/uqTAh+hQh9D1vAxrtGdK0tfmCwUfWKksJMG12iH8oY7fLR+pvSANI8EDDwicwf9wX9mau5/MkDvCsF6wPJvxUonRo09EwijYA541WvHGOiO80eVt0XZg27aR41sMfPcGrVdw6Vap/LJ9lKuiI6U20W3334dozM7ku/gAaMBDIGntyx8ebiEpUZ7rNkxjlMBGpGrASplpJEW2n6PZiNanJYBYbP+CAjo/mWbn/oBF/+Z/kAIxg/x14RZcm7wMkcQNS3q/p0iDfGyw0KEVAd2kKzFAiOggYrwFN/K10VWn90RQdgDZT7eCfS251BOjd4H7x64ypnKRJq54+QFIeOq3jFckawDTKUEa8DfpmvN71oyeySGKhl37mBVow7dHiNEnWbDTT2HKd4e3KCVWA/1Kc9NaQxxv2FzGhGcP3Uo13e9xt0P1pfC0aDV9MUWK0sQ47UJRS3c3VbuMmd5wBkMnEkjS1q4hwIiI+o4PbIEHBh23aVL6FDJjZ89H1czDNPCyLPuElRecLwKWhiKTbaJQr3tfUgSvb8flsCUbCNCbSemD+rwg7TcX4AzmoC9RgtECYHWQIcYDSQQYW5fQxH5+Xq4uV9uPBSOx/R/UR/GAE=",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef main():\n    vecs = np.load(\"vectors_secondary.npy\")\n    vecs = vecs.astype(np.float64, copy=False)\n    n = vecs.shape[0]\n\n    norms = np.einsum('ij,ij->i', vecs, vecs)\n\n    total = 0.0\n    block_size = 500  # keep memory usage modest\n\n    for start in range(0, n, block_size):\n        end = min(start + block_size, n)\n        block = vecs[start:end]\n\n        dot = block @ vecs.T  # (block_len, n)\n        dist_sq = norms[start:end, None] + norms[None, :] - 2.0 * dot\n        np.maximum(dist_sq, 0.0, out=dist_sq)\n        dist = np.sqrt(dist_sq)\n\n        total += dist.sum(dtype=np.float64)\n\n        del dot, dist_sq, dist\n\n    print(f\"TOTAL:{total:.10f}\")\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexBAPDFwBZgfZ5bDnLJs",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 300,
+    "output_tokens": 830,
+    "output_tokens_details": {
+      "thinking_tokens": 491
+    },
+    "service_tier": "standard"
+  }
+}

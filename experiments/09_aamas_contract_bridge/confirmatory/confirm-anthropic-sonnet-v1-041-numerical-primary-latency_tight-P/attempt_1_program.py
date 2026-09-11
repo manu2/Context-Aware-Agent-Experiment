@@ -1,0 +1,35 @@
+import numpy as np
+
+def main():
+    # Load the data (do not modify the file)
+    X = np.load('vectors.npy')
+    if X.dtype != np.float32:
+        X = X.astype(np.float32)
+
+    n = X.shape[0]
+
+    # Precompute squared norms in double precision for numerical stability
+    sq = np.einsum('ij,ij->i', X.astype(np.float64), X.astype(np.float64))
+
+    total = 0.0
+    block = 500  # block size chosen to balance memory and speed
+
+    Xt = X.T  # transpose once, reused across blocks (view, no copy cost issue)
+
+    for start in range(0, n, block):
+        end = min(start + block, n)
+        Xi = X[start:end]                     # (b, d) float32
+        G = Xi @ Xt                            # (b, n) float32 matmul (BLAS)
+        G = G.astype(np.float64)               # promote for accurate subtraction
+
+        d2 = sq[start:end, None] + sq[None, :] - 2.0 * G
+        # Guard against tiny negative values from floating point error
+        np.maximum(d2, 0.0, out=d2)
+
+        d = np.sqrt(d2)
+        total += d.sum(dtype=np.float64)
+
+    print(f"TOTAL:{total:.6f}")
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "EuQKCpABCBEYAipAwX/jIwTcs4lkXYabsyEbyYYJqjHi8CUjpPL84pMFrcbPyIRXkaNVSCMd/c6kv96ptqJrn3rSKlRrAcNP3hkg3TIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQxOTI4YjBmYi05OWI4LTRkODEtOTFlMS1jMmZkNzhkOWZjNmOoAf2xkdUGEgxQSSSSIre0z5JG9AkaDF6b94jJ09iYYxsF6SIwtU1D0jLS7Lk38E7TMCVrW9eR7Eh4+3VczMqbc6Xom3nwba0aOsqhEh9b76Dd/VQbKoAJp4lCJESy+gClRXo+0LjayedEGJzjZJGUeAF5YxU/HXzkHrH6hUj11BRwFW3S4KPC0GqxY1rQpsmjSGsFOvxm9yiDSMlcawPOF6Nt5OrD1R9NX9y6UEUNZ8peAfmSNJoHM27qDqSSc0Q0Bt0Wj3DD1WCNJ5mL3ur5lyVyprKflVOqEf2QBP1wtz0/ImUoVQ8Zao5MdGnw/YPf43E112WIjxuUjOnwc7Na6NjMuk0OrvMjS86gNFZFIKf2mW2XygEmiV5UCKsv6/t912yT6kSzGnkKg9iEDNqQXjY7+VmmF6Htz2ebJcxy0RYmlzzD3iSUWgYHK5OhAqbMwehrDY0LmzOOGC3VmbwtEzSpT53SzVErTc6pAPrjxYxxBzcIJXIvKiClFO35DWqOJgFdeyuB8GbeksnPTLETpgygWVCAUiAq0cAA8RPPo5ziZt/4dX5iPhUzlyJtRQTJiENFlyQw0dnAjREAOdinFl0WD1h7jOvEeG2+t79hyDX4X8FliWO83Os+pzy3Z26VMlN3D/hzEgav0eAdDrZnH6fgAHGhfyvTBB1uMrbjsJBK8U62ojbxtqBW3AKpmJ6yFhOOBSK0dwyz5krP3SoxdyAA23QG8FuC/BnQaEIpkWJaUz22ACSiMbV3Z9ahhSHQqW/ofXIlgm2fzQirn02OhDlTE06EAycrpz867sO0BkuJ8QFuU0hbWFE9Q3plYH5y5owgL33b4Z00frjjL563b1v2dS+DSbER5vfgrh9e2CXBKpoSA99UXAhL7Mz67XKCkYDxGaQxbmVwPedcbIID4dmgVYuz7L/lFtcNmbuOuJrtMxd7/7lp1EG30oAxZmtJjtL6MMDIvnDYTNeUH4LHKFXTLx6jfm/9s4/7pk8tneV4PSLYFYgxVC1qRRdfg+JFA6M4cuB3drfhHSOLV/PDBqeECWXw9pwD+YThiLFNWXN2TD3lAsWcDpvM1TUiF3nOg2U8iGruqbFNoUUu6nxiDh4kh9i/gBLLBNXOW1StT93jzbSj3/wb4YI9KAKfk6WKtHQ6Psc885mdOwv5fR46Lw45IPh0I+zs3psXxDxQ2IJPvFZoKCf8hlkOf4WEyKfaIauWmbiL9YYuY8No4KVItbrgDYJBgRK8/TOZ9iNC6geO4IH0KxIKHNAC4GrPp3xB+LtkvPPxn5STXipeh9z0eLubsLL/B+HLre6DC+1NjRhoosJudUO0NMBhK9lifH+veG2p5T9X9tP7JW7HmAdLkVpLmUvNJFEcTNqWxe2gjEC45NYzCdmrT8lORjqxVTVueJQJugLN3iT+k+p+yD+mOmWrlbiU7gh18oD2KiPgP1ogV1lPMHBLHKcqpUQ5JzuARjeE60fj5Zn9wuAXtGKG0LilQ4ZMVYIKwftrkPJVjDZTPPiw05d6GhY1/8q9UJQYMWtPrW2ZsoB+/uFPCO8ja38NDBbFl4GgY25rPqB4ROuPjpGIXMXMtBgfKaMzGPb7ywBzVd/AxJvtyx3u5gYGrzn4bDIZLUvjZWzVhGb359DoRYS/xDaAGAE=",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\n# Load data (do not modify the original file)\nX = np.load('vectors_secondary.npy').astype(np.float64)\n\n# Compute squared norms of each row\nsq = np.einsum('ij,ij->i', X, X)\n\n# Compute Gram matrix (X @ X.T) using BLAS for speed\nG = X @ X.T\n\n# Compute squared distances: ||xi||^2 + ||xj||^2 - 2*xi.xj\nD2 = sq[:, None] + sq[None, :] - 2.0 * G\n\n# Numerical noise can make tiny negative values on the diagonal or elsewhere; clip them\nnp.maximum(D2, 0.0, out=D2)\n\n# Euclidean distances\nD = np.sqrt(D2)\n\n# Sum over all ordered pairs (including zero diagonal)\ntotal = np.sum(D)\n\nprint(f\"TOTAL:{total!r}\")\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexDf37Ku321kAsXVimBt",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 192,
+    "output_tokens": 830,
+    "output_tokens_details": {
+      "thinking_tokens": 519
+    },
+    "service_tier": "standard"
+  }
+}

@@ -1,0 +1,32 @@
+import numpy as np
+import math
+
+def main():
+    vectors = np.load("vectors.npy")  # shape (8000, 1024), float32
+    n = vectors.shape[0]
+
+    # Use float64 for accurate accumulation
+    vec64 = vectors.astype(np.float64)
+    sq_norms = np.einsum('ij,ij->i', vec64, vec64)  # shape (n,)
+
+    total_parts = []
+    block_size = 500  # tune to keep memory usage low
+
+    for start in range(0, n, block_size):
+        end = min(start + block_size, n)
+        block = vec64[start:end]                     # (b, 1024)
+        # dot products between block and all vectors
+        dots = block @ vec64.T                        # (b, n)
+        # squared distances: ||a||^2 + ||b||^2 - 2*a.b
+        sq_dists = sq_norms[start:end, None] + sq_norms[None, :] - 2.0 * dots
+        # numerical noise can make tiny negatives; clip to zero
+        np.maximum(sq_dists, 0.0, out=sq_dists)
+        dists = np.sqrt(sq_dists)
+        total_parts.append(float(np.sum(dists)))
+
+    total = math.fsum(total_parts)
+
+    print(f"TOTAL:{total}")
+
+if __name__ == "__main__":
+    main()

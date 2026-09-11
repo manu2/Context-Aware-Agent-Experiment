@@ -1,0 +1,27 @@
+```python
+import numpy as np
+
+def main():
+    X = np.load('vectors_secondary.npy')
+    X = X.astype(np.float64, copy=False)
+    n = X.shape[0]
+
+    norms = np.einsum('ij,ij->i', X, X)
+
+    total = 0.0
+    block = 500  # balance memory (block x n doubles) vs speed
+
+    for start in range(0, n, block):
+        end = min(start + block, n)
+        Xb = X[start:end]
+        dots = Xb @ X.T  # (b, n) matrix of dot products
+        d2 = norms[start:end][:, None] + norms[None, :] - 2.0 * dots
+        np.maximum(d2, 0.0, out=d2)
+        np.sqrt(d2, out=d2)
+        total += d2.sum(dtype=np.float64)
+
+    print(f"TOTAL:{total}")
+
+if __name__ == "__main__":
+    main()
+```

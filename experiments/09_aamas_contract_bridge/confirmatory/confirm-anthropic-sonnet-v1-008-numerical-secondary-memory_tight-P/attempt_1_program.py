@@ -1,0 +1,39 @@
+import numpy as np
+
+def main():
+    # Load data (8000 x 1024 float32) - do not modify
+    data = np.load('vectors_secondary.npy')
+    n = data.shape[0]
+
+    # Squared norms of each row (float32 for speed, fine precision for this scale)
+    sq_norms = np.einsum('ij,ij->i', data, data)
+
+    total = 0.0
+    block = 500  # tuned to keep memory usage low while amortizing BLAS call overhead
+
+    data_T = data.T  # view, no copy
+
+    for start in range(0, n, block):
+        end = min(start + block, n)
+        blk = data[start:end]                # (b, 1024) view
+        dots = blk @ data_T                  # (b, n) float32, BLAS matmul
+
+        # Compute squared distances in-place in `dots` to save memory:
+        # d2 = sq_norms[i] + sq_norms[j] - 2*dot(i,j)
+        dots *= -2.0
+        dots += sq_norms[start:end, None]
+        dots += sq_norms[None, :]
+
+        # Guard against tiny negative values due to floating point rounding
+        np.maximum(dots, 0, out=dots)
+
+        # sqrt in-place
+        np.sqrt(dots, out=dots)
+
+        # Accumulate sum with float64 precision to reduce rounding error over many additions
+        total += float(np.sum(dots, dtype=np.float64))
+
+    print(f"TOTAL:{total}")
+
+if __name__ == '__main__':
+    main()

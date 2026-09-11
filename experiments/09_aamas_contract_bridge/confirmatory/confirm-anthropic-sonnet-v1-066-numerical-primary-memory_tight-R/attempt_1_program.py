@@ -1,0 +1,25 @@
+import numpy as np
+
+def main():
+    vectors = np.load('vectors.npy')  # shape (8000, 1024), float32
+    vectors = vectors.astype(np.float64, copy=False)
+    n = vectors.shape[0]
+
+    norms = np.einsum('ij,ij->i', vectors, vectors)  # squared norms, float64
+
+    total = 0.0
+    block = 500  # rows processed per iteration to limit memory usage
+
+    for start in range(0, n, block):
+        end = min(start + block, n)
+        Xi = vectors[start:end]                # (b, d)
+        dot = Xi @ vectors.T                   # (b, n)
+        d2 = norms[start:end, None] + norms[None, :] - 2.0 * dot
+        np.maximum(d2, 0.0, out=d2)            # guard against tiny negative values from fp error
+        d = np.sqrt(d2)
+        total += d.sum(dtype=np.float64)
+
+    print(f"TOTAL:{total:.6f}")
+
+if __name__ == '__main__':
+    main()

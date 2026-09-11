@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "EooICpABCBEYAipALIAVbdUXnsHRNzC9T+axSi2y7mb0lnKtX2MsVFBKyR2je7muDEPchdC0fOt4S/YBNDPPWkkA+mJ0Ktv7C8M0ZTIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQxOTI4YjBmYi05OWI4LTRkODEtOTFlMS1jMmZkNzhkOWZjNmOoAcaikdUGEgwHrQ9Xs+0SNtISoiYaDE/7WWfhOLh55NFlrSIwKAKXB0fCRIk4LfjQhaThwlKNbon2JK4ZABR4Lz6zW9F//nXlzNtj3PTdRRdbgj3aKqYGT4WZ8Gt/V0DGmawN+3M3KENBnC0kasS2OyyOsRuUU8ynJyyQwRHj0obXm6O76O2nhKXAx0G3S1AiYGKjolzw4OB7yG3SAsYgt97q+TXtB5+iVNvwVPmHFLka+Fkv/uf+Uh8nzjrU3gH9TYvQH0HGlAu1HiG2mDDdgSR03gaDeDZufgPGeqrp+fRRJbr4rVoRYHN3sfWGmZIuuoXRkk0el737P2rc3itBSl4XqV64c9RruBTtfniDJzslqSY0UfbYWtJ0eE247lfrbfJIfKH8KnydYuS/dheLsU0yiF7yhSaaQq6tzJsgnAEZG84OS37Za3k1WFTD4mT76CG4dK0nV/D+hbswgIq5U+f/PjRFn32k8POmSz/lpT0DXufmAWITcGgRebcgdsw8J1ptGsaFTwkgCwGmZAY4JuL8ys7IEklj5xOPtZBw2AabxBLNXWS2YqrfV1qkxbdjmBLrSB755jTVNvl3ihdzOKnICCfm399S8r+MkbxpC3sffWwgpN71niWCiVGfRDxYwweiUoBZIdjS40EGUd2YzsBiuYbAaG3/oZE7JTZoKPZJMFY+Jh40IcwFI7z5H2FGainJBF4xOn3CpUcv3seWHRyk6d52KPQzE0/Q7evzjbzvD2n54vGMZ18cfSPtY9/Gb3AhP67GKrusr14EKVY7xwn9mUrotLLUtZn06MvV8R88YJ5TxgLxzfDFm6sTq6owJELuu5mornpS9ABs1IHB37Hvix/V9vJhpSNWVCEwMVhYlAv8c0lN6CeGn4qyTz/gxRkk27T3wF8xgVfKpZOMlS36UJTMMQejoHzR0NuQPTNZYflNkrDkWreDmcdoqgk9JRPJnTnt9yQDE+mikg2ELr5e+KKvuBu1/hDGUl/1SDFX6d6N4d79AcOv8xpPPx8iYyGXuZMXV04S6BqWWrRmWjbpfa0OgK3paC/s0qVDCLE0QfaAv1DZU9L746S3XdsCBAnfPKV9Y4Zu04rWkNAXLAh4VlFA3S6AMKz19V0ph7DUza5MsWJ3b1O3hl1rXNW/QyH5b8idf+SJ+24pEY5cWgbbt7zLkRUgENLPSW8YAQ==",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "import numpy as np\n\ndef main():\n    X = np.load(\"vectors_secondary.npy\")\n    X = X.astype(np.float64, copy=False)\n    n = X.shape[0]\n    sq_norms = np.einsum('ij,ij->i', X, X)\n\n    total = 0.0\n    chunk_size = 500\n\n    for start in range(0, n, chunk_size):\n        end = min(start + chunk_size, n)\n        block = X[start:end]\n\n        # squared distances between block rows and all rows\n        dot = block @ X.T\n        d2 = sq_norms[start:end, None] + sq_norms[None, :] - 2.0 * dot\n        np.maximum(d2, 0.0, out=d2)\n        d = np.sqrt(d2)\n\n        total += d.sum()\n\n    print(f\"TOTAL:{total!r}\")\n\nif __name__ == \"__main__\":\n    main()",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexB9aMhq5LkPUo9PoMD8",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 192,
+    "output_tokens": 591,
+    "output_tokens_details": {
+      "thinking_tokens": 301
+    },
+    "service_tier": "standard"
+  }
+}

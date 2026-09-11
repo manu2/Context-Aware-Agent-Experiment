@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "EsEHCpABCBEYAipAP+dsgN3/ONsNpkrEMSyVdskENJpkavmooOJv0QAKC5KcU0bcuG6/nfhEwAj1O8sPQMP4Oqj/kqrvukZ0EW9vVjIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQxOTI4YjBmYi05OWI4LTRkODEtOTFlMS1jMmZkNzhkOWZjNmOoAeCrkdUGEgzI9uLvHCn8ZC2gicoaDA+feolVFMmQ3R1MkSIws5TUUwZxy3iHGf5tYALay3f0UPXtmsbxLvnXe+jQuGxN5o2kBjpMb1lBxzz4eOnFKt0Fd/kWe7fHIKUzpM/NezUwzNXRdxKPDtmubPDzbFrGIf2l0Of35/ye4WTePmui8vfW5mVs8SVIPtW7pc2WQVZ5IhrXsWRu/GFuNiSKvMhqw4ClQC1GJOKRd1DgHZ7ZxfX5bXN1MRsUwZEFLWuNi1pi/6uPFGGob/kWGF38Ma51PpJbNiYkHeJ5YMv+uVegMd8FJS6dnYFK9H8st565Q0u6QiRTY3e/u/Qze367y8BA3F0FzMqXaY5hp+VcTRg+O4rp7zsd2iOSxrUMXkEIV3xZH1ov8Tdp3Cl7TkHOCx1K7LxKZzCEDR0FZWAroDaxt5crGq6ubEwDtktgiIuW3yth/UH3BjfynQrFinanUpFZ1f1nAsyQcpguthrYbt2VELVxV8xBa02I2KCpsax6b+lAbx+PNrrQEtJe+2N94ignghWp/aultXwI0JT4yAItPWGXMFyrMg98bod1IsR2obJsRDatCdoAPMYpsxZMe3xBc2MBEzit4aDIq38JcepukJ66APTy7lnLve8Rblik3uSSGVInNJqmQc9gwzNUL4EusRsvRllYejpdQ43Jul+TpqI/eyHw6cF8fmm3hW9Yh94nZP3oK+qqgxc5WAqc8pKZ4NN5/pGm3LDln7d3GBJobOsjQrsJxTWQfKTKSOtBynX/YNdrhuG05G8fgSMB6rBK3S8vqWLJSVFz51tmOw1bR/ula8uQNU7BnVFCyZGFo1C2ty8n7bxe0WypfEqoLyZdqevkeX2zd9+QX75NCmGBuzKkX8Ip0t06w1lHB/fZ4pKl9IJscaPKV+ZENncAHpQ2xjViTAMX2ICIFuOBHGjZPdth4RqSSu1I/QihOjOqhQdA8GzUBxLbbkRwrOZ0BO0MBEJaSTDb6bA8aCXOavrYqRhAqRuslKM/p8nst8wTUrsbR6wshWtwS13niw+7EIOuPKGkaET9h8JXTr8Is5yHkqjtrez11ChwAP+5ihjiJBgB",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef main():\n    X = np.load(\"vectors_secondary.npy\", mmap_mode=\"r\")\n    n = X.shape[0]\n\n    # Load once as float64 for accurate norm/dot computations, but keep footprint modest.\n    Xd = X.astype(np.float64, copy=True)  # 8000*1024*8 bytes ~ 65MB, fine\n    sq_norms = np.einsum('ij,ij->i', Xd, Xd)\n\n    total = 0.0\n    block_size = 500  # controls memory of block x n distance matrix\n\n    for start in range(0, n, block_size):\n        end = min(start + block_size, n)\n        block = Xd[start:end]  # (b, d)\n\n        # dot products between block and all rows: (b, n)\n        dots = block @ Xd.T\n\n        # squared distances: ||xi||^2 + ||xj||^2 - 2 xi.xj\n        b_norms = sq_norms[start:end][:, None]\n        sq_dists = b_norms + sq_norms[None, :] - 2.0 * dots\n\n        # numerical safety: clip small negatives due to floating point error\n        np.maximum(sq_dists, 0.0, out=sq_dists)\n\n        dists = np.sqrt(sq_dists)\n        total += dists.sum()\n\n        del dots, sq_dists, dists, block\n\n    # Print as decimal value\n    print(f\"TOTAL:{total:.10f}\")\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexCePNKiLoTHkUHNapoU",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 338,
+    "output_tokens": 766,
+    "output_tokens_details": {
+      "thinking_tokens": 268
+    },
+    "service_tier": "standard"
+  }
+}

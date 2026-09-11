@@ -1,0 +1,19 @@
+import pandas as pd
+import json
+
+df = pd.read_csv("transactions_secondary.csv")
+
+mask = (df["account_id"] % 13) < 8
+sub = df[mask].copy()
+
+multiplier = (sub["account_id"] % 89) + 3
+sub["weighted"] = sub["amount_cents"].astype(object) * multiplier.astype(object)
+
+result = {}
+for cat, group in sub.groupby("category"):
+    total = int(sum(group["weighted"]))
+    result[cat] = total
+
+result = dict(sorted(result.items()))
+
+print("TOTAL:" + json.dumps(result))

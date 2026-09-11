@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "EpgKCpABCBEYAipAPV3K0FLIj3YlRp3KJEgOYbjGJBGLOgMgIKNOoE5fgfWunZOlB/I+tszedRT4U6Fhf8X4Yx+ztYphJKkYk8FaNzIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQxOTI4YjBmYi05OWI4LTRkODEtOTFlMS1jMmZkNzhkOWZjNmOoAZu0kdUGEgyfkQNwwwEQ41MiB5caDJPT4Txl+n4RhEEASSIwS/RaOR8IFUzWIummrfRvpF6F5cHktDPpZwWGJizsFlfr+YZZfkc/LvXbDnpZb/4bKrQIQ1kyt8du18hjMGb6MgFyf0sAJJSrqCi/5z9rgtUhHP82V5Gx+TCLL1VZ7XrRmCE7pCu3wRRcFbrG+8lbdK8dcDbSW+q5Q2BcQFS4Yi3+l8d+Jo7PJD7fUgkImUgF9dlhpexdeC/EiVbn4qPSxig1eH0gWz78oZq//Yj4Pywr6lc9hAxJnpPjR1VARUNs5PM5VU736K7VBqkXmG0CqcfK4gjCj39X2dmPvPIjktc/4yk7uaoiy+w4IVgpC+LEDuNrriS8L4FoCsSAgZgYKaMxT2Wx7JN9jxOSwz5rhhTENEgzCz7K8RhDpUIIknl2sYF+7BUl9Da8qawaIoW7B9Vj+Kswpes1vdr0gkiMYwDhDgJxrljj7QKBAPkau08xC2wR6/6Uij36VsInbYdUHzxWmQcj75eed8zEN/2tr6M4jNid5EM26C6+DhT0dnxpaRrC/ITELAnK5+DCd2h727m/X4VvAoUJYzGz1OX36qAzWhfm+rnk0PN7FI2AMsigWlvUrxtn15ctPxMuz41ni4rh+MIpiwUCRimWO1zVPpg32TMduRJrBDJ5tbjmH/4N/PEJ2M4NlSTEBrA4uhSAB78pm1Zctg8nluxQYjcdieYazufOoNe0PX0vn90l3GQEbrEK+TgKvNE+j0gqZ4I/s4HAHmDXyamIAkt72bXGyWGUSlyiNq0BoEX+rGhdYeZI0Y2b8ovGGc0YdUKIYxKFT/wZ8COhu11eh9A2KFiZlOwqbhGN73aMICmRnPNq1abesmMoeF94KV0N8mDy2Oyfh2RKOtIhiCYzmfJ20rctf9EDk66w+m0Ho7h18e6CQ5xt6bdR5zdA+fiu3HomsMWmgfnHn2LX0Wqympsi09Msx3nB+geyNEEMGfGcWCNCNvykFaOKNGpXpbsUCARIG8pJn4R5YU6gq698I0llhHU1OI4y90R34sftduGAJhSF6Yksel1sQ33V5zDfWzslotvynVsvnOAnFucdDabOI8gkWmyARmlFVckApu1ZZ1Oz6udNRj4b0n0uDNuViuJcOPj34eooKH9usjDevGXcYxdC4iRrmwLdB8kXkJFOorIMKaweVSxRY3vV5cJLCBEdsWUZ6BrhpSPebmcFJpuu05SMXPzXz0RjDhz5kb4Ow+MNQhwxXMlV9Lmc6BS1FZtrW+KcRUCxXpt0W0nE9ZPcgNQ9yvidChaWeuweTC7tgRs99vRc5ISrY+9eNg5XSEW/aWtDqI28ki9sbFoDYv+KA5MZxXK04LJ63odHW2myQ5LcgjrgjHeJoaR5TvggDqP3D/im941/zSln4CsWuouo0SbMx8bIIS/L9du9Qpw+E3ftFQj+In4FZXWDMURjw/mNYidHP7O6gyzeMnstBXLhJRTcCewyLKo0eAVZ8bENkvy/19XsWFeOis/HRPdReXmcFsfZM8o8gfRQ3YsYAQ==",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef main():\n    X = np.load(\"vectors_secondary.npy\", mmap_mode=\"r\")\n    n, d = X.shape\n\n    # Precompute squared norms in float64 for better numerical stability\n    norms = np.empty(n, dtype=np.float64)\n    block_size = 500\n\n    for start in range(0, n, block_size):\n        end = min(start + block_size, n)\n        block = np.asarray(X[start:end], dtype=np.float64)\n        norms[start:end] = np.einsum('ij,ij->i', block, block)\n\n    total = np.float64(0.0)\n\n    for start in range(0, n, block_size):\n        end = min(start + block_size, n)\n        block = np.asarray(X[start:end], dtype=np.float64)  # (b, d)\n\n        # Compute dot products of this block with all rows, in chunks over columns too\n        col_block_size = 2000\n        dist_sq_full = np.empty((end - start, n), dtype=np.float64)\n\n        for cstart in range(0, n, col_block_size):\n            cend = min(cstart + col_block_size, n)\n            other = np.asarray(X[cstart:cend], dtype=np.float64)  # (c, d)\n            dots = block @ other.T  # (b, c)\n            dist_sq = norms[start:end, None] + norms[cstart:cend][None, :] - 2.0 * dots\n            np.maximum(dist_sq, 0.0, out=dist_sq)\n            dist_sq_full[:, cstart:cend] = dist_sq\n\n        dists = np.sqrt(dist_sq_full)\n        total += dists.sum(dtype=np.float64)\n\n    print(f\"TOTAL:{total:.10f}\".rstrip('0').rstrip('.') if False else f\"TOTAL:{total}\")\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexE28HT1D3V8N5K7gRY1",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 300,
+    "output_tokens": 1013,
+    "output_tokens_details": {
+      "thinking_tokens": 396
+    },
+    "service_tier": "standard"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "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",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "import numpy as np\n\ndef main():\n    X = np.load('vectors_secondary.npy', mmap_mode='r')\n    n = X.shape[0]\n\n    # Compute squared norms in float64\n    norms = np.empty(n, dtype=np.float64)\n    block_size = 200\n\n    for start in range(0, n, block_size):\n        end = min(start + block_size, n)\n        chunk = np.asarray(X[start:end], dtype=np.float64)\n        norms[start:end] = np.einsum('ij,ij->i', chunk, chunk)\n\n    total = 0.0\n\n    for start in range(0, n, block_size):\n        end = min(start + block_size, n)\n        chunk = np.asarray(X[start:end], dtype=np.float64)\n        # dot products between chunk and all rows, computed in sub-blocks to save memory\n        dots = np.empty((end - start, n), dtype=np.float64)\n        sub_block = 500\n        for s2 in range(0, n, sub_block):\n            e2 = min(s2 + sub_block, n)\n            other = np.asarray(X[s2:e2], dtype=np.float64)\n            dots[:, s2:e2] = chunk @ other.T\n\n        sq_dists = norms[start:end, None] + norms[None, :] - 2.0 * dots\n        np.maximum(sq_dists, 0.0, out=sq_dists)\n        dists = np.sqrt(sq_dists)\n        total += np.sum(dists)\n\n        del chunk, dots, sq_dists, dists\n\n    print(f\"TOTAL:{total:.10f}\")\n\nif __name__ == '__main__':\n    main()",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexCrw7dq62C9Au1Hoj1h",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 338,
+    "output_tokens": 1044,
+    "output_tokens_details": {
+      "thinking_tokens": 505
+    },
+    "service_tier": "standard"
+  }
+}

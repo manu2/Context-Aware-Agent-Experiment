@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "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",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef main():\n    X = np.load(\"vectors_secondary.npy\", mmap_mode=\"r\")\n    n = X.shape[0]\n\n    # Work in float64 for accuracy but stream in chunks to bound memory usage.\n    chunk_size = 250  # rows per chunk -> chunk x n distance block computed at a time\n\n    # Precompute squared norms of all rows (n floats, negligible memory)\n    norms = np.empty(n, dtype=np.float64)\n    for start in range(0, n, chunk_size):\n        end = min(start + chunk_size, n)\n        block = np.asarray(X[start:end], dtype=np.float64)\n        norms[start:end] = np.einsum('ij,ij->i', block, block)\n\n    total = 0.0\n\n    for start in range(0, n, chunk_size):\n        end = min(start + chunk_size, n)\n        A = np.asarray(X[start:end], dtype=np.float64)  # (m, d)\n        m = end - start\n\n        # dot products between this chunk and all rows: (m, n)\n        # computed in sub-chunks over columns too, to bound memory further\n        col_chunk = 1000\n        row_norms = norms[start:end]  # (m,)\n\n        for cstart in range(0, n, col_chunk):\n            cend = min(cstart + col_chunk, n)\n            B = np.asarray(X[cstart:cend], dtype=np.float64)  # (k, d)\n            dots = A @ B.T  # (m, k)\n\n            col_norms = norms[cstart:cend]  # (k,)\n\n            sq = row_norms[:, None] + col_norms[None, :] - 2.0 * dots\n            np.maximum(sq, 0.0, out=sq)  # guard against tiny negative values from floating point error\n            dists = np.sqrt(sq)\n\n            total += dists.sum()\n\n    # total is a numpy float64; convert to Python float for printing\n    total = float(total)\n    print(f\"TOTAL:{total!r}\" if False else f\"TOTAL:{total:.10f}\")\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexBjanSjxH6u8vWf2XrY",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 300,
+    "output_tokens": 1224,
+    "output_tokens_details": {
+      "thinking_tokens": 526
+    },
+    "service_tier": "standard"
+  }
+}

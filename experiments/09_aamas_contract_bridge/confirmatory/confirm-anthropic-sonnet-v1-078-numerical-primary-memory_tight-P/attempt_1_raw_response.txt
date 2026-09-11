@@ -1,0 +1,51 @@
+```python
+import numpy as np
+
+def main():
+    vectors = np.load("vectors.npy", mmap_mode="r")
+    N, D = vectors.shape
+
+    # Precompute squared norms (float64 for accuracy in later subtraction)
+    # Load in chunks to keep memory bounded, but 8000x1024 float32 is only ~32MB,
+    # so we can safely load fully into memory once.
+    vecs = np.asarray(vectors, dtype=np.float32)  # ensure real array in memory (~32MB)
+
+    norms = np.einsum('ij,ij->i', vecs, vecs, dtype=np.float64)
+
+    total_upper = 0.0
+    block_size = 400  # tuned for memory/time balance
+
+    for bi in range(0, N, block_size):
+        bj_end = N
+        block = vecs[bi:bi+block_size]          # shape (rows, D)
+        rest = vecs[bi:bj_end]                  # shape (cols, D), cols = N - bi
+        rows = block.shape[0]
+        cols = rest.shape[0]
+
+        # Compute dot products: rows x cols
+        dot = block @ rest.T  # float32 matmul, shape (rows, cols)
+
+        # squared distances using norms
+        n_block = norms[bi:bi+rows]             # shape (rows,)
+        n_rest = norms[bi:bj_end]               # shape (cols,)
+
+        sq_dist = n_block[:, None] + n_rest[None, :] - 2.0 * dot.astype(np.float64)
+        np.maximum(sq_dist, 0.0, out=sq_dist)
+        dist = np.sqrt(sq_dist)
+
+        # We only want j_local > i_local (strict upper triangle within this block-vs-rest matrix)
+        # local indices: i_local corresponds to global bi+i_local
+        #                j_local corresponds to global bi+j_local
+        # condition: (bi+j_local) > (bi+i_local)  =>  j_local > i_local
+        # Use triu with k=1 mask
+        mask = np.triu(np.ones((rows, cols), dtype=bool), k=1)
+        total_upper += dist[mask].sum(dtype=np.float64)
+
+    total = 2.0 * total_upper
+
+    # Print as decimal value (float), formatted plainly
+    print(f"TOTAL:{total:.10f}")
+
+if __name__ == "__main__":
+    main()
+```

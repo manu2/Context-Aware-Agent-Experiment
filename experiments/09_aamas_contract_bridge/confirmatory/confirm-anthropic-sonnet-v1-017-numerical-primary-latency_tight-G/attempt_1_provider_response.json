@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "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",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef main():\n    vectors = np.load(\"vectors.npy\", mmap_mode=\"r\")\n    n = vectors.shape[0]\n\n    # Use float64 for accurate accumulation\n    V = np.asarray(vectors, dtype=np.float64)\n\n    norms = np.einsum('ij,ij->i', V, V)\n\n    total = 0.0\n    block_size = 500\n\n    for start in range(0, n, block_size):\n        end = min(start + block_size, n)\n        block = V[start:end]  # (b, d)\n\n        # dot products between block rows and all rows\n        dots = block @ V.T  # (b, n)\n\n        sq_dists = norms[start:end, None] + norms[None, :] - 2.0 * dots\n        # numerical safety: clip small negative values to zero\n        np.maximum(sq_dists, 0.0, out=sq_dists)\n\n        dists = np.sqrt(sq_dists)\n        total += dists.sum()\n\n    # total is a Python float (from numpy float64 sum)\n    total_val = float(total)\n    print(f\"TOTAL:{total_val!r}\" if False else f\"TOTAL:{total_val:.10f}\".rstrip('0').rstrip('.') if False else f\"TOTAL:{total_val}\")\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CexAt5ZRtqPdb4nzpo5Ud",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 226,
+    "output_tokens": 1018,
+    "output_tokens_details": {
+      "thinking_tokens": 580
+    },
+    "service_tier": "standard"
+  }
+}

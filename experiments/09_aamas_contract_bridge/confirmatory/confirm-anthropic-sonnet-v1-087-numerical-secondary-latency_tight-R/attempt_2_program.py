@@ -1,0 +1,19 @@
+import numpy as np
+
+X = np.load("vectors_secondary.npy").astype(np.float64)
+n = X.shape[0]
+
+norms = np.einsum('ij,ij->i', X, X)
+
+total = 0.0
+block = 400
+
+for i in range(0, n, block):
+    Xi = X[i:i+block]
+    dot = Xi @ X.T
+    d2 = norms[i:i+block, None] + norms[None, :] - 2.0 * dot
+    np.maximum(d2, 0.0, out=d2)
+    d = np.sqrt(d2)
+    total += d.sum()
+
+print(f"TOTAL:{total:.10f}")

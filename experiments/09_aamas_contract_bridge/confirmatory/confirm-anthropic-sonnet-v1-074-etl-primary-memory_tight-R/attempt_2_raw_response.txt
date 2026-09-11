@@ -1,0 +1,46 @@
+```python
+import pandas as pd
+import json
+
+result = {}
+
+usecols = ['account_id', 'category', 'amount_cents']
+dtypes = {'account_id': 'int64', 'amount_cents': 'int64'}
+
+chunksize = 200_000
+
+for chunk in pd.read_csv(
+    'transactions.csv',
+    usecols=usecols,
+    dtype=dtypes,
+    chunksize=chunksize
+):
+    mod = chunk['account_id'] % 11
+    mask = mod < 7
+    if not mask.any():
+        continue
+
+    sub_account = chunk.loc[mask, 'account_id']
+    sub_amount = chunk.loc[mask, 'amount_cents']
+    sub_category = chunk.loc[mask, 'category']
+
+    multiplier = (sub_account % 97) + 1
+
+    # Use Python's arbitrary precision integers to guarantee exact sums
+    # regardless of magnitude, avoiding any overflow issues with fixed-width ints.
+    amt_obj = sub_amount.astype(object)
+    mult_obj = multiplier.astype(object)
+
+    values = amt_obj * mult_obj
+
+    grouped = values.groupby(sub_category).sum()
+
+    for cat, val in grouped.items():
+        if cat in result:
+            result[cat] += int(val)
+        else:
+            result[cat] = int(val)
+
+output = {k: result[k] for k in sorted(result.keys())}
+print("TOTAL:" + json.dumps(output))
+```

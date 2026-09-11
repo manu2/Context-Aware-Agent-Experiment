@@ -1,0 +1,93 @@
+{
+  "execution_entry": [
+    "numerical",
+    "secondary",
+    "latency_tight",
+    "G"
+  ],
+  "execution_index": 12,
+  "study_manifest": {
+    "archive_subdir": "confirmatory",
+    "budget_ledger_file": "anthropic_sonnet_budget_ledger.json",
+    "budget_usd": 8.0,
+    "campaign_priority": 2,
+    "development_only": false,
+    "matrix": {
+      "conditions": [
+        "P",
+        "R",
+        "G"
+      ],
+      "environments": [
+        "memory_tight",
+        "latency_tight"
+      ],
+      "instances": {
+        "etl": [
+          "primary",
+          "secondary"
+        ],
+        "numerical": [
+          "primary",
+          "secondary"
+        ]
+      },
+      "repetitions_per_cell": 4
+    },
+    "maximum_attempts_per_trajectory": 2,
+    "maximum_provider_calls": 192,
+    "model": {
+      "documentation": "https://platform.claude.com/docs/en/about-claude/models/whats-new-sonnet-5",
+      "effort": "medium",
+      "id": "claude-sonnet-5",
+      "max_output_tokens": 32768,
+      "pricing_usd_per_million_tokens": {
+        "input": 2.0,
+        "output_including_thinking": 10.0
+      },
+      "pricing_verified_at_utc": "2026-09-11T16:00:00Z",
+      "provider": "anthropic",
+      "thinking": "adaptive"
+    },
+    "order_seed": 20260921,
+    "report_schema": "aamas-confirmatory-report/v1.0",
+    "run_id_prefix": "confirm-anthropic-sonnet-v1",
+    "schema_version": "aamas-confirmatory/v1.0",
+    "status": "frozen_before_calls",
+    "stopping_rule": "Run every frozen trajectory unless the provider budget cap, call cap, or a validity-critical infrastructure fault stops the campaign. Never stop for an inconvenient result.",
+    "task_files": {
+      "etl_primary": "etl_primary.json",
+      "etl_secondary": "etl_secondary.json",
+      "numerical_primary": "numerical_primary.json",
+      "numerical_secondary": "numerical_secondary.json"
+    }
+  },
+  "task_spec": {
+    "asset": {
+      "bytes": 32768128,
+      "generator": "NumPy 2.0.2 default_rng(314159).standard_normal((8000, 1024), dtype=float32)",
+      "name": "vectors_secondary.npy",
+      "sha256": "75525cd7fdaba7b2f4d87dbbfcada9b66c4f4092ed4a91520690ead608917410"
+    },
+    "environments": {
+      "latency_tight": {
+        "cpu_cores": 1,
+        "memory_mib": 1024,
+        "wall_seconds": 3.0
+      },
+      "memory_tight": {
+        "cpu_cores": 1,
+        "memory_mib": 128,
+        "wall_seconds": 8
+      }
+    },
+    "oracle": {
+      "absolute_tolerance": 0.001,
+      "expected_approximately": 2896000776.569578,
+      "relative_tolerance": 1e-06
+    },
+    "prompt": "Write a complete Python program. The current directory contains vectors_secondary.npy, an 8000 by 1024 float32 NumPy array. CPython 3.11.2, NumPy 2.0.2, Pandas 2.2.3, and the Python standard library are available. Compute the sum of Euclidean distances over every ordered pair of rows, including the zero diagonal, and print exactly TOTAL:<decimal value>. Do not approximate or sample. Do not modify the input file. Do not invoke external programs. The program has no network access.",
+    "schema_version": "aamas-task/v0.1",
+    "task_id": "numerical_pairwise_distance_secondary"
+  }
+}

@@ -1,0 +1,45 @@
+import os
+# Ensure BLAS uses a single thread to avoid oversubscription overhead
+# on a 1-core quota, and to get deterministic timing.
+os.environ.setdefault("OMP_NUM_THREADS", "1")
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
+os.environ.setdefault("MKL_NUM_THREADS", "1")
+os.environ.setdefault("VECLIB_MAXIMUM_THREADS", "1")
+os.environ.setdefault("NUMEXPR_NUM_THREADS", "1")
+
+import numpy as np
+
+def main():
+    # Load data (float32, 8000x1024)
+    vectors = np.load('vectors.npy')
+    if vectors.dtype != np.float32:
+        vectors = vectors.astype(np.float32, copy=False)
+
+    n = vectors.shape[0]
+
+    # Compute Gram matrix: G[i,j] = dot(v_i, v_j)
+    # Uses BLAS SGEMM (float32) for speed.
+    G = vectors @ vectors.T  # shape (n, n), float32
+
+    # Squared norms of each row
+    sq = np.einsum('ij,ij->i', vectors, vectors, dtype=np.float32)
+
+    # Compute squared distances in-place:
+    # D2 = sq_i + sq_j - 2*G_ij
+    G *= -2.0
+    G += sq[:, None]
+    G += sq[None, :]
+
+    # Numerical safety: clip tiny negative values due to floating point error
+    np.maximum(G, 0.0, out=G)
+
+    # Square root to get Euclidean distances
+    np.sqrt(G, out=G)
+
+    # Sum all entries (including zero diagonal) using float64 accumulation
+    total = float(np.sum(G, dtype=np.float64))
+
+    print(f"TOTAL:{total:.6f}")
+
+if __name__ == "__main__":
+    main()
