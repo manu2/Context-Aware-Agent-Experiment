@@ -70,3 +70,7 @@ related arXiv preprint and development repository are public. The camera-ready
 version may restore the author block and cite the public artifact. Do not include
 raw credentials, local paths, API account identifiers, git remotes, or chat
 exports in either package.
+
+The author-side registration fields and release sequence are prepared in
+`OPENREVIEW_CHECKLIST.md`; that file is intentionally excluded from the anonymous
+supplement.

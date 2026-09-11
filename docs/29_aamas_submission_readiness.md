@@ -46,7 +46,8 @@ regimes. Latency-tight ETL is the retained boundary case.
 ## Final release sequence
 
 1. Register the anonymous abstract in OpenReview and record the assigned
-   submission ID.
+   submission ID. Use `paper/aamas2027/OPENREVIEW_CHECKLIST.md` for the copy-ready
+   metadata and reciprocal-reviewer/exemption decision.
 2. Replace `\acmSubmissionID{PENDING}` in `paper/aamas2027/main.tex` with that ID.
 3. Rebuild `main.pdf` and `aamas2027_anonymous_supplement.zip`.
 4. Run:
