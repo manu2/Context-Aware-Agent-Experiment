@@ -167,6 +167,57 @@ class ContractBridgeTests(unittest.TestCase):
             for condition in manifest["matrix"]["conditions"]
         })
 
+    def test_confirmatory_analysis_recovers_frozen_contrasts(self):
+        path = Path(__file__).resolve().parents[1] / "benchmarks/analyze_aamas_confirmatory.py"
+        spec = importlib.util.spec_from_file_location("aamas_analysis", path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        rows = []
+        for model in ("m1", "m2", "m3"):
+            for family in ("numerical", "etl"):
+                for instance in ("primary", "secondary"):
+                    for environment in ("memory_tight", "latency_tight"):
+                        for condition in ("P", "R", "G"):
+                            for repetition in range(4):
+                                suitable = condition == "P"
+                                value = {"P": 1.0, "R": 2.0, "G": 3.0}[condition]
+                                attempt = {
+                                    "program_time_seconds": value,
+                                    "memory_peak_bytes": value * 100,
+                                    "memory_exceedance_bytes": 0,
+                                    "failure_type": None if suitable else "timeout",
+                                    "strategy": {"primary_strategy": condition},
+                                }
+                                rows.append({
+                                    "model": model, "family": family, "instance": instance,
+                                    "environment": environment, "condition": condition,
+                                    "first_pass_suitable": suitable, "final_suitable": suitable,
+                                    "attempt_count": 1, "attempts": [attempt],
+                                    "provider_tokens": 10, "estimated_cost_usd": 0.01,
+                                    "end_to_end_seconds": value,
+                                    "scheduled_trajectory_id": f"{model}-{family}-{instance}-{environment}-{condition}-{repetition}",
+                                })
+        primary = module.primary_randomization(rows, permutations=1000)
+        self.assertEqual(primary["observed"], {"P_minus_R": 1.0, "P_minus_G": 1.0})
+        self.assertLess(primary["holm_adjusted_p"]["P_minus_R"], 0.01)
+        continuous = module.continuous_contrasts(rows, bootstraps=100)
+        self.assertEqual(continuous["metrics"]["first_program_time_seconds"]["P_minus_R"], -1.0)
+        self.assertEqual(continuous["metrics"]["first_program_time_seconds"]["P_minus_G"], -2.0)
+        with tempfile.TemporaryDirectory() as directory:
+            paths = []
+            for model in ("m1", "m2", "m3"):
+                model_rows = [{key: value for key, value in row.items() if key != "model"}
+                              for row in rows if row["model"] == model]
+                audit = {
+                    "passed": True, "complete": 96, "scheduled": 96,
+                    "integrity_issues": [], "incomplete": [], "model": model,
+                    "rows": model_rows,
+                }
+                audit_path = Path(directory) / f"{model}.json"
+                audit_path.write_text(__import__("json").dumps(audit))
+                paths.append(audit_path)
+            self.assertEqual(len(module.validate_and_load(paths)), 288)
+
 
 if __name__ == "__main__":
     unittest.main()

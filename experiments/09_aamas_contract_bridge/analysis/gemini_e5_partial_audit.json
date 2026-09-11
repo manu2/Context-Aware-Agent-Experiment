@@ -247,709 +247,4169 @@
   "rows": [
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.0271455,
+          "failure_type": "timeout",
+          "generation_seconds": 34.705727125,
+          "input_tokens": 149,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 690569216,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 7209,
+          "program_time_seconds": 3.0488842190000014,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.143273949999994
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.026112,
+          "failure_type": "timeout",
+          "generation_seconds": 27.08075375,
+          "input_tokens": 216,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 645013504,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 6920,
+          "program_time_seconds": 3.030374272000003,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.1092513850000074
+        }
+      ],
       "condition": "G",
       "effective_trajectory_id": "confirm-gemini38-v1-001-numerical-secondary-latency_tight-G",
+      "end_to_end_seconds": 68.03900621,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.0532575,
       "family": "numerical",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "secondary",
+      "provider_tokens": 14494,
       "scheduled_trajectory_id": "confirm-gemini38-v1-001-numerical-secondary-latency_tight-G"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.027123,
+          "failure_type": null,
+          "generation_seconds": 28.14158241700001,
+          "input_tokens": 209,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 314155008,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 7191,
+          "program_time_seconds": 1.5825050889999943,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.653750930000001
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-002-numerical-secondary-latency_tight-P",
+      "end_to_end_seconds": 29.79533334700001,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.027123,
       "family": "numerical",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "secondary",
+      "provider_tokens": 7400,
       "scheduled_trajectory_id": "confirm-gemini38-v1-002-numerical-secondary-latency_tight-P"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.023715,
+          "failure_type": "timeout",
+          "generation_seconds": 27.259980666999994,
+          "input_tokens": 230,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 142798848,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 6278,
+          "program_time_seconds": 1.7314267490000077,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8007651700000054
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.03673275,
+          "failure_type": "timeout",
+          "generation_seconds": 36.08035525,
+          "input_tokens": 297,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 136556544,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 9736,
+          "program_time_seconds": 1.7324990070000013,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8028661890000137
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-003-etl-secondary-latency_tight-P",
+      "end_to_end_seconds": 66.94396727600001,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.06044775,
       "family": "etl",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "secondary",
+      "provider_tokens": 16541,
       "scheduled_trajectory_id": "confirm-gemini38-v1-003-etl-secondary-latency_tight-P"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.00876975,
+          "failure_type": "timeout",
+          "generation_seconds": 9.816472417,
+          "input_tokens": 148,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4341760,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 2309,
+          "program_time_seconds": 1.7284662539999829,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8004284900000016
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.0270525,
+          "failure_type": "timeout",
+          "generation_seconds": 27.472600916999994,
+          "input_tokens": 215,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 263778304,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 7171,
+          "program_time_seconds": 1.745766806000006,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator",
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8205545209999627
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-004-etl-secondary-latency_tight-R",
+      "end_to_end_seconds": 40.91005634499996,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.03582225,
       "family": "etl",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "secondary",
+      "provider_tokens": 9843,
       "scheduled_trajectory_id": "confirm-gemini38-v1-004-etl-secondary-latency_tight-R"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.0261225,
+          "failure_type": "timeout",
+          "generation_seconds": 26.359979375000023,
+          "input_tokens": 230,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 157868032,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 6920,
+          "program_time_seconds": 1.7318401179999796,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.806243309000024
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.0570165,
+          "failure_type": null,
+          "generation_seconds": 55.303488000000016,
+          "input_tokens": 437,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 373260288,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 15117,
+          "program_time_seconds": 1.6356509320000328,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_eager",
+            "rationale": [
+              "read_csv has no explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.708676602999958
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-005-etl-secondary-latency_tight-P",
+      "end_to_end_seconds": 85.17838728700002,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.08313899999999999,
       "family": "etl",
       "final_suitable": true,
       "first_pass_suitable": false,
       "instance": "secondary",
+      "provider_tokens": 22704,
       "scheduled_trajectory_id": "confirm-gemini38-v1-005-etl-secondary-latency_tight-P"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.03581925,
+          "failure_type": "timeout",
+          "generation_seconds": 35.94888604200003,
+          "input_tokens": 149,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 612134912,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 9522,
+          "program_time_seconds": 3.0498012479999943,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.1187640699999974
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.0470595,
+          "failure_type": "timeout",
+          "generation_seconds": 45.18155829099999,
+          "input_tokens": 216,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 475693056,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 12506,
+          "program_time_seconds": 3.023702302999993,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.0931607580000104
+        }
+      ],
       "condition": "G",
       "effective_trajectory_id": "confirm-gemini38-v1-006-numerical-secondary-latency_tight-G",
+      "end_to_end_seconds": 87.34236916100002,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.08287875,
       "family": "numerical",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "secondary",
+      "provider_tokens": 22393,
       "scheduled_trajectory_id": "confirm-gemini38-v1-006-numerical-secondary-latency_tight-G"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.0208665,
+          "failure_type": "timeout",
+          "generation_seconds": 23.255195665999963,
+          "input_tokens": 167,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134963200,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 5531,
+          "program_time_seconds": 1.4285189130000049,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.499240493000002
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.0396705,
+          "failure_type": "timeout",
+          "generation_seconds": 40.748394166000026,
+          "input_tokens": 234,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 169869312,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 10532,
+          "program_time_seconds": 1.4380309239999178,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.507998047000001
+        }
+      ],
       "condition": "G",
       "effective_trajectory_id": "confirm-gemini38-v1-007-etl-primary-latency_tight-G",
+      "end_to_end_seconds": 67.01082837199999,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.060536999999999994,
       "family": "etl",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "primary",
+      "provider_tokens": 16464,
       "scheduled_trajectory_id": "confirm-gemini38-v1-007-etl-primary-latency_tight-G"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.039876,
+          "failure_type": null,
+          "generation_seconds": 41.11699229199996,
+          "input_tokens": 208,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 73486336,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 10592,
+          "program_time_seconds": 2.4856391229999417,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.565391955999985
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-008-numerical-secondary-memory_tight-P",
+      "end_to_end_seconds": 43.68238424799995,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.039876,
       "family": "numerical",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "secondary",
+      "provider_tokens": 10800,
       "scheduled_trajectory_id": "confirm-gemini38-v1-008-numerical-secondary-memory_tight-P"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.02345775,
+          "failure_type": "timeout",
+          "generation_seconds": 24.56061329199997,
+          "input_tokens": 167,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 157614080,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 6222,
+          "program_time_seconds": 1.4354826559999765,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5041408959999671
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.0508305,
+          "failure_type": "timeout",
+          "generation_seconds": 52.0796906249999,
+          "input_tokens": 234,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 157425664,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 13508,
+          "program_time_seconds": 1.436661369000035,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.517328238999994
+        }
+      ],
       "condition": "G",
       "effective_trajectory_id": "confirm-gemini38-v1-009-etl-primary-latency_tight-G",
+      "end_to_end_seconds": 79.66177305199983,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.07428825,
       "family": "etl",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "primary",
+      "provider_tokens": 20131,
       "scheduled_trajectory_id": "confirm-gemini38-v1-009-etl-primary-latency_tight-G"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.01847325,
+          "failure_type": null,
+          "generation_seconds": 20.501750750000042,
+          "input_tokens": 226,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 10506240,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 4881,
+          "program_time_seconds": 2.2836154220000253,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.3545634080001037
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-010-etl-primary-memory_tight-P",
+      "end_to_end_seconds": 22.856314158000146,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.01847325,
       "family": "etl",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "primary",
+      "provider_tokens": 5107,
       "scheduled_trajectory_id": "confirm-gemini38-v1-010-etl-primary-memory_tight-P"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.0378765,
+          "failure_type": "timeout",
+          "generation_seconds": 38.208729749999975,
+          "input_tokens": 147,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 645042176,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 10071,
+          "program_time_seconds": 3.0247689960000343,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.1006024309999702
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.029688,
+          "failure_type": "timeout",
+          "generation_seconds": 27.41928541599998,
+          "input_tokens": 214,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 645013504,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 7874,
+          "program_time_seconds": 3.030424820999997,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.1056313760000194
+        }
+      ],
       "condition": "G",
       "effective_trajectory_id": "confirm-gemini38-v1-011-numerical-primary-latency_tight-G",
+      "end_to_end_seconds": 71.83424897299994,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.0675645,
       "family": "numerical",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "primary",
+      "provider_tokens": 18306,
       "scheduled_trajectory_id": "confirm-gemini38-v1-011-numerical-primary-latency_tight-G"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.0639465,
+          "failure_type": "oom_kill",
+          "generation_seconds": 64.12753758400004,
+          "input_tokens": 147,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": 17023,
+          "program_time_seconds": 0.78587905400002,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "triangular_symmetry"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 0.855855477000091
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.02354025,
+          "failure_type": "oom_kill",
+          "generation_seconds": 22.74745608300009,
+          "input_tokens": 212,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": 6235,
+          "program_time_seconds": 0.701242959999945,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "rowwise_or_scalar_streaming",
+            "rationale": [
+              "distance work is expressed through loops without a matrix-product signature"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 0.7712799170000153
+        }
+      ],
       "condition": "G",
       "effective_trajectory_id": "confirm-gemini38-v1-012-numerical-primary-memory_tight-G",
+      "end_to_end_seconds": 88.50212906100023,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.08748675,
       "family": "numerical",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "primary",
+      "provider_tokens": 23617,
       "scheduled_trajectory_id": "confirm-gemini38-v1-012-numerical-primary-memory_tight-G"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.01741725,
+          "failure_type": null,
+          "generation_seconds": 18.43672487499998,
+          "input_tokens": 228,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4509696,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 4599,
+          "program_time_seconds": 2.2828199089999544,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.352596037000012
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-013-etl-secondary-memory_tight-P",
+      "end_to_end_seconds": 20.789320911999994,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.01741725,
       "family": "etl",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "secondary",
+      "provider_tokens": 4827,
       "scheduled_trajectory_id": "confirm-gemini38-v1-013-etl-secondary-memory_tight-P"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.0417465,
+          "failure_type": "timeout",
+          "generation_seconds": 41.533595666,
+          "input_tokens": 147,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 249462784,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 11103,
+          "program_time_seconds": 3.0238666359999797,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.0931351000000404
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.03173175,
+          "failure_type": "timeout",
+          "generation_seconds": 30.563638083,
+          "input_tokens": 214,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 612077568,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 8419,
+          "program_time_seconds": 3.0367154549999213,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.104753341999981
+        }
+      ],
       "condition": "G",
       "effective_trajectory_id": "confirm-gemini38-v1-014-numerical-primary-latency_tight-G",
+      "end_to_end_seconds": 78.29512219100002,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.07347825,
       "family": "numerical",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "primary",
+      "provider_tokens": 19883,
       "scheduled_trajectory_id": "confirm-gemini38-v1-014-numerical-primary-latency_tight-G"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.01939575,
+          "failure_type": null,
+          "generation_seconds": 20.870141125000032,
+          "input_tokens": 226,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4521984,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 5127,
+          "program_time_seconds": 2.2822774009999875,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.352098898999998
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-015-etl-primary-memory_tight-P",
+      "end_to_end_seconds": 23.22224002400003,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.01939575,
       "family": "etl",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "primary",
+      "provider_tokens": 5353,
       "scheduled_trajectory_id": "confirm-gemini38-v1-015-etl-primary-memory_tight-P"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.03436425,
+          "failure_type": null,
+          "generation_seconds": 31.401156834000062,
+          "input_tokens": 209,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 313716736,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 9122,
+          "program_time_seconds": 1.5805828160000601,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.648160061999988
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-016-numerical-secondary-latency_tight-P",
+      "end_to_end_seconds": 33.04931689600005,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.03436425,
       "family": "numerical",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "secondary",
+      "provider_tokens": 9331,
       "scheduled_trajectory_id": "confirm-gemini38-v1-016-numerical-secondary-latency_tight-P"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.018303,
+          "failure_type": "oom_kill",
+          "generation_seconds": 19.576680417000148,
+          "input_tokens": 149,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": 4851,
+          "program_time_seconds": 0.7803170140000475,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 0.850296420000177
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.022923,
+          "failure_type": "oom_kill",
+          "generation_seconds": 22.557367749999912,
+          "input_tokens": 214,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": 6070,
+          "program_time_seconds": 0.7169855429999643,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 0.7870164529999784
+        }
+      ],
       "condition": "G",
       "effective_trajectory_id": "confirm-gemini38-v1-017-numerical-secondary-memory_tight-G",
+      "end_to_end_seconds": 43.771361040000215,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.041226,
       "family": "numerical",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "secondary",
+      "provider_tokens": 11284,
       "scheduled_trajectory_id": "confirm-gemini38-v1-017-numerical-secondary-memory_tight-G"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.00675075,
+          "failure_type": "timeout",
+          "generation_seconds": 9.18797491600003,
+          "input_tokens": 146,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4321280,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 1771,
+          "program_time_seconds": 1.4301295039999786,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5013736980001795
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.03504225,
+          "failure_type": "timeout",
+          "generation_seconds": 38.53040562499996,
+          "input_tokens": 213,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 215220224,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 9302,
+          "program_time_seconds": 1.4385930709997865,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5194904009999846
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-018-etl-primary-latency_tight-R",
+      "end_to_end_seconds": 50.73924464000015,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.041793,
       "family": "etl",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "primary",
+      "provider_tokens": 11432,
       "scheduled_trajectory_id": "confirm-gemini38-v1-018-etl-primary-latency_tight-R"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.031257,
+          "failure_type": "timeout",
+          "generation_seconds": 32.23686133299998,
+          "input_tokens": 126,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 612298752,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 8310,
+          "program_time_seconds": 3.0238264600000093,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.0932038400001147
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.01789725,
+          "failure_type": "timeout",
+          "generation_seconds": 18.507914625000012,
+          "input_tokens": 193,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 644747264,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 4734,
+          "program_time_seconds": 3.0478982229999474,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.128153678999979
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-019-numerical-primary-latency_tight-R",
+      "end_to_end_seconds": 56.966133477000085,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.04915425,
       "family": "numerical",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "primary",
+      "provider_tokens": 13363,
       "scheduled_trajectory_id": "confirm-gemini38-v1-019-numerical-primary-latency_tight-R"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.041691,
+          "failure_type": null,
+          "generation_seconds": 41.16219037500014,
+          "input_tokens": 208,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 82223104,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 11076,
+          "program_time_seconds": 4.490604565000012,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 4.561433160999968
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-020-numerical-secondary-memory_tight-P",
+      "end_to_end_seconds": 45.723623536000105,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.041691,
       "family": "numerical",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "secondary",
+      "provider_tokens": 11284,
       "scheduled_trajectory_id": "confirm-gemini38-v1-020-numerical-secondary-memory_tight-P"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.0138525,
+          "failure_type": "timeout",
+          "generation_seconds": 15.356573458999947,
+          "input_tokens": 230,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 110440448,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 3648,
+          "program_time_seconds": 1.7364363219999177,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8067196960000729
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.03926775,
+          "failure_type": "time_exceedance",
+          "generation_seconds": 46.7873824159999,
+          "input_tokens": 297,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 368320512,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 10412,
+          "program_time_seconds": 1.7111167680000108,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_eager",
+            "rationale": [
+              "read_csv has no explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.7804033970001
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-021-etl-secondary-latency_tight-P",
+      "end_to_end_seconds": 65.73107896800002,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.053120249999999994,
       "family": "etl",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "secondary",
+      "provider_tokens": 14587,
       "scheduled_trajectory_id": "confirm-gemini38-v1-021-etl-secondary-latency_tight-P"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.0249585,
+          "failure_type": null,
+          "generation_seconds": 24.48530345800009,
+          "input_tokens": 228,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 72286208,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 6610,
+          "program_time_seconds": 1.6841794980000486,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.7531589259999691
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-022-etl-secondary-memory_tight-P",
+      "end_to_end_seconds": 26.23846238400006,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.0249585,
       "family": "etl",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "secondary",
+      "provider_tokens": 6838,
       "scheduled_trajectory_id": "confirm-gemini38-v1-022-etl-secondary-memory_tight-P"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.0124485,
+          "failure_type": null,
+          "generation_seconds": 13.41311758400002,
+          "input_tokens": 208,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 75190272,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 3278,
+          "program_time_seconds": 3.189691694999965,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update",
+              "memory_map",
+              "triangular_symmetry"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 3.2688627699999415
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-023-numerical-secondary-memory_tight-P",
+      "end_to_end_seconds": 16.68198035399996,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.0124485,
       "family": "numerical",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "secondary",
+      "provider_tokens": 3486,
       "scheduled_trajectory_id": "confirm-gemini38-v1-023-numerical-secondary-memory_tight-P"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.0134895,
+          "failure_type": null,
+          "generation_seconds": 13.92200108399993,
+          "input_tokens": 206,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 43425792,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 3556,
+          "program_time_seconds": 2.8865142520000973,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update",
+              "memory_map",
+              "triangular_symmetry"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.9641055449999385
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-024-numerical-primary-memory_tight-P",
+      "end_to_end_seconds": 16.88610662899987,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.0134895,
       "family": "numerical",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "primary",
+      "provider_tokens": 3762,
       "scheduled_trajectory_id": "confirm-gemini38-v1-024-numerical-primary-memory_tight-P"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.05154975,
+          "failure_type": "oom_kill",
+          "generation_seconds": 52.763321458000064,
+          "input_tokens": 128,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": 13721,
+          "program_time_seconds": 0.7406452469999749,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 0.809784880000052
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.04755225,
+          "failure_type": "oom_kill",
+          "generation_seconds": 48.1469347499999,
+          "input_tokens": 193,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": 12642,
+          "program_time_seconds": 0.7113764459998038,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 0.7817676829999982
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-025-numerical-secondary-memory_tight-R",
+      "end_to_end_seconds": 102.50180877100001,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.099102,
       "family": "numerical",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "secondary",
+      "provider_tokens": 26684,
       "scheduled_trajectory_id": "confirm-gemini38-v1-025-numerical-secondary-memory_tight-R"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.08954925,
+          "failure_type": null,
+          "generation_seconds": 76.8345361659999,
+          "input_tokens": 209,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 145309696,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 23838,
+          "program_time_seconds": 1.5832293070000105,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.6614450539998415
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-026-numerical-secondary-latency_tight-P",
+      "end_to_end_seconds": 78.49598121999975,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.08954925,
       "family": "numerical",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "secondary",
+      "provider_tokens": 24047,
       "scheduled_trajectory_id": "confirm-gemini38-v1-026-numerical-secondary-latency_tight-P"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.0292965,
+          "failure_type": null,
+          "generation_seconds": 31.406749042,
+          "input_tokens": 167,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 110882816,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 7779,
+          "program_time_seconds": 1.83214461700004,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.9048539469999923
+        }
+      ],
       "condition": "G",
       "effective_trajectory_id": "confirm-gemini38-v1-027-etl-primary-memory_tight-G",
+      "end_to_end_seconds": 33.311602988999994,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.0292965,
       "family": "etl",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "primary",
+      "provider_tokens": 7946,
       "scheduled_trajectory_id": "confirm-gemini38-v1-027-etl-primary-memory_tight-G"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.02719275,
+          "failure_type": null,
+          "generation_seconds": 26.661810667000054,
+          "input_tokens": 207,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 145907712,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 7210,
+          "program_time_seconds": 1.4326909399999295,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.5102205040000172
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-028-numerical-primary-latency_tight-P",
+      "end_to_end_seconds": 28.17203117100007,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.02719275,
       "family": "numerical",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "primary",
+      "provider_tokens": 7417,
       "scheduled_trajectory_id": "confirm-gemini38-v1-028-numerical-primary-latency_tight-P"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.010596,
+          "failure_type": null,
+          "generation_seconds": 11.562627625000005,
+          "input_tokens": 148,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4505600,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 2796,
+          "program_time_seconds": 2.3842703660000097,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.454200111000091
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-029-etl-secondary-memory_tight-R",
+      "end_to_end_seconds": 14.016827736000096,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.010596,
       "family": "etl",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "secondary",
+      "provider_tokens": 2944,
       "scheduled_trajectory_id": "confirm-gemini38-v1-029-etl-secondary-memory_tight-R"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.0368145,
+          "failure_type": "timeout",
+          "generation_seconds": 35.683089499999824,
+          "input_tokens": 126,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 611958784,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 9792,
+          "program_time_seconds": 3.0436217819999456,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.1133641690000786
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.02217975,
+          "failure_type": "timeout",
+          "generation_seconds": 21.791150874999857,
+          "input_tokens": 193,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 612356096,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 5876,
+          "program_time_seconds": 3.0410625170000003,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.1120506919999116
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-030-numerical-primary-latency_tight-R",
+      "end_to_end_seconds": 63.69965523599967,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.05899425,
       "family": "numerical",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "primary",
+      "provider_tokens": 15987,
       "scheduled_trajectory_id": "confirm-gemini38-v1-030-numerical-primary-latency_tight-R"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.02621925,
+          "failure_type": null,
+          "generation_seconds": 27.862608582999883,
+          "input_tokens": 169,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 157741056,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 6958,
+          "program_time_seconds": 1.4803473150000173,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.550338224999905
+        }
+      ],
       "condition": "G",
       "effective_trajectory_id": "confirm-gemini38-v1-031-etl-secondary-latency_tight-G",
+      "end_to_end_seconds": 29.412946807999788,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.02621925,
       "family": "etl",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "secondary",
+      "provider_tokens": 7127,
       "scheduled_trajectory_id": "confirm-gemini38-v1-031-etl-secondary-latency_tight-G"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.0191775,
+          "failure_type": "timeout",
+          "generation_seconds": 24.084764624999934,
+          "input_tokens": 230,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 110653440,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 5068,
+          "program_time_seconds": 1.7365983679999317,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8065122830000746
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.03428775,
+          "failure_type": "timeout",
+          "generation_seconds": 35.14363074999983,
+          "input_tokens": 297,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 355082240,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 9084,
+          "program_time_seconds": 1.7298008969999046,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_eager",
+            "rationale": [
+              "read_csv has no explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8000585190000038
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-032-etl-secondary-latency_tight-P",
+      "end_to_end_seconds": 62.83496617699984,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.05346525,
       "family": "etl",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "secondary",
+      "provider_tokens": 14679,
       "scheduled_trajectory_id": "confirm-gemini38-v1-032-etl-secondary-latency_tight-P"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.01895475,
+          "failure_type": "timeout",
+          "generation_seconds": 20.355199332999973,
+          "input_tokens": 128,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 645042176,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 5029,
+          "program_time_seconds": 3.023949569000024,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.0944859859998814
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.03161625,
+          "failure_type": "timeout",
+          "generation_seconds": 31.975751375000073,
+          "input_tokens": 195,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 612089856,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 8392,
+          "program_time_seconds": 3.029166398999905,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.09682350900016
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-033-numerical-secondary-latency_tight-R",
+      "end_to_end_seconds": 58.52226020300009,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.050571,
       "family": "numerical",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "secondary",
+      "provider_tokens": 13744,
       "scheduled_trajectory_id": "confirm-gemini38-v1-033-numerical-secondary-latency_tight-R"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.0211035,
+          "failure_type": "oom_kill",
+          "generation_seconds": 21.738689541999975,
+          "input_tokens": 128,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": 5602,
+          "program_time_seconds": 0.7820945359999314,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 0.8619168459999855
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.031041,
+          "failure_type": "oom_kill",
+          "generation_seconds": 33.465404958000136,
+          "input_tokens": 193,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": 8239,
+          "program_time_seconds": 0.7266922999999679,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 0.7992637679999461
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-034-numerical-secondary-memory_tight-R",
+      "end_to_end_seconds": 56.86527511400004,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.052144499999999996,
       "family": "numerical",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "secondary",
+      "provider_tokens": 14162,
       "scheduled_trajectory_id": "confirm-gemini38-v1-034-numerical-secondary-memory_tight-R"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.014358,
+          "failure_type": "timeout",
+          "generation_seconds": 16.59340962500005,
+          "input_tokens": 169,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 114847744,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 3795,
+          "program_time_seconds": 1.7401947529999688,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8206793020001442
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.04046325,
+          "failure_type": null,
+          "generation_seconds": 39.93136449999997,
+          "input_tokens": 236,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 207683584,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 10743,
+          "program_time_seconds": 1.6813804479997998,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.7525553330001458
+        }
+      ],
       "condition": "G",
       "effective_trajectory_id": "confirm-gemini38-v1-035-etl-secondary-latency_tight-G",
+      "end_to_end_seconds": 60.09800876000031,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.05482125,
       "family": "etl",
       "final_suitable": true,
       "first_pass_suitable": false,
       "instance": "secondary",
+      "provider_tokens": 14943,
       "scheduled_trajectory_id": "confirm-gemini38-v1-035-etl-secondary-latency_tight-G"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.00581475,
+          "failure_type": "timeout",
+          "generation_seconds": 6.813221791999922,
+          "input_tokens": 148,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4325376,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 1521,
+          "program_time_seconds": 1.7293662509996466,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8009550269998726
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.0142725,
+          "failure_type": "timeout",
+          "generation_seconds": 13.535063792000074,
+          "input_tokens": 215,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 163237888,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 3763,
+          "program_time_seconds": 1.7355316839998522,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8072150039997723
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-036-etl-secondary-latency_tight-R",
+      "end_to_end_seconds": 23.95645561499964,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.02008725,
       "family": "etl",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "secondary",
+      "provider_tokens": 5647,
       "scheduled_trajectory_id": "confirm-gemini38-v1-036-etl-secondary-latency_tight-R"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.0132105,
+          "failure_type": "timeout",
+          "generation_seconds": 14.630940667000232,
+          "input_tokens": 169,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 157675520,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 3489,
+          "program_time_seconds": 1.7373555570002281,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8073718880000342
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.056712,
+          "failure_type": null,
+          "generation_seconds": 54.901889708,
+          "input_tokens": 376,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 272576512,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 15048,
+          "program_time_seconds": 1.6824342320001051,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.7541493879998598
+        }
+      ],
       "condition": "G",
       "effective_trajectory_id": "confirm-gemini38-v1-037-etl-secondary-latency_tight-G",
+      "end_to_end_seconds": 73.09435165100012,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.0699225,
       "family": "etl",
       "final_suitable": true,
       "first_pass_suitable": false,
       "instance": "secondary",
+      "provider_tokens": 19082,
       "scheduled_trajectory_id": "confirm-gemini38-v1-037-etl-secondary-latency_tight-G"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.01664025,
+          "failure_type": null,
+          "generation_seconds": 22.458735958000034,
+          "input_tokens": 167,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 108187648,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 4404,
+          "program_time_seconds": 1.5805417999999918,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.6519563720003134
+        }
+      ],
       "condition": "G",
       "effective_trajectory_id": "confirm-gemini38-v1-038-etl-primary-memory_tight-G",
+      "end_to_end_seconds": 24.110692330000347,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.01664025,
       "family": "etl",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "primary",
+      "provider_tokens": 4571,
       "scheduled_trajectory_id": "confirm-gemini38-v1-038-etl-primary-memory_tight-G"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.0094035,
+          "failure_type": null,
+          "generation_seconds": 10.338680415999988,
+          "input_tokens": 148,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4513792,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 2478,
+          "program_time_seconds": 2.33325882500003,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.4036531589999868
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-039-etl-secondary-memory_tight-R",
+      "end_to_end_seconds": 12.742333574999975,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.0094035,
       "family": "etl",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "secondary",
+      "provider_tokens": 2626,
       "scheduled_trajectory_id": "confirm-gemini38-v1-039-etl-secondary-memory_tight-R"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.01799325,
+          "failure_type": "oom_kill",
+          "generation_seconds": 18.017964334000226,
+          "input_tokens": 126,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": 4773,
+          "program_time_seconds": 0.769008390000181,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 0.8479465030000028
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.03826575,
+          "failure_type": "oom_kill",
+          "generation_seconds": 37.388833375000104,
+          "input_tokens": 191,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": 10166,
+          "program_time_seconds": 0.7756839390003734,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 0.8504666810003982
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-040-numerical-primary-memory_tight-R",
+      "end_to_end_seconds": 57.10521089300073,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.056259,
       "family": "numerical",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "primary",
+      "provider_tokens": 15256,
       "scheduled_trajectory_id": "confirm-gemini38-v1-040-numerical-primary-memory_tight-R"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.01741275,
+          "failure_type": null,
+          "generation_seconds": 17.239208291000068,
+          "input_tokens": 207,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 313778176,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 4602,
+          "program_time_seconds": 1.5812103919997753,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.6499661789998754
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-041-numerical-primary-latency_tight-P",
+      "end_to_end_seconds": 18.889174469999944,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.01741275,
       "family": "numerical",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "primary",
+      "provider_tokens": 4809,
       "scheduled_trajectory_id": "confirm-gemini38-v1-041-numerical-primary-latency_tight-P"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.04241925,
+          "failure_type": "oom_kill",
+          "generation_seconds": 42.87297649999982,
+          "input_tokens": 149,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": 11282,
+          "program_time_seconds": 0.7733571939998001,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "triangular_symmetry"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 0.8585137549998763
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.073608,
+          "failure_type": "oom_kill",
+          "generation_seconds": 69.90723083300009,
+          "input_tokens": 214,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": 19586,
+          "program_time_seconds": 0.7513743979998253,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "triangular_symmetry"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 0.8201635030000034
+        }
+      ],
       "condition": "G",
       "effective_trajectory_id": "confirm-gemini38-v1-042-numerical-secondary-memory_tight-G",
+      "end_to_end_seconds": 114.45888459099979,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.11602725,
       "family": "numerical",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "secondary",
+      "provider_tokens": 31231,
       "scheduled_trajectory_id": "confirm-gemini38-v1-042-numerical-secondary-memory_tight-G"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.021783,
+          "failure_type": null,
+          "generation_seconds": 22.944252332999895,
+          "input_tokens": 209,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 313823232,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 5767,
+          "program_time_seconds": 1.687259671999982,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.7725326109998605
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-043-numerical-secondary-latency_tight-P",
+      "end_to_end_seconds": 24.716784943999755,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.021783,
       "family": "numerical",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "secondary",
+      "provider_tokens": 5976,
       "scheduled_trajectory_id": "confirm-gemini38-v1-043-numerical-secondary-latency_tight-P"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.0118185,
+          "failure_type": "timeout",
+          "generation_seconds": 12.701578374999826,
+          "input_tokens": 148,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 349212672,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 3122,
+          "program_time_seconds": 1.733573621999767,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_eager",
+            "rationale": [
+              "read_csv has no explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8021978609999678
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.052845,
+          "failure_type": "timeout",
+          "generation_seconds": 52.860953709000114,
+          "input_tokens": 215,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 241016832,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 14049,
+          "program_time_seconds": 1.7448411860000306,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8311004060001324
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-044-etl-secondary-latency_tight-R",
+      "end_to_end_seconds": 69.19583035100004,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.0646635,
       "family": "etl",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "secondary",
+      "provider_tokens": 17534,
       "scheduled_trajectory_id": "confirm-gemini38-v1-044-etl-secondary-latency_tight-R"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.013218,
+          "failure_type": null,
+          "generation_seconds": 14.155970000000252,
+          "input_tokens": 169,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 111771648,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 3491,
+          "program_time_seconds": 1.8835499769998023,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.961653121999916
+        }
+      ],
       "condition": "G",
       "effective_trajectory_id": "confirm-gemini38-v1-045-etl-secondary-memory_tight-G",
+      "end_to_end_seconds": 16.117623122000168,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.013218,
       "family": "etl",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "secondary",
+      "provider_tokens": 3660,
       "scheduled_trajectory_id": "confirm-gemini38-v1-045-etl-secondary-memory_tight-G"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.0104985,
+          "failure_type": "timeout",
+          "generation_seconds": 11.008672458999627,
+          "input_tokens": 148,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4349952,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 2770,
+          "program_time_seconds": 1.7332760790000066,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8007086239999808
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.032415,
+          "failure_type": null,
+          "generation_seconds": 33.22008245799998,
+          "input_tokens": 215,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 211632128,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 8601,
+          "program_time_seconds": 1.4808726360001856,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.5598973259998274
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-046-etl-secondary-latency_tight-R",
+      "end_to_end_seconds": 47.589360866999414,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.0429135,
       "family": "etl",
       "final_suitable": true,
       "first_pass_suitable": false,
       "instance": "secondary",
+      "provider_tokens": 11734,
       "scheduled_trajectory_id": "confirm-gemini38-v1-046-etl-secondary-latency_tight-R"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.04778475,
+          "failure_type": null,
+          "generation_seconds": 43.06829433299981,
+          "input_tokens": 208,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 107528192,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 12701,
+          "program_time_seconds": 2.48449292100031,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.5535895479997635
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-047-numerical-secondary-memory_tight-P",
+      "end_to_end_seconds": 45.621883880999576,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.04778475,
       "family": "numerical",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "secondary",
+      "provider_tokens": 12909,
       "scheduled_trajectory_id": "confirm-gemini38-v1-047-numerical-secondary-memory_tight-P"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.0178665,
+          "failure_type": "oom_kill",
+          "generation_seconds": 19.67279766599995,
+          "input_tokens": 167,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": 4731,
+          "program_time_seconds": 1.5581843179998032,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.6283771100002014
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.04040025,
+          "failure_type": null,
+          "generation_seconds": 40.3672246670003,
+          "input_tokens": 232,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 75276288,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 10727,
+          "program_time_seconds": 1.9320742179997978,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.0022517949996654
+        }
+      ],
       "condition": "G",
       "effective_trajectory_id": "confirm-gemini38-v1-048-etl-primary-memory_tight-G",
+      "end_to_end_seconds": 63.67065123800012,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.05826675,
       "family": "etl",
       "final_suitable": true,
       "first_pass_suitable": false,
       "instance": "primary",
+      "provider_tokens": 15857,
       "scheduled_trajectory_id": "confirm-gemini38-v1-048-etl-primary-memory_tight-G"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.01734975,
+          "failure_type": "timeout",
+          "generation_seconds": 19.414141082999777,
+          "input_tokens": 228,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 354578432,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 4581,
+          "program_time_seconds": 1.4383694790003574,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_eager",
+            "rationale": [
+              "read_csv has no explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5094539030001215
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.03981,
+          "failure_type": "timeout",
+          "generation_seconds": 39.304740624999795,
+          "input_tokens": 295,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 383197184,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 10557,
+          "program_time_seconds": 1.4316851610001322,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_eager",
+            "rationale": [
+              "read_csv has no explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5117968589997872
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-049-etl-primary-latency_tight-P",
+      "end_to_end_seconds": 61.74013246999948,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.057159749999999995,
       "family": "etl",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "primary",
+      "provider_tokens": 15661,
       "scheduled_trajectory_id": "confirm-gemini38-v1-049-etl-primary-latency_tight-P"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.0532665,
+          "failure_type": "timeout",
+          "generation_seconds": 50.48871583300024,
+          "input_tokens": 147,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 636858368,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 14175,
+          "program_time_seconds": 3.0300634049999644,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.1026903399997536
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.0316005,
+          "failure_type": "timeout",
+          "generation_seconds": 30.948642416999974,
+          "input_tokens": 214,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 475303936,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 8384,
+          "program_time_seconds": 3.0408613069998864,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.1179004320001695
+        }
+      ],
       "condition": "G",
       "effective_trajectory_id": "confirm-gemini38-v1-050-numerical-primary-latency_tight-G",
+      "end_to_end_seconds": 87.65794902200014,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.084867,
       "family": "numerical",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "primary",
+      "provider_tokens": 22920,
       "scheduled_trajectory_id": "confirm-gemini38-v1-050-numerical-primary-latency_tight-G"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.0789135,
+          "failure_type": "oom_kill",
+          "generation_seconds": 73.83711383299988,
+          "input_tokens": 128,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": 21018,
+          "program_time_seconds": 0.8043801010003335,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 0.8902203259999624
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.04210725,
+          "failure_type": "oom_kill",
+          "generation_seconds": 40.979567165999924,
+          "input_tokens": 193,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": 11190,
+          "program_time_seconds": 0.6891826199998832,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 0.7578817609996804
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-051-numerical-secondary-memory_tight-R",
+      "end_to_end_seconds": 116.46478308599944,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.12102075,
       "family": "numerical",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "secondary",
+      "provider_tokens": 32529,
       "scheduled_trajectory_id": "confirm-gemini38-v1-051-numerical-secondary-memory_tight-R"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.021723,
+          "failure_type": "timeout",
+          "generation_seconds": 22.27965875000018,
+          "input_tokens": 149,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 250077184,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 5763,
+          "program_time_seconds": 3.0232450500002415,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "triangular_symmetry"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.0915421419999802
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.023892,
+          "failure_type": "timeout",
+          "generation_seconds": 22.951244332999977,
+          "input_tokens": 216,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 215724032,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 6328,
+          "program_time_seconds": 3.024296327999764,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.0951393560003453
+        }
+      ],
       "condition": "G",
       "effective_trajectory_id": "confirm-gemini38-v1-052-numerical-secondary-latency_tight-G",
+      "end_to_end_seconds": 51.41758458100048,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.045615,
       "family": "numerical",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "secondary",
+      "provider_tokens": 12456,
       "scheduled_trajectory_id": "confirm-gemini38-v1-052-numerical-secondary-latency_tight-G"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.02199975,
+          "failure_type": "timeout",
+          "generation_seconds": 25.73181062499998,
+          "input_tokens": 228,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 111173632,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 5821,
+          "program_time_seconds": 1.433260393999717,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5109697630000483
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.04492125,
+          "failure_type": "timeout",
+          "generation_seconds": 43.288269040999694,
+          "input_tokens": 295,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 354766848,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 11920,
+          "program_time_seconds": 1.4380261969999992,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_eager",
+            "rationale": [
+              "read_csv has no explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5086362330002885
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-053-etl-primary-latency_tight-P",
+      "end_to_end_seconds": 72.03968566200001,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.06692100000000001,
       "family": "etl",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "primary",
+      "provider_tokens": 18264,
       "scheduled_trajectory_id": "confirm-gemini38-v1-053-etl-primary-latency_tight-P"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.01452825,
+          "failure_type": "oom_kill",
+          "generation_seconds": 16.48068979200025,
+          "input_tokens": 146,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": 3845,
+          "program_time_seconds": 1.4557091379997473,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_eager",
+            "rationale": [
+              "read_csv has no explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.5278709320000416
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.0112545,
+          "failure_type": null,
+          "generation_seconds": 14.533374624999851,
+          "input_tokens": 211,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4505600,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 2959,
+          "program_time_seconds": 2.282439178000004,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.3529570360001344
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-054-etl-primary-memory_tight-R",
+      "end_to_end_seconds": 34.894892385000276,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.02578275,
       "family": "etl",
       "final_suitable": true,
       "first_pass_suitable": false,
       "instance": "primary",
+      "provider_tokens": 7161,
       "scheduled_trajectory_id": "confirm-gemini38-v1-054-etl-primary-memory_tight-R"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.0238815,
+          "failure_type": "oom_kill",
+          "generation_seconds": 28.81309791600006,
+          "input_tokens": 147,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": 6339,
+          "program_time_seconds": 0.6485563739997815,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 0.7202021329999297
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.0559965,
+          "failure_type": "oom_kill",
+          "generation_seconds": 52.658962332999636,
+          "input_tokens": 212,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": 14890,
+          "program_time_seconds": 0.7173452920001182,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 0.7997647110000798
+        }
+      ],
       "condition": "G",
       "effective_trajectory_id": "confirm-gemini38-v1-055-numerical-primary-memory_tight-G",
+      "end_to_end_seconds": 82.9920270929997,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.079878,
       "family": "numerical",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "primary",
+      "provider_tokens": 21588,
       "scheduled_trajectory_id": "confirm-gemini38-v1-055-numerical-primary-memory_tight-G"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.00927825,
+          "failure_type": "timeout",
+          "generation_seconds": 10.146063624999897,
+          "input_tokens": 146,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4317184,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 2445,
+          "program_time_seconds": 1.4312703260002309,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5034223980001116
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.0499785,
+          "failure_type": "timeout",
+          "generation_seconds": 48.67067345799978,
+          "input_tokens": 213,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 212647936,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 13285,
+          "program_time_seconds": 1.4389256929998737,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5241758160000245
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-056-etl-primary-latency_tight-R",
+      "end_to_end_seconds": 61.844335296999816,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.059256750000000004,
       "family": "etl",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "primary",
+      "provider_tokens": 16089,
       "scheduled_trajectory_id": "confirm-gemini38-v1-056-etl-primary-latency_tight-R"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.005802,
+          "failure_type": null,
+          "generation_seconds": 6.395424332999937,
+          "input_tokens": 146,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4521984,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 1518,
+          "program_time_seconds": 2.332780545999867,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.406641038000089
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-057-etl-primary-memory_tight-R",
+      "end_to_end_seconds": 8.802065371000026,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.005802,
       "family": "etl",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "primary",
+      "provider_tokens": 1664,
       "scheduled_trajectory_id": "confirm-gemini38-v1-057-etl-primary-memory_tight-R"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.01597275,
+          "failure_type": null,
+          "generation_seconds": 17.132580874999803,
+          "input_tokens": 207,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 317083648,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 4218,
+          "program_time_seconds": 2.6862787159998334,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.76223648999985
+        }
+      ],
       "condition": "P",
       "effective_trajectory_id": "confirm-gemini38-v1-058-numerical-primary-latency_tight-P",
+      "end_to_end_seconds": 19.894817364999653,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.01597275,
       "family": "numerical",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "primary",
+      "provider_tokens": 4425,
       "scheduled_trajectory_id": "confirm-gemini38-v1-058-numerical-primary-latency_tight-P"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.0244065,
+          "failure_type": null,
+          "generation_seconds": 30.628971374999765,
+          "input_tokens": 167,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 116883456,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 6475,
+          "program_time_seconds": 2.185042902999612,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.2681735119999757
+        }
+      ],
       "condition": "G",
       "effective_trajectory_id": "confirm-gemini38-v1-059-etl-primary-memory_tight-G",
+      "end_to_end_seconds": 32.89714488699974,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.0244065,
       "family": "etl",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "primary",
+      "provider_tokens": 6642,
       "scheduled_trajectory_id": "confirm-gemini38-v1-059-etl-primary-memory_tight-G"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.00747075,
+          "failure_type": "timeout",
+          "generation_seconds": 7.696430500000133,
+          "input_tokens": 146,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4464640,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 1963,
+          "program_time_seconds": 1.438240185000268,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5204023960000086
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.033201,
+          "failure_type": "timeout",
+          "generation_seconds": 30.651741083999696,
+          "input_tokens": 213,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 189558784,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 8811,
+          "program_time_seconds": 1.432821333999982,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5049163359999511
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-060-etl-primary-latency_tight-R",
+      "end_to_end_seconds": 41.37349031599979,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.04067175,
       "family": "etl",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "primary",
+      "provider_tokens": 11133,
       "scheduled_trajectory_id": "confirm-gemini38-v1-060-etl-primary-latency_tight-R"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.0128985,
+          "failure_type": "oom_kill",
+          "generation_seconds": 14.944110416000058,
+          "input_tokens": 148,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": 3410,
+          "program_time_seconds": 1.4465571089999685,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_eager",
+            "rationale": [
+              "read_csv has no explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.517484541000158
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.020871,
+          "failure_type": null,
+          "generation_seconds": 23.08616200000006,
+          "input_tokens": 213,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 118042624,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 5523,
+          "program_time_seconds": 1.932583546999922,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.0048256899999615
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-061-etl-secondary-memory_tight-R",
+      "end_to_end_seconds": 41.552582647000236,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.0337695,
       "family": "etl",
       "final_suitable": true,
       "first_pass_suitable": false,
       "instance": "secondary",
+      "provider_tokens": 9294,
       "scheduled_trajectory_id": "confirm-gemini38-v1-061-etl-secondary-memory_tight-R"
     },
     {
       "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.0189795,
+          "failure_type": null,
+          "generation_seconds": 19.960705334000068,
+          "input_tokens": 146,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4497408,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 5032,
+          "program_time_seconds": 2.2857694000003903,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.3660602999998446
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-062-etl-primary-memory_tight-R",
+      "end_to_end_seconds": 22.326765633999912,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.0189795,
       "family": "etl",
       "final_suitable": true,
       "first_pass_suitable": true,
       "instance": "primary",
+      "provider_tokens": 5178,
       "scheduled_trajectory_id": "confirm-gemini38-v1-062-etl-primary-memory_tight-R"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.080802,
+          "failure_type": "timeout",
+          "generation_seconds": 76.01135729099997,
+          "input_tokens": 126,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 112996352,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 21522,
+          "program_time_seconds": 8.036680935000277,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "rowwise_or_scalar_streaming",
+            "rationale": [
+              "distance work is expressed through loops without a matrix-product signature"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 8.109372453000105
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.019221,
+          "failure_type": "oom_kill",
+          "generation_seconds": 19.885654207999778,
+          "input_tokens": 193,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": 5087,
+          "program_time_seconds": 0.740224962999946,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "eager_global_matrix",
+            "rationale": [
+              "global matrix/broadcast distance construction has no explicit outer blocking loop"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 0.8112654169999587
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-063-numerical-primary-memory_tight-R",
+      "end_to_end_seconds": 104.81764936899981,
       "environment": "memory_tight",
+      "estimated_cost_usd": 0.100023,
       "family": "numerical",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "primary",
+      "provider_tokens": 26928,
       "scheduled_trajectory_id": "confirm-gemini38-v1-063-numerical-primary-memory_tight-R"
     },
     {
       "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.01098075,
+          "failure_type": "timeout",
+          "generation_seconds": 11.852472542000214,
+          "input_tokens": 146,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4497408,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 2899,
+          "program_time_seconds": 1.4382723669996267,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5112796889998208
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.0549585,
+          "failure_type": "timeout",
+          "generation_seconds": 56.37904516699973,
+          "input_tokens": 213,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 164192256,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": 14613,
+          "program_time_seconds": 1.43902768199996,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.511875537999913
+        }
+      ],
       "condition": "R",
       "effective_trajectory_id": "confirm-gemini38-v1-064-etl-primary-latency_tight-R",
+      "end_to_end_seconds": 71.25467293599968,
       "environment": "latency_tight",
+      "estimated_cost_usd": 0.06593925,
       "family": "etl",
       "final_suitable": false,
       "first_pass_suitable": false,
       "instance": "primary",
+      "provider_tokens": 17871,
       "scheduled_trajectory_id": "confirm-gemini38-v1-064-etl-primary-latency_tight-R"
     }
   ],
   "scheduled": 96,
-  "schema_version": "aamas-provider-cohort-audit/v1.0"
+  "schema_version": "aamas-provider-cohort-audit/v1.1"
 }

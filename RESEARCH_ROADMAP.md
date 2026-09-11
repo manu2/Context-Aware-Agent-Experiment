@@ -216,6 +216,10 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   `gst-ai` is on the Free tier with prepayment required and no prepayment method
   configured. The next action is prepaid-billing setup; no scientific protocol
   or outcome rule changes as a result.
+  The frozen statistical plan has also been implemented as a deterministic,
+  fail-closed analysis program. It will produce no confirmatory inference until
+  all three provider audits pass and the balanced 288-trajectory matrix is
+  present.
 - **Preserved earlier FSE protocol:**
   [`docs/14_fse_contractbench_protocol.md`](docs/14_fse_contractbench_protocol.md)
   remains a future expansion reference and does not govern the AAMAS campaign.

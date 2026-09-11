@@ -232,3 +232,12 @@ statistical sample.
   incomplete slots, all pre-generation HTTP 429 failures. Diagnostic counts are
   P 16/22 first-pass and 17/22 final, R 4/22 and 7/22, and G 5/20 and 8/20;
   these are explicitly incomplete and not confirmatory estimates.
+- **AAMAS confirmatory analysis implementation (2026-09-11):**
+  `benchmarks/analyze_aamas_confirmatory.py` now implements the analysis frozen
+  before provider calls: equal-stratum first-pass risk differences, 100,000
+  within-stratum label permutations, Holm correction, Wilson intervals, 20,000
+  stratified bootstrap resamples for continuous outcomes, and stratified
+  behavioral/failure summaries. It refuses to run unless three complete,
+  integrity-passing 96-trajectory audits produce the exact balanced 288-run
+  matrix. The cohort auditor now emits the compact execution, token, cost, and
+  strategy evidence required by that analysis; all 13 unit tests pass.

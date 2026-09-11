@@ -100,6 +100,47 @@ def audit_complete(directory: Path, expected_entry: list[str], model_id: str) ->
     return issues
 
 
+def failure_type(attempt: dict) -> str | None:
+    execution, score = attempt["execution"], attempt["score"]
+    if score["suitable"]:
+        return None
+    if execution.get("oom_killed"):
+        return "oom_kill"
+    if execution.get("timed_out"):
+        return "timeout"
+    if not score.get("correct"):
+        return "incorrect_or_runtime_error"
+    if not score.get("within_memory"):
+        return "memory_exceedance"
+    if not score.get("within_time"):
+        return "time_exceedance"
+    return "other"
+
+
+def compact_attempt(attempt: dict) -> dict:
+    execution, score = attempt["execution"], attempt["score"]
+    metadata = attempt["generation"].get("request_metadata", {})
+    return {
+        "attempt": attempt["attempt"],
+        "correct": bool(score["correct"]),
+        "suitable": bool(score["suitable"]),
+        "within_memory": bool(score["within_memory"]),
+        "within_time": bool(score["within_time"]),
+        "failure_type": failure_type(attempt),
+        "program_time_seconds": execution.get("program_time_seconds"),
+        "worker_time_seconds": execution.get("worker_time_seconds"),
+        "memory_peak_bytes": execution.get("memory_peak_bytes"),
+        "memory_exceedance_bytes": score.get("memory_exceedance_bytes"),
+        "oom_killed": bool(execution.get("oom_killed")),
+        "timed_out": bool(execution.get("timed_out")),
+        "input_tokens": metadata.get("input_tokens"),
+        "output_tokens_including_thoughts": metadata.get("output_tokens_including_thoughts"),
+        "generation_seconds": metadata.get("generation_seconds"),
+        "estimated_cost_usd": metadata.get("estimated_cost_usd"),
+        "strategy": attempt["strategy"],
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--manifest", required=True)
@@ -131,12 +172,23 @@ def main() -> int:
         selected_summary = json.loads((selected / "summary.json").read_text())
         local_issues = audit_complete(selected, entry, model_id)
         issues.extend({"trajectory_id": selected.name, "issue": issue} for issue in local_issues)
+        compact_attempts = [compact_attempt(attempt) for attempt in selected_summary["attempts"]]
         rows.append({
             "scheduled_trajectory_id": original_id, "effective_trajectory_id": selected.name,
             "family": entry[0], "instance": entry[1], "environment": entry[2], "condition": entry[3],
             "first_pass_suitable": bool(selected_summary["first_pass_suitable"]),
             "final_suitable": bool(selected_summary["final_suitable"]),
             "attempt_count": selected_summary["attempt_count"],
+            "attempts": compact_attempts,
+            "provider_tokens": sum(
+                (attempt["input_tokens"] or 0) + (attempt["output_tokens_including_thoughts"] or 0)
+                for attempt in compact_attempts
+            ),
+            "estimated_cost_usd": sum(attempt["estimated_cost_usd"] or 0 for attempt in compact_attempts),
+            "end_to_end_seconds": sum(
+                (attempt["generation_seconds"] or 0) + (attempt["worker_time_seconds"] or 0)
+                for attempt in compact_attempts
+            ),
         })
 
     conditions = {}
@@ -151,7 +203,7 @@ def main() -> int:
             "provider_calls": sum(row["attempt_count"] for row in subset),
         }
     payload = {
-        "schema_version": "aamas-provider-cohort-audit/v1.0", "manifest": str(manifest_path.relative_to(ROOT)),
+        "schema_version": "aamas-provider-cohort-audit/v1.1", "manifest": str(manifest_path.relative_to(ROOT)),
         "model": model_id, "scheduled": len(order(manifest)), "complete": len(rows),
         "incomplete": incomplete, "infrastructure_failures": infrastructure,
         "integrity_issues": issues, "condition_summary": conditions, "rows": rows,
