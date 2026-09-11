@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
+from hashlib import sha256
 import json
 from math import sqrt
 from pathlib import Path
@@ -97,6 +98,22 @@ def audit_complete(directory: Path, expected_entry: list[str], model_id: str) ->
         expected_suitable = score["correct"] and score["within_memory"] and score["within_time"] and not execution["oom_killed"] and not execution["timed_out"]
         if score["suitable"] != expected_suitable:
             issues.append(f"suitability mismatch on attempt {number}")
+    resume = summary.get("infrastructure_resume")
+    if resume is not None:
+        interrupted_path = directory / resume.get("interrupted_summary", "")
+        if not interrupted_path.is_file():
+            issues.append("missing preserved infrastructure-interruption summary")
+        else:
+            interrupted = json.loads(interrupted_path.read_text())
+            if interrupted.get("status") != "failed" or interrupted.get("error_type") != "ProviderRequestError":
+                issues.append("invalid preserved infrastructure-interruption summary")
+            if interrupted.get("attempts") != attempts[:1]:
+                issues.append("preserved attempt differs from completed trajectory")
+        repair_prompt = directory / "attempt_2_prompt.txt"
+        if not repair_prompt.is_file():
+            issues.append("missing resumed repair prompt")
+        elif resume.get("repair_prompt_sha256") != sha256(repair_prompt.read_bytes()).hexdigest():
+            issues.append("resumed repair prompt hash mismatch")
     return issues
 
 
@@ -134,7 +151,11 @@ def compact_attempt(attempt: dict) -> dict:
         "oom_killed": bool(execution.get("oom_killed")),
         "timed_out": bool(execution.get("timed_out")),
         "input_tokens": metadata.get("input_tokens"),
-        "output_tokens_including_thoughts": metadata.get("output_tokens_including_thoughts"),
+        "output_tokens_including_thoughts": (
+            metadata.get("output_tokens_including_thoughts")
+            if metadata.get("output_tokens_including_thoughts") is not None
+            else metadata.get("output_tokens_including_reasoning", metadata.get("output_tokens"))
+        ),
         "generation_seconds": metadata.get("generation_seconds"),
         "estimated_cost_usd": metadata.get("estimated_cost_usd"),
         "strategy": attempt["strategy"],
@@ -185,10 +206,7 @@ def main() -> int:
                 for attempt in compact_attempts
             ),
             "estimated_cost_usd": sum(attempt["estimated_cost_usd"] or 0 for attempt in compact_attempts),
-            "end_to_end_seconds": sum(
-                (attempt["generation_seconds"] or 0) + (attempt["worker_time_seconds"] or 0)
-                for attempt in compact_attempts
-            ),
+            "end_to_end_seconds": selected_summary["end_to_end_time_seconds"],
         })
 
     conditions = {}

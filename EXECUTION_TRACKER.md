@@ -273,3 +273,13 @@ statistical sample.
   first-pass and 22/32 final suitability, versus R at 1/32 and 9/32 and G at
   2/32 and 7/32. The cohort used 173 calls and an estimated $1.980382, below the
   frozen $8 cap. The worker is stopped and the GPT cohort is cleared to proceed.
+- **AAMAS full confirmatory completion (2026-09-12):** GPT's interrupted
+  attempt-2 provider call was resumed from the exact archived repair prompt, and
+  all remaining scheduled GPT trajectories completed. All Gemini, Claude, and
+  GPT cohorts now pass the fail-closed audit with zero integrity issues: 288/288
+  effective trajectories in the frozen balanced matrix. First-pass suitability
+  is P 64/96, R 14/96, and G 27/96; equal-stratum P-R and P-G improvements are
+  +52.1 and +38.5 percentage points (both Holm-adjusted permutation
+  `p = 1.99998e-05`). The deterministic analysis, report, embedded-font vector
+  figures, and anonymous AAMAS manuscript draft are generated. The only release
+  placeholder is the OpenReview submission ID.

@@ -5,10 +5,8 @@
 
 \documentclass[sigconf,anonymous]{aamas}
 
-\usepackage{balance}
 \usepackage{booktabs}
 \usepackage{graphicx}
-\usepackage{multirow}
 
 %%% AAMAS-2027 copyright block (from the official template; do not change).
 \makeatletter
@@ -38,8 +36,6 @@ on Autonomous Agents and Multiagent Systems (AAMAS 2027)}{3--7 May 2027}{Hanoi, 
 
 \author{Anonymous Author(s)}
 
-\newcommand{\resultpending}{\textbf{[CONFIRMATORY RESULT PENDING]}}
-
 \begin{abstract}
 Autonomous coding agents choose implementations whose suitability depends on
 the target environment, yet the model may select a plan before the environment's
@@ -49,12 +45,19 @@ the resources that determine whether an implementation is admissible. We present
 an Execution Contract Bridge that inspects a target, compiles its effective
 contract, and controls when that state becomes visible in an autonomous
 generate--execute--recover loop. Our preregistered evaluation compares proactive
-contract disclosure with reactive discovery and generic efficiency guidance
+contract disclosure with reactive execution feedback and generic efficiency guidance
 across three model configurations, two task families, two instances, and opposed
-memory- and latency-tight Linux environments. \resultpending. The results
-establish when pre-execution environment state changes implementation selection,
-first-pass operational suitability, and the execution work required before a
-correct, environment-suitable program is obtained.
+memory- and latency-tight Linux environments. Across 288 independently generated
+trajectories, proactive disclosure produced 64/96 (66.7\%) first-pass suitable
+programs, compared with 14/96 (14.6\%) under reactive feedback and 27/96
+(28.1\%) under generic efficiency guidance. Equal-stratum risk differences were
++52.1 and +38.5 percentage points, respectively (both Holm-adjusted permutation
+$p=2.0\times10^{-5}$). Proactive contracts improved first-pass suitability in
+all three model configurations and in three of four task--environment regimes,
+while reducing unsuccessful executions, model calls, and tokens. These results
+establish execution context as consequential agent state: exposing the target
+contract before action selection changes implementation strategy and sharply
+improves first-pass operational suitability.
 \end{abstract}
 
 \ccsdesc[500]{Computing methodologies~Intelligent agents}
@@ -88,19 +91,18 @@ This is an agent-architecture question rather than a wording comparison. We buil
 an Execution Contract Bridge between the execution substrate and a bounded
 generate--execute--recover loop. The bridge produces the same typed contract for
 all experimental conditions; the manipulation is when and how the agent can
-observe it. We compare proactive disclosure (P), reactive discovery after an
+observe it. We compare proactive disclosure (P), reactive feedback after an
 unsuitable execution (R), and a generic instruction to balance memory and time
 (G). Every generated program is executed under authentic Linux cgroup v2 memory
 and CPU controls and a supervisor-enforced deadline.
 
 We make four contributions:
 \begin{itemize}
-  \item We formulate substrate blindness as missing decision-relevant state in
-  agent planning and operationalize substrate awareness through a typed execution
-  contract.
-  \item We implement a reusable bridge that inspects a target, compiles an
-  execution contract, renders condition-specific agent context, and preserves an
-  auditable generate--execute--recover trajectory.
+  \item We define substrate blindness as absent decision-relevant state in agent
+  planning, and operationalize substrate awareness with a typed execution contract.
+  \item We implement a reusable bridge that inspects a target, compiles its
+  contract, renders condition-specific context, and preserves an auditable agent
+  trajectory.
   \item We conduct a preregistered 288-trajectory evaluation spanning three
   provider-configured models, two task families, independently generated task
   instances, and opposed resource envelopes.
@@ -148,15 +150,15 @@ rules, generation configuration, executor, and correctness oracle.
   \item[P---Proactive contract.] The exact target memory, CPU, and wall-time
   limits are visible before the first implementation is selected.
   \item[R---Reactive discovery.] The initial state contains the task but not the
-  target limits. If the first program is unsuitable, the unedited execution
-  observation and effective contract are supplied for one recovery attempt.
+  target limits. If the first program is unsuitable, its authentic exit status,
+  timeout/OOM signals, and captured output are supplied for one recovery attempt.
   \item[G---Generic efficiency.] The initial prompt requests balanced memory and
   time efficiency without target values. An unsuitable execution receives the
   same recovery evidence as R.
 \end{description}
 
 P tests whether known target state improves first-pass planning. R measures the
-work required to discover the same boundary through interaction. G separates
+work required to react to the boundary through execution feedback. G separates
 specific environment information from a generic request for efficient code.
 
 \section{Experimental Design}
@@ -206,63 +208,151 @@ Suitability requires an independently verified correct result, no timeout or OOM
 kill, and execution within both frozen memory and time bounds. Each trajectory
 allows one initial attempt and, only after an unsuitable result, at most one
 recovery attempt. Provider errors and malformed responses remain in the attempted
-run ledger; only pre-generation infrastructure failures may be replaced under the
-frozen outcome-neutral rule, with both records retained and linked.
+run ledger. Only provider failures before any model response may receive a linked
+replacement; a provider interruption between attempts may continue only from the
+exact archived repair prompt. Both mechanisms are outcome-neutral and preserve
+the original record.
 
 \subsection{Endpoints and analysis}
 
 The co-primary estimands are the equal-stratum-weighted risk differences in
 verified first-pass suitability for P$-$R and P$-$G across
 model$\times$family$\times$instance$\times$environment strata. We report raw
-counts and Wilson intervals, obtain two-sided $p$-values from 100,000
-within-stratum condition-label permutations (seed 20260924), and apply Holm's
-correction to the two primary contrasts. Secondary outcomes include final
+counts and Wilson intervals. Two-sided $p$-values come from 100,000
+within-stratum label permutations (seed 20260924), with Holm correction for the
+two primary contrasts. Secondary outcomes include final
 suitability within two attempts, calls and tokens per successful trajectory,
 failed executions, recovery latency, program time, peak memory, exceedance, and a
 strategy taxonomy frozen before confirmatory generation. Continuous contrasts
 use 20,000 stratified bootstrap resamples (seed 20260925). Failed executions are
 reported by type and never assigned invented resource values.
 
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.98\textwidth]{figures/primary_suitability}
+  \caption{First-pass suitability with 95\% Wilson intervals. P outperforms R
+  in all three provider-configured models. G approaches P for GPT-5.6 Sol but
+  does not reproduce the effect for Claude Sonnet 5 or Gemini 3.8 Flash.}
+  \Description{Four panels show proactive, reactive, and generic first-pass
+  suitability overall and for each model. Proactive is highest in every panel.}
+  \label{fig:primary}
+\end{figure*}
+
 \section{Results}
 
 \subsection{First-pass environment suitability}
 
-\resultpending
+Proactive contract disclosure produced 64/96 first-pass suitable programs
+(66.7\%, Wilson 95\% CI 56.8--75.3\%), compared with 14/96 under reactive
+feedback (14.6\%, 8.9--23.0\%) and 27/96 under generic efficiency guidance
+(28.1\%, 20.1--37.8\%). The equal-stratum risk difference was +52.1 percentage
+points for P$-$R and +38.5 points for P$-$G. Both two-sided randomization tests
+returned $p<10^{-5}$ before correction and $p=2.0\times10^{-5}$ after Holm
+correction.
+
+The first-pass advantage over R appeared in every model configuration: +46.9
+points for Claude Sonnet 5, +50.0 for GPT-5.6 Sol, and +59.4 for Gemini 3.8
+Flash. P also exceeded G for every configuration, although the separation was
+smaller for GPT-5.6 Sol (+12.5 points) than for Claude (+43.8) or Gemini (+59.4).
+Thus generic optimization language can elicit strong behavior in one
+configuration, but it does not provide the consistent cross-configuration
+reliability of a concrete target contract (Figure~\ref{fig:primary}).
 
 \begin{table}[t]
-  \caption{Verified suitability by information condition. Values are populated
-  only after all three provider cohorts pass the frozen evidence audit.}
+  \caption{Verified suitability and generation work by information condition.
+  Calls, tokens, and cost are totals over each fixed 96-trajectory cohort.}
   \label{tab:primary}
   \centering
-  \begin{tabular}{lrrrr}\toprule
-  Condition & $N$ & First pass & Final & Calls \\\midrule
-  Proactive contract (P) & -- & -- & -- & -- \\
-  Reactive discovery (R) & -- & -- & -- & -- \\
-  Generic efficiency (G) & -- & -- & -- & -- \\\bottomrule
+  \small
+  \begin{tabular}{lrrrrr}\toprule
+  Condition & First pass & Final & Calls & Tokens & Cost \\\midrule
+  Proactive (P) & 64/96 & 72/96 & 128 & 469k & \$4.30 \\
+  Reactive (R) & 14/96 & 33/96 & 178 & 596k & \$4.53 \\
+  Generic (G) & 27/96 & 43/96 & 165 & 671k & \$4.43 \\\bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[t]
+  \caption{First-pass / final suitable trajectories by model ($N=32$ per row).}
+  \label{tab:model}
+  \centering
+  \small
+  \begin{tabular}{lrrr}\toprule
+  Model & P & R & G \\\midrule
+  Claude Sonnet 5 & 16/22 & 1/9 & 2/7 \\
+  GPT-5.6 Sol & 24/25 & 8/16 & 20/26 \\
+  Gemini 3.8 Flash & 24/25 & 5/8 & 5/10 \\\bottomrule
   \end{tabular}
 \end{table}
 
 \subsection{Where contract disclosure changes planning}
 
-\resultpending. Results will be stratified by model, family, instance, and
-environment. The section will report the numerical separation, the ETL
-memory/latency interaction, and the complete strategy-frequency matrix without
-collapsing heterogeneous environments into a universal model ranking.
+The treatment effect follows the environment, rather than a universal ranking of
+models or algorithms (Figure~\ref{fig:regime}). In memory-tight ETL, P was
+first-pass suitable in 24/24 trajectories, versus 5/24 for R and 13/24 for G. In
+memory-tight numerical work, the counts were 22/24 versus 8/24 and 8/24; in
+latency-tight numerical work, 17/24 versus 0/24 and 5/24. These three regimes
+yield P$-$R advantages of 58.3--79.2 percentage points and P$-$G advantages of
+45.8--58.3 points.
+
+Latency-tight ETL is the boundary case: every condition achieved only 1/24
+first-pass suitable programs; after one recovery, P and R reached 3/24 and G
+reached 5/24. The contract accurately exposed the 1.4/1.7-second deadlines, but
+most generated implementations still missed them. Explicit state substantially
+improves selection where the models can synthesize a fitting strategy; state
+availability alone does not make every calibrated boundary attainable.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figures/effect_by_task_environment}
+  \caption{Equal-cell first-pass risk differences by task--environment regime.
+  The effect is large in three regimes and absent in latency-tight ETL.}
+  \Description{A two-row heat map shows proactive-minus-reactive and
+  proactive-minus-generic percentage-point differences across four regimes.}
+  \label{fig:regime}
+\end{figure}
+
+The generated code reveals structural changes behind these outcomes. In the
+numerical family, 42/48 P programs selected blocked matrix computation, and 37/48
+explicitly retained \texttt{float32}; the corresponding counts were 29/48 and
+1/48 for R, and 42/48 and 13/48 for G. In ETL, 24/48 P programs used explicit
+data-frame chunking, compared with 0/48 for R and 21/48 for G. R instead selected
+standard-library row streaming in 30/48 cases. The numeric contract therefore
+changes both strategy family and lower-level choices such as precision and chunk
+geometry; a generic efficiency request sometimes selects the same broad family
+without reliably fitting the actual envelope.
 
 \subsection{Recovery work and resource behavior}
 
-\resultpending. This section will distinguish first-pass selection from eventual
-recovery and report calls, tokens, failed executions, end-to-end recovery latency,
-program time, memory peak, and exceedance alongside bootstrap intervals.
+Within the two-attempt limit, final suitability was 72/96 for P, 33/96 for R,
+and 43/96 for G. P required 128 calls, versus 178 and 165, and consumed 469k
+tokens, versus 596k and 671k (Table~\ref{tab:primary}). Across every issued
+execution, P produced 56 unsuitable runs; R produced 145 and G produced 122.
+The P cohorts therefore obtained more suitable programs while executing far
+fewer failed implementations.
+
+The stratified bootstrap supports the same operational picture. P used 0.52
+fewer attempts per trajectory than R, with 95\% interval $[-0.56,-0.48]$, and
+0.39 fewer than G, with interval $[-0.44,-0.33]$. It consumed 1,316 fewer
+provider tokens per trajectory than R, with interval $[-2{,}027,-618]$, and
+2,101 fewer than G, with interval $[-2{,}893,-1{,}314]$. End-to-end trajectory
+duration was 5.44 seconds lower than R, with interval $[-9.00,-1.91]$. The
+2.51-second difference from G had interval $[-6.72,1.64]$. Final peak memory was lower by 35.1 MiB versus R and
+25.4 MiB versus G, with both intervals excluding zero. Final program time was
+0.41 seconds lower than R; P and G had comparable final program time. These
+secondary measures show that the main gain is not merely eventual correctness:
+the contract moves useful work to the first attempt and reduces the recovery
+burden.
 
 \section{Discussion}
 
 The design tests a concrete architectural proposition: target constraints that
 already exist in the execution system should be represented as observable agent
-state before implementation selection. P and R ultimately receive the same
-contract; their difference is whether the agent can use it proactively or only
-after paying for an unsuitable execution. G tests whether target values contribute
-information beyond general efficiency intent.
+state before implementation selection. P receives that exact state before acting;
+R must infer a response from a failed or unsuitable execution, and G begins with
+general efficiency intent but no target values. The comparison tests the value of
+specific, pre-execution environment information beyond generic optimization
+guidance and post-execution failure signals.
 
 The opposed environments also reveal the limit of treating ``efficient'' as a
 single objective. A memory-minimizing implementation can miss a latency contract,
@@ -270,10 +360,25 @@ while a fast eager implementation can violate a memory ceiling. Substrate-aware
 planning therefore concerns suitability for a particular target, not a universal
 ranking of algorithms or models.
 
+The distinction between P and G is particularly informative. GPT-5.6 Sol often
+translated generic guidance into a suitable implementation, while the other two
+configurations did not. Yet the proactive condition remained the only condition
+that was consistently strong across providers and opposed envelopes. Execution
+contracts are therefore not a claim that models never optimize unaided; they are
+an architectural mechanism for making the target objective explicit instead of
+depending on a model-specific default interpretation of ``efficient.''
+
+Reactive feedback improved eventual suitability, but one repair did not close the
+gap: R rose from 14/96 to 33/96, still well below P's 72/96. This result directly
+motivates placing substrate state upstream of action selection. An agent harness
+that already enforces a resource envelope can expose the relevant values before
+incurring a failed execution, while retaining feedback-based recovery for the
+remaining difficult cases.
+
 \subsection{Threats to validity}
 
-The evaluation uses two code-generation families and three provider-configured
-models; conclusions concern the tested agent loop and calibrated environments.
+The evaluation covers two code-generation families, three provider-configured
+models, this agent loop, and the calibrated environments described above.
 Provider outputs are stochastic and model services evolve, so manifests preserve
 exact identifiers, settings, timestamps, and raw responses. The deterministic
 tasks make operational outcomes auditable but do not represent every software
@@ -287,15 +392,15 @@ changing environments using the same adapter/contract boundary.
 
 \section{Related Work}
 
-ReAct and Reflexion demonstrate agents that revise behavior through environment
-interaction and feedback~\cite{yao2023react,shinn2023reflexion}. Self-Refine
+ReAct and Reflexion demonstrate agents that revise behavior through observations
+and feedback~\cite{yao2023react,shinn2023reflexion}. Self-Refine
 studies iterative model feedback~\cite{madaan2023selfrefine}. SWE-bench and
 SWE-agent ground coding agents in executable repositories and tool
 loops~\cite{jimenez2024swebench,yang2024sweagent}. EffiBench and Mercury evaluate
 the execution efficiency of generated code~\cite{huang2024effibench,du2024mercury}.
 Our work connects these lines by making the target execution envelope explicit
 before plan selection and comparing proactive state availability with both
-reactive discovery and generic efficiency guidance.
+reactive execution feedback and generic efficiency guidance.
 
 Resource-aware scheduling traditionally treats CPU, memory, and deadlines as
 system-level constraints. Linux cgroup v2 exposes enforceable resource controls
@@ -308,11 +413,14 @@ kernel evidence as the arbiter of operational suitability.
 Execution constraints are not incidental metadata: they help define which
 implementation is suitable. This work turns those constraints into typed,
 provenance-bearing agent state and evaluates their proactive use against reactive
-discovery and generic efficiency guidance. \resultpending. The resulting bridge
-provides a reusable foundation for agents that plan against the environments in
+feedback and generic efficiency guidance. Across 288 trajectories, proactive
+contracts raised first-pass suitability from 14.6\% under reactive feedback and
+28.1\% under generic guidance to 66.7\%, while reducing failed executions,
+calls, and tokens. The effect reproduced across all three model configurations
+and three of four task--environment regimes. The Execution Contract Bridge
+provides a concrete foundation for agents that plan against the environments in
 which their actions will actually execute.
 
-\balance
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{references}
 

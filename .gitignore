@@ -33,3 +33,17 @@ credentials.json
 /tmp/
 /temp/
 /output/
+
+# LaTeX build products (source, bibliography, and vector figures stay versioned)
+/*.aux
+/*.fdb_latexmk
+/*.fls
+/*.log
+/paper/aamas2027/*.aux
+/paper/aamas2027/*.bbl
+/paper/aamas2027/*.blg
+/paper/aamas2027/*.fdb_latexmk
+/paper/aamas2027/*.fls
+/paper/aamas2027/*.log
+/paper/aamas2027/*.out
+/paper/aamas2027/*.pdf

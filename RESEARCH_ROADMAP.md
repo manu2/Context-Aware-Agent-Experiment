@@ -262,6 +262,13 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
 - **Preserved earlier FSE protocol:**
   [`docs/14_fse_contractbench_protocol.md`](docs/14_fse_contractbench_protocol.md)
   remains a future expansion reference and does not govern the AAMAS campaign.
+- **AAMAS confirmatory evidence frozen (2026-09-12):** The 288-trajectory P/R/G
+  matrix is complete and integrity-passing across Gemini 3.8 Flash, Claude Sonnet
+  5, and GPT-5.6 Sol. Proactive contracts achieve 64/96 first-pass suitability,
+  versus 14/96 for reactive execution feedback and 27/96 for generic efficiency
+  guidance. The manuscript and vector figures now consume only the deterministic
+  frozen analysis. Remaining work is submission engineering and scholarly
+  revision; no additional primary trials are planned.
 
 ### Phase 6: Dynamic Agent Harness Telemetry (Design complete; implementation planned)
 

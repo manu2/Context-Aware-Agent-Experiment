@@ -14,10 +14,10 @@ SPEC.loader.exec_module(VERIFIER)
 class AAMASSubmissionVerifierTests(unittest.TestCase):
     def test_draft_sources_are_anonymous_and_official(self):
         self.assertEqual(VERIFIER.source_issues(release=False), [])
+        self.assertEqual(VERIFIER.evidence_issues(), [])
 
-    def test_release_mode_rejects_current_placeholders(self):
+    def test_release_mode_rejects_pending_submission_id(self):
         issues = VERIFIER.source_issues(release=True)
-        self.assertTrue(any("placeholder" in issue for issue in issues))
         self.assertTrue(any("PENDING" in issue for issue in issues))
 
 

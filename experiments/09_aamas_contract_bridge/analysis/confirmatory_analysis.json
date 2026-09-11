@@ -1,0 +1,3750 @@
+{
+  "behavioral_analysis": {
+    "failure_counts": {
+      "final": {
+        "incorrect_or_runtime_error": 1,
+        "oom_kill": 38,
+        "time_exceedance": 4,
+        "timeout": 97
+      },
+      "first": {
+        "incorrect_or_runtime_error": 1,
+        "oom_kill": 53,
+        "timeout": 129
+      }
+    },
+    "first_attempt_strategy_counts": {
+      "claude-sonnet-5/etl/latency_tight/G": {
+        "dataframe_chunked": 1,
+        "dataframe_eager": 7
+      },
+      "claude-sonnet-5/etl/latency_tight/P": {
+        "dataframe_chunked": 1,
+        "dataframe_eager": 7
+      },
+      "claude-sonnet-5/etl/latency_tight/R": {
+        "dataframe_eager": 8
+      },
+      "claude-sonnet-5/etl/memory_tight/G": {
+        "dataframe_chunked": 2,
+        "dataframe_eager": 6
+      },
+      "claude-sonnet-5/etl/memory_tight/P": {
+        "dataframe_chunked": 8
+      },
+      "claude-sonnet-5/etl/memory_tight/R": {
+        "dataframe_eager": 7,
+        "stdlib_streaming": 1
+      },
+      "claude-sonnet-5/numerical/latency_tight/G": {
+        "blocked_matrix_product": 8
+      },
+      "claude-sonnet-5/numerical/latency_tight/P": {
+        "blocked_matrix_product": 8
+      },
+      "claude-sonnet-5/numerical/latency_tight/R": {
+        "blocked_matrix_product": 6,
+        "eager_global_matrix": 2
+      },
+      "claude-sonnet-5/numerical/memory_tight/G": {
+        "blocked_matrix_product": 8
+      },
+      "claude-sonnet-5/numerical/memory_tight/P": {
+        "blocked_matrix_product": 8
+      },
+      "claude-sonnet-5/numerical/memory_tight/R": {
+        "blocked_matrix_product": 7,
+        "rowwise_or_scalar_streaming": 1
+      },
+      "gemini-3.8-flash/etl/latency_tight/G": {
+        "dataframe_chunked": 8
+      },
+      "gemini-3.8-flash/etl/latency_tight/P": {
+        "dataframe_chunked": 6,
+        "dataframe_eager": 2
+      },
+      "gemini-3.8-flash/etl/latency_tight/R": {
+        "dataframe_eager": 1,
+        "stdlib_streaming": 7
+      },
+      "gemini-3.8-flash/etl/memory_tight/G": {
+        "dataframe_chunked": 8
+      },
+      "gemini-3.8-flash/etl/memory_tight/P": {
+        "dataframe_chunked": 3,
+        "stdlib_streaming": 5
+      },
+      "gemini-3.8-flash/etl/memory_tight/R": {
+        "dataframe_eager": 2,
+        "stdlib_streaming": 6
+      },
+      "gemini-3.8-flash/numerical/latency_tight/G": {
+        "blocked_matrix_product": 4,
+        "eager_global_matrix": 3,
+        "rowwise_or_scalar_streaming": 1
+      },
+      "gemini-3.8-flash/numerical/latency_tight/P": {
+        "blocked_matrix_product": 2,
+        "eager_global_matrix": 6
+      },
+      "gemini-3.8-flash/numerical/latency_tight/R": {
+        "eager_global_matrix": 7,
+        "rowwise_or_scalar_streaming": 1
+      },
+      "gemini-3.8-flash/numerical/memory_tight/G": {
+        "blocked_matrix_product": 6,
+        "eager_global_matrix": 2
+      },
+      "gemini-3.8-flash/numerical/memory_tight/P": {
+        "blocked_matrix_product": 8
+      },
+      "gemini-3.8-flash/numerical/memory_tight/R": {
+        "eager_global_matrix": 7,
+        "rowwise_or_scalar_streaming": 1
+      },
+      "gpt-5.6-sol/etl/latency_tight/G": {
+        "stdlib_streaming": 8
+      },
+      "gpt-5.6-sol/etl/latency_tight/P": {
+        "dataframe_chunked": 6,
+        "stdlib_streaming": 2
+      },
+      "gpt-5.6-sol/etl/latency_tight/R": {
+        "stdlib_streaming": 8
+      },
+      "gpt-5.6-sol/etl/memory_tight/G": {
+        "dataframe_chunked": 2,
+        "stdlib_streaming": 6
+      },
+      "gpt-5.6-sol/etl/memory_tight/P": {
+        "stdlib_streaming": 8
+      },
+      "gpt-5.6-sol/etl/memory_tight/R": {
+        "stdlib_streaming": 8
+      },
+      "gpt-5.6-sol/numerical/latency_tight/G": {
+        "blocked_matrix_product": 8
+      },
+      "gpt-5.6-sol/numerical/latency_tight/P": {
+        "blocked_matrix_product": 8
+      },
+      "gpt-5.6-sol/numerical/latency_tight/R": {
+        "blocked_matrix_product": 8
+      },
+      "gpt-5.6-sol/numerical/memory_tight/G": {
+        "blocked_matrix_product": 8
+      },
+      "gpt-5.6-sol/numerical/memory_tight/P": {
+        "blocked_matrix_product": 8
+      },
+      "gpt-5.6-sol/numerical/memory_tight/R": {
+        "blocked_matrix_product": 8
+      }
+    }
+  },
+  "binary_breakdowns": {
+    "environment": [
+      {
+        "condition": "P",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 2.72373125,
+        "final_rate": 0.5416666666666666,
+        "final_suitable": 26,
+        "final_wilson_95": [
+          0.40291074545649797,
+          0.6742475770713254
+        ],
+        "first_pass_rate": 0.375,
+        "first_pass_suitable": 18,
+        "first_pass_wilson_95": [
+          0.25215266760868205,
+          0.5163723648078473
+        ],
+        "n": 48,
+        "provider_calls": 78,
+        "provider_tokens": 285287
+      },
+      {
+        "condition": "R",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 2.50066625,
+        "final_rate": 0.20833333333333334,
+        "final_suitable": 10,
+        "final_wilson_95": [
+          0.11730272957905595,
+          0.34258901272617925
+        ],
+        "first_pass_rate": 0.020833333333333332,
+        "first_pass_suitable": 1,
+        "first_pass_wilson_95": [
+          0.003687110977510649,
+          0.10899217995251861
+        ],
+        "n": 48,
+        "provider_calls": 95,
+        "provider_tokens": 318817
+      },
+      {
+        "condition": "G",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 2.6327272499999994,
+        "final_rate": 0.2708333333333333,
+        "final_suitable": 13,
+        "final_wilson_95": [
+          0.1656595762745644,
+          0.40996964982240613
+        ],
+        "first_pass_rate": 0.125,
+        "first_pass_suitable": 6,
+        "first_pass_wilson_95": [
+          0.058570514385719794,
+          0.24700458286386834
+        ],
+        "n": 48,
+        "provider_calls": 90,
+        "provider_tokens": 380665
+      },
+      {
+        "condition": "P",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 1.5735820000000003,
+        "final_rate": 0.9583333333333334,
+        "final_suitable": 46,
+        "final_wilson_95": [
+          0.8602434412954456,
+          0.9884981065106133
+        ],
+        "first_pass_rate": 0.9583333333333334,
+        "first_pass_suitable": 46,
+        "first_pass_wilson_95": [
+          0.8602434412954456,
+          0.9884981065106133
+        ],
+        "n": 48,
+        "provider_calls": 50,
+        "provider_tokens": 184081
+      },
+      {
+        "condition": "R",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 2.032415,
+        "final_rate": 0.4791666666666667,
+        "final_suitable": 23,
+        "final_wilson_95": [
+          0.34471316176951616,
+          0.616707676966572
+        ],
+        "first_pass_rate": 0.2708333333333333,
+        "first_pass_suitable": 13,
+        "first_pass_wilson_95": [
+          0.1656595762745644,
+          0.40996964982240613
+        ],
+        "n": 48,
+        "provider_calls": 83,
+        "provider_tokens": 276885
+      },
+      {
+        "condition": "G",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 1.8020524999999996,
+        "final_rate": 0.625,
+        "final_suitable": 30,
+        "final_wilson_95": [
+          0.4836276351921527,
+          0.747847332391318
+        ],
+        "first_pass_rate": 0.4375,
+        "first_pass_suitable": 21,
+        "first_pass_wilson_95": [
+          0.30701269040654244,
+          0.5772498258017222
+        ],
+        "n": 48,
+        "provider_calls": 75,
+        "provider_tokens": 290409
+      }
+    ],
+    "family": [
+      {
+        "condition": "P",
+        "estimated_cost_usd": 1.8780877500000004,
+        "family": "etl",
+        "final_rate": 0.5625,
+        "final_suitable": 27,
+        "final_wilson_95": [
+          0.42275017419827776,
+          0.6929873095934576
+        ],
+        "first_pass_rate": 0.5208333333333334,
+        "first_pass_suitable": 25,
+        "first_pass_wilson_95": [
+          0.3832923230334281,
+          0.6552868382304838
+        ],
+        "n": 48,
+        "provider_calls": 71,
+        "provider_tokens": 244243
+      },
+      {
+        "condition": "R",
+        "estimated_cost_usd": 1.669573,
+        "family": "etl",
+        "final_rate": 0.375,
+        "final_suitable": 18,
+        "final_wilson_95": [
+          0.25215266760868205,
+          0.5163723648078473
+        ],
+        "first_pass_rate": 0.125,
+        "first_pass_suitable": 6,
+        "first_pass_wilson_95": [
+          0.058570514385719794,
+          0.24700458286386834
+        ],
+        "n": 48,
+        "provider_calls": 90,
+        "provider_tokens": 210543
+      },
+      {
+        "condition": "G",
+        "estimated_cost_usd": 1.806746,
+        "family": "etl",
+        "final_rate": 0.5416666666666666,
+        "final_suitable": 26,
+        "final_wilson_95": [
+          0.40291074545649797,
+          0.6742475770713254
+        ],
+        "first_pass_rate": 0.2916666666666667,
+        "first_pass_suitable": 14,
+        "first_pass_wilson_95": [
+          0.18241578926516536,
+          0.431792598095717
+        ],
+        "n": 48,
+        "provider_calls": 82,
+        "provider_tokens": 273845
+      },
+      {
+        "condition": "P",
+        "estimated_cost_usd": 2.4192255000000005,
+        "family": "numerical",
+        "final_rate": 0.9375,
+        "final_suitable": 45,
+        "final_wilson_95": [
+          0.8316456194505365,
+          0.9785167670916107
+        ],
+        "first_pass_rate": 0.8125,
+        "first_pass_suitable": 39,
+        "first_pass_wilson_95": [
+          0.680601328507153,
+          0.8980860904515235
+        ],
+        "n": 48,
+        "provider_calls": 57,
+        "provider_tokens": 225125
+      },
+      {
+        "condition": "R",
+        "estimated_cost_usd": 2.86350825,
+        "family": "numerical",
+        "final_rate": 0.3125,
+        "final_suitable": 15,
+        "final_wilson_95": [
+          0.19945683446587817,
+          0.4533307141589159
+        ],
+        "first_pass_rate": 0.16666666666666666,
+        "first_pass_suitable": 8,
+        "first_pass_wilson_95": [
+          0.08695513576485567,
+          0.295778284012556
+        ],
+        "n": 48,
+        "provider_calls": 88,
+        "provider_tokens": 385159
+      },
+      {
+        "condition": "G",
+        "estimated_cost_usd": 2.6280337499999997,
+        "family": "numerical",
+        "final_rate": 0.3541666666666667,
+        "final_suitable": 17,
+        "final_wilson_95": [
+          0.23433644125604858,
+          0.4956094298965691
+        ],
+        "first_pass_rate": 0.2708333333333333,
+        "first_pass_suitable": 13,
+        "first_pass_wilson_95": [
+          0.1656595762745644,
+          0.40996964982240613
+        ],
+        "n": 48,
+        "provider_calls": 83,
+        "provider_tokens": 397229
+      }
+    ],
+    "family_environment": [
+      {
+        "condition": "P",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 1.4892575000000001,
+        "family": "etl",
+        "final_rate": 0.125,
+        "final_suitable": 3,
+        "final_wilson_95": [
+          0.04344334080123444,
+          0.31003881270500067
+        ],
+        "first_pass_rate": 0.041666666666666664,
+        "first_pass_suitable": 1,
+        "first_pass_wilson_95": [
+          0.0073934561655057685,
+          0.20241806478655938
+        ],
+        "n": 24,
+        "provider_calls": 47,
+        "provider_tokens": 185319
+      },
+      {
+        "condition": "R",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.91874725,
+        "family": "etl",
+        "final_rate": 0.125,
+        "final_suitable": 3,
+        "final_wilson_95": [
+          0.04344334080123444,
+          0.31003881270500067
+        ],
+        "first_pass_rate": 0.041666666666666664,
+        "first_pass_suitable": 1,
+        "first_pass_wilson_95": [
+          0.0073934561655057685,
+          0.20241806478655938
+        ],
+        "n": 24,
+        "provider_calls": 47,
+        "provider_tokens": 131011
+      },
+      {
+        "condition": "G",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 1.19596925,
+        "family": "etl",
+        "final_rate": 0.20833333333333334,
+        "final_suitable": 5,
+        "final_wilson_95": [
+          0.09244825352851857,
+          0.40470453253188665
+        ],
+        "first_pass_rate": 0.041666666666666664,
+        "first_pass_suitable": 1,
+        "first_pass_wilson_95": [
+          0.0073934561655057685,
+          0.20241806478655938
+        ],
+        "n": 24,
+        "provider_calls": 47,
+        "provider_tokens": 170725
+      },
+      {
+        "condition": "P",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.38883025000000004,
+        "family": "etl",
+        "final_rate": 1.0,
+        "final_suitable": 24,
+        "final_wilson_95": [
+          0.8620237953250198,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 24,
+        "first_pass_wilson_95": [
+          0.8620237953250198,
+          1.0
+        ],
+        "n": 24,
+        "provider_calls": 24,
+        "provider_tokens": 58924
+      },
+      {
+        "condition": "R",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.7508257500000001,
+        "family": "etl",
+        "final_rate": 0.625,
+        "final_suitable": 15,
+        "final_wilson_95": [
+          0.42709962442674276,
+          0.7884063244045122
+        ],
+        "first_pass_rate": 0.20833333333333334,
+        "first_pass_suitable": 5,
+        "first_pass_wilson_95": [
+          0.09244825352851857,
+          0.40470453253188665
+        ],
+        "n": 24,
+        "provider_calls": 43,
+        "provider_tokens": 79532
+      },
+      {
+        "condition": "G",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.6107767499999998,
+        "family": "etl",
+        "final_rate": 0.875,
+        "final_suitable": 21,
+        "final_wilson_95": [
+          0.6899611872949993,
+          0.9565566591987655
+        ],
+        "first_pass_rate": 0.5416666666666666,
+        "first_pass_suitable": 13,
+        "first_pass_wilson_95": [
+          0.3507486535891948,
+          0.72108666268789
+        ],
+        "n": 24,
+        "provider_calls": 35,
+        "provider_tokens": 103120
+      },
+      {
+        "condition": "P",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 1.23447375,
+        "family": "numerical",
+        "final_rate": 0.9583333333333334,
+        "final_suitable": 23,
+        "final_wilson_95": [
+          0.7975819352134406,
+          0.9926065438344942
+        ],
+        "first_pass_rate": 0.7083333333333334,
+        "first_pass_suitable": 17,
+        "first_pass_wilson_95": [
+          0.5083230633550337,
+          0.8508535180303913
+        ],
+        "n": 24,
+        "provider_calls": 31,
+        "provider_tokens": 99968
+      },
+      {
+        "condition": "R",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 1.581919,
+        "family": "numerical",
+        "final_rate": 0.2916666666666667,
+        "final_suitable": 7,
+        "final_wilson_95": [
+          0.14914648196960875,
+          0.49167693664496637
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          1.3877787807814457e-17,
+          0.13797620467498017
+        ],
+        "n": 24,
+        "provider_calls": 48,
+        "provider_tokens": 187806
+      },
+      {
+        "condition": "G",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 1.4367579999999998,
+        "family": "numerical",
+        "final_rate": 0.3333333333333333,
+        "final_suitable": 8,
+        "final_wilson_95": [
+          0.1797219032729775,
+          0.5329368316186824
+        ],
+        "first_pass_rate": 0.20833333333333334,
+        "first_pass_suitable": 5,
+        "first_pass_wilson_95": [
+          0.09244825352851857,
+          0.40470453253188665
+        ],
+        "n": 24,
+        "provider_calls": 43,
+        "provider_tokens": 209940
+      },
+      {
+        "condition": "P",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 1.1847517499999998,
+        "family": "numerical",
+        "final_rate": 0.9166666666666666,
+        "final_suitable": 22,
+        "final_wilson_95": [
+          0.741511978067893,
+          0.9768411847029567
+        ],
+        "first_pass_rate": 0.9166666666666666,
+        "first_pass_suitable": 22,
+        "first_pass_wilson_95": [
+          0.741511978067893,
+          0.9768411847029567
+        ],
+        "n": 24,
+        "provider_calls": 26,
+        "provider_tokens": 125157
+      },
+      {
+        "condition": "R",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 1.28158925,
+        "family": "numerical",
+        "final_rate": 0.3333333333333333,
+        "final_suitable": 8,
+        "final_wilson_95": [
+          0.1797219032729775,
+          0.5329368316186824
+        ],
+        "first_pass_rate": 0.3333333333333333,
+        "first_pass_suitable": 8,
+        "first_pass_wilson_95": [
+          0.1797219032729775,
+          0.5329368316186824
+        ],
+        "n": 24,
+        "provider_calls": 40,
+        "provider_tokens": 197353
+      },
+      {
+        "condition": "G",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 1.19127575,
+        "family": "numerical",
+        "final_rate": 0.375,
+        "final_suitable": 9,
+        "final_wilson_95": [
+          0.21159367559548778,
+          0.5729003755732572
+        ],
+        "first_pass_rate": 0.3333333333333333,
+        "first_pass_suitable": 8,
+        "first_pass_wilson_95": [
+          0.1797219032729775,
+          0.5329368316186824
+        ],
+        "n": 24,
+        "provider_calls": 40,
+        "provider_tokens": 187289
+      }
+    ],
+    "full_stratum": [
+      {
+        "condition": "P",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.058002000000000005,
+        "family": "etl",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 3186
+      },
+      {
+        "condition": "R",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.047398,
+        "family": "etl",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 2104
+      },
+      {
+        "condition": "G",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.057886,
+        "family": "etl",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 2408
+      },
+      {
+        "condition": "P",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.026506000000000002,
+        "family": "etl",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "primary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 1328
+      },
+      {
+        "condition": "R",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.049687999999999996,
+        "family": "etl",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 2104
+      },
+      {
+        "condition": "G",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.048996,
+        "family": "etl",
+        "final_rate": 0.75,
+        "final_suitable": 3,
+        "final_wilson_95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "first_pass_rate": 0.25,
+        "first_pass_suitable": 1,
+        "first_pass_wilson_95": [
+          0.04558726080970055,
+          0.6993581574175981
+        ],
+        "instance": "primary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 7,
+        "provider_tokens": 2053
+      },
+      {
+        "condition": "P",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.034964,
+        "family": "etl",
+        "final_rate": 0.25,
+        "final_suitable": 1,
+        "final_wilson_95": [
+          0.04558726080970055,
+          0.6993581574175981
+        ],
+        "first_pass_rate": 0.25,
+        "first_pass_suitable": 1,
+        "first_pass_wilson_95": [
+          0.04558726080970055,
+          0.6993581574175981
+        ],
+        "instance": "secondary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 7,
+        "provider_tokens": 2772
+      },
+      {
+        "condition": "R",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.029589999999999998,
+        "family": "etl",
+        "final_rate": 0.25,
+        "final_suitable": 1,
+        "final_wilson_95": [
+          0.04558726080970055,
+          0.6993581574175981
+        ],
+        "first_pass_rate": 0.25,
+        "first_pass_suitable": 1,
+        "first_pass_wilson_95": [
+          0.04558726080970055,
+          0.6993581574175981
+        ],
+        "instance": "secondary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 7,
+        "provider_tokens": 1815
+      },
+      {
+        "condition": "G",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.045114,
+        "family": "etl",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "secondary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 2522
+      },
+      {
+        "condition": "P",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.026238,
+        "family": "etl",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "secondary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 1344
+      },
+      {
+        "condition": "R",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.036532,
+        "family": "etl",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "secondary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 2136
+      },
+      {
+        "condition": "G",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.034072000000000005,
+        "family": "etl",
+        "final_rate": 0.75,
+        "final_suitable": 3,
+        "final_wilson_95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "first_pass_rate": 0.25,
+        "first_pass_suitable": 1,
+        "first_pass_wilson_95": [
+          0.04558726080970055,
+          0.6993581574175981
+        ],
+        "instance": "secondary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 7,
+        "provider_tokens": 2081
+      },
+      {
+        "condition": "P",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.243706,
+        "family": "numerical",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 2928
+      },
+      {
+        "condition": "R",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.078392,
+        "family": "numerical",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 1936
+      },
+      {
+        "condition": "G",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.10219,
+        "family": "numerical",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 2240
+      },
+      {
+        "condition": "P",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.178244,
+        "family": "numerical",
+        "final_rate": 0.5,
+        "final_suitable": 2,
+        "final_wilson_95": [
+          0.15003898915214947,
+          0.8499610108478506
+        ],
+        "first_pass_rate": 0.5,
+        "first_pass_suitable": 2,
+        "first_pass_wilson_95": [
+          0.15003898915214947,
+          0.8499610108478506
+        ],
+        "instance": "primary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 6,
+        "provider_tokens": 2082
+      },
+      {
+        "condition": "R",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.085122,
+        "family": "numerical",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 1936
+      },
+      {
+        "condition": "G",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.10441,
+        "family": "numerical",
+        "final_rate": 0.25,
+        "final_suitable": 1,
+        "final_wilson_95": [
+          0.04558726080970055,
+          0.6993581574175981
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 2240
+      },
+      {
+        "condition": "P",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.23544199999999998,
+        "family": "numerical",
+        "final_rate": 0.75,
+        "final_suitable": 3,
+        "final_wilson_95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "first_pass_rate": 0.25,
+        "first_pass_suitable": 1,
+        "first_pass_wilson_95": [
+          0.04558726080970055,
+          0.6993581574175981
+        ],
+        "instance": "secondary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 7,
+        "provider_tokens": 2536
+      },
+      {
+        "condition": "R",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.073686,
+        "family": "numerical",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "secondary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 1968
+      },
+      {
+        "condition": "G",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.10323399999999999,
+        "family": "numerical",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "secondary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 2272
+      },
+      {
+        "condition": "P",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.12146,
+        "family": "numerical",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "secondary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 1260
+      },
+      {
+        "condition": "R",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.074756,
+        "family": "numerical",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "secondary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 1968
+      },
+      {
+        "condition": "G",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.084754,
+        "family": "numerical",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "secondary",
+        "model": "claude-sonnet-5",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 2272
+      },
+      {
+        "condition": "P",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.22407525,
+        "family": "etl",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 61427
+      },
+      {
+        "condition": "R",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.20766075,
+        "family": "etl",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 56525
+      },
+      {
+        "condition": "G",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.27155175,
+        "family": "etl",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 73697
+      },
+      {
+        "condition": "P",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.09045299999999999,
+        "family": "etl",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "primary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 24844
+      },
+      {
+        "condition": "R",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.06583875,
+        "family": "etl",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 0.75,
+        "first_pass_suitable": 3,
+        "first_pass_wilson_95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "instance": "primary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 5,
+        "provider_tokens": 18193
+      },
+      {
+        "condition": "G",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.12861,
+        "family": "etl",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 0.75,
+        "first_pass_suitable": 3,
+        "first_pass_wilson_95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "instance": "primary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 5,
+        "provider_tokens": 35016
+      },
+      {
+        "condition": "P",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.25017225,
+        "family": "etl",
+        "final_rate": 0.25,
+        "final_suitable": 1,
+        "final_wilson_95": [
+          0.04558726080970055,
+          0.6993581574175981
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "secondary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 68511
+      },
+      {
+        "condition": "R",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.1634865,
+        "family": "etl",
+        "final_rate": 0.25,
+        "final_suitable": 1,
+        "final_wilson_95": [
+          0.04558726080970055,
+          0.6993581574175981
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "secondary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 44758
+      },
+      {
+        "condition": "G",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.21818550000000003,
+        "family": "etl",
+        "final_rate": 0.75,
+        "final_suitable": 3,
+        "final_wilson_95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "first_pass_rate": 0.25,
+        "first_pass_suitable": 1,
+        "first_pass_wilson_95": [
+          0.04558726080970055,
+          0.6993581574175981
+        ],
+        "instance": "secondary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 7,
+        "provider_tokens": 59402
+      },
+      {
+        "condition": "P",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.07836525,
+        "family": "etl",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "secondary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 21627
+      },
+      {
+        "condition": "R",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.11107500000000001,
+        "family": "etl",
+        "final_rate": 0.75,
+        "final_suitable": 3,
+        "final_wilson_95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "first_pass_rate": 0.5,
+        "first_pass_suitable": 2,
+        "first_pass_wilson_95": [
+          0.15003898915214947,
+          0.8499610108478506
+        ],
+        "instance": "secondary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 6,
+        "provider_tokens": 30436
+      },
+      {
+        "condition": "G",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.19229475000000001,
+        "family": "etl",
+        "final_rate": 0.75,
+        "final_suitable": 3,
+        "final_wilson_95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "first_pass_rate": 0.25,
+        "first_pass_suitable": 1,
+        "first_pass_wilson_95": [
+          0.04558726080970055,
+          0.6993581574175981
+        ],
+        "instance": "secondary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 7,
+        "provider_tokens": 52381
+      },
+      {
+        "condition": "P",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.07686225000000001,
+        "family": "numerical",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "primary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 21159
+      },
+      {
+        "condition": "R",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.23112449999999998,
+        "family": "numerical",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 62654
+      },
+      {
+        "condition": "G",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.36885674999999996,
+        "family": "numerical",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 99517
+      },
+      {
+        "condition": "P",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.20405549999999997,
+        "family": "numerical",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "primary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 55074
+      },
+      {
+        "condition": "R",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.297105,
+        "family": "numerical",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 80244
+      },
+      {
+        "condition": "G",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.2893095,
+        "family": "numerical",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 78298
+      },
+      {
+        "condition": "P",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.1728195,
+        "family": "numerical",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "secondary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 46754
+      },
+      {
+        "condition": "R",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.2687565,
+        "family": "numerical",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "secondary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 72702
+      },
+      {
+        "condition": "G",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.27766125,
+        "family": "numerical",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "secondary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 75211
+      },
+      {
+        "condition": "P",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.14180025000000002,
+        "family": "numerical",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "secondary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 38479
+      },
+      {
+        "condition": "R",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.32365425000000003,
+        "family": "numerical",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "secondary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 87335
+      },
+      {
+        "condition": "G",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.30797025,
+        "family": "numerical",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "secondary",
+        "model": "gemini-3.8-flash",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 83287
+      },
+      {
+        "condition": "P",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.428944,
+        "family": "etl",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 23076
+      },
+      {
+        "condition": "R",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.23497999999999997,
+        "family": "etl",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 12885
+      },
+      {
+        "condition": "G",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.28874,
+        "family": "etl",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 15701
+      },
+      {
+        "condition": "P",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.10559600000000001,
+        "family": "etl",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "primary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 5987
+      },
+      {
+        "condition": "R",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.25394,
+        "family": "etl",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 13833
+      },
+      {
+        "condition": "G",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.157452,
+        "family": "etl",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 0.75,
+        "first_pass_suitable": 3,
+        "first_pass_wilson_95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "instance": "primary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 5,
+        "provider_tokens": 8587
+      },
+      {
+        "condition": "P",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.4931,
+        "family": "etl",
+        "final_rate": 0.25,
+        "final_suitable": 1,
+        "final_wilson_95": [
+          0.04558726080970055,
+          0.6993581574175981
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "secondary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 26347
+      },
+      {
+        "condition": "R",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.235632,
+        "family": "etl",
+        "final_rate": 0.25,
+        "final_suitable": 1,
+        "final_wilson_95": [
+          0.04558726080970055,
+          0.6993581574175981
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "secondary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 12924
+      },
+      {
+        "condition": "G",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.314492,
+        "family": "etl",
+        "final_rate": 0.5,
+        "final_suitable": 2,
+        "final_wilson_95": [
+          0.15003898915214947,
+          0.8499610108478506
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "secondary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 16995
+      },
+      {
+        "condition": "P",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.061672,
+        "family": "etl",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "secondary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 3794
+      },
+      {
+        "condition": "R",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.233752,
+        "family": "etl",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "secondary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 12830
+      },
+      {
+        "condition": "G",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.049352,
+        "family": "etl",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "secondary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 3002
+      },
+      {
+        "condition": "P",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.260264,
+        "family": "numerical",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "primary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 13666
+      },
+      {
+        "condition": "R",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.48328400000000005,
+        "family": "numerical",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "primary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 25185
+      },
+      {
+        "condition": "G",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.200808,
+        "family": "numerical",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "primary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 10514
+      },
+      {
+        "condition": "P",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.272968,
+        "family": "numerical",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "primary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 14298
+      },
+      {
+        "condition": "R",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.270328,
+        "family": "numerical",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "primary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 13926
+      },
+      {
+        "condition": "G",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.199748,
+        "family": "numerical",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "primary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 10461
+      },
+      {
+        "condition": "P",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.24538000000000001,
+        "family": "numerical",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "secondary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 12925
+      },
+      {
+        "condition": "R",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.44667599999999996,
+        "family": "numerical",
+        "final_rate": 0.75,
+        "final_suitable": 3,
+        "final_wilson_95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.4898908364545973
+        ],
+        "instance": "secondary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 8,
+        "provider_tokens": 23361
+      },
+      {
+        "condition": "G",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.384008,
+        "family": "numerical",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 0.25,
+        "first_pass_suitable": 1,
+        "first_pass_wilson_95": [
+          0.04558726080970055,
+          0.6993581574175981
+        ],
+        "instance": "secondary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 7,
+        "provider_tokens": 20186
+      },
+      {
+        "condition": "P",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.26622399999999996,
+        "family": "numerical",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "secondary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 13964
+      },
+      {
+        "condition": "R",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.230624,
+        "family": "numerical",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "secondary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 11944
+      },
+      {
+        "condition": "G",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.205084,
+        "family": "numerical",
+        "final_rate": 1.0,
+        "final_suitable": 4,
+        "final_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.5101091635454027,
+          1.0
+        ],
+        "instance": "secondary",
+        "model": "gpt-5.6-sol",
+        "n": 4,
+        "provider_calls": 4,
+        "provider_tokens": 10731
+      }
+    ],
+    "instance": [
+      {
+        "condition": "P",
+        "estimated_cost_usd": 0.93357625,
+        "family": "etl",
+        "final_rate": 0.5,
+        "final_suitable": 12,
+        "final_wilson_95": [
+          0.3142742581957335,
+          0.6857257418042665
+        ],
+        "first_pass_rate": 0.5,
+        "first_pass_suitable": 12,
+        "first_pass_wilson_95": [
+          0.3142742581957335,
+          0.6857257418042665
+        ],
+        "instance": "primary",
+        "n": 24,
+        "provider_calls": 36,
+        "provider_tokens": 119848
+      },
+      {
+        "condition": "R",
+        "estimated_cost_usd": 0.8595055000000001,
+        "family": "etl",
+        "final_rate": 0.3333333333333333,
+        "final_suitable": 8,
+        "final_wilson_95": [
+          0.1797219032729775,
+          0.5329368316186824
+        ],
+        "first_pass_rate": 0.125,
+        "first_pass_suitable": 3,
+        "first_pass_wilson_95": [
+          0.04344334080123444,
+          0.31003881270500067
+        ],
+        "instance": "primary",
+        "n": 24,
+        "provider_calls": 45,
+        "provider_tokens": 105644
+      },
+      {
+        "condition": "G",
+        "estimated_cost_usd": 0.95323575,
+        "family": "etl",
+        "final_rate": 0.4583333333333333,
+        "final_suitable": 11,
+        "final_wilson_95": [
+          0.2789133373121099,
+          0.6492513464108051
+        ],
+        "first_pass_rate": 0.2916666666666667,
+        "first_pass_suitable": 7,
+        "first_pass_wilson_95": [
+          0.14914648196960875,
+          0.49167693664496637
+        ],
+        "instance": "primary",
+        "n": 24,
+        "provider_calls": 41,
+        "provider_tokens": 137462
+      },
+      {
+        "condition": "P",
+        "estimated_cost_usd": 0.9445115,
+        "family": "etl",
+        "final_rate": 0.625,
+        "final_suitable": 15,
+        "final_wilson_95": [
+          0.42709962442674276,
+          0.7884063244045122
+        ],
+        "first_pass_rate": 0.5416666666666666,
+        "first_pass_suitable": 13,
+        "first_pass_wilson_95": [
+          0.3507486535891948,
+          0.72108666268789
+        ],
+        "instance": "secondary",
+        "n": 24,
+        "provider_calls": 35,
+        "provider_tokens": 124395
+      },
+      {
+        "condition": "R",
+        "estimated_cost_usd": 0.8100675,
+        "family": "etl",
+        "final_rate": 0.4166666666666667,
+        "final_suitable": 10,
+        "final_wilson_95": [
+          0.24467602609811764,
+          0.6116533413477124
+        ],
+        "first_pass_rate": 0.125,
+        "first_pass_suitable": 3,
+        "first_pass_wilson_95": [
+          0.04344334080123444,
+          0.31003881270500067
+        ],
+        "instance": "secondary",
+        "n": 24,
+        "provider_calls": 45,
+        "provider_tokens": 104899
+      },
+      {
+        "condition": "G",
+        "estimated_cost_usd": 0.8535102499999999,
+        "family": "etl",
+        "final_rate": 0.625,
+        "final_suitable": 15,
+        "final_wilson_95": [
+          0.42709962442674276,
+          0.7884063244045122
+        ],
+        "first_pass_rate": 0.2916666666666667,
+        "first_pass_suitable": 7,
+        "first_pass_wilson_95": [
+          0.14914648196960875,
+          0.49167693664496637
+        ],
+        "instance": "secondary",
+        "n": 24,
+        "provider_calls": 41,
+        "provider_tokens": 136383
+      },
+      {
+        "condition": "P",
+        "estimated_cost_usd": 1.23609975,
+        "family": "numerical",
+        "final_rate": 0.9166666666666666,
+        "final_suitable": 22,
+        "final_wilson_95": [
+          0.741511978067893,
+          0.9768411847029567
+        ],
+        "first_pass_rate": 0.75,
+        "first_pass_suitable": 18,
+        "first_pass_wilson_95": [
+          0.55100555994846,
+          0.8800063377140499
+        ],
+        "instance": "primary",
+        "n": 24,
+        "provider_calls": 30,
+        "provider_tokens": 109207
+      },
+      {
+        "condition": "R",
+        "estimated_cost_usd": 1.4453555,
+        "family": "numerical",
+        "final_rate": 0.3333333333333333,
+        "final_suitable": 8,
+        "final_wilson_95": [
+          0.1797219032729775,
+          0.5329368316186824
+        ],
+        "first_pass_rate": 0.16666666666666666,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.06678676328632951,
+          0.3585307064969906
+        ],
+        "instance": "primary",
+        "n": 24,
+        "provider_calls": 44,
+        "provider_tokens": 185881
+      },
+      {
+        "condition": "G",
+        "estimated_cost_usd": 1.2653222499999996,
+        "family": "numerical",
+        "final_rate": 0.375,
+        "final_suitable": 9,
+        "final_wilson_95": [
+          0.21159367559548778,
+          0.5729003755732572
+        ],
+        "first_pass_rate": 0.3333333333333333,
+        "first_pass_suitable": 8,
+        "first_pass_wilson_95": [
+          0.1797219032729775,
+          0.5329368316186824
+        ],
+        "instance": "primary",
+        "n": 24,
+        "provider_calls": 40,
+        "provider_tokens": 203270
+      },
+      {
+        "condition": "P",
+        "estimated_cost_usd": 1.1831257499999996,
+        "family": "numerical",
+        "final_rate": 0.9583333333333334,
+        "final_suitable": 23,
+        "final_wilson_95": [
+          0.7975819352134406,
+          0.9926065438344942
+        ],
+        "first_pass_rate": 0.875,
+        "first_pass_suitable": 21,
+        "first_pass_wilson_95": [
+          0.6899611872949993,
+          0.9565566591987655
+        ],
+        "instance": "secondary",
+        "n": 24,
+        "provider_calls": 27,
+        "provider_tokens": 115918
+      },
+      {
+        "condition": "R",
+        "estimated_cost_usd": 1.41815275,
+        "family": "numerical",
+        "final_rate": 0.2916666666666667,
+        "final_suitable": 7,
+        "final_wilson_95": [
+          0.14914648196960875,
+          0.49167693664496637
+        ],
+        "first_pass_rate": 0.16666666666666666,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.06678676328632951,
+          0.3585307064969906
+        ],
+        "instance": "secondary",
+        "n": 24,
+        "provider_calls": 44,
+        "provider_tokens": 199278
+      },
+      {
+        "condition": "G",
+        "estimated_cost_usd": 1.3627114999999999,
+        "family": "numerical",
+        "final_rate": 0.3333333333333333,
+        "final_suitable": 8,
+        "final_wilson_95": [
+          0.1797219032729775,
+          0.5329368316186824
+        ],
+        "first_pass_rate": 0.20833333333333334,
+        "first_pass_suitable": 5,
+        "first_pass_wilson_95": [
+          0.09244825352851857,
+          0.40470453253188665
+        ],
+        "instance": "secondary",
+        "n": 24,
+        "provider_calls": 43,
+        "provider_tokens": 193959
+      }
+    ],
+    "model": [
+      {
+        "condition": "P",
+        "estimated_cost_usd": 0.9245619999999998,
+        "final_rate": 0.6875,
+        "final_suitable": 22,
+        "final_wilson_95": [
+          0.5143332169904459,
+          0.8204745836639026
+        ],
+        "first_pass_rate": 0.5,
+        "first_pass_suitable": 16,
+        "first_pass_wilson_95": [
+          0.33630882869327483,
+          0.6636911713067252
+        ],
+        "model": "claude-sonnet-5",
+        "n": 32,
+        "provider_calls": 48,
+        "provider_tokens": 17436
+      },
+      {
+        "condition": "R",
+        "estimated_cost_usd": 0.4751640000000001,
+        "final_rate": 0.28125,
+        "final_suitable": 9,
+        "final_wilson_95": [
+          0.15564580497742764,
+          0.45374509425916565
+        ],
+        "first_pass_rate": 0.03125,
+        "first_pass_suitable": 1,
+        "first_pass_wilson_95": [
+          0.005537860164003122,
+          0.15744263820012558
+        ],
+        "model": "claude-sonnet-5",
+        "n": 32,
+        "provider_calls": 63,
+        "provider_tokens": 15967
+      },
+      {
+        "condition": "G",
+        "estimated_cost_usd": 0.5806559999999998,
+        "final_rate": 0.21875,
+        "final_suitable": 7,
+        "final_wilson_95": [
+          0.11023836252604186,
+          0.3875499364924353
+        ],
+        "first_pass_rate": 0.0625,
+        "first_pass_suitable": 2,
+        "first_pass_wilson_95": [
+          0.017310567031640967,
+          0.2014712314415458
+        ],
+        "model": "claude-sonnet-5",
+        "n": 32,
+        "provider_calls": 62,
+        "provider_tokens": 18088
+      },
+      {
+        "condition": "P",
+        "estimated_cost_usd": 1.2386032499999997,
+        "final_rate": 0.78125,
+        "final_suitable": 25,
+        "final_wilson_95": [
+          0.6124500635075647,
+          0.8897616374739581
+        ],
+        "first_pass_rate": 0.75,
+        "first_pass_suitable": 24,
+        "first_pass_wilson_95": [
+          0.5789344100575552,
+          0.8674759908149096
+        ],
+        "model": "gemini-3.8-flash",
+        "n": 32,
+        "provider_calls": 40,
+        "provider_tokens": 337875
+      },
+      {
+        "condition": "R",
+        "estimated_cost_usd": 1.6687012500000005,
+        "final_rate": 0.25,
+        "final_suitable": 8,
+        "final_wilson_95": [
+          0.1325240091850904,
+          0.4210655899424448
+        ],
+        "first_pass_rate": 0.15625,
+        "first_pass_suitable": 5,
+        "first_pass_wilson_95": [
+          0.0686442028250571,
+          0.3175414959753039
+        ],
+        "model": "gemini-3.8-flash",
+        "n": 32,
+        "provider_calls": 59,
+        "provider_tokens": 452847
+      },
+      {
+        "condition": "G",
+        "estimated_cost_usd": 2.05443975,
+        "final_rate": 0.3125,
+        "final_suitable": 10,
+        "final_wilson_95": [
+          0.17952541633609734,
+          0.4856667830095541
+        ],
+        "first_pass_rate": 0.15625,
+        "first_pass_suitable": 5,
+        "first_pass_wilson_95": [
+          0.0686442028250571,
+          0.3175414959753039
+        ],
+        "model": "gemini-3.8-flash",
+        "n": 32,
+        "provider_calls": 59,
+        "provider_tokens": 556809
+      },
+      {
+        "condition": "P",
+        "estimated_cost_usd": 2.1341479999999993,
+        "final_rate": 0.78125,
+        "final_suitable": 25,
+        "final_wilson_95": [
+          0.6124500635075647,
+          0.8897616374739581
+        ],
+        "first_pass_rate": 0.75,
+        "first_pass_suitable": 24,
+        "first_pass_wilson_95": [
+          0.5789344100575552,
+          0.8674759908149096
+        ],
+        "model": "gpt-5.6-sol",
+        "n": 32,
+        "provider_calls": 40,
+        "provider_tokens": 114057
+      },
+      {
+        "condition": "R",
+        "estimated_cost_usd": 2.389216,
+        "final_rate": 0.5,
+        "final_suitable": 16,
+        "final_wilson_95": [
+          0.33630882869327483,
+          0.6636911713067252
+        ],
+        "first_pass_rate": 0.25,
+        "first_pass_suitable": 8,
+        "first_pass_wilson_95": [
+          0.1325240091850904,
+          0.4210655899424448
+        ],
+        "model": "gpt-5.6-sol",
+        "n": 32,
+        "provider_calls": 56,
+        "provider_tokens": 126888
+      },
+      {
+        "condition": "G",
+        "estimated_cost_usd": 1.7996839999999998,
+        "final_rate": 0.8125,
+        "final_suitable": 26,
+        "final_wilson_95": [
+          0.6469084479862404,
+          0.9111045531043405
+        ],
+        "first_pass_rate": 0.625,
+        "first_pass_suitable": 20,
+        "first_pass_wilson_95": [
+          0.4525440735307745,
+          0.7706611269054578
+        ],
+        "model": "gpt-5.6-sol",
+        "n": 32,
+        "provider_calls": 44,
+        "provider_tokens": 96177
+      }
+    ],
+    "model_environment": [
+      {
+        "condition": "P",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.572114,
+        "final_rate": 0.5,
+        "final_suitable": 8,
+        "final_wilson_95": [
+          0.27999563610326017,
+          0.7200043638967398
+        ],
+        "first_pass_rate": 0.125,
+        "first_pass_suitable": 2,
+        "first_pass_wilson_95": [
+          0.03497748774324047,
+          0.36022827265758695
+        ],
+        "model": "claude-sonnet-5",
+        "n": 16,
+        "provider_calls": 30,
+        "provider_tokens": 11422
+      },
+      {
+        "condition": "R",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.22906600000000002,
+        "final_rate": 0.0625,
+        "final_suitable": 1,
+        "final_wilson_95": [
+          0.01111934476464252,
+          0.28328737570298945
+        ],
+        "first_pass_rate": 0.0625,
+        "first_pass_suitable": 1,
+        "first_pass_wilson_95": [
+          0.01111934476464252,
+          0.28328737570298945
+        ],
+        "model": "claude-sonnet-5",
+        "n": 16,
+        "provider_calls": 31,
+        "provider_tokens": 7823
+      },
+      {
+        "condition": "G",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.308424,
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.1936076805344365
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.1936076805344365
+        ],
+        "model": "claude-sonnet-5",
+        "n": 16,
+        "provider_calls": 32,
+        "provider_tokens": 9442
+      },
+      {
+        "condition": "P",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.352448,
+        "final_rate": 0.875,
+        "final_suitable": 14,
+        "final_wilson_95": [
+          0.639771727342413,
+          0.9650225122567595
+        ],
+        "first_pass_rate": 0.875,
+        "first_pass_suitable": 14,
+        "first_pass_wilson_95": [
+          0.639771727342413,
+          0.9650225122567595
+        ],
+        "model": "claude-sonnet-5",
+        "n": 16,
+        "provider_calls": 18,
+        "provider_tokens": 6014
+      },
+      {
+        "condition": "R",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.246098,
+        "final_rate": 0.5,
+        "final_suitable": 8,
+        "final_wilson_95": [
+          0.27999563610326017,
+          0.7200043638967398
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.1936076805344365
+        ],
+        "model": "claude-sonnet-5",
+        "n": 16,
+        "provider_calls": 32,
+        "provider_tokens": 8144
+      },
+      {
+        "condition": "G",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.27223200000000003,
+        "final_rate": 0.4375,
+        "final_suitable": 7,
+        "final_wilson_95": [
+          0.23098652405492354,
+          0.6682144360118811
+        ],
+        "first_pass_rate": 0.125,
+        "first_pass_suitable": 2,
+        "first_pass_wilson_95": [
+          0.03497748774324047,
+          0.36022827265758695
+        ],
+        "model": "claude-sonnet-5",
+        "n": 16,
+        "provider_calls": 30,
+        "provider_tokens": 8646
+      },
+      {
+        "condition": "P",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.7239292499999999,
+        "final_rate": 0.5625,
+        "final_suitable": 9,
+        "final_wilson_95": [
+          0.331785563988119,
+          0.7690134759450765
+        ],
+        "first_pass_rate": 0.5,
+        "first_pass_suitable": 8,
+        "first_pass_wilson_95": [
+          0.27999563610326017,
+          0.7200043638967398
+        ],
+        "model": "gemini-3.8-flash",
+        "n": 16,
+        "provider_calls": 24,
+        "provider_tokens": 197851
+      },
+      {
+        "condition": "R",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 0.8710282500000002,
+        "final_rate": 0.0625,
+        "final_suitable": 1,
+        "final_wilson_95": [
+          0.01111934476464252,
+          0.28328737570298945
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.1936076805344365
+        ],
+        "model": "gemini-3.8-flash",
+        "n": 16,
+        "provider_calls": 32,
+        "provider_tokens": 236639
+      },
+      {
+        "condition": "G",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 1.1362552499999998,
+        "final_rate": 0.1875,
+        "final_suitable": 3,
+        "final_wilson_95": [
+          0.06591599071428142,
+          0.4300888096197414
+        ],
+        "first_pass_rate": 0.0625,
+        "first_pass_suitable": 1,
+        "first_pass_wilson_95": [
+          0.01111934476464252,
+          0.28328737570298945
+        ],
+        "model": "gemini-3.8-flash",
+        "n": 16,
+        "provider_calls": 31,
+        "provider_tokens": 307827
+      },
+      {
+        "condition": "P",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.514674,
+        "final_rate": 1.0,
+        "final_suitable": 16,
+        "final_wilson_95": [
+          0.8063923194655637,
+          1.0000000000000002
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 16,
+        "first_pass_wilson_95": [
+          0.8063923194655637,
+          1.0000000000000002
+        ],
+        "model": "gemini-3.8-flash",
+        "n": 16,
+        "provider_calls": 16,
+        "provider_tokens": 140024
+      },
+      {
+        "condition": "R",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.797673,
+        "final_rate": 0.4375,
+        "final_suitable": 7,
+        "final_wilson_95": [
+          0.23098652405492354,
+          0.6682144360118811
+        ],
+        "first_pass_rate": 0.3125,
+        "first_pass_suitable": 5,
+        "first_pass_wilson_95": [
+          0.14164643854782039,
+          0.5559564416525933
+        ],
+        "model": "gemini-3.8-flash",
+        "n": 16,
+        "provider_calls": 27,
+        "provider_tokens": 216208
+      },
+      {
+        "condition": "G",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.9181844999999998,
+        "final_rate": 0.4375,
+        "final_suitable": 7,
+        "final_wilson_95": [
+          0.23098652405492354,
+          0.6682144360118811
+        ],
+        "first_pass_rate": 0.25,
+        "first_pass_suitable": 4,
+        "first_pass_wilson_95": [
+          0.10182067491213048,
+          0.49498316535508774
+        ],
+        "model": "gemini-3.8-flash",
+        "n": 16,
+        "provider_calls": 28,
+        "provider_tokens": 248982
+      },
+      {
+        "condition": "P",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 1.427688,
+        "final_rate": 0.5625,
+        "final_suitable": 9,
+        "final_wilson_95": [
+          0.331785563988119,
+          0.7690134759450765
+        ],
+        "first_pass_rate": 0.5,
+        "first_pass_suitable": 8,
+        "first_pass_wilson_95": [
+          0.27999563610326017,
+          0.7200043638967398
+        ],
+        "model": "gpt-5.6-sol",
+        "n": 16,
+        "provider_calls": 24,
+        "provider_tokens": 76014
+      },
+      {
+        "condition": "R",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 1.4005720000000002,
+        "final_rate": 0.5,
+        "final_suitable": 8,
+        "final_wilson_95": [
+          0.27999563610326017,
+          0.7200043638967398
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.1936076805344365
+        ],
+        "model": "gpt-5.6-sol",
+        "n": 16,
+        "provider_calls": 32,
+        "provider_tokens": 74355
+      },
+      {
+        "condition": "G",
+        "environment": "latency_tight",
+        "estimated_cost_usd": 1.188048,
+        "final_rate": 0.625,
+        "final_suitable": 10,
+        "final_wilson_95": [
+          0.38641040545502714,
+          0.8151876744113636
+        ],
+        "first_pass_rate": 0.3125,
+        "first_pass_suitable": 5,
+        "first_pass_wilson_95": [
+          0.14164643854782039,
+          0.5559564416525933
+        ],
+        "model": "gpt-5.6-sol",
+        "n": 16,
+        "provider_calls": 27,
+        "provider_tokens": 63396
+      },
+      {
+        "condition": "P",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.70646,
+        "final_rate": 1.0,
+        "final_suitable": 16,
+        "final_wilson_95": [
+          0.8063923194655637,
+          1.0000000000000002
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 16,
+        "first_pass_wilson_95": [
+          0.8063923194655637,
+          1.0000000000000002
+        ],
+        "model": "gpt-5.6-sol",
+        "n": 16,
+        "provider_calls": 16,
+        "provider_tokens": 38043
+      },
+      {
+        "condition": "R",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.9886440000000001,
+        "final_rate": 0.5,
+        "final_suitable": 8,
+        "final_wilson_95": [
+          0.27999563610326017,
+          0.7200043638967398
+        ],
+        "first_pass_rate": 0.5,
+        "first_pass_suitable": 8,
+        "first_pass_wilson_95": [
+          0.27999563610326017,
+          0.7200043638967398
+        ],
+        "model": "gpt-5.6-sol",
+        "n": 16,
+        "provider_calls": 24,
+        "provider_tokens": 52533
+      },
+      {
+        "condition": "G",
+        "environment": "memory_tight",
+        "estimated_cost_usd": 0.611636,
+        "final_rate": 1.0,
+        "final_suitable": 16,
+        "final_wilson_95": [
+          0.8063923194655637,
+          1.0000000000000002
+        ],
+        "first_pass_rate": 0.9375,
+        "first_pass_suitable": 15,
+        "first_pass_wilson_95": [
+          0.7167126242970107,
+          0.9888806552353576
+        ],
+        "model": "gpt-5.6-sol",
+        "n": 16,
+        "provider_calls": 17,
+        "provider_tokens": 32781
+      }
+    ],
+    "model_family": [
+      {
+        "condition": "P",
+        "estimated_cost_usd": 0.14571,
+        "family": "etl",
+        "final_rate": 0.5625,
+        "final_suitable": 9,
+        "final_wilson_95": [
+          0.331785563988119,
+          0.7690134759450765
+        ],
+        "first_pass_rate": 0.5625,
+        "first_pass_suitable": 9,
+        "first_pass_wilson_95": [
+          0.331785563988119,
+          0.7690134759450765
+        ],
+        "model": "claude-sonnet-5",
+        "n": 16,
+        "provider_calls": 23,
+        "provider_tokens": 8630
+      },
+      {
+        "condition": "R",
+        "estimated_cost_usd": 0.16320800000000002,
+        "family": "etl",
+        "final_rate": 0.5625,
+        "final_suitable": 9,
+        "final_wilson_95": [
+          0.331785563988119,
+          0.7690134759450765
+        ],
+        "first_pass_rate": 0.0625,
+        "first_pass_suitable": 1,
+        "first_pass_wilson_95": [
+          0.01111934476464252,
+          0.28328737570298945
+        ],
+        "model": "claude-sonnet-5",
+        "n": 16,
+        "provider_calls": 31,
+        "provider_tokens": 8159
+      },
+      {
+        "condition": "G",
+        "estimated_cost_usd": 0.18606799999999998,
+        "family": "etl",
+        "final_rate": 0.375,
+        "final_suitable": 6,
+        "final_wilson_95": [
+          0.18481232558863633,
+          0.6135895945449727
+        ],
+        "first_pass_rate": 0.125,
+        "first_pass_suitable": 2,
+        "first_pass_wilson_95": [
+          0.03497748774324047,
+          0.36022827265758695
+        ],
+        "model": "claude-sonnet-5",
+        "n": 16,
+        "provider_calls": 30,
+        "provider_tokens": 9064
+      },
+      {
+        "condition": "P",
+        "estimated_cost_usd": 0.7788519999999998,
+        "family": "numerical",
+        "final_rate": 0.8125,
+        "final_suitable": 13,
+        "final_wilson_95": [
+          0.5699111903802586,
+          0.9340840092857187
+        ],
+        "first_pass_rate": 0.4375,
+        "first_pass_suitable": 7,
+        "first_pass_wilson_95": [
+          0.23098652405492354,
+          0.6682144360118811
+        ],
+        "model": "claude-sonnet-5",
+        "n": 16,
+        "provider_calls": 25,
+        "provider_tokens": 8806
+      },
+      {
+        "condition": "R",
+        "estimated_cost_usd": 0.31195599999999996,
+        "family": "numerical",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.1936076805344365
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.1936076805344365
+        ],
+        "model": "claude-sonnet-5",
+        "n": 16,
+        "provider_calls": 32,
+        "provider_tokens": 7808
+      },
+      {
+        "condition": "G",
+        "estimated_cost_usd": 0.394588,
+        "family": "numerical",
+        "final_rate": 0.0625,
+        "final_suitable": 1,
+        "final_wilson_95": [
+          0.01111934476464252,
+          0.28328737570298945
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.1936076805344365
+        ],
+        "model": "claude-sonnet-5",
+        "n": 16,
+        "provider_calls": 32,
+        "provider_tokens": 9024
+      },
+      {
+        "condition": "P",
+        "estimated_cost_usd": 0.6430657500000001,
+        "family": "etl",
+        "final_rate": 0.5625,
+        "final_suitable": 9,
+        "final_wilson_95": [
+          0.331785563988119,
+          0.7690134759450765
+        ],
+        "first_pass_rate": 0.5,
+        "first_pass_suitable": 8,
+        "first_pass_wilson_95": [
+          0.27999563610326017,
+          0.7200043638967398
+        ],
+        "model": "gemini-3.8-flash",
+        "n": 16,
+        "provider_calls": 24,
+        "provider_tokens": 176409
+      },
+      {
+        "condition": "R",
+        "estimated_cost_usd": 0.5480609999999999,
+        "family": "etl",
+        "final_rate": 0.5,
+        "final_suitable": 8,
+        "final_wilson_95": [
+          0.27999563610326017,
+          0.7200043638967398
+        ],
+        "first_pass_rate": 0.3125,
+        "first_pass_suitable": 5,
+        "first_pass_wilson_95": [
+          0.14164643854782039,
+          0.5559564416525933
+        ],
+        "model": "gemini-3.8-flash",
+        "n": 16,
+        "provider_calls": 27,
+        "provider_tokens": 149912
+      },
+      {
+        "condition": "G",
+        "estimated_cost_usd": 0.810642,
+        "family": "etl",
+        "final_rate": 0.625,
+        "final_suitable": 10,
+        "final_wilson_95": [
+          0.38641040545502714,
+          0.8151876744113636
+        ],
+        "first_pass_rate": 0.3125,
+        "first_pass_suitable": 5,
+        "first_pass_wilson_95": [
+          0.14164643854782039,
+          0.5559564416525933
+        ],
+        "model": "gemini-3.8-flash",
+        "n": 16,
+        "provider_calls": 27,
+        "provider_tokens": 220496
+      },
+      {
+        "condition": "P",
+        "estimated_cost_usd": 0.5955374999999998,
+        "family": "numerical",
+        "final_rate": 1.0,
+        "final_suitable": 16,
+        "final_wilson_95": [
+          0.8063923194655637,
+          1.0000000000000002
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 16,
+        "first_pass_wilson_95": [
+          0.8063923194655637,
+          1.0000000000000002
+        ],
+        "model": "gemini-3.8-flash",
+        "n": 16,
+        "provider_calls": 16,
+        "provider_tokens": 161466
+      },
+      {
+        "condition": "R",
+        "estimated_cost_usd": 1.1206402500000001,
+        "family": "numerical",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.1936076805344365
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.1936076805344365
+        ],
+        "model": "gemini-3.8-flash",
+        "n": 16,
+        "provider_calls": 32,
+        "provider_tokens": 302935
+      },
+      {
+        "condition": "G",
+        "estimated_cost_usd": 1.2437977500000001,
+        "family": "numerical",
+        "final_rate": 0.0,
+        "final_suitable": 0,
+        "final_wilson_95": [
+          0.0,
+          0.1936076805344365
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.1936076805344365
+        ],
+        "model": "gemini-3.8-flash",
+        "n": 16,
+        "provider_calls": 32,
+        "provider_tokens": 336313
+      },
+      {
+        "condition": "P",
+        "estimated_cost_usd": 1.089312,
+        "family": "etl",
+        "final_rate": 0.5625,
+        "final_suitable": 9,
+        "final_wilson_95": [
+          0.331785563988119,
+          0.7690134759450765
+        ],
+        "first_pass_rate": 0.5,
+        "first_pass_suitable": 8,
+        "first_pass_wilson_95": [
+          0.27999563610326017,
+          0.7200043638967398
+        ],
+        "model": "gpt-5.6-sol",
+        "n": 16,
+        "provider_calls": 24,
+        "provider_tokens": 59204
+      },
+      {
+        "condition": "R",
+        "estimated_cost_usd": 0.958304,
+        "family": "etl",
+        "final_rate": 0.0625,
+        "final_suitable": 1,
+        "final_wilson_95": [
+          0.01111934476464252,
+          0.28328737570298945
+        ],
+        "first_pass_rate": 0.0,
+        "first_pass_suitable": 0,
+        "first_pass_wilson_95": [
+          0.0,
+          0.1936076805344365
+        ],
+        "model": "gpt-5.6-sol",
+        "n": 16,
+        "provider_calls": 32,
+        "provider_tokens": 52472
+      },
+      {
+        "condition": "G",
+        "estimated_cost_usd": 0.810036,
+        "family": "etl",
+        "final_rate": 0.625,
+        "final_suitable": 10,
+        "final_wilson_95": [
+          0.38641040545502714,
+          0.8151876744113636
+        ],
+        "first_pass_rate": 0.4375,
+        "first_pass_suitable": 7,
+        "first_pass_wilson_95": [
+          0.23098652405492354,
+          0.6682144360118811
+        ],
+        "model": "gpt-5.6-sol",
+        "n": 16,
+        "provider_calls": 25,
+        "provider_tokens": 44285
+      },
+      {
+        "condition": "P",
+        "estimated_cost_usd": 1.044836,
+        "family": "numerical",
+        "final_rate": 1.0,
+        "final_suitable": 16,
+        "final_wilson_95": [
+          0.8063923194655637,
+          1.0000000000000002
+        ],
+        "first_pass_rate": 1.0,
+        "first_pass_suitable": 16,
+        "first_pass_wilson_95": [
+          0.8063923194655637,
+          1.0000000000000002
+        ],
+        "model": "gpt-5.6-sol",
+        "n": 16,
+        "provider_calls": 16,
+        "provider_tokens": 54853
+      },
+      {
+        "condition": "R",
+        "estimated_cost_usd": 1.4309120000000002,
+        "family": "numerical",
+        "final_rate": 0.9375,
+        "final_suitable": 15,
+        "final_wilson_95": [
+          0.7167126242970107,
+          0.9888806552353576
+        ],
+        "first_pass_rate": 0.5,
+        "first_pass_suitable": 8,
+        "first_pass_wilson_95": [
+          0.27999563610326017,
+          0.7200043638967398
+        ],
+        "model": "gpt-5.6-sol",
+        "n": 16,
+        "provider_calls": 24,
+        "provider_tokens": 74416
+      },
+      {
+        "condition": "G",
+        "estimated_cost_usd": 0.9896480000000001,
+        "family": "numerical",
+        "final_rate": 1.0,
+        "final_suitable": 16,
+        "final_wilson_95": [
+          0.8063923194655637,
+          1.0000000000000002
+        ],
+        "first_pass_rate": 0.8125,
+        "first_pass_suitable": 13,
+        "first_pass_wilson_95": [
+          0.5699111903802586,
+          0.9340840092857187
+        ],
+        "model": "gpt-5.6-sol",
+        "n": 16,
+        "provider_calls": 19,
+        "provider_tokens": 51892
+      }
+    ],
+    "overall": [
+      {
+        "condition": "P",
+        "estimated_cost_usd": 4.29731325,
+        "final_rate": 0.75,
+        "final_suitable": 72,
+        "final_wilson_95": [
+          0.654901889760503,
+          0.8258603163106593
+        ],
+        "first_pass_rate": 0.6666666666666666,
+        "first_pass_suitable": 64,
+        "first_pass_wilson_95": [
+          0.5675650615328802,
+          0.7529430758478948
+        ],
+        "n": 96,
+        "provider_calls": 128,
+        "provider_tokens": 469368
+      },
+      {
+        "condition": "R",
+        "estimated_cost_usd": 4.5330812499999995,
+        "final_rate": 0.34375,
+        "final_suitable": 33,
+        "final_wilson_95": [
+          0.2564039323896144,
+          0.4431196888159093
+        ],
+        "first_pass_rate": 0.14583333333333334,
+        "first_pass_suitable": 14,
+        "first_pass_wilson_95": [
+          0.08890205780138637,
+          0.23001815026446726
+        ],
+        "n": 96,
+        "provider_calls": 178,
+        "provider_tokens": 595702
+      },
+      {
+        "condition": "G",
+        "estimated_cost_usd": 4.434779750000001,
+        "final_rate": 0.4479166666666667,
+        "final_suitable": 43,
+        "final_wilson_95": [
+          0.3523575930459819,
+          0.5474836140225261
+        ],
+        "first_pass_rate": 0.28125,
+        "first_pass_suitable": 27,
+        "first_pass_wilson_95": [
+          0.20107410838369372,
+          0.3782589613040394
+        ],
+        "n": 96,
+        "provider_calls": 165,
+        "provider_tokens": 671074
+      }
+    ]
+  },
+  "continuous_analysis": {
+    "bootstraps": 20000,
+    "metrics": {
+      "attempt_count": {
+        "P_minus_G": -0.3854166666666667,
+        "P_minus_R": -0.5208333333333334,
+        "bootstrap_95": {
+          "P_minus_G": [
+            -0.4375,
+            -0.3333333333333333
+          ],
+          "P_minus_R": [
+            -0.5625,
+            -0.4791666666666667
+          ]
+        },
+        "strata_used_P_minus_G": 24,
+        "strata_used_P_minus_R": 24
+      },
+      "end_to_end_seconds": {
+        "P_minus_G": -2.5096980602916297,
+        "P_minus_R": -5.441809820270795,
+        "bootstrap_95": {
+          "P_minus_G": [
+            -6.722368614903623,
+            1.6433883144180343
+          ],
+          "P_minus_R": [
+            -9.001513302627004,
+            -1.907168692652071
+          ]
+        },
+        "strata_used_P_minus_G": 24,
+        "strata_used_P_minus_R": 24
+      },
+      "estimated_cost_usd": {
+        "P_minus_G": -0.001431942708333333,
+        "P_minus_R": -0.002455916666666668,
+        "bootstrap_95": {
+          "P_minus_G": [
+            -0.005630953841145834,
+            0.002748130729166667
+          ],
+          "P_minus_R": [
+            -0.006058448567708335,
+            0.0011062978515624887
+          ]
+        },
+        "strata_used_P_minus_G": 24,
+        "strata_used_P_minus_R": 24
+      },
+      "final_memory_exceedance_bytes": {
+        "P_minus_G": 0.0,
+        "P_minus_R": 0.0,
+        "bootstrap_95": {
+          "P_minus_G": [
+            0.0,
+            0.0
+          ],
+          "P_minus_R": [
+            0.0,
+            0.0
+          ]
+        },
+        "strata_used_P_minus_G": 24,
+        "strata_used_P_minus_R": 24
+      },
+      "final_memory_peak_bytes": {
+        "P_minus_G": -26618410.666666668,
+        "P_minus_R": -36777130.666666664,
+        "bootstrap_95": {
+          "P_minus_G": [
+            -42151907.2,
+            -11362807.46666667
+          ],
+          "P_minus_R": [
+            -52195153.06666667,
+            -21392632.53333334
+          ]
+        },
+        "strata_used_P_minus_G": 24,
+        "strata_used_P_minus_R": 24
+      },
+      "final_program_time_seconds": {
+        "P_minus_G": 0.0216769667396286,
+        "P_minus_R": -0.412683273729127,
+        "bootstrap_95": {
+          "P_minus_G": [
+            -0.2058573097565058,
+            0.23439589146617437
+          ],
+          "P_minus_R": [
+            -0.704535883649956,
+            -0.11989477217907496
+          ]
+        },
+        "strata_used_P_minus_G": 24,
+        "strata_used_P_minus_R": 24
+      },
+      "first_memory_exceedance_bytes": {
+        "P_minus_G": 0.0,
+        "P_minus_R": 0.0,
+        "bootstrap_95": {
+          "P_minus_G": [
+            0.0,
+            0.0
+          ],
+          "P_minus_R": [
+            0.0,
+            0.0
+          ]
+        },
+        "strata_used_P_minus_G": 24,
+        "strata_used_P_minus_R": 24
+      },
+      "first_memory_peak_bytes": {
+        "P_minus_G": -25700949.333333332,
+        "P_minus_R": -30387456.0,
+        "bootstrap_95": {
+          "P_minus_G": [
+            -43047195.733333334,
+            -8485032.53333334
+          ],
+          "P_minus_R": [
+            -49246980.26666667,
+            -11711849.600000022
+          ]
+        },
+        "strata_used_P_minus_G": 24,
+        "strata_used_P_minus_R": 24
+      },
+      "first_program_time_seconds": {
+        "P_minus_G": 0.21796268344793646,
+        "P_minus_R": -0.244513818718722,
+        "bootstrap_95": {
+          "P_minus_G": [
+            0.06272720155311105,
+            0.37451077713097836
+          ],
+          "P_minus_R": [
+            -0.457708300414311,
+            -0.044543737528865625
+          ]
+        },
+        "strata_used_P_minus_G": 24,
+        "strata_used_P_minus_R": 24
+      },
+      "provider_tokens": {
+        "P_minus_G": -2101.1041666666665,
+        "P_minus_R": -1315.9791666666667,
+        "bootstrap_95": {
+          "P_minus_G": [
+            -2893.1570312500003,
+            -1313.6244791666668
+          ],
+          "P_minus_R": [
+            -2027.24296875,
+            -617.6427083333336
+          ]
+        },
+        "strata_used_P_minus_G": 24,
+        "strata_used_P_minus_R": 24
+      }
+    },
+    "seed": 20260925
+  },
+  "frozen_analysis_plan": "experiments/09_aamas_contract_bridge/protocol/CONFIRMATORY_ANALYSIS_PLAN.md",
+  "primary_analysis": {
+    "estimand": "equal-stratum-weighted first-pass suitability risk difference",
+    "holm_adjusted_p": {
+      "P_minus_G": 1.999980000199998e-05,
+      "P_minus_R": 1.999980000199998e-05
+    },
+    "observed": {
+      "P_minus_G": 0.3854166666666667,
+      "P_minus_R": 0.5208333333333334
+    },
+    "permutations": 100000,
+    "seed": 20260924,
+    "strata": 24,
+    "two_sided_randomization_p": {
+      "P_minus_G": 9.99990000099999e-06,
+      "P_minus_R": 9.99990000099999e-06
+    }
+  },
+  "schema_version": "aamas-confirmatory-analysis/v1.0",
+  "source_audits": [
+    "experiments/09_aamas_contract_bridge/analysis/gemini_e5_complete_audit.json",
+    "experiments/09_aamas_contract_bridge/analysis/claude_e5_complete_audit.json",
+    "experiments/09_aamas_contract_bridge/analysis/gpt_e5_complete_audit.json"
+  ],
+  "trajectory_count": 288
+}

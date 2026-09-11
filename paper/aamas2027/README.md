@@ -23,13 +23,21 @@ retained from that archive.
 ## Build
 
 ```bash
+python -m pip install -r requirements.txt
+python benchmarks/generate_aamas_figures.py
+cd paper/aamas2027
 latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 ```
 
-The manuscript intentionally contains `CONFIRMATORY RESULT PENDING` markers.
-They are replaced only after all three 96-trajectory provider audits pass and the
-frozen 288-trajectory analysis completes. `benchmarks/verify_aamas_submission.py`
-blocks a release build while any marker remains.
+Run the first two commands from the repository root. The TeX build requires a
+complete LaTeX installation containing the packages loaded by the official
+class (including `hyperxmp`). The generated charts are vector PDFs with embedded
+fonts; the compiled manuscript is intentionally ignored as a build product.
+
+All three 96-trajectory provider cohorts now pass their evidence audits, and the
+manuscript contains the frozen 288-trajectory analysis. The release verifier
+continues to block unresolved placeholders, missing submission metadata,
+identity leaks, or package drift.
 
 Draft verification:
 

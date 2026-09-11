@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 from hashlib import sha256
+import json
 import re
 from pathlib import Path
 import subprocess
@@ -25,6 +26,11 @@ IDENTITY_PATTERNS = {
     "public repository identity": re.compile(r"manu2|Context-Aware-Agent-Experiment", re.I),
     "local user path": re.compile(r"/Users/[^/\s]+|file://", re.I),
 }
+ANALYSIS = ROOT / "experiments/09_aamas_contract_bridge/analysis/confirmatory_analysis.json"
+FIGURES = (
+    PACKAGE / "figures/primary_suitability.pdf",
+    PACKAGE / "figures/effect_by_task_environment.pdf",
+)
 
 
 def digest(path: Path) -> str:
@@ -62,6 +68,53 @@ def source_issues(release: bool) -> list[str]:
     return issues
 
 
+def evidence_issues() -> list[str]:
+    """Reject manuscript packages that drift from the frozen evidence summary."""
+    issues: list[str] = []
+    if not ANALYSIS.exists():
+        return [f"confirmatory analysis missing: {ANALYSIS.relative_to(ROOT)}"]
+    payload = json.loads(ANALYSIS.read_text())
+    if payload.get("schema_version") != "aamas-confirmatory-analysis/v1.0":
+        issues.append("unexpected confirmatory analysis schema")
+    if payload.get("trajectory_count") != 288:
+        issues.append("confirmatory matrix is not the frozen 288 trajectories")
+    overall = {row["condition"]: row for row in payload["binary_breakdowns"]["overall"]}
+    expected = {
+        "P": (64, 72, 128, 469368),
+        "R": (14, 33, 178, 595702),
+        "G": (27, 43, 165, 671074),
+    }
+    for condition, values in expected.items():
+        row = overall.get(condition, {})
+        observed = (
+            row.get("first_pass_suitable"), row.get("final_suitable"),
+            row.get("provider_calls"), row.get("provider_tokens"),
+        )
+        if observed != values:
+            issues.append(f"frozen {condition} summary changed: {observed}")
+    primary = payload.get("primary_analysis", {})
+    if primary.get("observed") != {
+        "P_minus_G": 0.3854166666666667,
+        "P_minus_R": 0.5208333333333334,
+    }:
+        issues.append("co-primary risk differences changed")
+    manuscript = re.sub(r"\s+", " ", (PACKAGE / "main.tex").read_text())
+    required_claims = (
+        "proactive disclosure produced 64/96 (66.7\\%) first-pass suitable",
+        "compared with 14/96 (14.6\\%) under reactive feedback and 27/96",
+        "Proactive (P) & 64/96 & 72/96 & 128 & 469k & \\$4.30",
+        "Reactive (R) & 14/96 & 33/96 & 178 & 596k & \\$4.53",
+        "Generic (G) & 27/96 & 43/96 & 165 & 671k & \\$4.43",
+    )
+    for claim in required_claims:
+        if claim not in manuscript:
+            issues.append(f"manuscript evidence claim missing or changed: {claim}")
+    for figure in FIGURES:
+        if not figure.exists() or not figure.read_bytes().startswith(b"%PDF"):
+            issues.append(f"vector figure missing or invalid: {figure.relative_to(ROOT)}")
+    return issues
+
+
 def pdf_issues(pdf: Path, release: bool) -> list[str]:
     issues: list[str] = []
     if not pdf.exists():
@@ -92,6 +145,13 @@ def pdf_issues(pdf: Path, release: bool) -> list[str]:
         for token in ("manu", "agrawal", "gmail", "manu2"):
             if token in metadata:
                 issues.append(f"identifying token appears in PDF metadata: {token}")
+    fonts = subprocess.run(
+        ["pdffonts", str(pdf)], check=True, capture_output=True, text=True,
+    ).stdout
+    for line in fonts.splitlines()[2:]:
+        match = re.search(r"\s+(yes|no)\s+(yes|no)\s+(yes|no)\s+\d+\s+\d+\s*$", line)
+        if match and match.group(1) != "yes":
+            issues.append(f"unembedded PDF font: {line.split()[0]}")
     return issues
 
 
@@ -119,7 +179,7 @@ def main() -> int:
     parser.add_argument("--release", action="store_true", help="reject all placeholders and require final metadata")
     parser.add_argument("--pdf", type=Path, help="compiled PDF to inspect")
     args = parser.parse_args()
-    issues = source_issues(args.release) + supplement_issues()
+    issues = source_issues(args.release) + evidence_issues() + supplement_issues()
     if args.pdf:
         issues.extend(pdf_issues(args.pdf.resolve(), args.release))
     for issue in issues:

@@ -18,8 +18,8 @@ from statistics import fmean
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_AUDITS = [
     ROOT / "experiments/09_aamas_contract_bridge/analysis/gemini_e5_complete_audit.json",
-    ROOT / "experiments/09_aamas_contract_bridge/analysis/openai_e5_complete_audit.json",
-    ROOT / "experiments/09_aamas_contract_bridge/analysis/anthropic_e5_complete_audit.json",
+    ROOT / "experiments/09_aamas_contract_bridge/analysis/claude_e5_complete_audit.json",
+    ROOT / "experiments/09_aamas_contract_bridge/analysis/gpt_e5_complete_audit.json",
 ]
 STRATUM = ("model", "family", "instance", "environment")
 CONDITIONS = ("P", "R", "G")
@@ -303,7 +303,10 @@ def main() -> int:
     payload = {
         "schema_version": "aamas-confirmatory-analysis/v1.0",
         "frozen_analysis_plan": "experiments/09_aamas_contract_bridge/protocol/CONFIRMATORY_ANALYSIS_PLAN.md",
-        "source_audits": [str(path.relative_to(ROOT)) for path in paths],
+        "source_audits": [
+            str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path)
+            for path in paths
+        ],
         "trajectory_count": len(rows),
         "binary_breakdowns": binary_breakdowns(rows),
         "primary_analysis": primary_randomization(rows, args.permutations),
