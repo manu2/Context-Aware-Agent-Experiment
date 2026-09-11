@@ -204,6 +204,9 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   429 provider failures. All failed slots are preserved as infrastructure
   exclusions; they are not model outcomes. The worker is stopped, and later
   providers remain gated pending an outcome-neutral Gemini resume and full audit.
+  The post-freeze fail-fast amendment is documented in
+  `docs/23_aamas_e5_infrastructure_interruption.md`; it changes infrastructure
+  error handling only, not any treatment or outcome definition.
 - **Preserved earlier FSE protocol:**
   [`docs/14_fse_contractbench_protocol.md`](docs/14_fse_contractbench_protocol.md)
   remains a future expansion reference and does not govern the AAMAS campaign.

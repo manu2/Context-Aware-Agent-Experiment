@@ -8,10 +8,20 @@ import json
 import os
 from pathlib import Path
 import time
+import urllib.error
 import urllib.request
 
 from .generation import extract_python
 from .models import GenerationRecord
+
+
+class ProviderRequestError(RuntimeError):
+    """Provider-level HTTP failure: no model generation was obtained."""
+
+    def __init__(self, status_code: int, message: str, retry_after: str | None = None) -> None:
+        super().__init__(f"provider HTTP {status_code}: {message}")
+        self.status_code = status_code
+        self.retry_after = retry_after
 
 
 class BudgetLedger:
@@ -44,6 +54,19 @@ class BudgetLedger:
         ledger["entries"][index] = {**entry, "status": "complete", "reserved_cost_usd": reserved}
         self._write(ledger)
 
+    def fail(self, index: int, error: Exception) -> None:
+        ledger = self._read()
+        current = ledger["entries"][index]
+        if current["status"] != "started":
+            raise RuntimeError("only an active reservation can fail")
+        reserved = current["reserved_cost_usd"]
+        ledger["estimated_cost_usd"] -= reserved
+        ledger["entries"][index] = {
+            **current, "status": "failed", "error_type": type(error).__name__,
+            "error": str(error), "estimated_cost_usd": 0.0,
+        }
+        self._write(ledger)
+
     def _write(self, ledger: dict) -> None:
         temp = self.path.with_suffix(".tmp")
         self.path.parent.mkdir(parents=True, exist_ok=True)
@@ -58,9 +81,13 @@ def _json_request(endpoint: str, body: dict, headers: dict[str, str], timeout: i
         headers={**headers, "Content-Type": "application/json"},
     )
     started = time.monotonic()
-    with urllib.request.urlopen(request, timeout=timeout) as response:
-        raw_bytes = response.read()
-        request_id = response.headers.get("request-id") or response.headers.get("x-request-id") or response.headers.get("x-goog-request-id")
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            raw_bytes = response.read()
+            request_id = response.headers.get("request-id") or response.headers.get("x-request-id") or response.headers.get("x-goog-request-id")
+    except urllib.error.HTTPError as exc:
+        body = exc.read(4000).decode("utf-8", errors="replace").strip()
+        raise ProviderRequestError(exc.code, body or exc.reason, exc.headers.get("retry-after")) from exc
     return json.loads(raw_bytes.decode("utf-8")), request_id, time.monotonic() - started
 
 
@@ -106,9 +133,13 @@ class GeminiDirectAPIBackend:
         endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent"
         body = {"contents": [{"parts": [{"text": prompt}]}],
                 "generationConfig": self.generation_config()}
-        payload, request_id, elapsed = _json_request(
-            endpoint, body, {"x-goog-api-key": self.api_key}, timeout=300
-        )
+        try:
+            payload, request_id, elapsed = _json_request(
+                endpoint, body, {"x-goog-api-key": self.api_key}, timeout=300
+            )
+        except ProviderRequestError as exc:
+            self.ledger.fail(ledger_index, exc)
+            raise
         candidates = payload.get("candidates", [])
         if not candidates:
             raise RuntimeError("Gemini returned no candidate")
@@ -174,11 +205,15 @@ class OpenAIResponsesBackend:
         ledger_index = self.ledger.begin(projected, {
             "provider": "openai", "model": self.model, "prompt_sha256": prompt_hash,
         })
-        payload, request_id, elapsed = _json_request(
-            "https://api.openai.com/v1/responses",
-            self.request_body(prompt),
-            {"Authorization": f"Bearer {self.api_key}"},
-        )
+        try:
+            payload, request_id, elapsed = _json_request(
+                "https://api.openai.com/v1/responses",
+                self.request_body(prompt),
+                {"Authorization": f"Bearer {self.api_key}"},
+            )
+        except ProviderRequestError as exc:
+            self.ledger.fail(ledger_index, exc)
+            raise
         texts = []
         for item in payload.get("output", []):
             if item.get("type") != "message":
@@ -252,11 +287,15 @@ class AnthropicMessagesBackend:
         ledger_index = self.ledger.begin(projected, {
             "provider": "anthropic", "model": self.model, "prompt_sha256": prompt_hash,
         })
-        payload, request_id, elapsed = _json_request(
-            "https://api.anthropic.com/v1/messages",
-            self.request_body(prompt),
-            {"x-api-key": self.api_key, "anthropic-version": "2023-06-01"},
-        )
+        try:
+            payload, request_id, elapsed = _json_request(
+                "https://api.anthropic.com/v1/messages",
+                self.request_body(prompt),
+                {"x-api-key": self.api_key, "anthropic-version": "2023-06-01"},
+            )
+        except ProviderRequestError as exc:
+            self.ledger.fail(ledger_index, exc)
+            raise
         response_text = "".join(block.get("text", "") for block in payload.get("content", []) if block.get("type") == "text")
         if not response_text:
             raise RuntimeError(f"Anthropic returned no text (stop_reason={payload.get('stop_reason')})")

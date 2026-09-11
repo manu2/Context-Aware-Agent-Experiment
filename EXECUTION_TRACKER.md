@@ -211,3 +211,8 @@ statistical sample.
   slots are infrastructure exclusions, not unsuitable model outcomes, and remain
   permanently archived. Claude and GPT will not start until Gemini is completed
   under an outcome-neutral resume rule and passes the conference-calibrated audit.
+- **AAMAS E5 fail-fast amendment (2026-09-11):** After the 429 diagnosis and
+  before any resume call, provider HTTP failures were changed to release their
+  local reservation, stop the runner immediately, and force a nonzero result
+  until every scheduled trajectory is complete. The exact outcome-neutral resume
+  rule is frozen in `docs/23_aamas_e5_infrastructure_interruption.md`.

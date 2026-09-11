@@ -23,6 +23,7 @@ from aether_contract_bridge.provider import (
     BudgetLedger,
     GeminiDirectAPIBackend,
     OpenAIResponsesBackend,
+    ProviderRequestError,
     load_dotenv,
 )
 from aether_contract_bridge.strategy import classify_strategy
@@ -174,6 +175,11 @@ def main() -> int:
                 strategy_classifier=lambda source: classify_strategy(family, source).to_dict(),
             )
             attempted.append({"trajectory_id": trajectory_id, "status": "complete", "summary": str(summary.relative_to(ROOT))})
+        except ProviderRequestError as exc:
+            attempted.append({"trajectory_id": trajectory_id, "status": "failed", "error_type": type(exc).__name__,
+                              "error": str(exc), "provider_status_code": exc.status_code,
+                              "campaign_stopped": True})
+            break
         except Exception as exc:
             attempted.append({"trajectory_id": trajectory_id, "status": "failed", "error_type": type(exc).__name__,
                               "error": str(exc)})
@@ -193,7 +199,7 @@ def main() -> int:
     }
     (canary_root / f"{prefix}_report.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
     print(json.dumps({k: report[k] for k in ("trajectory_count", "complete_count", "first_pass_suitable", "final_suitable")}, indent=2))
-    return 0 if report["trajectory_count"] == len(order) else 1
+    return 0 if report["complete_count"] == len(order) else 1
 
 
 if __name__ == "__main__":

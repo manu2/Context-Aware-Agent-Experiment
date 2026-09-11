@@ -19,6 +19,7 @@ from aether_contract_bridge.provider import (
     BudgetLedger,
     GeminiDirectAPIBackend,
     OpenAIResponsesBackend,
+    ProviderRequestError,
 )
 
 
@@ -74,6 +75,17 @@ class ContractBridgeTests(unittest.TestCase):
             self.assertAlmostEqual(payload["estimated_cost_usd"], 0.1)
             with self.assertRaises(RuntimeError):
                 ledger.begin(0.1, {"model": "fixture"})
+
+    def test_budget_ledger_releases_failed_provider_reservation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "budget.json"
+            ledger = BudgetLedger(path, hard_cap_usd=1.0, max_calls=2)
+            index = ledger.begin(0.5, {"model": "fixture"})
+            ledger.fail(index, ProviderRequestError(429, "quota exhausted"))
+            payload = __import__("json").loads(path.read_text())
+            self.assertEqual(payload["calls"], 1)
+            self.assertEqual(payload["entries"][0]["status"], "failed")
+            self.assertAlmostEqual(payload["estimated_cost_usd"], 0.0)
 
     def test_gemini_38_uses_supported_generation_config(self):
         with tempfile.TemporaryDirectory() as directory:
