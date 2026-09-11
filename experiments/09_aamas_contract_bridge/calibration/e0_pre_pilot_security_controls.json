@@ -1,0 +1,136 @@
+{
+  "checks": {
+    "dataset_read_only": true,
+    "network_isolated": true,
+    "non_root_uid": true
+  },
+  "created_at_utc": "2026-09-11T14:40:46.023339+00:00",
+  "filesystem": {
+    "backend": "gcp-cgroupv2/v0.1",
+    "cpu_stat": {
+      "burst_usec": 0,
+      "nr_bursts": 0,
+      "nr_periods": 1,
+      "nr_throttled": 0,
+      "system_usec": 0,
+      "throttled_usec": 0,
+      "usage_usec": 18675,
+      "user_usec": 18675
+    },
+    "exit_code": 0,
+    "memory_events_after": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_events_before": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_peak_bytes": 3260416,
+    "oom_killed": false,
+    "platform": "Linux 6.1.0-53-cloud-amd64",
+    "program_time_seconds": 0.07861720899995817,
+    "psi_cpu": "some avg10=0.15 avg60=0.23 avg300=0.40 total=10944357\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=19601\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=18569\n",
+    "stderr": "",
+    "stderr_truncated": false,
+    "stdout": "WRITABLE=False\n",
+    "stdout_truncated": false,
+    "timed_out": false,
+    "worker_time_seconds": 0.15715883799998664
+  },
+  "identity": {
+    "backend": "gcp-cgroupv2/v0.1",
+    "cpu_stat": {
+      "burst_usec": 0,
+      "nr_bursts": 0,
+      "nr_periods": 1,
+      "nr_throttled": 0,
+      "system_usec": 9783,
+      "throttled_usec": 0,
+      "usage_usec": 14675,
+      "user_usec": 4891
+    },
+    "exit_code": 0,
+    "memory_events_after": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_events_before": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_peak_bytes": 3235840,
+    "oom_killed": false,
+    "platform": "Linux 6.1.0-53-cloud-amd64",
+    "program_time_seconds": 0.07617263800011642,
+    "psi_cpu": "some avg10=0.01 avg60=0.22 avg300=0.40 total=10932558\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=19601\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=18569\n",
+    "stderr": "",
+    "stderr_truncated": false,
+    "stdout": "UID=999\n",
+    "stdout_truncated": false,
+    "timed_out": false,
+    "worker_time_seconds": 0.1416188499999862
+  },
+  "network": {
+    "backend": "gcp-cgroupv2/v0.1",
+    "cpu_stat": {
+      "burst_usec": 0,
+      "nr_bursts": 0,
+      "nr_periods": 1,
+      "nr_throttled": 0,
+      "system_usec": 4389,
+      "throttled_usec": 0,
+      "usage_usec": 34944,
+      "user_usec": 30555
+    },
+    "exit_code": 0,
+    "memory_events_after": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_events_before": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_peak_bytes": 4177920,
+    "oom_killed": false,
+    "platform": "Linux 6.1.0-53-cloud-amd64",
+    "program_time_seconds": 0.07595193099996322,
+    "psi_cpu": "some avg10=0.10 avg60=0.22 avg300=0.39 total=10957421\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=19601\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=18569\n",
+    "stderr": "",
+    "stderr_truncated": false,
+    "stdout": "NETWORK_BLOCKED=101\n",
+    "stdout_truncated": false,
+    "timed_out": false,
+    "worker_time_seconds": 0.15225595900005828
+  },
+  "passed": true,
+  "schema_version": "aamas-sandbox-controls/v0.1"
+}

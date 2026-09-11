@@ -1,0 +1,8 @@
+{
+  "schema_version": "incomplete-calibration-attempt/v0.1",
+  "created_at_utc": "2026-09-11T14:44:00Z",
+  "stage": "post-sandbox opposed-envelope revalidation",
+  "status": "excluded_infrastructure_failure",
+  "provider_calls": 0,
+  "reason": "All model-free executions completed, but an output-label validation bug rejected the post_sandbox label before the records were archived. No observations from this attempt are used. The validator was corrected and the complete calibration was rerun under a new invocation."
+}

@@ -1,0 +1,59 @@
+import os
+
+# Limit BLAS libraries to single-threaded execution to prevent context-switching
+# overhead under the 1-CPU-core quota.
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
+import numpy as np
+
+
+def main():
+    # Memory-map the input to avoid loading the entire file into private heap memory
+    X = np.load("vectors.npy", mmap_mode="r")
+    N = X.shape[0]
+
+    block_size = 1000
+
+    # Precompute squared norms in float64 to avoid precision loss
+    norms_sq = np.empty(N, dtype=np.float64)
+    for i in range(0, N, block_size):
+        chunk = X[i : i + block_size].astype(np.float64)
+        norms_sq[i : i + block_size] = np.sum(chunk * chunk, axis=1)
+
+    total_dist = 0.0
+
+    for i0 in range(0, N, block_size):
+        i1 = min(i0 + block_size, N)
+        Xi = X[i0:i1].astype(np.float64)
+        norm_i = norms_sq[i0:i1, None]
+
+        # 1. Diagonal block: pairs (i, j) where both i, j in [i0, i1)
+        dot = Xi @ Xi.T
+        dist_sq = norm_i + norm_i.T - 2.0 * dot
+        np.maximum(dist_sq, 0.0, out=dist_sq)
+        np.fill_diagonal(dist_sq, 0.0)
+        dist = np.sqrt(dist_sq)
+        total_dist += float(np.sum(dist))
+
+        # 2. Off-diagonal blocks: pairs between [i0, i1) and [j0, j1)
+        # By symmetry, d(x_i, x_j) == d(x_j, x_i), so we compute once and multiply by 2
+        for j0 in range(i1, N, block_size):
+            j1 = min(j0 + block_size, N)
+            Xj = X[j0:j1].astype(np.float64)
+            norm_j = norms_sq[j0:j1]
+
+            dot = Xi @ Xj.T
+            dist_sq = norm_i + norm_j - 2.0 * dot
+            np.maximum(dist_sq, 0.0, out=dist_sq)
+            dist = np.sqrt(dist_sq)
+            total_dist += 2.0 * float(np.sum(dist))
+
+    print(f"TOTAL:{total_dist}")
+
+
+if __name__ == "__main__":
+    main()

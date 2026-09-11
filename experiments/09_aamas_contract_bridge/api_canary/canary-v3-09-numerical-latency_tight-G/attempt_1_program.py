@@ -1,0 +1,5 @@
+have distance $\approx 0.01$ and norm $\approx 1$,
+$\|x - y\|^2 \approx 10^{-4}$.
+With float64 precision ($10^{-16}$), the error in $\|x - y\|^2$ is around $10^{-16}$, so relative error in $\|x - y\|^2$ is $10^{-12}$, and in $\|x - y\|$ is $10^{-6}$!
+And when summing over all 64 million pairs, random errors cancel out ($O(\sqrt{N_{pairs}}) \epsilon \approx 8000 \times 10^{-16} \approx 10^{-12}$).
+Wait! What if two rows are identical

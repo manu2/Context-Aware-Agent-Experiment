@@ -1,0 +1,19 @@
+```python
+import ctypes
+import os
+import subprocess
+import sys
+import tempfile
+import numpy as np
+
+C_CODE = r"""
+#include <math.h>
+
+double compute_total_distance(const float* X, int N, int D) {
+    double total = 0.0;
+    #pragma omp parallel for reduction(+:total) schedule(guided)
+    for (int i = 0; i < N; i++) {
+        const float* xi = X + (size_t)i * D;
+        double row_sum = 0.0;
+        for (int j = i + 1; j < N; j++) {
+            const float* xj = X +

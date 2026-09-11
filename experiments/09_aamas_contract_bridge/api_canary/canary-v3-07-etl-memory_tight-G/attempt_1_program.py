@@ -1,0 +1,21 @@
+```python
+import csv
+import json
+
+
+def main():
+    totals = {}
+    with open('transactions.csv', mode='r', encoding='utf-8', newline='') as f:
+        reader = csv.reader(f)
+        header = next(reader)
+        cat_idx = header.index('category')
+        amt_idx = header.index('amount_cents')
+
+        for row in reader:
+            if not row:
+                continue
+            cat = row[cat_idx]
+            amt = int(row[amt_idx])
+            totals[cat] = totals.get(cat, 0) + amt
+
+    sorted_totals = {k: totals[k] for k in sorted(totals)}

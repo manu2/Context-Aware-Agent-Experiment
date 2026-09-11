@@ -1,0 +1,31 @@
+{
+  "schema_version": "aamas-canary/v0.5",
+  "status": "frozen_before_calls",
+  "run_id_prefix": "canary-v5",
+  "budget_ledger_file": "budget_ledger_v5.json",
+  "amendment": "Canary v4 validated both numerical environments but showed that an optimized csv.reader implementation satisfied the original ETL latency envelope in every condition. The ETL task was therefore redesigned before the pilot as a conditional weighted aggregation over the same frozen dataset. Model-free references show Pandas at approximately 1.03 s/271 MiB and optimized streaming at approximately 1.83 s/4.3 MiB; the new 128 MiB/4.0 s and 512 MiB/1.4 s envelopes each passed 5/5 expected and 0/5 opposed. V5 tests only the six changed ETL cells. All prior canaries remain archived and excluded.",
+  "development_only": true,
+  "model": {
+    "provider": "google",
+    "id": "gemini-3.8-flash",
+    "thinking_level": "medium",
+    "temperature": null,
+    "top_p": null,
+    "max_output_tokens": 16384,
+    "pricing_usd_per_million_tokens": {"input": 0.75, "output_including_thinking": 3.75},
+    "pricing_verified_at_utc": "2026-09-11T14:42:00Z",
+    "documentation": "https://ai.google.dev/gemini-api/docs/latest-model"
+  },
+  "maximum_attempts_per_trajectory": 2,
+  "maximum_provider_calls": 12,
+  "canary_budget_usd": 1.0,
+  "order_seed": 20260915,
+  "execution_order": [
+    ["etl", "memory_tight", "R"],
+    ["etl", "latency_tight", "P"],
+    ["etl", "latency_tight", "G"],
+    ["etl", "memory_tight", "P"],
+    ["etl", "latency_tight", "R"],
+    ["etl", "memory_tight", "G"]
+  ]
+}

@@ -1,0 +1,31 @@
+import numpy as np
+
+
+def main():
+    vectors = np.load("vectors.npy")
+
+    try:
+        from scipy.spatial.distance import pdist
+
+        dists = pdist(vectors, metric="euclidean")
+        total = 2.0 * float(np.sum(dists, dtype=np.float64))
+    except Exception:
+        n = len(vectors)
+        total = 0.0
+
+        if np.max(np.abs(vectors)) > 1e18:
+            vectors = vectors.astype(np.float64)
+
+        for i in range(n - 1):
+            diff = vectors[i + 1 :] - vectors[i]
+            dist_sq = np.sum(diff * diff, axis=1, dtype=np.float64)
+            dists = np.sqrt(dist_sq)
+            total += float(np.sum(dists))
+
+        total *= 2.0
+
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()

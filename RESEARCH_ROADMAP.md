@@ -161,7 +161,7 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   trajectories. Any behavioral compiler claim requires a frozen confirmatory
   subset; otherwise compilation is presented as normalization, provenance,
   precedence-resolution, and disclosure-safety infrastructure.
-- **Confirmatory model set:** GPT-5.6 Sol, Claude Sonnet 5, and Gemini 3.7 Flash
+- **Confirmatory model set:** GPT-5.6 Sol, Claude Sonnet 5, and Gemini 3.8 Flash
   each run the complete frozen matrix (360 trajectories at `N=5`). The API spend
   is fail-closed at $30; GCP execution is tracked separately against free credits.
 - **Protected delivery time:** September 25–October 1 is reserved for internal/IP
@@ -171,8 +171,15 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   [`docs/12_aamas_2027_hardened_research_plan.md`](docs/12_aamas_2027_hardened_research_plan.md).
 - **Implementation status:** E0a passed on September 11 with the production-shaped
   imported-response path and authentic cgroup v2 measurement/OOM/timeout controls.
-  E0b model-free workload and dependency-baseline calibration is next; provider
-  spend remains zero.
+  E0b then froze two primary tasks, four opposed envelopes, dependency baselines,
+  hashes, runtime, and oracle rules; E1 context-isolated P/R/G smoke passed through
+  the same pipeline. Pre-pilot hardening now runs generated programs non-root,
+  offline, against read-only datasets, with bounded process and output resources.
+  Gemini 3.8 canary v3 exposed a 4,096-token truncation ceiling (16/20 calls) and
+  is excluded. The corrected canaries triggered an ETL redesign before the pilot.
+  The resulting 24-trajectory non-pooled Gemini 3.8 pilot completed for $1.099:
+  proactive disclosure achieved 7/8 first-pass and 8/8 final suitability versus
+  3/8 and 4/8 for reactive discovery and 4/8 and 4/8 for generic efficiency.
 - **Preserved earlier FSE protocol:**
   [`docs/14_fse_contractbench_protocol.md`](docs/14_fse_contractbench_protocol.md)
   remains a future expansion reference and does not govern the AAMAS campaign.

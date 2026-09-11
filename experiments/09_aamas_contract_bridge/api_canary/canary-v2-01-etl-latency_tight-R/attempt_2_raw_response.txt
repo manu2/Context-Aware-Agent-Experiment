@@ -1,0 +1,38 @@
+An updated complete Python program to compute the exact sum of `amount_cents` for each category from `transactions.csv`:
+
+```python
+import csv
+from collections import defaultdict
+import json
+import sys
+
+
+def main():
+    totals = defaultdict(int)
+
+    with open("transactions.csv", mode="r", encoding="utf-8-sig", newline="") as f:
+        reader = csv.reader(f)
+        try:
+            header = next(reader)
+        except StopIteration:
+            print(f"TOTAL:{json.dumps({})}")
+            return
+
+        header_indices = {col.strip().lower(): i for i, col in enumerate(header)}
+        cat_idx = header_indices["category"]
+        amt_idx = header_indices["amount_cents"]
+        min_len = max(cat_idx, amt_idx) + 1
+
+        for row in reader:
+            if len(row) >= min_len:
+                cat = row[cat_idx]
+                amt_str = row[amt_idx].strip()
+                if amt_str:
+                    totals[cat] += int(amt_str)
+
+    print(f"TOTAL:{json.dumps(totals, sort_keys=True)}")
+
+
+if __name__ == "__main__":
+    main()
+```

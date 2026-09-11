@@ -1,0 +1,1077 @@
+{
+  "attempted_this_invocation": [
+    {
+      "status": "complete",
+      "summary": "experiments/09_aamas_contract_bridge/api_canary/canary-v5-01-etl-memory_tight-R/summary.json",
+      "trajectory_id": "canary-v5-01-etl-memory_tight-R"
+    },
+    {
+      "status": "complete",
+      "summary": "experiments/09_aamas_contract_bridge/api_canary/canary-v5-02-etl-latency_tight-P/summary.json",
+      "trajectory_id": "canary-v5-02-etl-latency_tight-P"
+    },
+    {
+      "status": "complete",
+      "summary": "experiments/09_aamas_contract_bridge/api_canary/canary-v5-03-etl-latency_tight-G/summary.json",
+      "trajectory_id": "canary-v5-03-etl-latency_tight-G"
+    },
+    {
+      "status": "complete",
+      "summary": "experiments/09_aamas_contract_bridge/api_canary/canary-v5-04-etl-memory_tight-P/summary.json",
+      "trajectory_id": "canary-v5-04-etl-memory_tight-P"
+    },
+    {
+      "status": "complete",
+      "summary": "experiments/09_aamas_contract_bridge/api_canary/canary-v5-05-etl-latency_tight-R/summary.json",
+      "trajectory_id": "canary-v5-05-etl-latency_tight-R"
+    },
+    {
+      "status": "complete",
+      "summary": "experiments/09_aamas_contract_bridge/api_canary/canary-v5-06-etl-memory_tight-G/summary.json",
+      "trajectory_id": "canary-v5-06-etl-memory_tight-G"
+    }
+  ],
+  "complete_count": 6,
+  "development_only": true,
+  "final_suitable": 5,
+  "first_pass_suitable": 4,
+  "schema_version": "aamas-canary-report/v0.1",
+  "summaries": [
+    {
+      "agent_loop_decision": {
+        "reason": "verified_suitable",
+        "stop": true
+      },
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "decision": {
+            "reason": "verified_suitable",
+            "stop": true
+          },
+          "execution": {
+            "backend": "gcp-cgroupv2/v0.1",
+            "cpu_stat": {
+              "burst_usec": 0,
+              "nr_bursts": 0,
+              "nr_periods": 14,
+              "nr_throttled": 7,
+              "system_usec": 16025,
+              "throttled_usec": 171,
+              "usage_usec": 1297726,
+              "user_usec": 1281700
+            },
+            "exit_code": 0,
+            "memory_events_after": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_events_before": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_peak_bytes": 4648960,
+            "oom_killed": false,
+            "platform": "Linux 6.1.0-53-cloud-amd64",
+            "program_time_seconds": 1.3769290619998173,
+            "psi_cpu": "some avg10=0.18 avg60=0.16 avg300=0.55 total=64609469\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+            "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=140317\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=121223\n",
+            "stderr": "",
+            "stderr_truncated": false,
+            "stdout": "TOTAL:{\"A\": 584859984000, \"B\": 582445702800, \"C\": 584178107400, \"D\": 585658510500, \"E\": 584768685600, \"F\": 583789773900, \"G\": 584327166000, \"H\": 585146828400}\n",
+            "stdout_truncated": false,
+            "timed_out": false,
+            "worker_time_seconds": 1.4357382060002237
+          },
+          "generation": {
+            "backend": "google-generative-language/v1beta",
+            "model": "gemini-3.8-flash",
+            "request_metadata": {
+              "candidate_tokens": 254,
+              "estimated_cost_usd": 0.00876825,
+              "finish_reason": "STOP",
+              "generation_config": {
+                "maxOutputTokens": 16384,
+                "thinkingConfig": {
+                  "thinkingLevel": "medium"
+                }
+              },
+              "generation_seconds": 11.671551292,
+              "input_tokens": 146,
+              "model": "gemini-3.8-flash",
+              "output_tokens_including_thoughts": 2309,
+              "prompt_sha256": "995eca61eed3c5b826e8f054690d524621c9f28f9c87c731200986c00114d1a1",
+              "provider": "google",
+              "request_id": null,
+              "thinking_tokens": 2055
+            }
+          },
+          "score": {
+            "correct": true,
+            "memory_exceedance_bytes": 0,
+            "suitable": true,
+            "within_memory": true,
+            "within_time": true
+          }
+        }
+      ],
+      "condition": "R",
+      "development_only": false,
+      "end_to_end_time_seconds": 16.796206042,
+      "execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 14,
+          "nr_throttled": 7,
+          "system_usec": 16025,
+          "throttled_usec": 171,
+          "usage_usec": 1297726,
+          "user_usec": 1281700
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 4648960,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.3769290619998173,
+        "psi_cpu": "some avg10=0.18 avg60=0.16 avg300=0.55 total=64609469\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=140317\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=121223\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\": 584859984000, \"B\": 582445702800, \"C\": 584178107400, \"D\": 585658510500, \"E\": 584768685600, \"F\": 583789773900, \"G\": 584327166000, \"H\": 585146828400}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.4357382060002237
+      },
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "model": "gemini-3.8-flash",
+      "schema_version": "trajectory-summary/v0.1",
+      "score": {
+        "correct": true,
+        "memory_exceedance_bytes": 0,
+        "suitable": true,
+        "within_memory": true,
+        "within_time": true
+      },
+      "status": "complete",
+      "trajectory_id": "canary-v5-01-etl-memory_tight-R"
+    },
+    {
+      "agent_loop_decision": {
+        "reason": "verified_suitable",
+        "stop": true
+      },
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "decision": {
+            "reason": "verified_suitable",
+            "stop": true
+          },
+          "execution": {
+            "backend": "gcp-cgroupv2/v0.1",
+            "cpu_stat": {
+              "burst_usec": 0,
+              "nr_bursts": 0,
+              "nr_periods": 9,
+              "nr_throttled": 2,
+              "system_usec": 155943,
+              "throttled_usec": 100112,
+              "usage_usec": 919896,
+              "user_usec": 763952
+            },
+            "exit_code": 0,
+            "memory_events_after": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_events_before": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_peak_bytes": 284286976,
+            "oom_killed": false,
+            "platform": "Linux 6.1.0-53-cloud-amd64",
+            "program_time_seconds": 0.9756174290000672,
+            "psi_cpu": "some avg10=0.55 avg60=0.19 avg300=0.52 total=64698573\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+            "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=140317\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=121223\n",
+            "stderr": "",
+            "stderr_truncated": false,
+            "stdout": "TOTAL:{\"A\": 584859984000, \"B\": 582445702800, \"C\": 584178107400, \"D\": 585658510500, \"E\": 584768685600, \"F\": 583789773900, \"G\": 584327166000, \"H\": 585146828400}\n",
+            "stdout_truncated": false,
+            "timed_out": false,
+            "worker_time_seconds": 1.0304608269998425
+          },
+          "generation": {
+            "backend": "google-generative-language/v1beta",
+            "model": "gemini-3.8-flash",
+            "request_metadata": {
+              "candidate_tokens": 315,
+              "estimated_cost_usd": 0.02046225,
+              "finish_reason": "STOP",
+              "generation_config": {
+                "maxOutputTokens": 16384,
+                "thinkingConfig": {
+                  "thinkingLevel": "medium"
+                }
+              },
+              "generation_seconds": 23.250114167,
+              "input_tokens": 228,
+              "model": "gemini-3.8-flash",
+              "output_tokens_including_thoughts": 5411,
+              "prompt_sha256": "ef56b7604755bda69756fcba7687a524cc00a46270d06707ff83c7133f3e21e5",
+              "provider": "google",
+              "request_id": null,
+              "thinking_tokens": 5096
+            }
+          },
+          "score": {
+            "correct": true,
+            "memory_exceedance_bytes": 0,
+            "suitable": true,
+            "within_memory": true,
+            "within_time": true
+          }
+        }
+      ],
+      "condition": "P",
+      "development_only": false,
+      "end_to_end_time_seconds": 28.054773333,
+      "execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 9,
+          "nr_throttled": 2,
+          "system_usec": 155943,
+          "throttled_usec": 100112,
+          "usage_usec": 919896,
+          "user_usec": 763952
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 284286976,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 0.9756174290000672,
+        "psi_cpu": "some avg10=0.55 avg60=0.19 avg300=0.52 total=64698573\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=140317\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=121223\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\": 584859984000, \"B\": 582445702800, \"C\": 584178107400, \"D\": 585658510500, \"E\": 584768685600, \"F\": 583789773900, \"G\": 584327166000, \"H\": 585146828400}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.0304608269998425
+      },
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "model": "gemini-3.8-flash",
+      "schema_version": "trajectory-summary/v0.1",
+      "score": {
+        "correct": true,
+        "memory_exceedance_bytes": 0,
+        "suitable": true,
+        "within_memory": true,
+        "within_time": true
+      },
+      "status": "complete",
+      "trajectory_id": "canary-v5-02-etl-latency_tight-P"
+    },
+    {
+      "agent_loop_decision": {
+        "reason": "verified_suitable",
+        "stop": true
+      },
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "decision": {
+            "reason": "verified_suitable",
+            "stop": true
+          },
+          "execution": {
+            "backend": "gcp-cgroupv2/v0.1",
+            "cpu_stat": {
+              "burst_usec": 0,
+              "nr_bursts": 0,
+              "nr_periods": 11,
+              "nr_throttled": 2,
+              "system_usec": 247605,
+              "throttled_usec": 96152,
+              "usage_usec": 1078916,
+              "user_usec": 831311
+            },
+            "exit_code": 0,
+            "memory_events_after": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_events_before": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_peak_bytes": 107417600,
+            "oom_killed": false,
+            "platform": "Linux 6.1.0-53-cloud-amd64",
+            "program_time_seconds": 1.0757504790003622,
+            "psi_cpu": "some avg10=0.54 avg60=0.18 avg300=0.45 total=64793057\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+            "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=140317\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=121223\n",
+            "stderr": "",
+            "stderr_truncated": false,
+            "stdout": "TOTAL:{\"A\": 584859984000, \"B\": 582445702800, \"C\": 584178107400, \"D\": 585658510500, \"E\": 584768685600, \"F\": 583789773900, \"G\": 584327166000, \"H\": 585146828400}\n",
+            "stdout_truncated": false,
+            "timed_out": false,
+            "worker_time_seconds": 1.1275007360000018
+          },
+          "generation": {
+            "backend": "google-generative-language/v1beta",
+            "model": "gemini-3.8-flash",
+            "request_metadata": {
+              "candidate_tokens": 586,
+              "estimated_cost_usd": 0.04235775,
+              "finish_reason": "STOP",
+              "generation_config": {
+                "maxOutputTokens": 16384,
+                "thinkingConfig": {
+                  "thinkingLevel": "medium"
+                }
+              },
+              "generation_seconds": 43.507789166,
+              "input_tokens": 167,
+              "model": "gemini-3.8-flash",
+              "output_tokens_including_thoughts": 11262,
+              "prompt_sha256": "bb5cfa8c725ad0178dfede933a99d963637e07f11f44491f804c3763aeb96310",
+              "provider": "google",
+              "request_id": null,
+              "thinking_tokens": 10676
+            }
+          },
+          "score": {
+            "correct": true,
+            "memory_exceedance_bytes": 0,
+            "suitable": true,
+            "within_memory": true,
+            "within_time": true
+          }
+        }
+      ],
+      "condition": "G",
+      "development_only": false,
+      "end_to_end_time_seconds": 48.106412208,
+      "execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 11,
+          "nr_throttled": 2,
+          "system_usec": 247605,
+          "throttled_usec": 96152,
+          "usage_usec": 1078916,
+          "user_usec": 831311
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 107417600,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.0757504790003622,
+        "psi_cpu": "some avg10=0.54 avg60=0.18 avg300=0.45 total=64793057\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=140317\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=121223\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\": 584859984000, \"B\": 582445702800, \"C\": 584178107400, \"D\": 585658510500, \"E\": 584768685600, \"F\": 583789773900, \"G\": 584327166000, \"H\": 585146828400}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.1275007360000018
+      },
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "model": "gemini-3.8-flash",
+      "schema_version": "trajectory-summary/v0.1",
+      "score": {
+        "correct": true,
+        "memory_exceedance_bytes": 0,
+        "suitable": true,
+        "within_memory": true,
+        "within_time": true
+      },
+      "status": "complete",
+      "trajectory_id": "canary-v5-03-etl-latency_tight-G"
+    },
+    {
+      "agent_loop_decision": {
+        "reason": "verified_suitable",
+        "stop": true
+      },
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "decision": {
+            "reason": "verified_suitable",
+            "stop": true
+          },
+          "execution": {
+            "backend": "gcp-cgroupv2/v0.1",
+            "cpu_stat": {
+              "burst_usec": 0,
+              "nr_bursts": 0,
+              "nr_periods": 14,
+              "nr_throttled": 2,
+              "system_usec": 184482,
+              "throttled_usec": 112109,
+              "usage_usec": 1311786,
+              "user_usec": 1127303
+            },
+            "exit_code": 0,
+            "memory_events_after": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_events_before": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_peak_bytes": 78360576,
+            "oom_killed": false,
+            "platform": "Linux 6.1.0-53-cloud-amd64",
+            "program_time_seconds": 1.3762271680002414,
+            "psi_cpu": "some avg10=0.00 avg60=0.07 avg300=0.37 total=64906151\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+            "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=140317\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=121223\n",
+            "stderr": "",
+            "stderr_truncated": false,
+            "stdout": "TOTAL:{\"A\": 584859984000, \"B\": 582445702800, \"C\": 584178107400, \"D\": 585658510500, \"E\": 584768685600, \"F\": 583789773900, \"G\": 584327166000, \"H\": 585146828400}\n",
+            "stdout_truncated": false,
+            "timed_out": false,
+            "worker_time_seconds": 1.4301446999998007
+          },
+          "generation": {
+            "backend": "google-generative-language/v1beta",
+            "model": "gemini-3.8-flash",
+            "request_metadata": {
+              "candidate_tokens": 357,
+              "estimated_cost_usd": 0.049482,
+              "finish_reason": "STOP",
+              "generation_config": {
+                "maxOutputTokens": 16384,
+                "thinkingConfig": {
+                  "thinkingLevel": "medium"
+                }
+              },
+              "generation_seconds": 48.18050445799999,
+              "input_tokens": 226,
+              "model": "gemini-3.8-flash",
+              "output_tokens_including_thoughts": 13150,
+              "prompt_sha256": "3fcca8051f28d9092e4d698bd261fcdf655c952750481dfcf6c5f421eb73f6bf",
+              "provider": "google",
+              "request_id": null,
+              "thinking_tokens": 12793
+            }
+          },
+          "score": {
+            "correct": true,
+            "memory_exceedance_bytes": 0,
+            "suitable": true,
+            "within_memory": true,
+            "within_time": true
+          }
+        }
+      ],
+      "condition": "P",
+      "development_only": false,
+      "end_to_end_time_seconds": 53.325795833,
+      "execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 14,
+          "nr_throttled": 2,
+          "system_usec": 184482,
+          "throttled_usec": 112109,
+          "usage_usec": 1311786,
+          "user_usec": 1127303
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 78360576,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.3762271680002414,
+        "psi_cpu": "some avg10=0.00 avg60=0.07 avg300=0.37 total=64906151\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=140317\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=121223\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\": 584859984000, \"B\": 582445702800, \"C\": 584178107400, \"D\": 585658510500, \"E\": 584768685600, \"F\": 583789773900, \"G\": 584327166000, \"H\": 585146828400}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.4301446999998007
+      },
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "model": "gemini-3.8-flash",
+      "schema_version": "trajectory-summary/v0.1",
+      "score": {
+        "correct": true,
+        "memory_exceedance_bytes": 0,
+        "suitable": true,
+        "within_memory": true,
+        "within_time": true
+      },
+      "status": "complete",
+      "trajectory_id": "canary-v5-04-etl-memory_tight-P"
+    },
+    {
+      "agent_loop_decision": {
+        "reason": "attempt_limit",
+        "stop": true
+      },
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "decision": {
+            "reason": "authentic_execution_feedback_required",
+            "stop": false
+          },
+          "execution": {
+            "backend": "gcp-cgroupv2/v0.1",
+            "cpu_stat": {
+              "burst_usec": 0,
+              "nr_bursts": 0,
+              "nr_periods": 14,
+              "nr_throttled": 0,
+              "system_usec": 12015,
+              "throttled_usec": 0,
+              "usage_usec": 1393355,
+              "user_usec": 1381340
+            },
+            "exit_code": 124,
+            "memory_events_after": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_events_before": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_peak_bytes": 4440064,
+            "oom_killed": false,
+            "platform": "Linux 6.1.0-53-cloud-amd64",
+            "program_time_seconds": 1.4295249379997585,
+            "psi_cpu": "some avg10=0.10 avg60=0.12 avg300=0.37 total=64948852\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+            "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=140317\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=121223\n",
+            "stderr": "",
+            "stderr_truncated": false,
+            "stdout": "",
+            "stdout_truncated": false,
+            "timed_out": true,
+            "worker_time_seconds": 1.4849113609998312
+          },
+          "generation": {
+            "backend": "google-generative-language/v1beta",
+            "model": "gemini-3.8-flash",
+            "request_metadata": {
+              "candidate_tokens": 184,
+              "estimated_cost_usd": 0.0109545,
+              "finish_reason": "STOP",
+              "generation_config": {
+                "maxOutputTokens": 16384,
+                "thinkingConfig": {
+                  "thinkingLevel": "medium"
+                }
+              },
+              "generation_seconds": 12.22760391700001,
+              "input_tokens": 146,
+              "model": "gemini-3.8-flash",
+              "output_tokens_including_thoughts": 2892,
+              "prompt_sha256": "995eca61eed3c5b826e8f054690d524621c9f28f9c87c731200986c00114d1a1",
+              "provider": "google",
+              "request_id": null,
+              "thinking_tokens": 2708
+            }
+          },
+          "score": {
+            "correct": false,
+            "memory_exceedance_bytes": 0,
+            "suitable": false,
+            "within_memory": true,
+            "within_time": false
+          }
+        },
+        {
+          "attempt": 2,
+          "decision": {
+            "reason": "attempt_limit",
+            "stop": true
+          },
+          "execution": {
+            "backend": "gcp-cgroupv2/v0.1",
+            "cpu_stat": {
+              "burst_usec": 0,
+              "nr_bursts": 0,
+              "nr_periods": 1,
+              "nr_throttled": 0,
+              "system_usec": 4914,
+              "throttled_usec": 0,
+              "usage_usec": 15016,
+              "user_usec": 10101
+            },
+            "exit_code": 1,
+            "memory_events_after": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_events_before": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_peak_bytes": 3092480,
+            "oom_killed": false,
+            "platform": "Linux 6.1.0-53-cloud-amd64",
+            "program_time_seconds": 0.07332265499962887,
+            "psi_cpu": "some avg10=0.00 avg60=0.03 avg300=0.28 total=64991662\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+            "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=140317\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=121223\n",
+            "stderr": "Traceback (most recent call last):\n  File \"/tmp/aether-run-6dea5fzi/program.py\", line 2, in <module>\n    for cat, grp_val in val.groupby(f_cat):\n                        ^^^\nNameError: name 'val' is not defined. Did you mean: 'eval'?\n",
+            "stderr_truncated": false,
+            "stdout": "",
+            "stdout_truncated": false,
+            "timed_out": false,
+            "worker_time_seconds": 0.12919091100002333
+          },
+          "generation": {
+            "backend": "google-generative-language/v1beta",
+            "model": "gemini-3.8-flash",
+            "request_metadata": {
+              "candidate_tokens": 651,
+              "estimated_cost_usd": 0.06158475,
+              "finish_reason": "MAX_TOKENS",
+              "generation_config": {
+                "maxOutputTokens": 16384,
+                "thinkingConfig": {
+                  "thinkingLevel": "medium"
+                }
+              },
+              "generation_seconds": 62.52258970800003,
+              "input_tokens": 213,
+              "model": "gemini-3.8-flash",
+              "output_tokens_including_thoughts": 16380,
+              "prompt_sha256": "b9b3ee1b57fb1bd3eaf58e821f8cc3a76eaa78898bb179d0172b64357804cc0b",
+              "provider": "google",
+              "request_id": null,
+              "thinking_tokens": 15729
+            }
+          },
+          "score": {
+            "correct": false,
+            "memory_exceedance_bytes": 0,
+            "suitable": false,
+            "within_memory": true,
+            "within_time": true
+          }
+        }
+      ],
+      "condition": "R",
+      "development_only": false,
+      "end_to_end_time_seconds": 83.50373808400002,
+      "execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 1,
+          "nr_throttled": 0,
+          "system_usec": 4914,
+          "throttled_usec": 0,
+          "usage_usec": 15016,
+          "user_usec": 10101
+        },
+        "exit_code": 1,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 3092480,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 0.07332265499962887,
+        "psi_cpu": "some avg10=0.00 avg60=0.03 avg300=0.28 total=64991662\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=140317\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=121223\n",
+        "stderr": "Traceback (most recent call last):\n  File \"/tmp/aether-run-6dea5fzi/program.py\", line 2, in <module>\n    for cat, grp_val in val.groupby(f_cat):\n                        ^^^\nNameError: name 'val' is not defined. Did you mean: 'eval'?\n",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 0.12919091100002333
+      },
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "model": "gemini-3.8-flash",
+      "schema_version": "trajectory-summary/v0.1",
+      "score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": true
+      },
+      "status": "complete",
+      "trajectory_id": "canary-v5-05-etl-latency_tight-R"
+    },
+    {
+      "agent_loop_decision": {
+        "reason": "verified_suitable",
+        "stop": true
+      },
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "decision": {
+            "reason": "authentic_execution_feedback_required",
+            "stop": false
+          },
+          "execution": {
+            "backend": "gcp-cgroupv2/v0.1",
+            "cpu_stat": {
+              "burst_usec": 0,
+              "nr_bursts": 0,
+              "nr_periods": 11,
+              "nr_throttled": 3,
+              "system_usec": 315118,
+              "throttled_usec": 104170,
+              "usage_usec": 1079808,
+              "user_usec": 764690
+            },
+            "exit_code": -9,
+            "memory_events_after": {
+              "high": 0,
+              "low": 0,
+              "max": 21,
+              "oom": 1,
+              "oom_group_kill": 1,
+              "oom_kill": 2
+            },
+            "memory_events_before": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_peak_bytes": 134217728,
+            "oom_killed": true,
+            "platform": "Linux 6.1.0-53-cloud-amd64",
+            "program_time_seconds": 1.1023407980001139,
+            "psi_cpu": "some avg10=0.56 avg60=0.14 avg300=0.29 total=65216456\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+            "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=140679\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=121491\n",
+            "stderr": "",
+            "stderr_truncated": false,
+            "stdout": "",
+            "stdout_truncated": false,
+            "timed_out": false,
+            "worker_time_seconds": 1.1675856179999755
+          },
+          "generation": {
+            "backend": "google-generative-language/v1beta",
+            "model": "gemini-3.8-flash",
+            "request_metadata": {
+              "candidate_tokens": 259,
+              "estimated_cost_usd": 0.0162315,
+              "finish_reason": "STOP",
+              "generation_config": {
+                "maxOutputTokens": 16384,
+                "thinkingConfig": {
+                  "thinkingLevel": "medium"
+                }
+              },
+              "generation_seconds": 17.992698165999997,
+              "input_tokens": 167,
+              "model": "gemini-3.8-flash",
+              "output_tokens_including_thoughts": 4295,
+              "prompt_sha256": "bb5cfa8c725ad0178dfede933a99d963637e07f11f44491f804c3763aeb96310",
+              "provider": "google",
+              "request_id": null,
+              "thinking_tokens": 4036
+            }
+          },
+          "score": {
+            "correct": false,
+            "memory_exceedance_bytes": 0,
+            "suitable": false,
+            "within_memory": true,
+            "within_time": true
+          }
+        },
+        {
+          "attempt": 2,
+          "decision": {
+            "reason": "verified_suitable",
+            "stop": true
+          },
+          "execution": {
+            "backend": "gcp-cgroupv2/v0.1",
+            "cpu_stat": {
+              "burst_usec": 0,
+              "nr_bursts": 0,
+              "nr_periods": 13,
+              "nr_throttled": 12,
+              "system_usec": 248102,
+              "throttled_usec": 120306,
+              "usage_usec": 1236662,
+              "user_usec": 988560
+            },
+            "exit_code": 0,
+            "memory_events_after": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_events_before": {
+              "high": 0,
+              "low": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_group_kill": 0,
+              "oom_kill": 0
+            },
+            "memory_peak_bytes": 73228288,
+            "oom_killed": false,
+            "platform": "Linux 6.1.0-53-cloud-amd64",
+            "program_time_seconds": 1.2764063479999095,
+            "psi_cpu": "some avg10=0.62 avg60=0.30 avg300=0.31 total=65319104\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+            "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=140679\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=121491\n",
+            "stderr": "",
+            "stderr_truncated": false,
+            "stdout": "TOTAL:{\"A\": 584859984000, \"B\": 582445702800, \"C\": 584178107400, \"D\": 585658510500, \"E\": 584768685600, \"F\": 583789773900, \"G\": 584327166000, \"H\": 585146828400}\n",
+            "stdout_truncated": false,
+            "timed_out": false,
+            "worker_time_seconds": 1.3323047920002864
+          },
+          "generation": {
+            "backend": "google-generative-language/v1beta",
+            "model": "gemini-3.8-flash",
+            "request_metadata": {
+              "candidate_tokens": 360,
+              "estimated_cost_usd": 0.02522775,
+              "finish_reason": "STOP",
+              "generation_config": {
+                "maxOutputTokens": 16384,
+                "thinkingConfig": {
+                  "thinkingLevel": "medium"
+                }
+              },
+              "generation_seconds": 26.614532999999994,
+              "input_tokens": 232,
+              "model": "gemini-3.8-flash",
+              "output_tokens_including_thoughts": 6681,
+              "prompt_sha256": "d0f26434523d83e7da2e465884447f9d539521c16344a5751e19720672c8cd0f",
+              "provider": "google",
+              "request_id": null,
+              "thinking_tokens": 6321
+            }
+          },
+          "score": {
+            "correct": true,
+            "memory_exceedance_bytes": 0,
+            "suitable": true,
+            "within_memory": true,
+            "within_time": true
+          }
+        }
+      ],
+      "condition": "G",
+      "development_only": false,
+      "end_to_end_time_seconds": 55.09524908399999,
+      "execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 13,
+          "nr_throttled": 12,
+          "system_usec": 248102,
+          "throttled_usec": 120306,
+          "usage_usec": 1236662,
+          "user_usec": 988560
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 73228288,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.2764063479999095,
+        "psi_cpu": "some avg10=0.62 avg60=0.30 avg300=0.31 total=65319104\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=140679\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=121491\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\": 584859984000, \"B\": 582445702800, \"C\": 584178107400, \"D\": 585658510500, \"E\": 584768685600, \"F\": 583789773900, \"G\": 584327166000, \"H\": 585146828400}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.3323047920002864
+      },
+      "final_suitable": true,
+      "first_pass_suitable": false,
+      "model": "gemini-3.8-flash",
+      "schema_version": "trajectory-summary/v0.1",
+      "score": {
+        "correct": true,
+        "memory_exceedance_bytes": 0,
+        "suitable": true,
+        "within_memory": true,
+        "within_time": true
+      },
+      "status": "complete",
+      "trajectory_id": "canary-v5-06-etl-memory_tight-G"
+    }
+  ],
+  "trajectory_count": 6,
+  "updated_at_utc": "2026-09-11T15:23:13.784073+00:00"
+}

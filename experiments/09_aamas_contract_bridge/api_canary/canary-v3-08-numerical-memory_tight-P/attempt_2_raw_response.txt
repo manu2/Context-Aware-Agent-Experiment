@@ -1,0 +1,14 @@
+$ (vectors 2, 3).
+For $r=0$:
+$c > 0 \implies c \in \{1\} \implies$ pair (2,3).
+For $r=1$:
+$c > 1 \implies$ none.
+Total pairs from Block 1: (2,3).
+
+All pairs accounted for:
+(0,1), (0,2), (0,3), (1,2), (1,3), (2,3).
+Exactly all $\binom{4}{2} = 6$ pairs!
+Every pair $i < j$ is included exactly once!
+This is completely correct and elegant.
+
+Wait! How to sum only $c > r$ efficiently without creating extra large masks

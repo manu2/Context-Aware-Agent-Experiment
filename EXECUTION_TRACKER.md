@@ -1,7 +1,7 @@
 # EXECUTION TRACKER: Live Deployment & Experiment Log
 
 ## Overall Status
-- **Current Stage**: Stage 22.2 (AAMAS E0a complete; E0b calibration next)
+- **Current Stage**: Stage 22.3 (AAMAS E0b and E1 complete; direct-API canary next)
 - **Active Experiment**: All 16 protocol-v1.2 manifest pairs have terminal archived
   artifacts. Fifteen included direct-API pairs are available for separately labelled
   cohort analysis; one Claude blind member is a retained runtime-compatibility failure and
@@ -112,6 +112,9 @@ statistical sample.
 | **21.0** | Dynamic SCAC telemetry design and consolidation | `docs/15_dynamic_agent_telemetry_whitepaper.md` | ✅ **DONE** | Consolidated two independent drafts into one canonical, evidence-audited design with a versioned 4D state, dual-tier injection, ToolRoute/MemoryGovernor/RetryBudget scenarios, controlled comparisons, statistics, fail-closed gates, and a separate-repository implementation decision. The earlier draft remains preserved. |
 | **22.1** | AAMAS experiment-first plan and scope lock | `docs/12_aamas_2027_hardened_research_plan.md` | ✅ **FROZEN** | P/R/G design with GPT-5.6 Sol, Claude Sonnet 5, and Gemini 3.7 Flash across the full 360-trajectory matrix and a fail-closed $30 API cap. |
 | **22.2** | AAMAS E0a production-shaped vertical slice | `experiments/09_aamas_contract_bridge/`, `docs/17_aamas_e0a_report.md` | ✅ **DONE** | Bounded Debian 12 GCP worker with six-hour automatic stop; cgroup v2 memory/CPU controllers; direct-SSH imported-response execution; correctness/suitability scoring; immutable archival; measured-allocation, authentic `oom_kill`, and timeout controls. Five interface tests pass. No model API calls were made. |
+| **22.3** | AAMAS E0b calibration and E1 isolated smoke | `experiments/09_aamas_contract_bridge/calibration/`, `docs/18_aamas_e0b_e1_report.md` | ✅ **DONE** | Frozen CPython 3.11.2/NumPy 2.0.2/Pandas 2.2.3 runtime, two hashed primary datasets, four opposed execution envelopes, numerical tolerance, and exact ETL oracle. All four cells passed 3/3 expected and 0/3 opposed references; numerical latency margin passed an additional 5/5 versus 0/5 check. Isolated P/R/G development fixtures all completed through the production path and remain excluded. API spend remains $0. |
+| **22.4** | AAMAS hardened canary and capacity correction | `experiments/09_aamas_contract_bridge/api_canary/`, `experiments/09_aamas_contract_bridge/calibration/e0_pre_pilot_security_controls.json` | ✅ **DONE** | Generated programs execute non-root, offline, with read-only datasets, `pids.max=64`, and 1 MiB stdout/stderr caps; all controls pass. Numerical latency was recalibrated to 3.0 s (5/5 vs 0/5). Gemini 3.8 v3 cost $0.293 and exposed 4,096-token truncation; excluded. V4 at 16,384 tokens cost $0.523 and produced 8/12 suitable outcomes: both proactive numerical cells passed while reactive/generic numerical cells failed. A faster model-generated streaming parser invalidated the original ETL opposition; the redesigned task passed 5/5 vs 0/5 in both environments. V5 cost $0.235 and produced 4/6 first-pass, 5/6 final suitability, with proactive first-pass success in both environments. All canaries remain excluded. |
+| **22.5** | AAMAS Gemini 3.8 non-pooled pilot | `experiments/09_aamas_contract_bridge/api_pilot/`, `docs/19_aamas_e2_e3_report.md` | ✅ **DONE** | All 24 randomized trajectories and 34 provider calls completed normally for $1.099. P: 7/8 first-pass, 8/8 final; R: 3/8, 4/8; G: 4/8, 4/8. Numerical P was 4/4 while R/G were 0/4 each. ETL implementations shifted between streaming and Pandas with the disclosed envelope. Pilot is non-pooled and excluded from confirmatory estimates. |
 
 ### Manuscript-closure status (2026-08-27)
 
@@ -188,3 +191,9 @@ statistical sample.
   worker passed a suitable end-to-end fixture plus measurement, OOM-kill, and
   timeout controls. Two pre-execution development failures remain visibly archived
   and excluded. E0b calibration is next; API spend remains zero.
+- **AAMAS E0b/E1 completion (2026-09-11):** Model-free calibration established
+  clean strategy opposition in both families: numerical eager ~790.7 MiB/3.2 s
+  versus bounded ~45.2 MiB/5.6 s; ETL Pandas ~270.8 MiB/1.6 s versus streaming
+  ~4–6 MiB/5.4 s. The frozen memory- and latency-tight contracts reliably admit
+  the intended reference and reject the opposed one. Context-isolated P/R/G smoke
+  completed through the same path; all outputs are development-only.

@@ -1,0 +1,207 @@
+{
+  "agent_loop_decision": {
+    "reason": "attempt_limit",
+    "stop": true
+  },
+  "attempt_count": 2,
+  "attempts": [
+    {
+      "attempt": 1,
+      "decision": {
+        "reason": "authentic_execution_feedback_required",
+        "stop": false
+      },
+      "execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 45,
+          "nr_throttled": 44,
+          "system_usec": 199595,
+          "throttled_usec": 4320940,
+          "usage_usec": 4561671,
+          "user_usec": 4362075
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 440057856,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 4.526164902000005,
+        "psi_cpu": "some avg10=16.64 avg60=3.95 avg300=0.98 total=4677409\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stdout": "",
+        "timed_out": true,
+        "worker_time_seconds": 4.568059078000033
+      },
+      "generation": {
+        "backend": "google-generative-language/v1beta",
+        "model": "gemini-3.7-flash",
+        "request_metadata": {
+          "estimated_cost_usd": 0.01434825,
+          "generation_seconds": 15.987874832999992,
+          "input_tokens": 86,
+          "max_output_tokens": 4096,
+          "model": "gemini-3.7-flash",
+          "output_tokens_including_thoughts": 3809,
+          "prompt_sha256": "5df759e2be3d21dea7eba78b461c01cbe10ca2b5206ed638b04470b4719abda7",
+          "provider": "google",
+          "request_id": null,
+          "temperature": 0.1,
+          "top_p": 0.95
+        }
+      },
+      "score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      }
+    },
+    {
+      "attempt": 2,
+      "decision": {
+        "reason": "attempt_limit",
+        "stop": true
+      },
+      "execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 1,
+          "nr_throttled": 0,
+          "system_usec": 0,
+          "throttled_usec": 0,
+          "usage_usec": 15627,
+          "user_usec": 15627
+        },
+        "exit_code": 1,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 2904064,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 0.03718842600000016,
+        "psi_cpu": "some avg10=2.55 avg60=3.07 avg300=0.98 total=4712568\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "  File \"/tmp/aether-run-1nirm0rf/program.py\", line 9\n    C_CODE = r\"\"\"\n             ^\nSyntaxError: unterminated triple-quoted string literal (detected at line 19)\n",
+        "stdout": "",
+        "timed_out": false,
+        "worker_time_seconds": 0.08541405400001167
+      },
+      "generation": {
+        "backend": "google-generative-language/v1beta",
+        "model": "gemini-3.7-flash",
+        "request_metadata": {
+          "estimated_cost_usd": 0.01545975,
+          "generation_seconds": 17.861384125,
+          "input_tokens": 153,
+          "max_output_tokens": 4096,
+          "model": "gemini-3.7-flash",
+          "output_tokens_including_thoughts": 4092,
+          "prompt_sha256": "2a0e98858e83ce93541dfcd4b8666c5e0a174af59ce9e6cd7bdabb35ac923619",
+          "provider": "google",
+          "request_id": null,
+          "temperature": 0.1,
+          "top_p": 0.95
+        }
+      },
+      "score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": true
+      }
+    }
+  ],
+  "condition": "R",
+  "development_only": false,
+  "end_to_end_time_seconds": 45.520351375,
+  "execution": {
+    "backend": "gcp-cgroupv2/v0.1",
+    "cpu_stat": {
+      "burst_usec": 0,
+      "nr_bursts": 0,
+      "nr_periods": 1,
+      "nr_throttled": 0,
+      "system_usec": 0,
+      "throttled_usec": 0,
+      "usage_usec": 15627,
+      "user_usec": 15627
+    },
+    "exit_code": 1,
+    "memory_events_after": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_events_before": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_peak_bytes": 2904064,
+    "oom_killed": false,
+    "platform": "Linux 6.1.0-53-cloud-amd64",
+    "program_time_seconds": 0.03718842600000016,
+    "psi_cpu": "some avg10=2.55 avg60=3.07 avg300=0.98 total=4712568\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "stderr": "  File \"/tmp/aether-run-1nirm0rf/program.py\", line 9\n    C_CODE = r\"\"\"\n             ^\nSyntaxError: unterminated triple-quoted string literal (detected at line 19)\n",
+    "stdout": "",
+    "timed_out": false,
+    "worker_time_seconds": 0.08541405400001167
+  },
+  "final_suitable": false,
+  "first_pass_suitable": false,
+  "model": "gemini-3.7-flash",
+  "schema_version": "trajectory-summary/v0.1",
+  "score": {
+    "correct": false,
+    "memory_exceedance_bytes": 0,
+    "suitable": false,
+    "within_memory": true,
+    "within_time": true
+  },
+  "status": "complete",
+  "trajectory_id": "canary-v2-03-numerical-latency_tight-R"
+}

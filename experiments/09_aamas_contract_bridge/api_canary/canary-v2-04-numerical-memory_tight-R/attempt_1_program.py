@@ -1,0 +1,34 @@
+import numpy as np
+
+vectors = np.load("vectors.npy")
+n = vectors.shape[0]
+
+try:
+    import torch
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    t_vectors = torch.from_numpy(vectors).to(device)
+    total = 0.0
+    chunk_size = 500
+    for i in range(0, n, chunk_size):
+        dists = torch.cdist(t_vectors[i : i + chunk_size], t_vectors)
+        total += dists.double().sum().item()
+    print(f"TOTAL:{total}")
+except ImportError:
+    try:
+        from scipy.spatial.distance import cdist
+
+        total = 0.0
+        chunk_size = 500
+        for i in range(0, n, chunk_size):
+            dists = cdist(vectors[i : i + chunk_size], vectors, metric="euclidean")
+            total += dists.sum(dtype=np.float64)
+        print(f"TOTAL:{total}")
+    except ImportError:
+        total = 0.0
+        chunk_size = 50
+        for i in range(0, n, chunk_size):
+            diff = vectors[i : i + chunk_size, None, :] - vectors[None, :, :]
+            dists = np.sqrt(np.sum(diff * diff, axis=-1, dtype=np.float64))
+            total += dists.sum(dtype=np.float64)
+        print(f"TOTAL:{total}")

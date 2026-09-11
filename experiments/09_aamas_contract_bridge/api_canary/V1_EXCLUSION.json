@@ -1,0 +1,9 @@
+{
+  "schema_version": "aamas-canary-exclusion/v0.1",
+  "excluded_prefix": "canary-",
+  "attempted_trajectories": 12,
+  "provider_calls": 12,
+  "estimated_cost_usd": 0.10337175,
+  "reason": "After every provider response was archived, execution transport failed before program launch because the restarted VM had cleared /tmp/aether_execution_worker.py.",
+  "disposition": "All responses, programs, summaries, and the v1 ledger are preserved. No v1 trajectory is analyzed as an end-to-end canary outcome. A predeclared v2 replacement uses persistent worker storage, explicit deployment preflight, new IDs, and a separate ledger."
+}

@@ -1,0 +1,8 @@
+) = 1.31 \times 10^{11}$ FLOPs total.
+GEMM efficiency is practically the same for $M=500$ as for $M=1000$ (both are large enough to saturate BLAS cache blocking).
+
+Wait! What about `np.load('vectors.npy', mmap_mode='r')`?
+If we use `mmap_mode='r'`, does it save memory?
+Actually, if the OS pages in 32 MB, it might count towards memory limit. But `X` is only 31.25 MiB anyway.
+Wait, with $B = 500$, let's trace:
+Can we do the distance computation

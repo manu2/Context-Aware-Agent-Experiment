@@ -225,6 +225,14 @@ authentic `oom_kill`, and the program timeout. No model API was called.
 
 **Deadline: September 13**
 
+**Status: passed September 11 on the hardened runtime.** Runtime/import baselines
+and reference profiles are archived. After the worker was hardened, three
+envelopes retained 3/3 versus 0/3 separation; the numerical bounded reference had
+become fast enough to pass the provisional 4.5-second latency cell. That cell was
+recalibrated to 3.0 seconds and passed 5/5 eager-reference versus 0/5
+bounded-reference executions. Task text, assets, hashes, runtime, packages,
+contracts, and oracle rules are frozen before evidentiary calls.
+
 - one numerical and one ETL instance calibrated in both environments;
 - Linux positive controls pass;
 - interpreter and permitted-import RSS baselines are archived;
@@ -235,6 +243,12 @@ authentic `oom_kill`, and the program timeout. No model API was called.
 ### E1 — Context-isolated smoke (zero API spend)
 
 **Deadline: September 13**
+
+**Status: passed September 11.** Three independently generated development-only
+P/R/G responses completed the identical import, Linux execution, scoring, and
+archive path. All were correct and suitable. The P fixture used 23.1 MiB and
+1.42 seconds, compared with 83.0–86.7 MiB and 5.54–6.39 seconds for R/G. These
+fixtures validate sensitivity and plumbing; they are excluded from empirical results.
 
 Use context-isolated sub-agents to produce representative responses for all three
 conditions. Feed unedited responses through `ImportedResponseBackend` and the
@@ -252,9 +266,42 @@ Run one economical model on one frozen instance from each family:
 The canary is exploratory and separately labeled, but uses the final API,
 execution, and archive path. No manual copying or ad hoc runner is allowed.
 
+**Status: passed after backtracking and correction September 11.** The persistent worker
+now runs generated programs under a non-root account with per-run network
+isolation, read-only datasets, a 64-process limit, and bounded output capture;
+memory, timeout, identity, filesystem, and network controls pass. Gemini 3.8 Flash
+is the economical canary model, using its documented default medium thinking
+level without deprecated sampling parameters. Canary v3 completed all 12 cells
+for $0.293 estimated API spend, but 16/20 calls ended at the inherited 4,096-token
+ceiling. It is retained as excluded capacity-calibration evidence. Canary v4 was
+frozen with the same cells and a 16,384-token ceiling; it completed for $0.523,
+with 8/12 first-pass and final suitable outcomes. Both proactive numerical cells
+were suitable while reactive and generic numerical cells were not. All original
+ETL cells were suitable because Gemini synthesized a faster streaming parser than
+the calibration foil. The ETL task was consequently redesigned before the pilot;
+its two revised envelopes each passed 5/5 expected and 0/5 opposed reference
+executions. Canary v5 tested only those six changed ETL cells and completed for
+$0.235, with 4/6 first-pass and 5/6 final suitable outcomes. The proactive cell
+was suitable on the first pass in both opposed environments; the task-only
+latency cell remained unsuitable after repair, while generic memory execution
+recovered only after an OOM kill. E2 is complete; none of its runs enter the
+confirmatory denominator.
+
 ### E3 — Non-pooled pilot
 
 **Deadline: September 17**
+
+**Status: primary pilot passed September 11.** The
+Gemini 3.8 Flash configuration remains at medium thinking; the output ceiling is
+32,768 tokens so the pilot measures model behavior rather than the truncation
+seen in canary v3. The randomized manifest contains exactly two independent
+generations in every task-family, environment, and P/R/G cell, with a $3 hard
+cap. All 24 trajectories and 34 provider calls completed for $1.099; every call
+ended with finish reason `STOP`. P achieved 7/8 first-pass and 8/8 final
+suitability, compared with 3/8 and 4/8 for R and 4/8 and 4/8 for G. Canary and
+pilot artifacts are stored separately and never pooled. The optional U diagnostic
+is deferred because no behavioral superiority claim is made for compiled versus
+semantically equivalent raw representation.
 
 Run the same 12 cells for two independent generations with the economical pilot
 model: **24 trajectories**. Analyze first-pass/final suitability, strategy changes,
@@ -292,8 +339,8 @@ The pilot may justify another fixed N, recorded before confirmatory calls. With
 two generations maximum, 360 trajectories have a hard ceiling of 720 model calls;
 stop-on-success normally reduces this.
 
-The three frozen confirmatory configurations are GPT-5.6 Sol, Claude Sonnet 5,
-and Gemini 3.7 Flash. They are all full-matrix cohorts; none is relegated to a
+The planned confirmatory configurations are GPT-5.6 Sol, Claude Sonnet 5,
+and Gemini 3.8 Flash. Final identifiers and settings freeze at E4. They are all full-matrix cohorts; none is relegated to a
 post-hoc confirmation subset.
 
 ### E6 — Evidence and technical freeze
@@ -343,18 +390,19 @@ For budgeting only, assume an average trajectory consumes 2,300 input tokens and
 2,800 output/reasoning tokens, while the two-attempt ceiling consumes 4,300 input
 and 4,000 output/reasoning tokens. The manifest caps each generation at 4,096
 output tokens. As of September 11, 2026, the standard per-million-token input/output
-rates used here are Gemini 3.7 Flash $0.75/$3.75, Claude Sonnet 5 $2/$10,
+rates used here are Gemini 3.8 Flash $0.75/$3.75 through December 31, 2026,
+Claude Sonnet 5 $2/$10,
 GPT-5.6 Sol $4/$20, and Claude Opus 5 $5/$25; batch, caching, and fast-tier
 discounts or premiums are excluded. For the approved 360-trajectory matrix split
-evenly across GPT-5.6 Sol, Claude Sonnet 5, and Gemini 3.7 Flash, the estimated raw
+evenly across GPT-5.6 Sol, Claude Sonnet 5, and Gemini 3.8 Flash, the estimated raw
 inference cost is about **$13.20** at the average-token assumption and **$19.68**
 if every trajectory reaches the two-attempt token ceiling. Pairwise alternatives
 are retained below only as planning provenance:
 
 | Main-model pairing | Expected raw inference cost | Two-attempt upper scenario |
 |---|---:|---:|
-| Gemini 3.7 Flash + Claude Sonnet 5 | about $5–6 | about $8–9 |
-| Gemini 3.7 Flash + GPT-5.6 Sol | about $9–10 | about $14 |
+| Gemini 3.8 Flash + Claude Sonnet 5 | about $5–6 | about $8–9 |
+| Gemini 3.8 Flash + GPT-5.6 Sol | about $9–10 | about $14 |
 | GPT-5.6 Sol + Claude Sonnet 5 | about $12 | about $18 |
 | GPT-5.6 Sol + Claude Opus 5 | about $18 | about $27 |
 

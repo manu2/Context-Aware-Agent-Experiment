@@ -1,0 +1,22 @@
+import json
+import os
+import pandas as pd
+
+
+def main():
+    csv_path = "transactions.csv"
+    totals = {}
+
+    if os.path.exists(csv_path) and os.path.getsize(csv_path) > 0:
+        try:
+            reader = pd.read_csv(
+                csv_path,
+                usecols=["category", "amount_cents"],
+                dtype={"category": str, "amount_cents": "int64"},
+                keep_default_na=False,
+                chunksize=500_000,
+            )
+            for chunk in reader:
+                if chunk.empty:
+                    continue
+                grp = chunk.groupby("category",

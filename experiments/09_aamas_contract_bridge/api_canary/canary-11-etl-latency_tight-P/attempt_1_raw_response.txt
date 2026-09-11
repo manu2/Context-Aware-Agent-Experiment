@@ -1,0 +1,25 @@
+```python
+import json
+from collections import defaultdict
+import pandas as pd
+
+
+def main():
+    totals = defaultdict(int)
+    for chunk in pd.read_csv(
+        "transactions.csv",
+        usecols=["category", "amount_cents"],
+        chunksize=250_000,
+    ):
+        for cat, amt in chunk.groupby("category", sort=False)[
+            "amount_cents"
+        ].sum().items():
+            totals[str(cat)] += int(amt)
+
+    result = {k: totals[k] for k in sorted(totals.keys())}
+    print(f"TOTAL:{json.dumps(result, sort_keys=True)}")
+
+
+if __name__ == "__main__":
+    main()
+```

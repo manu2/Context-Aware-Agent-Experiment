@@ -1,0 +1,31 @@
+import numpy as np
+
+
+def main():
+    X = np.load("vectors.npy")
+
+    # Compute squared norms of each vector: shape (8000,)
+    norms_sq = np.sum(X * X, axis=1)
+
+    # Compute Gram matrix G = X @ X^T: shape (8000, 8000), float32 (256 MB)
+    G = X @ X.T
+
+    # Transform G in-place to squared Euclidean distance matrix:
+    # ||x_i - x_j||^2 = ||x_i||^2 + ||x_j||^2 - 2 <x_i, x_j>
+    G *= -2.0
+    G += norms_sq[:, None]
+    G += norms_sq[None, :]
+
+    # Clamp numerical underflow below zero and take square root in-place
+    np.maximum(G, 0.0, out=G)
+    np.sqrt(G, out=G)
+    np.fill_diagonal(G, 0.0)
+
+    # Compute the total sum of pairwise distances using float64 accumulator
+    total = np.sum(G, dtype=np.float64)
+
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()

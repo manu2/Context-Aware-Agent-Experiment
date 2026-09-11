@@ -1,0 +1,53 @@
+An efficient and robust Python program to solve this problem:
+
+```python
+import json
+import numpy as np
+import pandas as pd
+from collections import defaultdict
+
+def main():
+    totals = defaultdict(int)
+    chunksize = 250_000
+    
+    # Process transactions.csv in chunks to balance memory use and performance
+    for chunk in pd.read_csv(
+        'transactions.csv',
+        usecols=['account_id', 'category', 'amount_cents'],
+        chunksize=chunksize,
+    ):
+        acc = chunk['account_id']
+        mask = (acc % 11) < 7
+        if not mask.any():
+            continue
+        
+        filtered = chunk[mask]
+        acc_filt = filtered['account_id']
+        mult = (acc_filt % 97) + 1
+        amt = filtered['amount_cents']
+        
+        # Check whether int64 arithmetic is guaranteed not to overflow for this chunk
+        safe_for_int64 = False
+        if pd.api.types.is_integer_dtype(amt) and pd.api.types.is_integer_dtype(acc_filt):
+            min_val, max_val = int(amt.min()), int(amt.max())
+            max_abs = max(abs(min_val), abs(max_val))
+            # 9e18 is below int64 max (approx 9.22e18)
+            if max_abs * 97 * len(filtered) < 9_000_000_000_000_000_000:
+                safe_for_int64 = True
+        
+        if safe_for_int64:
+            prod = amt * mult
+            chunk_sums = prod.groupby(filtered['category'], sort=False).sum()
+        else:
+            # Fallback to arbitrary precision Python integers
+            prod = amt.astype(object) * mult.astype(object)
+            chunk_sums = prod.groupby(filtered['category'], sort=False).sum()
+            
+        for cat, val in chunk_sums.items():
+            totals[str(cat)] += int(val)
+            
+    print(f"TOTAL:{json.dumps(totals, sort_keys=True)}")
+
+if __name__ == '__main__':
+    main()
+```

@@ -1,0 +1,42 @@
+import numpy as np
+
+
+def main():
+    # Load vectors without modifying the file
+    vectors = np.load("vectors.npy")
+    N = vectors.shape[0]
+
+    # Cast to float64 for numerical precision
+    V = vectors.astype(np.float64)
+
+    # Precompute squared L2 norms for each row: shape (N,)
+    sq_norms = np.sum(V**2, axis=1)
+
+    total_distance = 0.0
+    chunk_size = 1000
+
+    # Process in chunks along the first axis to keep memory footprint minimal (< 250 MB)
+    for start_idx in range(0, N, chunk_size):
+        end_idx = min(start_idx + chunk_size, N)
+        chunk = V[start_idx:end_idx]
+
+        # Compute dot products between chunk and all vectors: shape (chunk_len, N)
+        dots = np.dot(chunk, V.T)
+
+        # Compute squared Euclidean distances: ||u - v||^2 = ||u||^2 + ||v||^2 - 2<u, v>
+        dist_sq = sq_norms[start_idx:end_idx, None] + sq_norms[None, :] - 2.0 * dots
+        np.maximum(dist_sq, 0.0, out=dist_sq)
+
+        dists = np.sqrt(dist_sq, out=dist_sq)
+
+        # Set exact diagonal elements to 0.0 to prevent floating-point residual noise
+        for r in range(end_idx - start_idx):
+            dists[r, start_idx + r] = 0.0
+
+        total_distance += float(np.sum(dists))
+
+    print(f"TOTAL:{total_distance}")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,10 @@
+8000$ matrix multiplication = $1.31 \times 10^{11}$ FLOPs, but running BLAS DGEMM on multi-core CPU (which utilizes AVX-512 / AVX2 on all cores)!
+DGEMM typically runs at 200-500 GFLOPs/s, taking ~0.3 - 0.6 seconds!
+
+Wait, what if we use float64 for `X @ X.T`:
+```python
+import numpy as np
+
+vectors = np.load("vectors.npy")
+# vectors is shape (8000, 1024), float32
+X = vectors.astype(np.float64)

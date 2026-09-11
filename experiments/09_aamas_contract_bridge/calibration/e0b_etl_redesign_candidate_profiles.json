@@ -1,0 +1,509 @@
+{
+  "candidate_task": "Conditional weighted aggregation by category using account_id and amount_cents.",
+  "created_at_utc": "2026-09-11T15:13:51.688987+00:00",
+  "reason": "Canary v4 showed that optimized csv.reader streaming satisfied the original latency-tight envelope; the original DictReader foil was not representative.",
+  "records": [
+    {
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 9,
+          "nr_throttled": 7,
+          "system_usec": 140010,
+          "throttled_usec": 104150,
+          "usage_usec": 936341,
+          "user_usec": 796330
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 284090368,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 0.9776045459998386,
+        "psi_cpu": "some avg10=0.54 avg60=0.20 avg300=0.75 total=62145361\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=137462\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=119083\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\":584859984000,\"B\":582445702800,\"C\":584178107400,\"D\":585658510500,\"E\":584768685600,\"F\":583789773900,\"G\":584327166000,\"H\":585146828400}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.0361581839997598
+      },
+      "repetition": 1,
+      "strategy": "pandas"
+    },
+    {
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 10,
+          "nr_throttled": 9,
+          "system_usec": 156520,
+          "throttled_usec": 116182,
+          "usage_usec": 957388,
+          "user_usec": 800867
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 284291072,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.0281876389999525,
+        "psi_cpu": "some avg10=0.72 avg60=0.25 avg300=0.75 total=62226360\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=137462\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=119083\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\":584859984000,\"B\":582445702800,\"C\":584178107400,\"D\":585658510500,\"E\":584768685600,\"F\":583789773900,\"G\":584327166000,\"H\":585146828400}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.092730931999995
+      },
+      "repetition": 2,
+      "strategy": "pandas"
+    },
+    {
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 11,
+          "nr_throttled": 6,
+          "system_usec": 199528,
+          "throttled_usec": 136101,
+          "usage_usec": 1009765,
+          "user_usec": 810236
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 284291072,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.0261063730004025,
+        "psi_cpu": "some avg10=0.63 avg60=0.27 avg300=0.75 total=62304091\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=137462\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=119083\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\":584859984000,\"B\":582445702800,\"C\":584178107400,\"D\":585658510500,\"E\":584768685600,\"F\":583789773900,\"G\":584327166000,\"H\":585146828400}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.0846489509999628
+      },
+      "repetition": 3,
+      "strategy": "pandas"
+    },
+    {
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 11,
+          "nr_throttled": 7,
+          "system_usec": 159630,
+          "throttled_usec": 144208,
+          "usage_usec": 981453,
+          "user_usec": 821823
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 284225536,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.0278909189996739,
+        "psi_cpu": "some avg10=0.87 avg60=0.35 avg300=0.76 total=62392223\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=137462\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=119083\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\":584859984000,\"B\":582445702800,\"C\":584178107400,\"D\":585658510500,\"E\":584768685600,\"F\":583789773900,\"G\":584327166000,\"H\":585146828400}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.0959126339998875
+      },
+      "repetition": 4,
+      "strategy": "pandas"
+    },
+    {
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 11,
+          "nr_throttled": 8,
+          "system_usec": 183876,
+          "throttled_usec": 120203,
+          "usage_usec": 1023231,
+          "user_usec": 839354
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 284368896,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.0275132679998933,
+        "psi_cpu": "some avg10=1.50 avg60=0.53 avg300=0.79 total=62463191\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=137462\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=119083\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\":584859984000,\"B\":582445702800,\"C\":584178107400,\"D\":585658510500,\"E\":584768685600,\"F\":583789773900,\"G\":584327166000,\"H\":585146828400}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.0889546449998306
+      },
+      "repetition": 5,
+      "strategy": "pandas"
+    },
+    {
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 18,
+          "nr_throttled": 12,
+          "system_usec": 4003,
+          "throttled_usec": 292,
+          "usage_usec": 1749034,
+          "user_usec": 1745031
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 4485120,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.8315789540001788,
+        "psi_cpu": "some avg10=1.01 avg60=0.50 avg300=0.78 total=62475050\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=137462\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=119083\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\":584859984000,\"B\":582445702800,\"C\":584178107400,\"D\":585658510500,\"E\":584768685600,\"F\":583789773900,\"G\":584327166000,\"H\":585146828400}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.8978553889996874
+      },
+      "repetition": 1,
+      "strategy": "streaming"
+    },
+    {
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 18,
+          "nr_throttled": 0,
+          "system_usec": 7975,
+          "throttled_usec": 0,
+          "usage_usec": 1782864,
+          "user_usec": 1774889
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 4489216,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.8308472270000493,
+        "psi_cpu": "some avg10=0.55 avg60=0.45 avg300=0.76 total=62485196\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=137462\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=119083\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\":584859984000,\"B\":582445702800,\"C\":584178107400,\"D\":585658510500,\"E\":584768685600,\"F\":583789773900,\"G\":584327166000,\"H\":585146828400}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.8909898370002338
+      },
+      "repetition": 2,
+      "strategy": "streaming"
+    },
+    {
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 18,
+          "nr_throttled": 0,
+          "system_usec": 16011,
+          "throttled_usec": 0,
+          "usage_usec": 1787589,
+          "user_usec": 1771578
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 4517888,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.8309164190000047,
+        "psi_cpu": "some avg10=0.30 avg60=0.41 avg300=0.75 total=62496662\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=137462\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=119083\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\":584859984000,\"B\":582445702800,\"C\":584178107400,\"D\":585658510500,\"E\":584768685600,\"F\":583789773900,\"G\":584327166000,\"H\":585146828400}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.8922934080001141
+      },
+      "repetition": 3,
+      "strategy": "streaming"
+    },
+    {
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 19,
+          "nr_throttled": 15,
+          "system_usec": 23855,
+          "throttled_usec": 453,
+          "usage_usec": 1892724,
+          "user_usec": 1868869
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 4485120,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.9297263870003007,
+        "psi_cpu": "some avg10=0.20 avg60=0.38 avg300=0.74 total=62508056\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=137462\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=119083\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\":584859984000,\"B\":582445702800,\"C\":584178107400,\"D\":585658510500,\"E\":584768685600,\"F\":583789773900,\"G\":584327166000,\"H\":585146828400}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.9872457829997074
+      },
+      "repetition": 4,
+      "strategy": "streaming"
+    },
+    {
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 20,
+          "nr_throttled": 0,
+          "system_usec": 28025,
+          "throttled_usec": 0,
+          "usage_usec": 1993056,
+          "user_usec": 1965031
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 4485120,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 2.0311166629999207,
+        "psi_cpu": "some avg10=0.11 avg60=0.34 avg300=0.72 total=62519258\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=137462\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=119083\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\":584859984000,\"B\":582445702800,\"C\":584178107400,\"D\":585658510500,\"E\":584768685600,\"F\":583789773900,\"G\":584327166000,\"H\":585146828400}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 2.095773793999797
+      },
+      "repetition": 5,
+      "strategy": "streaming"
+    }
+  ],
+  "reference_output": "TOTAL:{\"A\":584859984000,\"B\":582445702800,\"C\":584178107400,\"D\":585658510500,\"E\":584768685600,\"F\":583789773900,\"G\":584327166000,\"H\":585146828400}",
+  "schema_version": "e0b-etl-redesign-candidate/v0.1",
+  "summary": {
+    "pandas": {
+      "memory_peak_median_mib": 271.12109375,
+      "memory_peak_mib": [
+        270.9296875,
+        271.12109375,
+        271.12109375,
+        271.05859375,
+        271.1953125
+      ],
+      "n": 5,
+      "program_time_median_seconds": 1.0275132679998933,
+      "program_time_seconds": [
+        0.9776045459998386,
+        1.0281876389999525,
+        1.0261063730004025,
+        1.0278909189996739,
+        1.0275132679998933
+      ]
+    },
+    "streaming": {
+      "memory_peak_median_mib": 4.27734375,
+      "memory_peak_mib": [
+        4.27734375,
+        4.28125,
+        4.30859375,
+        4.27734375,
+        4.27734375
+      ],
+      "n": 5,
+      "program_time_median_seconds": 1.8315789540001788,
+      "program_time_seconds": [
+        1.8315789540001788,
+        1.8308472270000493,
+        1.8309164190000047,
+        1.9297263870003007,
+        2.0311166629999207
+      ]
+    }
+  }
+}

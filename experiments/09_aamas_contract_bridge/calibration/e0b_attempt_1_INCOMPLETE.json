@@ -1,0 +1,12 @@
+{
+  "status": "incomplete_model_free_calibration",
+  "included_in_results": false,
+  "stage": "reference_oracle_equivalence",
+  "observed_outputs": [
+    "TOTAL:835795676.797137",
+    "TOTAL:835795677.642249"
+  ],
+  "relative_span_approximately": 1.01e-9,
+  "reason": "The initial calibration required exact formatted-string equality across eager and blocked floating-point reduction orders.",
+  "resolution": "Before any model call, the numerical oracle was frozen to relative tolerance 1e-8; ETL remains exact. The first attempt's in-memory telemetry was not emitted because the fail-closed check preceded archive creation."
+}

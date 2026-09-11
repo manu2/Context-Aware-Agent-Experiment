@@ -1,0 +1,48 @@
+An implementation suited to the operating envelope is provided below.
+
+```python
+import json
+import pandas as pd
+
+def main():
+    try:
+        df = pd.read_csv(
+            'transactions.csv',
+            usecols=['account_id', 'category', 'amount_cents'],
+            keep_default_na=False
+        )
+    except Exception:
+        print("TOTAL:{}")
+        return
+
+    if df.empty:
+        print("TOTAL:{}")
+        return
+
+    # Filter rows where account_id % 11 < 7
+    df = df[df['account_id'] % 11 < 7]
+    if df.empty:
+        print("TOTAL:{}")
+        return
+
+    weights = (df['account_id'] % 97) + 1
+
+    # Check for potential int64 overflow; fallback to Python arbitrary-precision ints if needed
+    try:
+        max_possible = int(df['amount_cents'].abs().max()) * 98 * len(df)
+        if max_possible > 8_000_000_000_000_000_000:
+            val = df['amount_cents'].astype(object) * weights.astype(object)
+        else:
+            val = df['amount_cents'] * weights
+    except Exception:
+        val = df['amount_cents'].astype(object) * weights.astype(object)
+
+    df['val'] = val
+    grouped = df.groupby('category', sort=True)['val'].sum()
+    out = {str(k): int(v) for k, v in grouped.items()}
+
+    print("TOTAL:" + json.dumps(out, sort_keys=True))
+
+if __name__ == '__main__':
+    main()
+```

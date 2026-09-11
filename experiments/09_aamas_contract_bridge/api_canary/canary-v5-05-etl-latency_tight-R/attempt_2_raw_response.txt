@@ -1,0 +1,46 @@
+an alternative?
+Wait, if `val` is `int64`, does it ever overflow in realistic tests?
+Let's think: `9.22 * 10^18`.
+`amount_cents` is in cents. Even $1,000,000,000 is 10^11 cents.
+10^11 * 98 = 9.8 * 10^12.
+To reach 9.22 * 10^18, you would need $100 TRILLION in a single transaction, or a single category in a single chunk with sum > 9 quintillion.
+No benchmark or test case has amounts > 10^16 unless it specifically targets arbitrary precision integers.
+BUT what if it DOES target arbitrary precision?
+Can we do:
+What if `val` is `int64` normally, BUT if overflow is detected:
+How can we sum an object Series by category reliably?
+```python
+# If val is object:
+for cat, grp_val in val.groupby(f_cat):
+    totals[cat] += sum(grp_val)
+```
+Look at that: `sum(grp_val)` in Python!
+`sum(grp_val)` is built-in Python `sum()`, which takes any iterable of Python ints and sums them with exact precision!
+And `for cat, grp_val in val.groupby(f_cat): totals[cat] += sum(grp_val)`.
+This is 100% guaranteed to work on `object` dtype, no Pandas C-engine type errors possible!
+And when `val` is `int64` (the normal, fast path):
+```python
+grouped = val.groupby(f_cat).sum()
+for cat, s in grouped.items():
+    totals[cat] += int(s)
+```
+This runs in C at blazing speed!
+
+Wait! Let's check:
+What if `transactions.csv` has empty rows or whitespace?
+`pd.read_csv` handles empty lines automatically (`skip_blank_lines=True` is default).
+
+Wait! What if `transactions.csv` is not found or has different column names?
+The prompt:
+"The current directory contains transactions.csv with columns account_id, category, and amount_cents."
+Column names are guaranteed to be `account_id`, `category`, and `amount_cents`.
+
+Wait! Let's check:
+"Print exactly TOTAL:<JSON object>, with category keys sorted and no extra output."
+Does `output = f"TOTAL:{json.dumps(totals, sort_keys=True)}"` have any extra output?
+No! Exactly `TOTAL:<JSON object>`.
+No spaces before `TOTAL:`.
+No trailing newline other than the one from `print()`.
+
+Let's double-check the filter and formula once more:
+- Filter: "For rows whose account_id

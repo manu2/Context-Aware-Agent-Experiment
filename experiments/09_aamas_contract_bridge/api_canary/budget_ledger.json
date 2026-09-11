@@ -1,0 +1,139 @@
+{
+  "calls": 12,
+  "entries": [
+    {
+      "estimated_cost_usd": 0.0039795,
+      "input_tokens": 76,
+      "model": "gemini-3.7-flash",
+      "output_tokens_including_thoughts": 1046,
+      "prompt_sha256": "3b9c82e94d93d72e43f48874255101f5eddc8cab676bd64a7f60013e4ada8e15",
+      "provider": "google",
+      "request_id": null,
+      "reserved_cost_usd": 0.015431625,
+      "status": "complete"
+    },
+    {
+      "estimated_cost_usd": 0.01163175,
+      "input_tokens": 169,
+      "model": "gemini-3.7-flash",
+      "output_tokens_including_thoughts": 3068,
+      "prompt_sha256": "4530b584d431fae5dc35496d239ba3f3bb7bdf13a6e5c286c20d44db65b5f865",
+      "provider": "google",
+      "request_id": null,
+      "reserved_cost_usd": 0.0154824375,
+      "status": "complete"
+    },
+    {
+      "estimated_cost_usd": 0.009957,
+      "input_tokens": 86,
+      "model": "gemini-3.7-flash",
+      "output_tokens_including_thoughts": 2638,
+      "prompt_sha256": "5df759e2be3d21dea7eba78b461c01cbe10ca2b5206ed638b04470b4719abda7",
+      "provider": "google",
+      "request_id": null,
+      "reserved_cost_usd": 0.0154335,
+      "status": "complete"
+    },
+    {
+      "estimated_cost_usd": 0.0123645,
+      "input_tokens": 86,
+      "model": "gemini-3.7-flash",
+      "output_tokens_including_thoughts": 3280,
+      "prompt_sha256": "5df759e2be3d21dea7eba78b461c01cbe10ca2b5206ed638b04470b4719abda7",
+      "provider": "google",
+      "request_id": null,
+      "reserved_cost_usd": 0.0154335,
+      "status": "complete"
+    },
+    {
+      "estimated_cost_usd": 0.0045165,
+      "input_tokens": 97,
+      "model": "gemini-3.7-flash",
+      "output_tokens_including_thoughts": 1185,
+      "prompt_sha256": "121c444d92a61431ea8f36c816cb062819d57a27fb724e2f88ef8282894985b4",
+      "provider": "google",
+      "request_id": null,
+      "reserved_cost_usd": 0.0154550625,
+      "status": "complete"
+    },
+    {
+      "estimated_cost_usd": 0.012564,
+      "input_tokens": 107,
+      "model": "gemini-3.7-flash",
+      "output_tokens_including_thoughts": 3329,
+      "prompt_sha256": "fc44e0bfd6518ceeb64ae24091fc86354356d11d186f7379ef4463df3bb0d7a3",
+      "provider": "google",
+      "request_id": null,
+      "reserved_cost_usd": 0.0154569375,
+      "status": "complete"
+    },
+    {
+      "estimated_cost_usd": 0.0051465,
+      "input_tokens": 97,
+      "model": "gemini-3.7-flash",
+      "output_tokens_including_thoughts": 1353,
+      "prompt_sha256": "121c444d92a61431ea8f36c816cb062819d57a27fb724e2f88ef8282894985b4",
+      "provider": "google",
+      "request_id": null,
+      "reserved_cost_usd": 0.0154550625,
+      "status": "complete"
+    },
+    {
+      "estimated_cost_usd": 0.01242825,
+      "input_tokens": 166,
+      "model": "gemini-3.7-flash",
+      "output_tokens_including_thoughts": 3281,
+      "prompt_sha256": "e6a37b7c1362521b5128ee8dde36236e303090e5f96704326b7b5dce96e8353e",
+      "provider": "google",
+      "request_id": null,
+      "reserved_cost_usd": 0.015481875,
+      "status": "complete"
+    },
+    {
+      "estimated_cost_usd": 0.0151365,
+      "input_tokens": 107,
+      "model": "gemini-3.7-flash",
+      "output_tokens_including_thoughts": 4015,
+      "prompt_sha256": "fc44e0bfd6518ceeb64ae24091fc86354356d11d186f7379ef4463df3bb0d7a3",
+      "provider": "google",
+      "request_id": null,
+      "reserved_cost_usd": 0.0154569375,
+      "status": "complete"
+    },
+    {
+      "estimated_cost_usd": 0.0029295,
+      "input_tokens": 76,
+      "model": "gemini-3.7-flash",
+      "output_tokens_including_thoughts": 766,
+      "prompt_sha256": "3b9c82e94d93d72e43f48874255101f5eddc8cab676bd64a7f60013e4ada8e15",
+      "provider": "google",
+      "request_id": null,
+      "reserved_cost_usd": 0.015431625,
+      "status": "complete"
+    },
+    {
+      "estimated_cost_usd": 0.007152,
+      "input_tokens": 156,
+      "model": "gemini-3.7-flash",
+      "output_tokens_including_thoughts": 1876,
+      "prompt_sha256": "0858366c4f49f961273333661943621ac8f95b024cc16c330c546c42c540ffd8",
+      "provider": "google",
+      "request_id": null,
+      "reserved_cost_usd": 0.01548,
+      "status": "complete"
+    },
+    {
+      "estimated_cost_usd": 0.00556575,
+      "input_tokens": 156,
+      "model": "gemini-3.7-flash",
+      "output_tokens_including_thoughts": 1453,
+      "prompt_sha256": "3a195491fe61dd1c828eb15cb16f85ae80c2cc65efe14de06317afa8c1b2b5ff",
+      "provider": "google",
+      "request_id": null,
+      "reserved_cost_usd": 0.01548,
+      "status": "complete"
+    }
+  ],
+  "estimated_cost_usd": 0.10337175,
+  "schema_version": "api-budget-ledger/v0.1"
+}

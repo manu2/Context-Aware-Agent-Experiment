@@ -1,0 +1,38 @@
+import numpy as np
+
+
+def main():
+    vectors = np.load("vectors.npy")
+    # Cast to float64 to avoid precision loss and catastrophic cancellation
+    X = vectors.astype(np.float64)
+    del vectors
+
+    N = X.shape[0]
+    sq_norms = np.sum(X**2, axis=1)
+
+    chunk_size = 1000
+    total = 0.0
+
+    for start in range(0, N, chunk_size):
+        end = min(start + chunk_size, N)
+        X_chunk = X[start:end]
+
+        # Compute squared distances in-place: ||u - v||^2 = ||u||^2 + ||v||^2 - 2<u, v>
+        dist_sq = np.dot(X_chunk, X.T)
+        dist_sq *= -2.0
+        dist_sq += sq_norms[start:end, None]
+        dist_sq += sq_norms[None, :]
+
+        # Guarantee exact 0 on diagonal
+        for r in range(end - start):
+            dist_sq[r, start + r] = 0.0
+
+        np.maximum(dist_sq, 0.0, out=dist_sq)
+        dists = np.sqrt(dist_sq, out=dist_sq)
+        total += float(np.sum(dists, dtype=np.float64))
+
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()

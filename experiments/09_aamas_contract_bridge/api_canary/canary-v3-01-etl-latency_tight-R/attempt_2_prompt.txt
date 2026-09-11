@@ -1,0 +1,11 @@
+Write a complete Python program. The current directory contains transactions.csv with columns account_id, category, and amount_cents. CPython 3.11.2, NumPy 2.0.2, Pandas 2.2.3, and the Python standard library are available. Compute the exact sum of amount_cents for each category and print exactly TOTAL:<JSON object>, with category keys sorted and no extra output. Do not modify the input file. Do not invoke external programs. The program has no network access.
+
+Return only one complete Python program.
+
+AUTHENTIC FIRST EXECUTION OBSERVATION
+- Exit code: 124
+- Timed out: true
+- Kernel OOM kill observed: false
+- Stdout (tail): ''
+- Stderr (tail): ''
+Revise the implementation using this execution evidence. Return only one complete Python program.

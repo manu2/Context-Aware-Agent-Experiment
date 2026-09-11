@@ -1,0 +1,40 @@
+import numpy as np
+
+
+def main():
+    # Load vectors (8000 x 1024, float32)
+    vectors = np.load("vectors.npy")
+    n_rows = vectors.shape[0]
+
+    # Upcast to float64 to ensure numerical precision and avoid catastrophic cancellation
+    X = vectors.astype(np.float64)
+    sq_norms = np.sum(X * X, axis=1)
+
+    # Process in row chunks to balance memory use and execution speed (leveraging fast BLAS GEMM)
+    chunk_size = 1000
+    total_distance = 0.0
+
+    for i in range(0, n_rows, chunk_size):
+        i_end = min(i + chunk_size, n_rows)
+
+        # Compute dot products between chunk and all vectors: shape (chunk_size, n_rows)
+        dots = X[i:i_end] @ X.T
+
+        # ||u - v||^2 = ||u||^2 + ||v||^2 - 2 * <u, v>
+        d2 = sq_norms[i:i_end, None] + sq_norms[None, :] - 2.0 * dots
+
+        # Clamp any slight negative values due to floating-point roundoff
+        np.maximum(d2, 0.0, out=d2)
+
+        # Guarantee zero diagonal
+        diag_rows = np.arange(i_end - i)
+        diag_cols = np.arange(i, i_end)
+        d2[diag_rows, diag_cols] = 0.0
+
+        total_distance += np.sum(np.sqrt(d2))
+
+    print(f"TOTAL:{total_distance}")
+
+
+if __name__ == "__main__":
+    main()

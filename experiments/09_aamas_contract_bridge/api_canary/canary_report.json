@@ -1,0 +1,181 @@
+{
+  "attempted_this_invocation": [
+    {
+      "status": "already_archived",
+      "trajectory_id": "canary-01-etl-latency_tight-R"
+    },
+    {
+      "status": "already_archived",
+      "trajectory_id": "canary-02-numerical-latency_tight-P"
+    },
+    {
+      "status": "already_archived",
+      "trajectory_id": "canary-03-numerical-latency_tight-R"
+    },
+    {
+      "status": "already_archived",
+      "trajectory_id": "canary-04-numerical-memory_tight-R"
+    },
+    {
+      "status": "already_archived",
+      "trajectory_id": "canary-05-etl-latency_tight-G"
+    },
+    {
+      "status": "already_archived",
+      "trajectory_id": "canary-06-numerical-memory_tight-G"
+    },
+    {
+      "status": "already_archived",
+      "trajectory_id": "canary-07-etl-memory_tight-G"
+    },
+    {
+      "status": "already_archived",
+      "trajectory_id": "canary-08-numerical-memory_tight-P"
+    },
+    {
+      "status": "already_archived",
+      "trajectory_id": "canary-09-numerical-latency_tight-G"
+    },
+    {
+      "status": "already_archived",
+      "trajectory_id": "canary-10-etl-memory_tight-R"
+    },
+    {
+      "status": "already_archived",
+      "trajectory_id": "canary-11-etl-latency_tight-P"
+    },
+    {
+      "status": "already_archived",
+      "trajectory_id": "canary-12-etl-memory_tight-P"
+    }
+  ],
+  "complete_count": 0,
+  "development_only": true,
+  "final_suitable": 0,
+  "first_pass_suitable": 0,
+  "schema_version": "aamas-canary-report/v0.1",
+  "summaries": [
+    {
+      "attempts": [],
+      "condition": "R",
+      "end_to_end_time_seconds": 8.483709209,
+      "error": "remote worker transport failed: python3: can't open file '/tmp/aether_execution_worker.py': [Errno 2] No such file or directory",
+      "error_type": "RuntimeError",
+      "schema_version": "trajectory-summary/v0.1",
+      "status": "failed",
+      "trajectory_id": "canary-01-etl-latency_tight-R"
+    },
+    {
+      "attempts": [],
+      "condition": "P",
+      "end_to_end_time_seconds": 15.429395458,
+      "error": "remote worker transport failed: python3: can't open file '/tmp/aether_execution_worker.py': [Errno 2] No such file or directory",
+      "error_type": "RuntimeError",
+      "schema_version": "trajectory-summary/v0.1",
+      "status": "failed",
+      "trajectory_id": "canary-02-numerical-latency_tight-P"
+    },
+    {
+      "attempts": [],
+      "condition": "R",
+      "end_to_end_time_seconds": 14.511012584,
+      "error": "remote worker transport failed: python3: can't open file '/tmp/aether_execution_worker.py': [Errno 2] No such file or directory",
+      "error_type": "RuntimeError",
+      "schema_version": "trajectory-summary/v0.1",
+      "status": "failed",
+      "trajectory_id": "canary-03-numerical-latency_tight-R"
+    },
+    {
+      "attempts": [],
+      "condition": "R",
+      "end_to_end_time_seconds": 16.137459167000003,
+      "error": "remote worker transport failed: python3: can't open file '/tmp/aether_execution_worker.py': [Errno 2] No such file or directory",
+      "error_type": "RuntimeError",
+      "schema_version": "trajectory-summary/v0.1",
+      "status": "failed",
+      "trajectory_id": "canary-04-numerical-memory_tight-R"
+    },
+    {
+      "attempts": [],
+      "condition": "G",
+      "end_to_end_time_seconds": 8.195330292000001,
+      "error": "remote worker transport failed: python3: can't open file '/tmp/aether_execution_worker.py': [Errno 2] No such file or directory",
+      "error_type": "RuntimeError",
+      "schema_version": "trajectory-summary/v0.1",
+      "status": "failed",
+      "trajectory_id": "canary-05-etl-latency_tight-G"
+    },
+    {
+      "attempts": [],
+      "condition": "G",
+      "end_to_end_time_seconds": 16.99333,
+      "error": "remote worker transport failed: python3: can't open file '/tmp/aether_execution_worker.py': [Errno 2] No such file or directory",
+      "error_type": "RuntimeError",
+      "schema_version": "trajectory-summary/v0.1",
+      "status": "failed",
+      "trajectory_id": "canary-06-numerical-memory_tight-G"
+    },
+    {
+      "attempts": [],
+      "condition": "G",
+      "end_to_end_time_seconds": 8.092180499999998,
+      "error": "remote worker transport failed: python3: can't open file '/tmp/aether_execution_worker.py': [Errno 2] No such file or directory",
+      "error_type": "RuntimeError",
+      "schema_version": "trajectory-summary/v0.1",
+      "status": "failed",
+      "trajectory_id": "canary-07-etl-memory_tight-G"
+    },
+    {
+      "attempts": [],
+      "condition": "P",
+      "end_to_end_time_seconds": 14.14805274999999,
+      "error": "remote worker transport failed: python3: can't open file '/tmp/aether_execution_worker.py': [Errno 2] No such file or directory",
+      "error_type": "RuntimeError",
+      "schema_version": "trajectory-summary/v0.1",
+      "status": "failed",
+      "trajectory_id": "canary-08-numerical-memory_tight-P"
+    },
+    {
+      "attempts": [],
+      "condition": "G",
+      "end_to_end_time_seconds": 17.719834125000006,
+      "error": "remote worker transport failed: python3: can't open file '/tmp/aether_execution_worker.py': [Errno 2] No such file or directory",
+      "error_type": "RuntimeError",
+      "schema_version": "trajectory-summary/v0.1",
+      "status": "failed",
+      "trajectory_id": "canary-09-numerical-latency_tight-G"
+    },
+    {
+      "attempts": [],
+      "condition": "R",
+      "end_to_end_time_seconds": 8.00009991600001,
+      "error": "remote worker transport failed: python3: can't open file '/tmp/aether_execution_worker.py': [Errno 2] No such file or directory",
+      "error_type": "RuntimeError",
+      "schema_version": "trajectory-summary/v0.1",
+      "status": "failed",
+      "trajectory_id": "canary-10-etl-memory_tight-R"
+    },
+    {
+      "attempts": [],
+      "condition": "P",
+      "end_to_end_time_seconds": 12.17365604199999,
+      "error": "remote worker transport failed: python3: can't open file '/tmp/aether_execution_worker.py': [Errno 2] No such file or directory",
+      "error_type": "RuntimeError",
+      "schema_version": "trajectory-summary/v0.1",
+      "status": "failed",
+      "trajectory_id": "canary-11-etl-latency_tight-P"
+    },
+    {
+      "attempts": [],
+      "condition": "P",
+      "end_to_end_time_seconds": 10.658379999999994,
+      "error": "remote worker transport failed: python3: can't open file '/tmp/aether_execution_worker.py': [Errno 2] No such file or directory",
+      "error_type": "RuntimeError",
+      "schema_version": "trajectory-summary/v0.1",
+      "status": "failed",
+      "trajectory_id": "canary-12-etl-memory_tight-P"
+    }
+  ],
+  "trajectory_count": 12,
+  "updated_at_utc": "2026-09-11T14:25:34.514080+00:00"
+}

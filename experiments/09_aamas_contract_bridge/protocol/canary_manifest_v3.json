@@ -1,0 +1,40 @@
+{
+  "schema_version": "aamas-canary/v0.3",
+  "status": "frozen_before_calls",
+  "run_id_prefix": "canary-v3",
+  "budget_ledger_file": "budget_ledger_v3.json",
+  "amendment": "V3 is the first canary for the hardened non-root, network-isolated worker and the task texts that explicitly disclose the common software availability in every condition. It also adopts newly GA Gemini 3.8 Flash before the confirmatory model freeze. V1 remains excluded for infrastructure failure; V2 remains development evidence for the earlier runtime and Gemini 3.7 configuration.",
+  "development_only": true,
+  "model": {
+    "provider": "google",
+    "id": "gemini-3.8-flash",
+    "thinking_level": "medium",
+    "temperature": null,
+    "top_p": null,
+    "max_output_tokens": 4096,
+    "pricing_usd_per_million_tokens": {
+      "input": 0.75,
+      "output_including_thinking": 3.75
+    },
+    "pricing_verified_at_utc": "2026-09-11T14:42:00Z",
+    "documentation": "https://ai.google.dev/gemini-api/docs/latest-model"
+  },
+  "maximum_attempts_per_trajectory": 2,
+  "maximum_provider_calls": 24,
+  "canary_budget_usd": 2.0,
+  "order_seed": 20260914,
+  "execution_order": [
+    ["etl", "latency_tight", "R"],
+    ["numerical", "latency_tight", "P"],
+    ["numerical", "latency_tight", "R"],
+    ["numerical", "memory_tight", "R"],
+    ["etl", "latency_tight", "G"],
+    ["numerical", "memory_tight", "G"],
+    ["etl", "memory_tight", "G"],
+    ["numerical", "memory_tight", "P"],
+    ["numerical", "latency_tight", "G"],
+    ["etl", "memory_tight", "R"],
+    ["etl", "latency_tight", "P"],
+    ["etl", "memory_tight", "P"]
+  ]
+}

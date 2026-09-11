@@ -1,0 +1,28 @@
+import csv
+import json
+from collections import defaultdict
+
+
+def main():
+    category_totals = defaultdict(int)
+
+    with open("transactions.csv", mode="r", encoding="utf-8", newline="") as f:
+        reader = csv.reader(f)
+        try:
+            header = next(reader)
+        except StopIteration:
+            print("TOTAL:{}")
+            return
+
+        cat_idx = header.index("category")
+        amt_idx = header.index("amount_cents")
+
+        for row in reader:
+            if row:
+                category_totals[row[cat_idx]] += int(row[amt_idx])
+
+    print(f"TOTAL:{json.dumps(category_totals, sort_keys=True)}")
+
+
+if __name__ == "__main__":
+    main()

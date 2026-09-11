@@ -1,0 +1,32 @@
+Answering the user's request, here is the complete Python program:
+
+```python
+import csv
+import json
+
+
+def main():
+    totals = {}
+    with open("transactions.csv", mode="r", encoding="utf-8", newline="") as f:
+        reader = csv.reader(f)
+        header = next(reader)
+        acc_idx = header.index("account_id")
+        cat_idx = header.index("category")
+        amt_idx = header.index("amount_cents")
+
+        for row in reader:
+            if not row:
+                continue
+            acc_id = int(row[acc_idx])
+            if acc_id % 11 < 7:
+                category = row[cat_idx]
+                amount = int(row[amt_idx])
+                weighted_amount = amount * ((acc_id % 97) + 1)
+                totals[category] = totals.get(category, 0) + weighted_amount
+
+    print("TOTAL:" + json.dumps(totals, sort_keys=True))
+
+
+if __name__ == "__main__":
+    main()
+```

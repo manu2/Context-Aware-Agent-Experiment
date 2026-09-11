@@ -1,0 +1,30 @@
+import numpy as np
+
+
+def main():
+    vectors = np.load("vectors.npy")
+    X = vectors.astype(np.float64)
+
+    # Compute Gram matrix G = X @ X.T
+    G = X @ X.T
+    diag = np.diag(G).copy()
+
+    # Compute pairwise squared Euclidean distances in-place:
+    # ||x_i - x_j||^2 = ||x_i||^2 + ||x_j||^2 - 2 * <x_i, x_j>
+    G *= -2.0
+    G += diag[:, None]
+    G += diag[None, :]
+
+    # Numerical stability safeguards
+    np.maximum(G, 0.0, out=G)
+    np.fill_diagonal(G, 0.0)
+
+    # Compute Euclidean distances and sum
+    np.sqrt(G, out=G)
+    total = np.sum(G, dtype=np.float64)
+
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()

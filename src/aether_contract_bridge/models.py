@@ -71,6 +71,7 @@ class GenerationRecord:
     raw_response: str
     extracted_program: str
     request_metadata: dict[str, Any] = field(default_factory=dict)
+    raw_provider_payload: str | None = None
 
 
 @dataclass(frozen=True)
@@ -85,6 +86,8 @@ class ExecutionObservation:
     program_time_seconds: float
     worker_time_seconds: float
     memory_peak_bytes: int | None
+    stdout_truncated: bool = False
+    stderr_truncated: bool = False
     memory_events_before: dict[str, int] = field(default_factory=dict)
     memory_events_after: dict[str, int] = field(default_factory=dict)
     cpu_stat: dict[str, int] = field(default_factory=dict)

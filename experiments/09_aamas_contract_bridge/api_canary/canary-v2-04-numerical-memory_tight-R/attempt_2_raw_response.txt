@@ -1,0 +1,15 @@
+```python
+import numpy as np
+from scipy.spatial.distance import pdist
+
+def main():
+    vectors = np.load('vectors.npy')
+    # pdist computes Euclidean distances for all unique unordered pairs (i < j)
+    # Using float64 accumulation to preserve numerical precision
+    condensed_dists = pdist(vectors, metric='euclidean')
+    total = float(np.sum(condensed_dists, dtype=np.float64) * 2.0)
+    print(f"TOTAL:{total}")
+
+if __name__ == '__main__':
+    main()
+```

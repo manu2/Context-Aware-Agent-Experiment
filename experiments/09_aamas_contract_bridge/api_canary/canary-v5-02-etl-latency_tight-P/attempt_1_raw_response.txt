@@ -1,0 +1,38 @@
+An optimal solution in Python using Pandas for fast, vectorized filtering and grouping within the 1.4-second and 512 MiB limits.
+
+```python
+import json
+import pandas as pd
+
+
+def main():
+    df = pd.read_csv(
+        "transactions.csv", usecols=["account_id", "category", "amount_cents"]
+    )
+
+    # Filter rows whose account_id modulo 11 is less than 7
+    df = df[(df["account_id"] % 11) < 7]
+
+    if df.empty:
+        print("TOTAL:{}")
+        return
+
+    weights = (df["account_id"] % 97) + 1
+
+    # Guard against int64 overflow by switching to arbitrary-precision integers if necessary
+    if df["amount_cents"].abs().max() > 10**16:
+        df["weighted"] = df["amount_cents"].astype(object) * weights.astype(
+            object
+        )
+    else:
+        df["weighted"] = df["amount_cents"] * weights
+
+    grouped = df.groupby("category")["weighted"].sum()
+    result = {str(cat): int(val) for cat, val in grouped.items()}
+
+    print(f"TOTAL:{json.dumps(result, sort_keys=True)}")
+
+
+if __name__ == "__main__":
+    main()
+```

@@ -1,0 +1,27 @@
+import numpy as np
+
+
+def main():
+    vectors = np.load("vectors.npy")
+    X = vectors.astype(np.float64)
+
+    # Center the vectors to minimize norms and numerical cancellation
+    X -= np.mean(X, axis=0, keepdims=True)
+
+    # Gram matrix
+    G = X @ X.T
+    sq_norms = np.diag(G)
+
+    # Pairwise squared Euclidean distances: ||u - v||^2 = ||u||^2 + ||v||^2 - 2<u, v>
+    D2 = sq_norms[:, None] + sq_norms[None, :] - 2.0 * G
+    np.maximum(D2, 0.0, out=D2)
+    np.fill_diagonal(D2, 0.0)
+
+    D = np.sqrt(D2)
+    total = np.sum(D)
+
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,10 @@
+An optimized implementation designed for the 1-core, 3-second execution envelope. It sets BLAS threading to 1 to avoid thread-contention overhead under CFS quota, computes the Gram matrix via single-precision matrix multiplication, and resolves the pairwise distances in-place to stay well within the 1024 MiB memory budget.
+
+```python
+import os
+
+# Limit BLAS threads to 1 before importing numpy to prevent CPU quota contention
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"]

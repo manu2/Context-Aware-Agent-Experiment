@@ -1,0 +1,22 @@
+import numpy as np
+
+def main():
+    vectors = np.load("vectors.npy")
+    X = vectors.astype(np.float64)
+    
+    sq_norms = np.sum(X**2, axis=1)
+    
+    D2 = X @ X.T
+    D2 *= -2.0
+    D2 += sq_norms[:, None]
+    D2 += sq_norms[None, :]
+    
+    np.fill_diagonal(D2, 0.0)
+    np.maximum(D2, 0.0, out=D2)
+    np.sqrt(D2, out=D2)
+    
+    total = float(np.sum(D2))
+    print(f"TOTAL:{total}")
+
+if __name__ == "__main__":
+    main()

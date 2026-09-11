@@ -1,0 +1,33 @@
+{
+  "schema_version": "aamas-canary/v0.2",
+  "status": "v2_replacement_frozen_before_calls",
+  "run_id_prefix": "canary-v2",
+  "budget_ledger_file": "budget_ledger_v2.json",
+  "amendment": "The v1 canary made 12 successful provider generations ($0.10337175 estimated) but no generated program launched because VM restart had cleared the /tmp worker path. All v1 attempts are retained and excluded. V2 moves the worker to persistent storage, deploys it as a preflight, uses new immutable IDs, and repeats the same frozen cells.",
+  "development_only": true,
+  "model": {
+    "provider": "google",
+    "id": "gemini-3.7-flash",
+    "temperature": 0.1,
+    "top_p": 0.95,
+    "max_output_tokens": 4096
+  },
+  "maximum_attempts_per_trajectory": 2,
+  "maximum_provider_calls": 24,
+  "canary_budget_usd": 2.0,
+  "order_seed": 20260914,
+  "execution_order": [
+    ["etl", "latency_tight", "R"],
+    ["numerical", "latency_tight", "P"],
+    ["numerical", "latency_tight", "R"],
+    ["numerical", "memory_tight", "R"],
+    ["etl", "latency_tight", "G"],
+    ["numerical", "memory_tight", "G"],
+    ["etl", "memory_tight", "G"],
+    ["numerical", "memory_tight", "P"],
+    ["numerical", "latency_tight", "G"],
+    ["etl", "memory_tight", "R"],
+    ["etl", "latency_tight", "P"],
+    ["etl", "memory_tight", "P"]
+  ]
+}

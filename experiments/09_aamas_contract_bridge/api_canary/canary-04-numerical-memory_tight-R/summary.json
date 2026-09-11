@@ -1,0 +1,10 @@
+{
+  "attempts": [],
+  "condition": "R",
+  "end_to_end_time_seconds": 16.137459167000003,
+  "error": "remote worker transport failed: python3: can't open file '/tmp/aether_execution_worker.py': [Errno 2] No such file or directory",
+  "error_type": "RuntimeError",
+  "schema_version": "trajectory-summary/v0.1",
+  "status": "failed",
+  "trajectory_id": "canary-04-numerical-memory_tight-R"
+}

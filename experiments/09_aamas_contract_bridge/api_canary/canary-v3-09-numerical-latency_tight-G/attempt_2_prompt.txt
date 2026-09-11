@@ -1,0 +1,13 @@
+Write a complete Python program. The current directory contains vectors.npy, an 8000 by 1024 float32 NumPy array. CPython 3.11.2, NumPy 2.0.2, Pandas 2.2.3, and the Python standard library are available. Compute the sum of Euclidean distances over every ordered pair of rows, including the zero diagonal, and print exactly TOTAL:<decimal value>. Do not approximate or sample. Do not modify the input file. Do not invoke external programs. The program has no network access.
+
+Generate an efficient implementation. Balance memory use and execution time, and avoid unnecessary materialization or work.
+
+Return only one complete Python program.
+
+AUTHENTIC FIRST EXECUTION OBSERVATION
+- Exit code: 1
+- Timed out: false
+- Kernel OOM kill observed: false
+- Stdout (tail): ''
+- Stderr (tail): '  File "/tmp/aether-run-y7sgv_dd/program.py", line 1\n    have distance $\\approx 0.01$ and norm $\\approx 1$,\n         ^^^^^^^^\nSyntaxError: invalid syntax\n'
+Revise the implementation using this execution evidence. Return only one complete Python program.

@@ -34,6 +34,7 @@ def main() -> int:
     parser.add_argument("--user", default=os.environ.get("AETHER_WORKER_USER", "manuagrawal"))
     parser.add_argument("--identity-file", type=Path,
                         default=Path.home() / ".ssh" / "google_compute_engine")
+    parser.add_argument("--output-name", default="e0a_positive_controls.json")
     args = parser.parse_args()
     backend = SSHLinuxExecutionBackend(
         host=args.host, user=args.user, identity_file=args.identity_file,
@@ -59,7 +60,9 @@ def main() -> int:
         "timeout_control_expected": "timeout under 1 second",
         "timeout_control": timeout.to_dict(),
     }
-    output = ROOT / "experiments" / "09_aamas_contract_bridge" / "calibration" / "e0a_positive_controls.json"
+    if Path(args.output_name).name != args.output_name or not args.output_name.endswith(".json"):
+        parser.error("--output-name must be a JSON filename without directories")
+    output = ROOT / "experiments" / "09_aamas_contract_bridge" / "calibration" / args.output_name
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps({"output": str(output), "passed": passed}, indent=2))

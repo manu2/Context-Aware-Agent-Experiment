@@ -1,0 +1,20 @@
+An efficient and complete Python program to solve the task:
+
+```python
+import numpy as np
+
+
+def main():
+    # Load input vectors and cast to float64 to ensure high precision
+    vectors = np.load("vectors.npy")
+    X = np.asarray(vectors, dtype=np.float64)
+
+    # Precompute squared L2 norms for each vector
+    sq_norms = np.sum(X**2, axis=1)
+
+    total_distance = 0.0
+    batch_size = 1000
+
+    # Process in batches to balance execution speed (via BLAS GEMM) and memory usage
+    for i in range(0, len(X), batch_size):
+        X_batch = X[i : i

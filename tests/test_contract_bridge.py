@@ -3,6 +3,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 import unittest
+import tempfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
@@ -11,6 +12,7 @@ from aether_contract_bridge.agent_loop import AgentLoop
 from aether_contract_bridge.generation import ImportedResponseBackend, extract_python
 from aether_contract_bridge.models import RawSubstrateEvidence
 from aether_contract_bridge.rendering import ContractRenderer
+from aether_contract_bridge.provider import BudgetLedger, GeminiDirectAPIBackend
 
 
 def evidence() -> RawSubstrateEvidence:
@@ -54,6 +56,37 @@ class ContractBridgeTests(unittest.TestCase):
         self.assertFalse(loop.decide(1, False).stop)
         self.assertTrue(loop.decide(1, True).stop)
         self.assertTrue(loop.decide(2, False).stop)
+
+    def test_budget_ledger_reserves_and_settles(self):
+        with tempfile.TemporaryDirectory() as directory:
+            ledger = BudgetLedger(Path(directory) / "budget.json", hard_cap_usd=1.0, max_calls=1)
+            index = ledger.begin(0.5, {"model": "fixture"})
+            ledger.settle(index, {"model": "fixture", "estimated_cost_usd": 0.1})
+            payload = __import__("json").loads((Path(directory) / "budget.json").read_text())
+            self.assertEqual(payload["calls"], 1)
+            self.assertAlmostEqual(payload["estimated_cost_usd"], 0.1)
+            with self.assertRaises(RuntimeError):
+                ledger.begin(0.1, {"model": "fixture"})
+
+    def test_gemini_38_uses_supported_generation_config(self):
+        with tempfile.TemporaryDirectory() as directory:
+            backend = GeminiDirectAPIBackend(
+                api_key="fixture",
+                ledger=BudgetLedger(Path(directory) / "budget.json", 1.0, 1),
+                model="gemini-3.8-flash",
+                thinking_level="medium",
+            )
+            self.assertEqual(
+                backend.generation_config(),
+                {"maxOutputTokens": 4096, "thinkingConfig": {"thinkingLevel": "medium"}},
+            )
+            with self.assertRaises(ValueError):
+                GeminiDirectAPIBackend(
+                    api_key="fixture",
+                    ledger=backend.ledger,
+                    model="gemini-3.8-flash",
+                    temperature=0.1,
+                )
 
 
 if __name__ == "__main__":

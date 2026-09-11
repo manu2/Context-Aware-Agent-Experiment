@@ -1,0 +1,10 @@
+..."`?
+Wait, if `total` is around $8000 \times 8000 \times 45 \approx 2.88 \times 10^9$.
+In Python:
+```python
+x = 2880000000.123456
+str(x) -> '2880000000.123456'
+```
+Wait, does `str(float)` in Python 3 use David Gay's algorithm (shortest representation that rounds to the float)?
+Yes! In Python 3.11, `str(float)` produces the exact shortest representation that round-trips.
+Wait, what if

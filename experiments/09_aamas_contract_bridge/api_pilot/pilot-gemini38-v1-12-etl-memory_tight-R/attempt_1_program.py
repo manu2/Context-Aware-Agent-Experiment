@@ -1,0 +1,34 @@
+import csv
+import json
+
+
+def main():
+    category_sums = {}
+
+    with open("transactions.csv", mode="r", encoding="utf-8", newline="") as f:
+        reader = csv.reader(f)
+        header = next(reader)
+        col_indices = {col.strip(): idx for idx, col in enumerate(header)}
+
+        acc_col = col_indices["account_id"]
+        cat_col = col_indices["category"]
+        amt_col = col_indices["amount_cents"]
+
+        for row in reader:
+            if not row:
+                continue
+            account_id = int(row[acc_col])
+            if account_id % 11 < 7:
+                category = row[cat_col]
+                amount_cents = int(row[amt_col])
+                multiplier = (account_id % 97) + 1
+                category_sums[category] = (
+                    category_sums.get(category, 0) + amount_cents * multiplier
+                )
+
+    output = json.dumps(category_sums, sort_keys=True)
+    print(f"TOTAL:{output}")
+
+
+if __name__ == "__main__":
+    main()

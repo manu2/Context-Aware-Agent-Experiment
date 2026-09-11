@@ -1,0 +1,1523 @@
+{
+  "cells": {
+    "etl_latency_tight": {
+      "expected": "etl_pandas",
+      "memory_mib": 512,
+      "opposed": "etl_streaming",
+      "wall_seconds": 3
+    },
+    "etl_memory_tight": {
+      "expected": "etl_streaming",
+      "memory_mib": 128,
+      "opposed": "etl_pandas",
+      "wall_seconds": 8
+    },
+    "numerical_latency_tight": {
+      "expected": "numerical_eager",
+      "memory_mib": 1024,
+      "opposed": "numerical_bounded",
+      "wall_seconds": 4.5
+    },
+    "numerical_memory_tight": {
+      "expected": "numerical_bounded",
+      "memory_mib": 128,
+      "opposed": "numerical_eager",
+      "wall_seconds": 8
+    }
+  },
+  "checks": {
+    "etl_latency_tight": {
+      "expected_passes": 3,
+      "n_each": 3,
+      "opposed_passes": 0,
+      "passed": true
+    },
+    "etl_memory_tight": {
+      "expected_passes": 3,
+      "n_each": 3,
+      "opposed_passes": 0,
+      "passed": true
+    },
+    "numerical_latency_tight": {
+      "expected_passes": 3,
+      "n_each": 3,
+      "opposed_passes": 3,
+      "passed": false
+    },
+    "numerical_memory_tight": {
+      "expected_passes": 3,
+      "n_each": 3,
+      "opposed_passes": 0,
+      "passed": true
+    }
+  },
+  "created_at_utc": "2026-09-11T14:47:20.373265+00:00",
+  "passed": false,
+  "records": [
+    {
+      "cell": "numerical_memory_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:d62bc44731c7e7696006dd25d392471a4b761779fb2996004fbc972e2f2ec4a6",
+        "memory_max_bytes": 134217728,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-numerical_bounded",
+        "wall_time_limit_seconds": 8
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 38,
+          "nr_throttled": 37,
+          "system_usec": 35955,
+          "throttled_usec": 3639165,
+          "usage_usec": 3761397,
+          "user_usec": 3725441
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 47800320,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.785861326000031,
+        "psi_cpu": "some avg10=8.84 avg60=2.61 avg300=3.04 total=28091825\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=130751\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=114182\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:835795676.797137\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 3.847013665000077
+      },
+      "program": "numerical_bounded",
+      "repetition": 1,
+      "role": "expected"
+    },
+    {
+      "cell": "numerical_memory_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:d62bc44731c7e7696006dd25d392471a4b761779fb2996004fbc972e2f2ec4a6",
+        "memory_max_bytes": 134217728,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-numerical_bounded",
+        "wall_time_limit_seconds": 8
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 37,
+          "nr_throttled": 36,
+          "system_usec": 44000,
+          "throttled_usec": 3589258,
+          "usage_usec": 3738110,
+          "user_usec": 3694110
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 47423488,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.7376365739999073,
+        "psi_cpu": "some avg10=19.43 avg60=5.64 avg300=3.68 total=29900683\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=130751\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=114182\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:835795676.797137\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 3.803965206000157
+      },
+      "program": "numerical_bounded",
+      "repetition": 2,
+      "role": "expected"
+    },
+    {
+      "cell": "numerical_memory_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:d62bc44731c7e7696006dd25d392471a4b761779fb2996004fbc972e2f2ec4a6",
+        "memory_max_bytes": 134217728,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-numerical_bounded",
+        "wall_time_limit_seconds": 8
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 37,
+          "nr_throttled": 36,
+          "system_usec": 31915,
+          "throttled_usec": 3515059,
+          "usage_usec": 3675285,
+          "user_usec": 3643370
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 47366144,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.6850550950000525,
+        "psi_cpu": "some avg10=25.49 avg60=8.42 avg300=4.33 total=31674685\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=130751\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=114182\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:835795676.797137\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 3.744640666999885
+      },
+      "program": "numerical_bounded",
+      "repetition": 3,
+      "role": "expected"
+    },
+    {
+      "cell": "numerical_memory_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:d62bc44731c7e7696006dd25d392471a4b761779fb2996004fbc972e2f2ec4a6",
+        "memory_max_bytes": 134217728,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-numerical_bounded",
+        "wall_time_limit_seconds": 8
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 6,
+          "nr_throttled": 1,
+          "system_usec": 190715,
+          "throttled_usec": 88042,
+          "usage_usec": 544839,
+          "user_usec": 354124
+        },
+        "exit_code": -9,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 45,
+          "oom": 1,
+          "oom_group_kill": 1,
+          "oom_kill": 2
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 134217728,
+        "oom_killed": true,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 0.6003561550000995,
+        "psi_cpu": "some avg10=19.08 avg60=8.24 avg300=4.34 total=31949829\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=131453\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=114699\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 0.655586570999958
+      },
+      "program": "numerical_eager",
+      "repetition": 1,
+      "role": "opposed"
+    },
+    {
+      "cell": "numerical_memory_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:d62bc44731c7e7696006dd25d392471a4b761779fb2996004fbc972e2f2ec4a6",
+        "memory_max_bytes": 134217728,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-numerical_bounded",
+        "wall_time_limit_seconds": 8
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 6,
+          "nr_throttled": 2,
+          "system_usec": 177007,
+          "throttled_usec": 90972,
+          "usage_usec": 550013,
+          "user_usec": 373005
+        },
+        "exit_code": -9,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 36,
+          "oom": 1,
+          "oom_group_kill": 1,
+          "oom_kill": 2
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 134217728,
+        "oom_killed": true,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 0.572178120999979,
+        "psi_cpu": "some avg10=14.54 avg60=8.03 avg300=4.35 total=32120322\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=131992\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=115096\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 0.6277658879998853
+      },
+      "program": "numerical_eager",
+      "repetition": 2,
+      "role": "opposed"
+    },
+    {
+      "cell": "numerical_memory_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:d62bc44731c7e7696006dd25d392471a4b761779fb2996004fbc972e2f2ec4a6",
+        "memory_max_bytes": 134217728,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-numerical_bounded",
+        "wall_time_limit_seconds": 8
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 7,
+          "nr_throttled": 3,
+          "system_usec": 228821,
+          "throttled_usec": 127441,
+          "usage_usec": 581722,
+          "user_usec": 352901
+        },
+        "exit_code": -9,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 53,
+          "oom": 1,
+          "oom_group_kill": 1,
+          "oom_kill": 2
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 134217728,
+        "oom_killed": true,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 0.6433962730000076,
+        "psi_cpu": "some avg10=11.90 avg60=7.77 avg300=4.32 total=32318423\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=132854\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=115709\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 0.6967604679998658
+      },
+      "program": "numerical_eager",
+      "repetition": 3,
+      "role": "opposed"
+    },
+    {
+      "cell": "numerical_latency_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:4c95048d2c81daa7c2a21e6ef41c07e67aff489eebce59ed719c5354c1516019",
+        "memory_max_bytes": 1073741824,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-numerical_eager",
+        "wall_time_limit_seconds": 4.5
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 20,
+          "nr_throttled": 18,
+          "system_usec": 135493,
+          "throttled_usec": 1653615,
+          "usage_usec": 1924769,
+          "user_usec": 1789275
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 830246912,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.9785483339999246,
+        "psi_cpu": "some avg10=10.16 avg60=7.76 avg300=4.39 total=33155293\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=132854\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=115709\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:835795677.642249\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 2.030796935000126
+      },
+      "program": "numerical_eager",
+      "repetition": 1,
+      "role": "expected"
+    },
+    {
+      "cell": "numerical_latency_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:4c95048d2c81daa7c2a21e6ef41c07e67aff489eebce59ed719c5354c1516019",
+        "memory_max_bytes": 1073741824,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-numerical_eager",
+        "wall_time_limit_seconds": 4.5
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 21,
+          "nr_throttled": 18,
+          "system_usec": 107696,
+          "throttled_usec": 1657523,
+          "usage_usec": 1969941,
+          "user_usec": 1862244
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 830050304,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 2.029777705000015,
+        "psi_cpu": "some avg10=14.47 avg60=8.86 avg300=4.70 total=34002132\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=132854\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=115709\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:835795677.642249\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 2.0887125990000186
+      },
+      "program": "numerical_eager",
+      "repetition": 2,
+      "role": "expected"
+    },
+    {
+      "cell": "numerical_latency_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:4c95048d2c81daa7c2a21e6ef41c07e67aff489eebce59ed719c5354c1516019",
+        "memory_max_bytes": 1073741824,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-numerical_eager",
+        "wall_time_limit_seconds": 4.5
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 20,
+          "nr_throttled": 19,
+          "system_usec": 136162,
+          "throttled_usec": 1677305,
+          "usage_usec": 1977256,
+          "user_usec": 1841094
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 830238720,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 2.0288693269999385,
+        "psi_cpu": "some avg10=16.77 avg60=9.70 avg300=4.95 total=34857130\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=132854\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=115709\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:835795677.642249\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 2.08507967200012
+      },
+      "program": "numerical_eager",
+      "repetition": 3,
+      "role": "expected"
+    },
+    {
+      "cell": "numerical_latency_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:4c95048d2c81daa7c2a21e6ef41c07e67aff489eebce59ed719c5354c1516019",
+        "memory_max_bytes": 1073741824,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-numerical_eager",
+        "wall_time_limit_seconds": 4.5
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 38,
+          "nr_throttled": 37,
+          "system_usec": 19961,
+          "throttled_usec": 3633281,
+          "usage_usec": 3706117,
+          "user_usec": 3686156
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 47685632,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.735760736999964,
+        "psi_cpu": "some avg10=20.31 avg60=10.86 avg300=5.29 total=36667590\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=132854\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=115709\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:835795676.797137\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 3.7926637279999795
+      },
+      "program": "numerical_bounded",
+      "repetition": 1,
+      "role": "opposed"
+    },
+    {
+      "cell": "numerical_latency_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:4c95048d2c81daa7c2a21e6ef41c07e67aff489eebce59ed719c5354c1516019",
+        "memory_max_bytes": 1073741824,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-numerical_eager",
+        "wall_time_limit_seconds": 4.5
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 36,
+          "nr_throttled": 35,
+          "system_usec": 32058,
+          "throttled_usec": 3492263,
+          "usage_usec": 3649505,
+          "user_usec": 3617447
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 47374336,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.6334320029998253,
+        "psi_cpu": "some avg10=21.43 avg60=12.04 avg300=5.69 total=38426022\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=132854\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=115709\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:835795676.797137\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 3.6870668859999114
+      },
+      "program": "numerical_bounded",
+      "repetition": 2,
+      "role": "opposed"
+    },
+    {
+      "cell": "numerical_latency_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:4c95048d2c81daa7c2a21e6ef41c07e67aff489eebce59ed719c5354c1516019",
+        "memory_max_bytes": 1073741824,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-numerical_eager",
+        "wall_time_limit_seconds": 4.5
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 37,
+          "nr_throttled": 36,
+          "system_usec": 27934,
+          "throttled_usec": 3506799,
+          "usage_usec": 3645950,
+          "user_usec": 3618015
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 47771648,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.634059535000006,
+        "psi_cpu": "some avg10=25.68 avg60=13.92 avg300=6.26 total=40192432\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=132854\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=115709\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:835795676.797137\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 3.6892311490000793
+      },
+      "program": "numerical_bounded",
+      "repetition": 3,
+      "role": "opposed"
+    },
+    {
+      "cell": "etl_memory_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:73b9a2bb58b7f0f4fc814d1e60196386bee4094758237848355cb0e89fe19722",
+        "memory_max_bytes": 134217728,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-etl_streaming",
+        "wall_time_limit_seconds": 8
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 36,
+          "nr_throttled": 0,
+          "system_usec": 16016,
+          "throttled_usec": 0,
+          "usage_usec": 3514443,
+          "user_usec": 3498426
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 4435968,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.584301240000059,
+        "psi_cpu": "some avg10=15.31 avg60=12.90 avg300=6.20 total=40202042\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=132854\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=115709\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\":18748500000,\"B\":18748875000,\"C\":18749250000,\"D\":18749625000,\"E\":18750000000,\"F\":18750375000,\"G\":18750750000,\"H\":18751125000}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 3.638308623000057
+      },
+      "program": "etl_streaming",
+      "repetition": 1,
+      "role": "expected"
+    },
+    {
+      "cell": "etl_memory_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:73b9a2bb58b7f0f4fc814d1e60196386bee4094758237848355cb0e89fe19722",
+        "memory_max_bytes": 134217728,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-etl_streaming",
+        "wall_time_limit_seconds": 8
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 36,
+          "nr_throttled": 0,
+          "system_usec": 8036,
+          "throttled_usec": 0,
+          "usage_usec": 3474171,
+          "user_usec": 3466134
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 4452352,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.5328605419999803,
+        "psi_cpu": "some avg10=6.88 avg60=11.29 avg300=6.03 total=40211879\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=132854\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=115709\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\":18748500000,\"B\":18748875000,\"C\":18749250000,\"D\":18749625000,\"E\":18750000000,\"F\":18750375000,\"G\":18750750000,\"H\":18751125000}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 3.5832584500001303
+      },
+      "program": "etl_streaming",
+      "repetition": 2,
+      "role": "expected"
+    },
+    {
+      "cell": "etl_memory_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:73b9a2bb58b7f0f4fc814d1e60196386bee4094758237848355cb0e89fe19722",
+        "memory_max_bytes": 134217728,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-etl_streaming",
+        "wall_time_limit_seconds": 8
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 35,
+          "nr_throttled": 0,
+          "system_usec": 15991,
+          "throttled_usec": 0,
+          "usage_usec": 3483068,
+          "user_usec": 3467076
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 4591616,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.533695378999937,
+        "psi_cpu": "some avg10=3.77 avg60=10.22 avg300=5.91 total=40225751\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=132854\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=115709\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\":18748500000,\"B\":18748875000,\"C\":18749250000,\"D\":18749625000,\"E\":18750000000,\"F\":18750375000,\"G\":18750750000,\"H\":18751125000}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 3.5885971200000313
+      },
+      "program": "etl_streaming",
+      "repetition": 3,
+      "role": "expected"
+    },
+    {
+      "cell": "etl_memory_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:73b9a2bb58b7f0f4fc814d1e60196386bee4094758237848355cb0e89fe19722",
+        "memory_max_bytes": 134217728,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-etl_streaming",
+        "wall_time_limit_seconds": 8
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 11,
+          "nr_throttled": 4,
+          "system_usec": 233021,
+          "throttled_usec": 118630,
+          "usage_usec": 1012338,
+          "user_usec": 779317
+        },
+        "exit_code": -9,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 38,
+          "oom": 1,
+          "oom_group_kill": 1,
+          "oom_kill": 2
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 134217728,
+        "oom_killed": true,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.054048309999871,
+        "psi_cpu": "some avg10=2.61 avg60=9.35 avg300=5.81 total=40426883\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=133577\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=116246\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.1077121339999394
+      },
+      "program": "etl_pandas",
+      "repetition": 1,
+      "role": "opposed"
+    },
+    {
+      "cell": "etl_memory_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:73b9a2bb58b7f0f4fc814d1e60196386bee4094758237848355cb0e89fe19722",
+        "memory_max_bytes": 134217728,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-etl_streaming",
+        "wall_time_limit_seconds": 8
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 12,
+          "nr_throttled": 8,
+          "system_usec": 191285,
+          "throttled_usec": 246132,
+          "usage_usec": 1023920,
+          "user_usec": 832634
+        },
+        "exit_code": -9,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 37,
+          "oom": 1,
+          "oom_group_kill": 1,
+          "oom_kill": 2
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 134217728,
+        "oom_killed": true,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.149891635000131,
+        "psi_cpu": "some avg10=2.64 avg60=8.93 avg300=5.77 total=40743555\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=134296\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=116771\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.207867725999904
+      },
+      "program": "etl_pandas",
+      "repetition": 2,
+      "role": "opposed"
+    },
+    {
+      "cell": "etl_memory_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:73b9a2bb58b7f0f4fc814d1e60196386bee4094758237848355cb0e89fe19722",
+        "memory_max_bytes": 134217728,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-etl_streaming",
+        "wall_time_limit_seconds": 8
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 11,
+          "nr_throttled": 3,
+          "system_usec": 249433,
+          "throttled_usec": 156111,
+          "usage_usec": 1014849,
+          "user_usec": 765416
+        },
+        "exit_code": -9,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 18,
+          "oom": 1,
+          "oom_group_kill": 1,
+          "oom_kill": 2
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 134217728,
+        "oom_killed": true,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.0355247079999117,
+        "psi_cpu": "some avg10=4.72 avg60=8.80 avg300=5.81 total=40974182\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=134651\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=117036\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.0885189569999056
+      },
+      "program": "etl_pandas",
+      "repetition": 3,
+      "role": "opposed"
+    },
+    {
+      "cell": "etl_latency_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:1a032c3784f246cec4b544069a83b80e8d27ddb6ddb7970b0f97cfd1f0354199",
+        "memory_max_bytes": 536870912,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-etl_pandas",
+        "wall_time_limit_seconds": 3
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 9,
+          "nr_throttled": 7,
+          "system_usec": 136176,
+          "throttled_usec": 112160,
+          "usage_usec": 861384,
+          "user_usec": 725208
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 284073984,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 0.9250444819999757,
+        "psi_cpu": "some avg10=3.46 avg60=8.30 avg300=5.74 total=41048723\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=134651\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=117036\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\":18748500000,\"B\":18748875000,\"C\":18749250000,\"D\":18749625000,\"E\":18750000000,\"F\":18750375000,\"G\":18750750000,\"H\":18751125000}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 0.9791076139999859
+      },
+      "program": "etl_pandas",
+      "repetition": 1,
+      "role": "expected"
+    },
+    {
+      "cell": "etl_latency_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:1a032c3784f246cec4b544069a83b80e8d27ddb6ddb7970b0f97cfd1f0354199",
+        "memory_max_bytes": 536870912,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-etl_pandas",
+        "wall_time_limit_seconds": 3
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 9,
+          "nr_throttled": 8,
+          "system_usec": 139812,
+          "throttled_usec": 100118,
+          "usage_usec": 886550,
+          "user_usec": 746737
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 284360704,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 0.9254881249999016,
+        "psi_cpu": "some avg10=2.76 avg60=7.86 avg300=5.69 total=41109836\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=134651\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=117036\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\":18748500000,\"B\":18748875000,\"C\":18749250000,\"D\":18749625000,\"E\":18750000000,\"F\":18750375000,\"G\":18750750000,\"H\":18751125000}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 0.9808080329999029
+      },
+      "program": "etl_pandas",
+      "repetition": 2,
+      "role": "expected"
+    },
+    {
+      "cell": "etl_latency_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:1a032c3784f246cec4b544069a83b80e8d27ddb6ddb7970b0f97cfd1f0354199",
+        "memory_max_bytes": 536870912,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-etl_pandas",
+        "wall_time_limit_seconds": 3
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 10,
+          "nr_throttled": 2,
+          "system_usec": 159948,
+          "throttled_usec": 112050,
+          "usage_usec": 907378,
+          "user_usec": 747429
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 284495872,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 0.9759784870000203,
+        "psi_cpu": "some avg10=2.15 avg60=7.42 avg300=5.62 total=41187803\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=134651\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=117036\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\":18748500000,\"B\":18748875000,\"C\":18749250000,\"D\":18749625000,\"E\":18750000000,\"F\":18750375000,\"G\":18750750000,\"H\":18751125000}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.0339922079999724
+      },
+      "program": "etl_pandas",
+      "repetition": 3,
+      "role": "expected"
+    },
+    {
+      "cell": "etl_latency_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:1a032c3784f246cec4b544069a83b80e8d27ddb6ddb7970b0f97cfd1f0354199",
+        "memory_max_bytes": 536870912,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-etl_pandas",
+        "wall_time_limit_seconds": 3
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 30,
+          "nr_throttled": 17,
+          "system_usec": 16030,
+          "throttled_usec": 392,
+          "usage_usec": 2989237,
+          "user_usec": 2973206
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 4452352,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.025818038999887,
+        "psi_cpu": "some avg10=1.26 avg60=6.58 avg300=5.49 total=41199775\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=134651\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=117036\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 3.0824887000001127
+      },
+      "program": "etl_streaming",
+      "repetition": 1,
+      "role": "opposed"
+    },
+    {
+      "cell": "etl_latency_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:1a032c3784f246cec4b544069a83b80e8d27ddb6ddb7970b0f97cfd1f0354199",
+        "memory_max_bytes": 536870912,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-etl_pandas",
+        "wall_time_limit_seconds": 3
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 31,
+          "nr_throttled": 10,
+          "system_usec": 12011,
+          "throttled_usec": 131,
+          "usage_usec": 2997715,
+          "user_usec": 2985703
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 4214784,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.0283777880001708,
+        "psi_cpu": "some avg10=0.69 avg60=5.95 avg300=5.38 total=41218409\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=134651\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=117036\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 3.0826465699999517
+      },
+      "program": "etl_streaming",
+      "repetition": 2,
+      "role": "opposed"
+    },
+    {
+      "cell": "etl_latency_tight",
+      "contract": {
+        "cpu_quota_cores": 1,
+        "evidence_hash": "sha256:1a032c3784f246cec4b544069a83b80e8d27ddb6ddb7970b0f97cfd1f0354199",
+        "memory_max_bytes": 536870912,
+        "packages": [
+          "numpy==2.0.2",
+          "pandas==2.2.3"
+        ],
+        "runtime": "CPython 3.11.2",
+        "schema_version": "execution-contract/v0.1",
+        "target_id": "gcp-e0b-etl_pandas",
+        "wall_time_limit_seconds": 3
+      },
+      "observation": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 31,
+          "nr_throttled": 0,
+          "system_usec": 16011,
+          "throttled_usec": 0,
+          "usage_usec": 2993513,
+          "user_usec": 2977501
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 4411392,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.026940391999915,
+        "psi_cpu": "some avg10=0.38 avg60=5.39 avg300=5.27 total=41230569\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=134651\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=117036\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 3.083406895000053
+      },
+      "program": "etl_streaming",
+      "repetition": 3,
+      "role": "opposed"
+    }
+  ],
+  "schema_version": "e0b-opposed-envelopes/v0.1"
+}

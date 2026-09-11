@@ -1,0 +1,52 @@
+from collections import defaultdict
+import json
+import numpy as np
+import pandas as pd
+
+
+def main():
+    totals = defaultdict(int)
+
+    # Read in chunks for high throughput and low memory footprint
+    chunksize = 500_000
+    for chunk in pd.read_csv(
+        'transactions.csv',
+        chunksize=chunksize,
+        dtype={'category': str},
+        keep_default_na=False,
+        encoding='utf-8-sig',
+        usecols=['account_id', 'category', 'amount_cents'],
+    ):
+        acc = chunk['account_id'].to_numpy()
+        mask = (acc % 11) < 7
+        if not np.any(mask):
+            continue
+
+        acc_filt = acc[mask]
+        amt_filt = chunk['amount_cents'].to_numpy()[mask]
+        cat_filt = chunk['category'].to_numpy()[mask]
+
+        mult = (acc_filt % 97) + 1
+
+        # Check for potential 64-bit integer overflow before vector multiplication
+        max_abs = np.max(np.abs(amt_filt)) if len(amt_filt) > 0 else 0
+        if max_abs < 90_000_000_000:
+            prod = amt_filt * mult
+            df_sub = pd.DataFrame({'category': cat_filt, 'prod': prod})
+            grp = df_sub.groupby('category', sort=False)['prod'].sum()
+            for cat, val in grp.items():
+                totals[cat] += int(val)
+        else:
+            # Fallback to arbitrary precision Python integers if amounts are huge
+            prod = amt_filt.astype(object) * mult.astype(object)
+            df_sub = pd.DataFrame({'category': cat_filt, 'prod': prod})
+            grp = df_sub.groupby('category', sort=False)['prod'].sum()
+            for cat, val in grp.items():
+                totals[cat] += int(val)
+
+    result_json = json.dumps(totals, sort_keys=True)
+    print(f'TOTAL:{result_json}')
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,51 @@
+```python
+import os
+
+# Ensure single-threaded execution to prevent thread contention under 1 CPU core quota
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
+import numpy as np
+
+
+def main():
+    X = np.load("vectors.npy")
+    N = X.shape[0]
+
+    # Precompute squared Euclidean norms in float64 for numerical precision
+    sq = np.sum(X.astype(np.float64) ** 2, axis=1)
+
+    total = 0.0
+    B = 2000
+
+    # Process in blocks to stay within memory limits and exploit symmetry
+    for i in range(0, N, B):
+        X_i = X[i : i + B]
+        sq_i = sq[i : i + B]
+        for j in range(i, N, B):
+            X_j = X[j : j + B]
+            sq_j = sq[j : j + B]
+
+            # Fast BLAS float32 matrix multiplication
+            G = X_i @ X_j.T
+
+            # Compute pairwise distances in float64
+            D2 = sq_i[:, None] + sq_j[None, :] - 2.0 * G.astype(np.float64)
+            np.maximum(D2, 0.0, out=D2)
+            dist = np.sqrt(D2, out=D2)
+
+            if i == j:
+                np.fill_diagonal(dist, 0.0)
+                total += float(np.sum(dist))
+            else:
+                total += 2.0 * float(np.sum(dist))
+
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()
+```

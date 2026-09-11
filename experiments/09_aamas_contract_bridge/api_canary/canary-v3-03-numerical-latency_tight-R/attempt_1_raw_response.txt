@@ -1,0 +1,31 @@
+An optimal and complete Python program to compute the exact total Euclidean distance:
+
+```python
+import numpy as np
+
+# Load vectors
+vectors = np.load("vectors.npy")
+
+# Convert to float64 for high numerical precision
+X = vectors.astype(np.float64)
+
+# Compute squared Euclidean norms of each vector
+sq_norms = np.sum(X**2, axis=1)
+
+# Compute Gram matrix G = X @ X.T
+G = X @ X.T
+
+# Compute squared pairwise distances using ||u - v||^2 = ||u||^2 + ||v||^2 - 2<u, v>
+G *= -2.0
+G += sq_norms[:, np.newaxis]
+G += sq_norms[np.newaxis, :]
+
+# Ensure non-negativity and exact zero diagonal
+np.maximum(G, 0.0, out=G)
+np.fill_diagonal(G, 0.0)
+
+# Compute Euclidean distances
+np.sqrt(G, out=G)
+
+# Sum all pairwise distances
+total = float(

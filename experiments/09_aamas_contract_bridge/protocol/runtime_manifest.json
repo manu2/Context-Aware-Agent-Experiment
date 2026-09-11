@@ -1,0 +1,29 @@
+{
+  "schema_version": "aamas-runtime/v0.1",
+  "frozen_at_utc": "2026-09-11T14:50:00Z",
+  "host": {
+    "provider": "GCP Compute Engine",
+    "instance": "aether-aamas-worker",
+    "machine_type": "e2-standard-2",
+    "os": "Debian GNU/Linux 12 (bookworm)",
+    "kernel": "6.1.0-53-cloud-amd64",
+    "cgroup": "v2",
+    "swap_per_run": "disabled",
+    "generated_program_user": "aether-runner (non-root system account)",
+    "network": "isolated per execution with a new Linux network namespace",
+    "dataset_mount_policy": "root-owned and read-only to generated programs",
+    "pids_max": 64,
+    "stdout_stderr_limit_bytes_each": 1048576
+  },
+  "python": "3.11.2",
+  "packages": [
+    "numpy==2.0.2",
+    "pandas==2.2.3",
+    "python-dateutil==2.9.0.post0",
+    "pytz==2026.3.post1",
+    "six==1.17.0",
+    "tzdata==2026.3"
+  ],
+  "worker_sha256": "3ce169b1cd043e185a0dc5d17df9cb3a5365158f96b15d04d4ddc8f75e29855b",
+  "setup_sha256": "1869da4a1381f71191df2f27f41be14b084b0aa7e35eb1a7992c4860a482ad63"
+}

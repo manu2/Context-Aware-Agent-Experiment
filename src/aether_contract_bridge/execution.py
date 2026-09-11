@@ -22,7 +22,7 @@ class GCloudLinuxExecutionBackend:
     zone: str
     instance: str
     worker_local_path: Path
-    worker_remote_path: str = "/tmp/aether_execution_worker.py"
+    worker_remote_path: str = "/home/manuagrawal/aether_execution_worker.py"
 
     def deploy(self) -> None:
         subprocess.run(
@@ -56,7 +56,9 @@ class SSHLinuxExecutionBackend:
     user: str
     identity_file: Path
     worker_local_path: Path
-    worker_remote_path: str = "/tmp/aether_execution_worker.py"
+    worker_remote_path: str = "/home/manuagrawal/aether_execution_worker.py"
+    remote_python: str = "/opt/aether-runtime/bin/python"
+    assets: dict[str, str] | None = None
 
     def _ssh_options(self) -> list[str]:
         return ["-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=yes",
@@ -70,7 +72,12 @@ class SSHLinuxExecutionBackend:
 
     def run(self, program: str, contract: ExecutionContract) -> ExecutionObservation:
         contract.validate()
-        request = {"program": program, "contract": contract.to_dict()}
+        request = {
+            "program": program,
+            "contract": contract.to_dict(),
+            "python_executable": self.remote_python,
+            "assets": self.assets or {},
+        }
         encoded = base64.urlsafe_b64encode(json.dumps(request).encode("utf-8")).decode("ascii")
         completed = subprocess.run(
             ["ssh", *self._ssh_options(), f"{self.user}@{self.host}",

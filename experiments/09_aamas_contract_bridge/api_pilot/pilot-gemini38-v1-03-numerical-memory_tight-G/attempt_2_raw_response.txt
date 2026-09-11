@@ -1,0 +1,48 @@
+An optimized solution that resolves the kernel OOM issue. 
+
+### Why the Previous Run Failed
+Broadcasting all pairs over 1024 dimensions (`vectors[:, None, :] - vectors[None, :, :]`) attempts to materialize an $8000 \times 8000 \times 1024$ `float32` array requiring $\approx 262\text{ GB}$ of RAM, triggering an immediate kernel OOM kill (exit code -9).
+
+### Strategy
+1. Promote the data to `float64` to avoid catastrophic cancellation in distance calculations.
+2. Use the algebraic identity $\|u - v\|^2 = \|u\|^2 + \|v\|^2 - 2\langle u, v \rangle$, computing the cross terms via multi-threaded BLAS matrix multiplication.
+3. Process rows in blocks of 1,000 to keep the peak working memory below 200 MB while completing computation in around 1 second.
+4. Explicitly zero out diagonal entries and clamp any tiny negative values caused by floating-point rounding before computing square roots.
+
+```python
+import numpy as np
+
+def main():
+    # Load vectors in read-only mode to prevent any modification
+    X = np.load('vectors.npy', mmap_mode='r')
+    
+    # Cast to float64 for numerical precision
+    X_64 = X.astype(np.float64)
+    sq_norms = np.sum(X_64 ** 2, axis=1)
+    
+    N = len(X_64)
+    chunk_size = 1000
+    total_distance = 0.0
+    
+    for i in range(0, N, chunk_size):
+        chunk = X_64[i:i + chunk_size]
+        
+        # ||u - v||^2 = ||u||^2 + ||v||^2 - 2 <u, v>
+        # Shape: (len(chunk), N)
+        dists_sq = sq_norms[i:i + len(chunk), None] + sq_norms[None, :] - 2.0 * (chunk @ X_64.T)
+        
+        # Explicitly set diagonal to zero
+        row_idx = np.arange(len(chunk))
+        col_idx = i + row_idx
+        dists_sq[row_idx, col_idx] = 0.0
+        
+        # Clamp negative values caused by floating-point inaccuracies
+        np.maximum(dists_sq, 0.0, out=dists_sq)
+        
+        total_distance += float(np.sqrt(dists_sq, out=dists_sq).sum())
+        
+    print(f"TOTAL:{total_distance}")
+
+if __name__ == '__main__':
+    main()
+```

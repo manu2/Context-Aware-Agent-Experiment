@@ -1,0 +1,63 @@
+An efficient Python program that solves the problem while balancing execution speed and memory usage:
+
+```python
+import json
+from collections import defaultdict
+import pandas as pd
+
+INT64_MAX = 9_223_372_036_854_775_807
+
+
+def main():
+    totals = defaultdict(int)
+    chunksize = 250_000
+
+    # Stream the CSV in chunks to keep memory usage low
+    reader = pd.read_csv(
+        "transactions.csv",
+        usecols=["account_id", "category", "amount_cents"],
+        dtype={"category": str},
+        keep_default_na=False,
+        chunksize=chunksize,
+    )
+
+    for chunk in reader:
+        # Filter for account_id % 11 < 7
+        mask = (chunk["account_id"] % 11) < 7
+        filtered = chunk[mask]
+
+        if filtered.empty:
+            continue
+
+        # Fast vectorized path if no 64-bit integer overflow can occur within the chunk
+        is_int64 = (
+            filtered["amount_cents"].dtype == "int64"
+            and filtered["account_id"].dtype == "int64"
+        )
+        if is_int64:
+            min_val = int(filtered["amount_cents"].min())
+            max_val = int(filtered["amount_cents"].max())
+            max_abs = max(abs(min_val), abs(max_val))
+
+            # Maximum possible sum in this chunk for any single category
+            if max_abs * 97 * len(filtered) < INT64_MAX:
+                weights = (filtered["account_id"] % 97) + 1
+                val = weights * filtered["amount_cents"]
+                chunk_sums = val.groupby(filtered["category"], sort=False).sum()
+                for cat, s in chunk_sums.items():
+                    totals[cat] += int(s)
+                continue
+
+        # Exact arbitrary-precision fallback for extremely large integers
+        weights = ((filtered["account_id"] % 97) + 1).tolist()
+        amounts = filtered["amount_cents"].tolist()
+        categories = filtered["category"].tolist()
+        for cat, w, a in zip(categories, weights, amounts):
+            totals[cat] += int(w) * int(a)
+
+    print(f"TOTAL:{json.dumps(totals, sort_keys=True)}")
+
+
+if __name__ == "__main__":
+    main()
+```

@@ -1,0 +1,29 @@
+import numpy as np
+
+
+def main():
+    X = np.load("vectors.npy")
+
+    try:
+        from scipy.spatial.distance import pdist
+
+        # Compute all unique pairwise Euclidean distances (upper triangle)
+        # pdist evaluates pairwise differences directly in C with high precision
+        dists = pdist(X, metric="euclidean")
+        total = 2.0 * np.sum(dists, dtype=np.float64)
+    except ImportError:
+        # Fallback using high-precision matrix multiplication
+        X64 = X.astype(np.float64)
+        sq_norms = np.sum(X64**2, axis=1)
+        G = X64 @ X64.T
+        d2 = sq_norms[:, None] + sq_norms[None, :] - 2.0 * G
+        np.maximum(d2, 0.0, out=d2)
+        np.fill_diagonal(d2, 0.0)
+        np.sqrt(d2, out=d2)
+        total = np.sum(d2, dtype=np.float64)
+
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()
