@@ -1,12 +1,16 @@
 # EXECUTION TRACKER: Live Deployment & Experiment Log
 
 ## Overall Status
-- **Current Stage**: Stage 22.12 (GPT-5.6 Sol confirmatory cohort running)
+- **Current Stage**: Stage 22.12 (GPT-5.6 Sol confirmatory cohort: infrastructure resume)
 - **Active Experiment**: The frozen 288-trajectory AAMAS campaign has complete,
   integrity-passing Gemini 3.8 Flash and Claude Sonnet 5 cohorts. GPT-5.6 Sol is
   executing sequentially under its precommitted 96-trajectory manifest after its
-  one-slot operational canary passed. The runner remains fail-closed against its
-  call and cost caps; no outcome-dependent protocol changes are permitted.
+  one-slot operational canary passed. Trajectories 1–80 are complete. Trajectory
+  81 preserved a genuine first attempt, then stopped when OpenAI returned HTTP
+  503 before the repair response. A narrow, pre-resume rule continues only the
+  archived attempt-2 prompt and then resumes slots 82–96. The runner remains
+  fail-closed against its call and cost caps; no outcome-dependent protocol
+  changes are permitted.
 - **Historical preprint experiment**: All 16 protocol-v1.2 manifest pairs have terminal archived
   artifacts. Fifteen included direct-API pairs are available for separately labelled
   cohort analysis; one Claude blind member is a retained runtime-compatibility failure and
@@ -126,7 +130,7 @@ statistical sample.
 | **22.9** | E4 secondary instances and protocol freeze | `docs/22_aamas_e4_protocol_freeze.md`, `protocol/E4_FREEZE_VALIDATION.json` | ✅ **FROZEN** | Independent numerical and ETL instances, hashes, oracles, and four envelopes frozen. The preserved first calibration failed only the provisional 1.4 s ETL latency cell; a pre-generation change to 1.7 s produced a complete 5/5 expected vs 0/5 opposed pass. Confirmatory N=4 gives 288 trajectories and 96 per condition; provider budgets sum to $30. Eleven tests and the fail-closed E4 validator pass. |
 | **22.10** | E5 Gemini 3.8 confirmatory cohort and provider gate | `docs/24_aamas_gemini_confirmatory_gate.md`, `analysis/gemini_e5_complete_audit.json` | ✅ **DONE / GATE PASSED** | All 96 effective trajectories and 158 calls completed for an estimated $4.961744. The audit reports zero integrity issues. P achieved 24/32 first-pass and 25/32 final suitability versus 5/32 and 8/32 for R and 5/32 and 10/32 for G. Numerical P was 16/16 first-pass across both instances/envelopes while R/G were 0/16; latency-tight ETL remained difficult in all conditions and is retained as a mixed result. Worker stopped; frozen Claude/GPT cohorts are approved to proceed. |
 | **22.11** | E5 Claude Sonnet 5 confirmatory cohort | `docs/25_aamas_claude_confirmatory_gate.md`, `analysis/claude_e5_complete_audit.json` | ✅ **DONE / GATE PASSED** | All 96 trajectories and 173 calls completed for an estimated $1.980382. The audit reports zero integrity issues. P achieved 16/32 first-pass and 22/32 final suitability versus R at 1/32 and 9/32 and G at 2/32 and 7/32. Proactive disclosure was 8/8 first-pass in memory-tight ETL, sharply reduced OOM kills, and dominated numerical outcomes; latency-tight ETL remained difficult across conditions. Worker stopped; frozen GPT cohort is approved. |
-| **22.12** | E5 GPT-5.6 Sol confirmatory cohort | `protocol/confirmatory_openai_sol.json` | 🔄 **RUNNING** | The preselected one-slot canary completed as first-pass suitable and its partial audit found zero integrity issues. The remaining frozen manifest is running sequentially on the same cgroup-v2 worker; live progress, calls, and cost are read from the append-only trajectory archive and provider ledger. |
+| **22.12** | E5 GPT-5.6 Sol confirmatory cohort | `protocol/confirmatory_openai_sol.json`, `docs/27_aamas_gpt_infrastructure_interruption.md` | 🔄 **INFRASTRUCTURE RESUME** | The canary passed and trajectories 1–80 completed. Trajectory 81 timed out on its genuine first attempt, then OpenAI returned HTTP 503 before the authorized repair response. The failed summary and append-only evidence are preserved; a fail-closed recovery continues only its exact archived attempt-2 prompt before the unchanged manifest resumes slots 82–96. |
 | **22.13** | Anonymous AAMAS manuscript scaffold and release verifier | `paper/aamas2027/`, `benchmarks/verify_aamas_submission.py` | 🔄 **DRAFT VERIFIED** | The official anonymous AAMAS class and template assets are hash-locked. The placeholder manuscript compiles to a three-page PDF and passes source/PDF anonymity, official-template, reference-page, metadata, and supplement checks. Confirmatory result placeholders remain intentionally fail-closed until the 288-run analysis completes. |
 
 ### Manuscript-closure status (2026-08-27)

@@ -249,8 +249,13 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   only provider, worker, or artifact integrity controls continuation; the selected
   model outcome cannot do so.
   The GPT canary passed the provider, worker, and artifact checks and was suitable
-  on its first attempt. The full frozen GPT manifest is now running sequentially
-  on the same worker. In parallel, an anonymous manuscript scaffold using the
+  on its first attempt. The full frozen GPT manifest ran sequentially through 80
+  complete trajectories. Trajectory 81 preserved a genuine timed-out first
+  attempt, then stopped fail-closed on an OpenAI HTTP 503 before its repair
+  response. The outcome-neutral recovery rule in
+  `docs/27_aamas_gpt_infrastructure_interruption.md` resumes only the exact
+  archived attempt-2 prompt before continuing the unchanged remaining order on
+  the same worker. In parallel, an anonymous manuscript scaffold using the
   hash-locked official AAMAS assets compiles and passes a fail-closed submission
   verifier; numerical result placeholders remain until all three audits and the
   preregistered 288-trajectory analysis pass.
