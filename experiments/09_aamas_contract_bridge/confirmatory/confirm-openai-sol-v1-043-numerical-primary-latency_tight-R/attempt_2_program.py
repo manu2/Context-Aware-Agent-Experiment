@@ -1,0 +1,38 @@
+import numpy as np
+
+vectors = np.load("vectors.npy", mmap_mode="r")
+n = vectors.shape[0]
+block_size = 1024
+
+norms = np.einsum(
+    "ij,ij->i",
+    vectors,
+    vectors,
+    dtype=np.float32,
+    optimize=True,
+)
+
+total = 0.0
+
+for start in range(0, n, block_size):
+    stop = min(start + block_size, n)
+    block = vectors[start:stop]
+    remainder = vectors[start:]
+
+    distances = block @ remainder.T
+    distances *= np.float32(-2.0)
+    distances += norms[start:stop, None]
+    distances += norms[None, start:]
+
+    np.maximum(distances, np.float32(0.0), out=distances)
+    np.sqrt(distances, out=distances)
+
+    size = stop - start
+    diagonal = np.arange(size)
+    distances[diagonal, diagonal] = np.float32(0.0)
+
+    total += distances[:, :size].sum(dtype=np.float64)
+    if size < distances.shape[1]:
+        total += 2.0 * distances[:, size:].sum(dtype=np.float64)
+
+print("TOTAL:" + str(total))

@@ -1,0 +1,101 @@
+{
+  "execution_entry": [
+    "etl",
+    "primary",
+    "memory_tight",
+    "P"
+  ],
+  "execution_index": 52,
+  "study_manifest": {
+    "archive_subdir": "confirmatory",
+    "budget_ledger_file": "openai_sol_budget_ledger.json",
+    "budget_usd": 13.0,
+    "campaign_priority": 3,
+    "development_only": false,
+    "matrix": {
+      "conditions": [
+        "P",
+        "R",
+        "G"
+      ],
+      "environments": [
+        "memory_tight",
+        "latency_tight"
+      ],
+      "instances": {
+        "etl": [
+          "primary",
+          "secondary"
+        ],
+        "numerical": [
+          "primary",
+          "secondary"
+        ]
+      },
+      "repetitions_per_cell": 4
+    },
+    "maximum_attempts_per_trajectory": 2,
+    "maximum_provider_calls": 192,
+    "model": {
+      "documentation": "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
+      "id": "gpt-5.6-sol",
+      "max_output_tokens": 32768,
+      "pricing_usd_per_million_tokens": {
+        "cached_input": 0.4,
+        "input": 4.0,
+        "output_including_reasoning": 20.0
+      },
+      "pricing_verified_at_utc": "2026-09-11T16:00:00Z",
+      "provider": "openai",
+      "reasoning_effort": "medium"
+    },
+    "order_seed": 20260920,
+    "report_schema": "aamas-confirmatory-report/v1.0",
+    "run_id_prefix": "confirm-openai-sol-v1",
+    "schema_version": "aamas-confirmatory/v1.0",
+    "status": "frozen_before_calls",
+    "stopping_rule": "Run every frozen trajectory unless the provider budget cap, call cap, or a validity-critical infrastructure fault stops the campaign. Never stop for an inconvenient result.",
+    "task_files": {
+      "etl_primary": "etl_primary.json",
+      "etl_secondary": "etl_secondary.json",
+      "numerical_primary": "numerical_primary.json",
+      "numerical_secondary": "numerical_secondary.json"
+    }
+  },
+  "task_spec": {
+    "asset": {
+      "bytes": 38333733,
+      "name": "transactions.csv",
+      "rows": 3000000,
+      "sha256": "26c0b06bb123664d48b08243b30b48a5c1a5bd1e4df68bed75d9f06e0069313b"
+    },
+    "environments": {
+      "latency_tight": {
+        "cpu_cores": 1,
+        "memory_mib": 512,
+        "wall_seconds": 1.4
+      },
+      "memory_tight": {
+        "cpu_cores": 1,
+        "memory_mib": 128,
+        "wall_seconds": 4
+      }
+    },
+    "oracle": {
+      "comparison": "exact parsed JSON integer mapping",
+      "expected": {
+        "A": 584859984000,
+        "B": 582445702800,
+        "C": 584178107400,
+        "D": 585658510500,
+        "E": 584768685600,
+        "F": 583789773900,
+        "G": 584327166000,
+        "H": 585146828400
+      }
+    },
+    "prompt": "Write a complete Python program. The current directory contains transactions.csv with columns account_id, category, and amount_cents. CPython 3.11.2, NumPy 2.0.2, Pandas 2.2.3, and the Python standard library are available. For rows whose account_id modulo 11 is less than 7, compute for each category the exact sum of amount_cents multiplied by ((account_id modulo 97) + 1). Print exactly TOTAL:<JSON object>, with category keys sorted and no extra output. Do not modify the input file. Do not invoke external programs. The program has no network access.",
+    "schema_version": "aamas-task/v0.1",
+    "task_id": "etl_category_aggregation_primary"
+  }
+}

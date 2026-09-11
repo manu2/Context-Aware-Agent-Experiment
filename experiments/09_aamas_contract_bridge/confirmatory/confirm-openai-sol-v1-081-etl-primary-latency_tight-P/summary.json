@@ -1,0 +1,251 @@
+{
+  "agent_loop_decision": {
+    "reason": "attempt_limit",
+    "stop": true
+  },
+  "attempt_count": 2,
+  "attempts": [
+    {
+      "attempt": 1,
+      "decision": {
+        "reason": "authentic_execution_feedback_required",
+        "stop": false
+      },
+      "execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 14,
+          "nr_throttled": 0,
+          "system_usec": 31951,
+          "throttled_usec": 0,
+          "usage_usec": 1396117,
+          "user_usec": 1364165
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 4382720,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.4355852700000469,
+        "psi_cpu": "some avg10=0.14 avg60=0.26 avg300=0.79 total=72500411\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=3856\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=2925\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 1.5291156920002322
+      },
+      "generation": {
+        "backend": "openai-responses/v1",
+        "model": "gpt-5.6-sol",
+        "request_metadata": {
+          "cached_input_tokens": 0,
+          "development_only": false,
+          "estimated_cost_usd": 0.017032,
+          "generation_seconds": 20.29494183299994,
+          "incomplete_reason": null,
+          "input_tokens": 223,
+          "max_output_tokens": 32768,
+          "model": "gpt-5.6-sol",
+          "output_tokens_including_reasoning": 807,
+          "prompt_sha256": "ef56b7604755bda69756fcba7687a524cc00a46270d06707ff83c7133f3e21e5",
+          "provider": "openai",
+          "reasoning_effort": "medium",
+          "reasoning_tokens": 596,
+          "request_id": "req_b94e4c0f19f8415592d19ba59e9eb9fb",
+          "status_code": "completed"
+        }
+      },
+      "score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "strategy": {
+        "family": "etl",
+        "features": [
+          "csv_iterator"
+        ],
+        "primary_strategy": "stdlib_streaming",
+        "rationale": [
+          "a CSV iterator is consumed by a loop without explicit materialization"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      }
+    },
+    {
+      "attempt": 2,
+      "decision": {
+        "reason": "attempt_limit",
+        "stop": true
+      },
+      "execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 14,
+          "nr_throttled": 6,
+          "system_usec": 295164,
+          "throttled_usec": 164197,
+          "usage_usec": 1383606,
+          "user_usec": 1088442
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 202608640,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.433938641000168,
+        "psi_cpu": "some avg10=0.00 avg60=0.00 avg300=0.19 total=72753200\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=3856\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=2925\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 1.5435164440004883
+      },
+      "generation": {
+        "backend": "openai-responses/v1",
+        "model": "gpt-5.6-sol",
+        "request_metadata": {
+          "cached_input_tokens": 0,
+          "development_only": false,
+          "estimated_cost_usd": 0.069464,
+          "generation_seconds": 103.521391459,
+          "incomplete_reason": null,
+          "input_tokens": 286,
+          "max_output_tokens": 32768,
+          "model": "gpt-5.6-sol",
+          "output_tokens_including_reasoning": 3416,
+          "prompt_sha256": "e3e79b0c52b6139b13ad12ce4a91db522e568552b1a66eb6a4ec098a7a5dc241",
+          "provider": "openai",
+          "reasoning_effort": "medium",
+          "reasoning_tokens": 3024,
+          "request_id": "req_42bc7f9a970e4389a744a13bd719bb16",
+          "status_code": "completed"
+        }
+      },
+      "score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "strategy": {
+        "family": "etl",
+        "features": [
+          "explicit_chunksize",
+          "pandas"
+        ],
+        "primary_strategy": "dataframe_chunked",
+        "rationale": [
+          "read_csv supplies an explicit chunksize"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      }
+    }
+  ],
+  "condition": "P",
+  "development_only": false,
+  "end_to_end_time_seconds": 135.5270687500008,
+  "execution": {
+    "backend": "gcp-cgroupv2/v0.1",
+    "cpu_stat": {
+      "burst_usec": 0,
+      "nr_bursts": 0,
+      "nr_periods": 14,
+      "nr_throttled": 6,
+      "system_usec": 295164,
+      "throttled_usec": 164197,
+      "usage_usec": 1383606,
+      "user_usec": 1088442
+    },
+    "exit_code": 124,
+    "memory_events_after": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_events_before": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_peak_bytes": 202608640,
+    "oom_killed": false,
+    "platform": "Linux 6.1.0-53-cloud-amd64",
+    "program_time_seconds": 1.433938641000168,
+    "psi_cpu": "some avg10=0.00 avg60=0.00 avg300=0.19 total=72753200\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=3856\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=2925\n",
+    "stderr": "",
+    "stderr_truncated": false,
+    "stdout": "",
+    "stdout_truncated": false,
+    "timed_out": true,
+    "worker_time_seconds": 1.5435164440004883
+  },
+  "final_suitable": false,
+  "first_pass_suitable": false,
+  "infrastructure_resume": {
+    "interrupted_summary": "infrastructure_interruption_summary.json",
+    "reason": "provider HTTP 503 between attempts",
+    "repair_prompt_sha256": "e3e79b0c52b6139b13ad12ce4a91db522e568552b1a66eb6a4ec098a7a5dc241"
+  },
+  "model": "gpt-5.6-sol",
+  "schema_version": "trajectory-summary/v0.1",
+  "score": {
+    "correct": false,
+    "memory_exceedance_bytes": 0,
+    "suitable": false,
+    "within_memory": true,
+    "within_time": false
+  },
+  "status": "complete",
+  "trajectory_id": "confirm-openai-sol-v1-081-etl-primary-latency_tight-P"
+}

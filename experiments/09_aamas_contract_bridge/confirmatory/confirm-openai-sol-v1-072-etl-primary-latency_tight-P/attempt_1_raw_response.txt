@@ -1,0 +1,57 @@
+import sys
+import json
+import numpy as np
+import pandas as pd
+
+LIMIT = np.iinfo(np.int64).max
+totals = {}
+
+reader = pd.read_csv(
+    "transactions.csv",
+    usecols=["account_id", "category", "amount_cents"],
+    dtype={
+        "account_id": np.int64,
+        "category": str,
+        "amount_cents": np.int64,
+    },
+    keep_default_na=False,
+    na_filter=False,
+    chunksize=750_000,
+)
+
+for chunk in reader:
+    accounts_all = chunk["account_id"].to_numpy(copy=False)
+    mask = (accounts_all % 11) < 7
+    if not mask.any():
+        continue
+
+    accounts = accounts_all[mask]
+    amounts = chunk["amount_cents"].to_numpy(copy=False)[mask]
+    categories = chunk["category"].to_numpy(copy=False)[mask]
+
+    minimum = int(amounts.min())
+    maximum = int(amounts.max())
+    max_abs = max(abs(minimum), abs(maximum))
+
+    safe_block_size = 0 if max_abs > LIMIT // 97 else LIMIT // max(1, max_abs * 97)
+
+    if safe_block_size < 10_000:
+        for account, category, amount in zip(accounts, categories, amounts):
+            value = int(amount) * ((int(account) % 97) + 1)
+            totals[category] = totals.get(category, 0) + value
+        continue
+
+    block_size = min(len(amounts), safe_block_size)
+    for start in range(0, len(amounts), block_size):
+        end = min(start + block_size, len(amounts))
+        products = amounts[start:end] * ((accounts[start:end] % 97) + 1)
+        grouped = pd.Series(products, copy=False).groupby(
+            categories[start:end], sort=False
+        ).sum()
+
+        for category, value in grouped.items():
+            totals[category] = totals.get(category, 0) + int(value)
+
+sys.stdout.write(
+    "TOTAL:" + json.dumps(totals, sort_keys=True, separators=(",", ":"))
+)

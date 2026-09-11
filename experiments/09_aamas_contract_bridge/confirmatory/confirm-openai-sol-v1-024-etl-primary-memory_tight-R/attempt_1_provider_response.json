@@ -1,0 +1,101 @@
+{
+  "background": false,
+  "billing": {
+    "payer": "openai"
+  },
+  "completed_at": 1789157777,
+  "created_at": 1789157772,
+  "error": null,
+  "frequency_penalty": 0.0,
+  "id": "resp_0cb0c30a7d72290f016aa4618ca21887d19c55395776099b84",
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": 32768,
+  "max_tool_calls": null,
+  "metadata": {},
+  "model": "gpt-5.6-sol",
+  "moderation": null,
+  "object": "response",
+  "output": [
+    {
+      "content": [],
+      "encrypted_content": "gAAAAABqpGGRNqZGXnsRNp9Re0kgW3ow7vy_uY5ns2QbvItQblGNZnHiB41Jb-q3dA3D9gTNJjhPUqUGEv6DLmQ3t8CbwqgrqxVDyE5hN8GbFXepnmMOacCCup_BA55rNuV0WGa-k_0qXTPMczKxwTjaIGNglbAcITDIS2o2AIq7SafvKIY0-OiIgJZFr9Bp88XHAhfEa5Vdww6lAErX2eBZDZEDlJ9Jrna7O-xd-VYTb6CW3WpZLiWSSNTouqBcd8ksV2kiCualZceGDQuoXkb2Afvao5Q30IihDkMdpzr0WRHxSjfrByWNrsC5Qf_eeDlyN2y9wMB7v_10nK_naaFVvy5MhVXaVzdBfqef8qLJ-s2PgdCjVNmcRwjP8V9Is6VahvhDHP3pv7SdjtHHVKtU-fMj32cbM0Ea0794VX3mk719iDP0d0tumHBlEID0pCjx2fyLtHms7JG6myqZrGGMqszD1k9_wOnHGfG2eKy78hkXpOyynFLLZQsWb4j2HPR4WErAH29FN1xNQ4EZYf41Mna0iDQd0pl65rml1o8xkXG6hz3C5OSxcaEVAPCbV4mVPOXArGLFjNFP-uaLxp3ObgZ2rsnDwuM8Iz_pqhamAWBFKLJhJlZFv7DnRFQKe4I-ssvFIZcfJt1NxnzAZ8CuEprsTodO4facv1hfX-c_L9dUT6Uz5IgPTdaISN6wnvsukzSkW4SKD4eevo6yhpTmL2LOhOluPC5vzgfkY-goSlxVQnxdiU2Yk_FO6UjwF_at0aiX61Rfe0XllHiZdxnYePZlpoQhjUYHZVO47yfOuFYyM7k5wehOzPFcorOKo0AT7UbpvFY1qgQFinIL5Qbn2BrG8jgNgVsu6intdBr6-P_6yE1Kp6MhJIghiMTDhqtcFvSqtVizikRvocIX0Uv_TBBS7xYrcP-zMJSri66-7b3QDyyN_XepSAAKLcCUAvcKx60hYm3D0ld-y2HVtrxCvWFRa3_8jp5k30Q6H8b1lYpvo5Svh2Pb66xEKetl3vpsTZH6_LUURwdyC9f-Zlp-bmgchEnB0YxGv07An96cUQAEHSE5WeL15zX6aXV0Vw8si9nVOCys4-RKL9TXZkEg2GMlCS0Qy7kkFIXXZkTzFwvheeHN880x7puoAy3Na1nqFbFoEYWCs_xxXHiwlGn8K3CGlAOO5oxWGfzTkvXY0xPRKEakD7U-dLQR_lXJiTM-2VUw_YrQaE9A-QeD1M8Jdi-UmeLybih1L4jnJscvuFGvsZ9akyNeZoD2ckbzoBeZfMDkN0WoBqLj6jOWF6f0Hlq6vk2fzrrdYed04Q5TtbSLFngLp2cU7lCbb5b9zjUThxzWsaMkI_WeQdRToCO7zrmS-KmlcqdmpI9sD1t1I42pkzXj32-zPUik0bKYmjJHPcrJqL1NRZvXhVaICZWgFynesB1eDYeuOFbGCbcHNkT0Tz48NjVpgfehfKjg3-f9vowFYxerfSiU1QqUtzrB9RzfYz8VRiKZr3PzdkMWubU2BnUMWDQhzJfkNI9VFU3_R9wAkkaN4lnbiwPq9w80oCrCVTLEhRpbl-kxdqwg8Jc3WcCNze2ITqrq9j4w3PFwUqx_66bk8l716lySI9YTVnc0cTgkMrOy6Df5ZVqxc1k2TuFCtfoFJQymocl1JVghrKj5CkewZ5VMEUpoDRo9fjN6emvcxWBzVBT2RK-fMLalNL-vK0f1ashmT_c1u377IVPFPYjEAJhsWHmHFBkEq4DMPJZN_vmeJtIaIqXx91i8hQyK5-6lpwJDklkQhu8FWeHmE6iTbcGVmEvcD4cRSPl9l3a0RByMDSARno0S2BLHsCQjYph0kYBFSmKejgKFZFHS0xOAS9jpzsQI_K8h6RsNMSWoF9-T2TAPzp91MXUzOQD_3V3Bhv04JJRK88smsYuxjqXR85oh3XCOft-NjkacaL0amA==",
+      "id": "rs_0cb0c30a7d72290f016aa4618eef7c87d182e409e4fd3b9bfa",
+      "summary": [],
+      "type": "reasoning"
+    },
+    {
+      "content": [
+        {
+          "annotations": [],
+          "logprobs": [],
+          "text": "import csv\nimport json\n\ntotals = {}\n\nwith open(\"transactions.csv\", \"r\", encoding=\"utf-8\", newline=\"\") as file:\n    for row in csv.DictReader(file):\n        account_id = int(row[\"account_id\"])\n        if account_id % 11 < 7:\n            category = row[\"category\"]\n            amount_cents = int(row[\"amount_cents\"])\n            totals[category] = totals.get(category, 0) + amount_cents * (\n                account_id % 97 + 1\n            )\n\nprint(\"TOTAL:\" + json.dumps(totals, sort_keys=True, separators=(\",\", \":\")))",
+          "type": "output_text"
+        }
+      ],
+      "id": "msg_0cb0c30a7d72290f016aa46190ae7087d1a5ecb87278342307",
+      "phase": "final_answer",
+      "role": "assistant",
+      "status": "completed",
+      "type": "message"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "presence_penalty": 0.0,
+  "previous_response_id": null,
+  "prompt_cache_key": null,
+  "prompt_cache_retention": "24h",
+  "reasoning": {
+    "context": "all_turns",
+    "effort": "medium",
+    "mode": "standard",
+    "summary": null
+  },
+  "safety_identifier": null,
+  "service_tier": "default",
+  "status": "completed",
+  "store": false,
+  "temperature": 1.0,
+  "text": {
+    "format": {
+      "type": "text"
+    },
+    "verbosity": "medium"
+  },
+  "tool_choice": "auto",
+  "tool_usage": {
+    "image_gen": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "image_tokens": 0,
+        "text_tokens": 0
+      },
+      "output_tokens": 0,
+      "output_tokens_details": {
+        "image_tokens": 0,
+        "text_tokens": 0
+      },
+      "total_tokens": 0
+    },
+    "web_search": {
+      "num_requests": 0
+    }
+  },
+  "tools": [],
+  "top_logprobs": 0,
+  "top_p": 0.98,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 146,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 254,
+    "output_tokens_details": {
+      "reasoning_tokens": 117
+    },
+    "total_tokens": 400
+  },
+  "user": null
+}

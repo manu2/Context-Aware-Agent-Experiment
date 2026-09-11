@@ -1,0 +1,51 @@
+import json
+import sys
+
+import numpy as np
+import pandas as pd
+
+totals = {}
+limit = np.iinfo(np.int64).max
+
+for chunk in pd.read_csv(
+    "transactions.csv",
+    usecols=["account_id", "category", "amount_cents"],
+    dtype={"account_id": "int64", "category": str, "amount_cents": "int64"},
+    na_filter=False,
+    chunksize=1_000_000,
+    memory_map=True,
+):
+    accounts = chunk["account_id"].to_numpy(copy=False)
+    mask = np.remainder(accounts, 11) < 7
+    count = int(mask.sum())
+    if not count:
+        continue
+
+    selected_accounts = accounts[mask]
+    amounts = chunk["amount_cents"].to_numpy(copy=False)[mask]
+    categories = chunk["category"].to_numpy(copy=False)[mask]
+
+    minimum = int(amounts.min())
+    maximum = int(amounts.max())
+    max_abs_amount = max(abs(minimum), abs(maximum))
+
+    if max_abs_amount * 97 * count <= limit:
+        weighted = amounts * (np.remainder(selected_accounts, 97) + 1)
+        grouped = pd.Series(weighted, copy=False).groupby(
+            categories, sort=False
+        ).sum()
+        for category, value in grouped.items():
+            totals[category] = totals.get(category, 0) + int(value)
+    else:
+        get = totals.get
+        for account, category, amount in zip(
+            selected_accounts, categories, amounts
+        ):
+            totals[category] = get(category, 0) + int(amount) * (
+                int(account) % 97 + 1
+            )
+
+sys.stdout.write(
+    "TOTAL:"
+    + json.dumps(totals, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+)

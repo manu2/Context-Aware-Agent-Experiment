@@ -1,0 +1,70 @@
+import json
+import sys
+
+import numpy as np
+import pandas as pd
+
+MAX_INT64 = (1 << 63) - 1
+MIN_INT64 = -(1 << 63)
+totals = {}
+
+reader = pd.read_csv(
+    "transactions_secondary.csv",
+    usecols=["account_id", "category", "amount_cents"],
+    dtype={
+        "account_id": "int64",
+        "category": "category",
+        "amount_cents": "int64",
+    },
+    chunksize=1_000_000,
+)
+
+for chunk in reader:
+    accounts = chunk["account_id"].to_numpy(copy=False)
+    mask = np.remainder(accounts, 13) < 8
+    if not mask.any():
+        continue
+
+    amounts = chunk["amount_cents"].to_numpy(copy=False)[mask]
+    factors = np.remainder(accounts[mask], 89) + 3
+    categories = chunk["category"].array[mask]
+
+    safe = np.all(amounts <= MAX_INT64 // factors) and np.all(
+        amounts >= -((-MIN_INT64) // factors)
+    )
+
+    if safe:
+        products = amounts * factors
+        low = int(products.min())
+        high = int(products.max())
+        max_abs = max(abs(low), abs(high))
+
+        if max_abs == 0:
+            block_size = len(products)
+        else:
+            block_size = max(1, MAX_INT64 // max_abs)
+
+        for start in range(0, len(products), block_size):
+            end = min(start + block_size, len(products))
+            grouped = pd.Series(products[start:end], copy=False).groupby(
+                categories[start:end], observed=True, sort=False
+            ).sum()
+            for category, value in grouped.items():
+                key = str(category)
+                totals[key] = totals.get(key, 0) + int(value)
+    else:
+        products = np.fromiter(
+            (int(a) * int(f) for a, f in zip(amounts, factors)),
+            dtype=object,
+            count=len(amounts),
+        )
+        grouped = pd.Series(products, copy=False).groupby(
+            categories, observed=True, sort=False
+        ).sum()
+        for category, value in grouped.items():
+            key = str(category)
+            totals[key] = totals.get(key, 0) + int(value)
+
+sys.stdout.write(
+    "TOTAL:" + json.dumps(totals, sort_keys=True, separators=(",", ":"))
+)

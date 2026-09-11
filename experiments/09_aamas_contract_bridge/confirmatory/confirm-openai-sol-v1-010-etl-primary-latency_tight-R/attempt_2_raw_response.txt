@@ -1,0 +1,73 @@
+import csv
+import json
+
+import numpy as np
+import pandas as pd
+
+
+PATH = "transactions.csv"
+INT64_MAX = np.iinfo(np.int64).max
+
+
+def compute_with_pandas():
+    totals = {}
+    reader = pd.read_csv(
+        PATH,
+        usecols=["account_id", "category", "amount_cents"],
+        dtype={
+            "account_id": "int64",
+            "category": str,
+            "amount_cents": "int64",
+        },
+        keep_default_na=False,
+        chunksize=1_000_000,
+        memory_map=True,
+    )
+
+    for chunk in reader:
+        account_ids = chunk["account_id"].to_numpy(dtype=np.int64, copy=False)
+        mask = (account_ids % 11) < 7
+        if not mask.any():
+            continue
+
+        selected_ids = account_ids[mask]
+        amounts = chunk["amount_cents"].to_numpy(dtype=np.int64, copy=False)[mask]
+        categories = chunk["category"].to_numpy(copy=False)[mask]
+
+        max_abs_amount = max(abs(int(amounts.min())), abs(int(amounts.max())))
+        if max_abs_amount * 97 * len(amounts) <= INT64_MAX:
+            values = amounts * ((selected_ids % 97) + 1)
+            grouped = pd.Series(values, copy=False).groupby(
+                categories, sort=False
+            ).sum()
+            for category, value in grouped.items():
+                totals[category] = totals.get(category, 0) + int(value)
+        else:
+            for account_id, category, amount in zip(
+                selected_ids, categories, amounts
+            ):
+                value = int(amount) * ((int(account_id) % 97) + 1)
+                totals[category] = totals.get(category, 0) + value
+
+    return totals
+
+
+def compute_with_csv():
+    totals = {}
+    with open(PATH, "r", encoding="utf-8-sig", newline="") as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            account_id = int(row["account_id"])
+            if account_id % 11 < 7:
+                category = row["category"]
+                value = int(row["amount_cents"]) * ((account_id % 97) + 1)
+                totals[category] = totals.get(category, 0) + value
+    return totals
+
+
+try:
+    result = compute_with_pandas()
+except (ValueError, OverflowError, pd.errors.ParserError):
+    result = compute_with_csv()
+
+print("TOTAL:" + json.dumps(result, sort_keys=True, separators=(",", ":")))

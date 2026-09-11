@@ -1,0 +1,85 @@
+import json
+import sys
+
+import numpy as np
+import pandas as pd
+
+
+INT64_MIN = np.iinfo(np.int64).min
+INT64_MAX = np.iinfo(np.int64).max
+totals = {}
+
+
+def add_value(category, value):
+    key = str(category)
+    totals[key] = totals.get(key, 0) + int(value)
+
+
+def aggregate(categories, values):
+    if values.size == 0:
+        return
+
+    minimum = int(values.min())
+    maximum = int(values.max())
+    max_abs = max(maximum, -minimum)
+
+    if max_abs * int(values.size) <= INT64_MAX:
+        grouped = pd.Series(values, copy=False).groupby(
+            categories, sort=False, observed=True
+        ).sum()
+        for category, value in grouped.items():
+            add_value(category, value)
+    else:
+        for category, value in zip(categories, values):
+            add_value(category, value)
+
+
+for chunk in pd.read_csv(
+    "transactions_secondary.csv",
+    usecols=["account_id", "category", "amount_cents"],
+    dtype={
+        "account_id": "int64",
+        "category": "category",
+        "amount_cents": "int64",
+    },
+    chunksize=1_000_000,
+    na_filter=False,
+    memory_map=True,
+):
+    account_ids = chunk["account_id"].to_numpy(copy=False)
+    selected = np.remainder(account_ids, 13) < 8
+
+    if not selected.any():
+        continue
+
+    selected_ids = account_ids[selected]
+    amounts = chunk["amount_cents"].to_numpy(copy=False)[selected]
+    factors = np.remainder(selected_ids, 89) + 3
+    categories = chunk.loc[selected, "category"].array
+
+    min_amount = int(amounts.min())
+    max_amount = int(amounts.max())
+
+    if max(max_amount, -min_amount) * 91 <= INT64_MAX:
+        products = amounts * factors
+        aggregate(categories, products)
+        continue
+
+    lower = np.floor_divide(np.int64(INT64_MIN), factors)
+    lower += np.remainder(np.int64(INT64_MIN), factors) != 0
+    upper = np.floor_divide(np.int64(INT64_MAX), factors)
+    safe = (amounts >= lower) & (amounts <= upper)
+
+    if safe.any():
+        products = amounts[safe] * factors[safe]
+        aggregate(categories[safe], products)
+
+    if (~safe).any():
+        for category, amount, factor in zip(
+            categories[~safe], amounts[~safe], factors[~safe]
+        ):
+            add_value(category, int(amount) * int(factor))
+
+sys.stdout.write(
+    "TOTAL:" + json.dumps(totals, sort_keys=True, separators=(",", ":"))
+)

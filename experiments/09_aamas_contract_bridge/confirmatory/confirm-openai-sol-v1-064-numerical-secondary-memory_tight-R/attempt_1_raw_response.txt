@@ -1,0 +1,46 @@
+import numpy as np
+
+x = np.load("vectors_secondary.npy", mmap_mode="r").astype(np.float64)
+norms = np.einsum("ij,ij->i", x, x, dtype=np.float64)
+
+n = x.shape[0]
+block_size = 1024
+block_totals = []
+
+for i in range(0, n, block_size):
+    i_end = min(i + block_size, n)
+    xi = x[i:i_end]
+    ni = norms[i:i_end]
+
+    for j in range(i, n, block_size):
+        j_end = min(j + block_size, n)
+        xj = x[j:j_end]
+        nj = norms[j:j_end]
+
+        distances = xi @ xj.T
+        distances *= -2.0
+        distances += ni[:, None]
+        distances += nj[None, :]
+
+        near = distances <= 1e-10 * (ni[:, None] + nj[None, :])
+        if i == j:
+            np.fill_diagonal(distances, 0.0)
+            np.fill_diagonal(near, False)
+
+        rows, cols = np.nonzero(near)
+        for start in range(0, rows.size, 2048):
+            r = rows[start:start + 2048]
+            c = cols[start:start + 2048]
+            delta = xi[r] - xj[c]
+            distances[r, c] = np.einsum(
+                "ij,ij->i", delta, delta, dtype=np.float64
+            )
+
+        np.maximum(distances, 0.0, out=distances)
+        np.sqrt(distances, out=distances)
+
+        subtotal = np.sum(distances, dtype=np.longdouble)
+        block_totals.append(subtotal if i == j else subtotal * 2)
+
+total = sum(block_totals, np.longdouble(0))
+print("TOTAL:" + np.format_float_positional(total, unique=True, trim="-"))

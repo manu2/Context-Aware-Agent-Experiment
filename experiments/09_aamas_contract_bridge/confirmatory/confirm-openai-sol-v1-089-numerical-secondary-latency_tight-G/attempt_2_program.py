@@ -1,0 +1,30 @@
+import numpy as np
+
+x = np.load("vectors_secondary.npy", allow_pickle=False)
+n = x.shape[0]
+norms = np.einsum("ij,ij->i", x, x, dtype=np.float32)
+
+block_size = 512
+total = 0.0
+
+for start in range(0, n, block_size):
+    stop = min(start + block_size, n)
+    rows = x[start:stop]
+    block_rows = stop - start
+
+    distances = rows @ x[start:].T
+    distances *= -2.0
+    distances += norms[start:stop, None]
+    distances += norms[None, start:]
+    np.maximum(distances, 0.0, out=distances)
+    np.sqrt(distances, out=distances)
+
+    np.fill_diagonal(distances[:, :block_rows], 0.0)
+
+    total += float(distances[:, :block_rows].sum(dtype=np.float64))
+    if distances.shape[1] > block_rows:
+        total += 2.0 * float(
+            distances[:, block_rows:].sum(dtype=np.float64)
+        )
+
+print(f"TOTAL:{total}")

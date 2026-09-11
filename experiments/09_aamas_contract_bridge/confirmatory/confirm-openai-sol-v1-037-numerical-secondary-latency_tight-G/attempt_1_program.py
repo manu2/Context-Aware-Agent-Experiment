@@ -1,0 +1,34 @@
+import math
+import numpy as np
+
+x = np.asarray(np.load("vectors_secondary.npy", mmap_mode="r"), dtype=np.float64, order="C")
+norm_sq = np.einsum("ij,ij->i", x, x, dtype=np.float64, optimize=True)
+
+n = x.shape[0]
+block_size = 1024
+partial_sums = []
+
+for i0 in range(0, n, block_size):
+    i1 = min(i0 + block_size, n)
+    xi = x[i0:i1]
+    ni = norm_sq[i0:i1]
+
+    for j0 in range(i0, n, block_size):
+        j1 = min(j0 + block_size, n)
+        xj = x[j0:j1]
+
+        distances = xi @ xj.T
+        distances *= -2.0
+        distances += ni[:, None]
+        distances += norm_sq[j0:j1][None, :]
+        np.maximum(distances, 0.0, out=distances)
+
+        if i0 == j0:
+            np.fill_diagonal(distances, 0.0)
+
+        np.sqrt(distances, out=distances)
+        block_sum = float(np.sum(distances, dtype=np.float64))
+        partial_sums.append(block_sum if i0 == j0 else 2.0 * block_sum)
+
+total = math.fsum(partial_sums)
+print(f"TOTAL:{total}")

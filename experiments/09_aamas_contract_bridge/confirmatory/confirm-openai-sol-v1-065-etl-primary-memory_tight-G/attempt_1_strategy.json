@@ -1,0 +1,13 @@
+{
+  "family": "etl",
+  "features": [
+    "explicit_chunksize",
+    "pandas"
+  ],
+  "primary_strategy": "dataframe_chunked",
+  "rationale": [
+    "read_csv supplies an explicit chunksize"
+  ],
+  "requires_adjudication": false,
+  "schema_version": "strategy-codebook/v0.1"
+}

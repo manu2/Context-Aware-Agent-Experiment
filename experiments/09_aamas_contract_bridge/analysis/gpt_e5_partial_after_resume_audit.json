@@ -1,0 +1,5004 @@
+{
+  "complete": 81,
+  "condition_summary": {
+    "G": {
+      "final_suitable": 21,
+      "final_wilson_95": [
+        0.5924307113336742,
+        0.8939276054763996
+      ],
+      "first_pass_suitable": 16,
+      "first_pass_wilson_95": [
+        0.4072670096806468,
+        0.7548524292560443
+      ],
+      "n": 27,
+      "provider_calls": 38
+    },
+    "P": {
+      "final_suitable": 22,
+      "final_wilson_95": [
+        0.5789239838218867,
+        0.8778157755747991
+      ],
+      "first_pass_suitable": 21,
+      "first_pass_wilson_95": [
+        0.5428286758313405,
+        0.8530124489791204
+      ],
+      "n": 29,
+      "provider_calls": 37
+    },
+    "R": {
+      "final_suitable": 13,
+      "final_wilson_95": [
+        0.3349851695035678,
+        0.6996871404588704
+      ],
+      "first_pass_suitable": 7,
+      "first_pass_wilson_95": [
+        0.14283853850956563,
+        0.47576605190361576
+      ],
+      "n": 25,
+      "provider_calls": 43
+    }
+  },
+  "incomplete": [
+    "confirm-openai-sol-v1-082-etl-primary-latency_tight-R",
+    "confirm-openai-sol-v1-083-numerical-secondary-latency_tight-P",
+    "confirm-openai-sol-v1-084-etl-secondary-latency_tight-R",
+    "confirm-openai-sol-v1-085-numerical-primary-memory_tight-P",
+    "confirm-openai-sol-v1-086-etl-secondary-latency_tight-R",
+    "confirm-openai-sol-v1-087-etl-primary-memory_tight-G",
+    "confirm-openai-sol-v1-088-numerical-secondary-memory_tight-R",
+    "confirm-openai-sol-v1-089-numerical-secondary-latency_tight-G",
+    "confirm-openai-sol-v1-090-etl-primary-memory_tight-R",
+    "confirm-openai-sol-v1-091-etl-primary-memory_tight-G",
+    "confirm-openai-sol-v1-092-numerical-primary-latency_tight-R",
+    "confirm-openai-sol-v1-093-numerical-secondary-memory_tight-G",
+    "confirm-openai-sol-v1-094-etl-secondary-latency_tight-R",
+    "confirm-openai-sol-v1-095-etl-secondary-memory_tight-G",
+    "confirm-openai-sol-v1-096-etl-secondary-memory_tight-P"
+  ],
+  "infrastructure_failures": [],
+  "integrity_issues": [],
+  "manifest": "experiments/09_aamas_contract_bridge/protocol/confirmatory_openai_sol.json",
+  "model": "gpt-5.6-sol",
+  "passed": false,
+  "rows": [
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.054736,
+          "failure_type": null,
+          "generation_seconds": 59.753612374999996,
+          "input_tokens": 149,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 98861056,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.885286602000008,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.9902076250000107
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-001-numerical-secondary-latency_tight-G",
+      "end_to_end_seconds": 62.74382000000001,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.054736,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "provider_tokens": 149,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-001-numerical-secondary-latency_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.014568,
+          "failure_type": "timeout",
+          "generation_seconds": 15.618593792000002,
+          "input_tokens": 167,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 26042368,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.7438228040000183,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8269829980000054
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.05152,
+          "failure_type": "timeout",
+          "generation_seconds": 47.408712083,
+          "input_tokens": 230,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 184336384,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.7313237890000153,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8169842490000008
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-002-etl-secondary-latency_tight-G",
+      "end_to_end_seconds": 66.671273122,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.06608800000000001,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "provider_tokens": 397,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-002-etl-secondary-latency_tight-G"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.067652,
+          "failure_type": null,
+          "generation_seconds": 67.419408542,
+          "input_tokens": 203,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 51978240,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.480979805000004,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.5555041279999955
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-003-numerical-primary-memory_tight-P",
+      "end_to_end_seconds": 68.97491267,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.067652,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 203,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-003-numerical-primary-memory_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.050116,
+          "failure_type": "timeout",
+          "generation_seconds": 54.10405108399999,
+          "input_tokens": 224,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 248578048,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.7456884779999768,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.82292387800004
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.062848,
+          "failure_type": "timeout",
+          "generation_seconds": 70.01497670900002,
+          "input_tokens": 287,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 5545984,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.7314726109999583,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8059278290000407
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-004-etl-secondary-latency_tight-P",
+      "end_to_end_seconds": 127.7478795000001,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.11296400000000001,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "provider_tokens": 511,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-004-etl-secondary-latency_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.010468,
+          "failure_type": null,
+          "generation_seconds": 9.582189749999998,
+          "input_tokens": 167,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4505600,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.9849937640000235,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 3.053934926000011
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-005-etl-secondary-memory_tight-G",
+      "end_to_end_seconds": 12.636124676000009,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.010468,
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "provider_tokens": 167,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-005-etl-secondary-memory_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.008708,
+          "failure_type": "timeout",
+          "generation_seconds": 8.187496417000034,
+          "input_tokens": 147,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4386816,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 4.034163854999974,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 4.1198996280000415
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.04108,
+          "failure_type": "oom_kill",
+          "generation_seconds": 31.621805917000017,
+          "input_tokens": 210,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.2646804529999827,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.334036398999956
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-006-etl-secondary-memory_tight-R",
+      "end_to_end_seconds": 45.26323836100005,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.049788,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "provider_tokens": 357,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-006-etl-secondary-memory_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.049712,
+          "failure_type": null,
+          "generation_seconds": 52.94629704199997,
+          "input_tokens": 203,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 17805312,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.3845206679999364,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.4675505510000448
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-007-numerical-primary-memory_tight-P",
+      "end_to_end_seconds": 54.413847593000014,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.049712,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 203,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-007-numerical-primary-memory_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.005548,
+          "failure_type": "timeout",
+          "generation_seconds": 5.6095239160000006,
+          "input_tokens": 147,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4317184,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.7352987599999778,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8167399939999314
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.0567,
+          "failure_type": "timeout",
+          "generation_seconds": 44.819584709000026,
+          "input_tokens": 210,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 272596992,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.7308905880000793,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8017067609999913
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-008-etl-secondary-latency_tight-R",
+      "end_to_end_seconds": 54.04755537999995,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.062248,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "provider_tokens": 357,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-008-etl-secondary-latency_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.063652,
+          "failure_type": null,
+          "generation_seconds": 73.85666929199994,
+          "input_tokens": 148,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 132567040,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.8855633190000844,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.9614287789999025
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-009-numerical-primary-memory_tight-G",
+      "end_to_end_seconds": 76.81809807099984,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.063652,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 148,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-009-numerical-primary-memory_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.011004,
+          "failure_type": "timeout",
+          "generation_seconds": 11.775613208999971,
+          "input_tokens": 146,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 13271040,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.4304304060000277,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5064924119999432
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.053236,
+          "failure_type": "timeout",
+          "generation_seconds": 61.355795958000044,
+          "input_tokens": 209,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 219652096,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.430220347000045,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator",
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.4971347980000473
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-010-etl-primary-latency_tight-R",
+      "end_to_end_seconds": 76.135036377,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.06423999999999999,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "provider_tokens": 355,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-010-etl-primary-latency_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.092632,
+          "failure_type": null,
+          "generation_seconds": 89.04838029200005,
+          "input_tokens": 128,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 133459968,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 6.196670723000011,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "triangular_symmetry"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 6.2692406459999575
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-011-numerical-primary-memory_tight-R",
+      "end_to_end_seconds": 95.317620938,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.092632,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 128,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-011-numerical-primary-memory_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.014528,
+          "failure_type": null,
+          "generation_seconds": 14.271120959000086,
+          "input_tokens": 167,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4485120,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.935149205000016,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 3.002098208999996
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-012-etl-secondary-memory_tight-G",
+      "end_to_end_seconds": 17.273219168000082,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.014528,
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "provider_tokens": 167,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-012-etl-secondary-memory_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.011628,
+          "failure_type": "timeout",
+          "generation_seconds": 10.640796959,
+          "input_tokens": 167,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4378624,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.7342950070000143,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.803552649999915
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.06006,
+          "failure_type": "timeout",
+          "generation_seconds": 61.322328707999986,
+          "input_tokens": 230,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 272666624,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.7288830319999988,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8027455439998903
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-013-etl-secondary-latency_tight-G",
+      "end_to_end_seconds": 75.56942386099979,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.071688,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "provider_tokens": 397,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-013-etl-secondary-latency_tight-G"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.013108,
+          "failure_type": null,
+          "generation_seconds": 13.836496666000016,
+          "input_tokens": 222,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4497408,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 3.087864122000042,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 3.1616091920000144
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-014-etl-secondary-memory_tight-P",
+      "end_to_end_seconds": 16.99810585800003,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.013108,
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "provider_tokens": 222,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-014-etl-secondary-memory_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.014848,
+          "failure_type": null,
+          "generation_seconds": 14.398778916999959,
+          "input_tokens": 167,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4489216,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 3.088634200999877,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 3.1721962800002075
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-015-etl-secondary-memory_tight-G",
+      "end_to_end_seconds": 17.570975197000166,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.014848,
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "provider_tokens": 167,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-015-etl-secondary-memory_tight-G"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.067672,
+          "failure_type": null,
+          "generation_seconds": 77.32604787500009,
+          "input_tokens": 148,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 23412736,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.5387992470000427,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.620454640999924
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-016-numerical-primary-latency_tight-G",
+      "end_to_end_seconds": 79.94650251600001,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.067672,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 148,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-016-numerical-primary-latency_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.018564,
+          "failure_type": "timeout",
+          "generation_seconds": 20.296213749999993,
+          "input_tokens": 166,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4509696,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.439795342000025,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5114148659999955
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.040416,
+          "failure_type": "timeout",
+          "generation_seconds": 36.670560084000044,
+          "input_tokens": 229,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 251920384,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.4343959140001061,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5184041289999186
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-017-etl-primary-latency_tight-G",
+      "end_to_end_seconds": 59.99659282899995,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.058980000000000005,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "provider_tokens": 395,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-017-etl-primary-latency_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.054156,
+          "failure_type": "timeout",
+          "generation_seconds": 64.91988304199981,
+          "input_tokens": 129,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 109670400,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 3.038648533000014,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.1082306649998372
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.069648,
+          "failure_type": null,
+          "generation_seconds": 76.02137799999991,
+          "input_tokens": 192,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 54902784,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.6875236359999235,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.777215970000043
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-018-numerical-secondary-latency_tight-R",
+      "end_to_end_seconds": 146.8267076769996,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.123804,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "provider_tokens": 321,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-018-numerical-secondary-latency_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.047792,
+          "failure_type": null,
+          "generation_seconds": 46.975521041999855,
+          "input_tokens": 128,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 111378432,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 4.942910603999962,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 5.016685928000015
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-019-numerical-primary-memory_tight-R",
+      "end_to_end_seconds": 51.99220696999987,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.047792,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 128,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-019-numerical-primary-memory_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.068576,
+          "failure_type": null,
+          "generation_seconds": 79.73314312499997,
+          "input_tokens": 204,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 15962112,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.5392437269999846,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.6404061539999475
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-020-numerical-secondary-memory_tight-P",
+      "end_to_end_seconds": 81.37354927899992,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.068576,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "provider_tokens": 204,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-020-numerical-secondary-memory_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.022048,
+          "failure_type": "timeout",
+          "generation_seconds": 23.901608334000002,
+          "input_tokens": 167,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4497408,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.7315891539999484,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8039102879999973
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.04112,
+          "failure_type": null,
+          "generation_seconds": 42.845863792000046,
+          "input_tokens": 230,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 272502784,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.6871108069999536,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.7694007000000056
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-021-etl-secondary-latency_tight-G",
+      "end_to_end_seconds": 70.32078311400005,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.063168,
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "provider_tokens": 397,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-021-etl-secondary-latency_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.014404,
+          "failure_type": "timeout",
+          "generation_seconds": 15.476112625000042,
+          "input_tokens": 166,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4419584,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.4280002989999048,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.496842187999846
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.051676,
+          "failure_type": "timeout",
+          "generation_seconds": 50.37880808299997,
+          "input_tokens": 229,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 251940864,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.4402817469999718,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.530334176999986
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-022-etl-primary-latency_tight-G",
+      "end_to_end_seconds": 68.88209707299984,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.06608,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "provider_tokens": 395,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-022-etl-primary-latency_tight-G"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.012468,
+          "failure_type": null,
+          "generation_seconds": 13.688029791999952,
+          "input_tokens": 222,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4521984,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.985310154999979,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 3.058604191999848
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-023-etl-secondary-memory_tight-P",
+      "end_to_end_seconds": 16.7466339839998,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.012468,
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "provider_tokens": 222,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-023-etl-secondary-memory_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.005664,
+          "failure_type": "timeout",
+          "generation_seconds": 5.676392165999914,
+          "input_tokens": 146,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4407296,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 4.029892783999912,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 4.102907135999885
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.059536,
+          "failure_type": "oom_kill",
+          "generation_seconds": 77.68755558299995,
+          "input_tokens": 209,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.2482892630000606,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.3317608229999678
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-024-etl-primary-memory_tight-R",
+      "end_to_end_seconds": 88.79861570799972,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.0652,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "provider_tokens": 355,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-024-etl-primary-memory_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.076556,
+          "failure_type": null,
+          "generation_seconds": 80.57960458299999,
+          "input_tokens": 204,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 18608128,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.3306118479999895,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.4063094680000177
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-025-numerical-secondary-memory_tight-P",
+      "end_to_end_seconds": 81.98591405100001,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.076556,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "provider_tokens": 204,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-025-numerical-secondary-memory_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.047556,
+          "failure_type": "timeout",
+          "generation_seconds": 58.170358708000094,
+          "input_tokens": 129,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 90890240,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 3.0393431529998907,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.1117774189999636
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.049468,
+          "failure_type": "timeout",
+          "generation_seconds": 54.61340787499989,
+          "input_tokens": 192,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 50991104,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 3.0436878709999746,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.1348766159999286
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-026-numerical-secondary-latency_tight-R",
+      "end_to_end_seconds": 119.03042061799988,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.097024,
+      "family": "numerical",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "provider_tokens": 321,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-026-numerical-secondary-latency_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.063192,
+          "failure_type": "timeout",
+          "generation_seconds": 67.66115879199992,
+          "input_tokens": 223,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 148488192,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.4534850549998737,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5789398989998062
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.075144,
+          "failure_type": "timeout",
+          "generation_seconds": 85.6871269589999,
+          "input_tokens": 286,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 192479232,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.4382624979998582,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator",
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5229727050000292
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-027-etl-primary-latency_tight-P",
+      "end_to_end_seconds": 156.45019835499966,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.13833600000000001,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "provider_tokens": 509,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-027-etl-primary-latency_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.047032,
+          "failure_type": null,
+          "generation_seconds": 53.79419566699994,
+          "input_tokens": 148,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 30982144,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.5840114020002147,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.6544273839999732
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-028-numerical-primary-latency_tight-G",
+      "end_to_end_seconds": 56.44862305099991,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.047032,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 148,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-028-numerical-primary-latency_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.007568,
+          "failure_type": "timeout",
+          "generation_seconds": 7.980984583000009,
+          "input_tokens": 147,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4259840,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 4.037338657999953,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 4.132638994999979
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.0635,
+          "failure_type": "oom_kill",
+          "generation_seconds": 52.122340625000106,
+          "input_tokens": 210,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.4400458939999226,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.511911168000097
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-029-etl-secondary-memory_tight-R",
+      "end_to_end_seconds": 65.74787537100019,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.071068,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "provider_tokens": 357,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-029-etl-secondary-memory_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.010024,
+          "failure_type": "timeout",
+          "generation_seconds": 8.596221624999998,
+          "input_tokens": 146,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4460544,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.439735045999896,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5169261360001656
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.054036,
+          "failure_type": "timeout",
+          "generation_seconds": 61.235394375000396,
+          "input_tokens": 209,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 153915392,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.4360632080001778,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator",
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.508490969000377
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-030-etl-primary-latency_tight-R",
+      "end_to_end_seconds": 72.85703310500094,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.06406,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "provider_tokens": 355,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-030-etl-primary-latency_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.007988,
+          "failure_type": "timeout",
+          "generation_seconds": 7.307061041999987,
+          "input_tokens": 147,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4321280,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 4.0315075530002105,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 4.100960082999791
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.05082,
+          "failure_type": "oom_kill",
+          "generation_seconds": 41.082538042000124,
+          "input_tokens": 210,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.8896999720000167,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.96068045300035
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-031-etl-secondary-memory_tight-R",
+      "end_to_end_seconds": 54.45123962000025,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.058808,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "provider_tokens": 357,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-031-etl-secondary-memory_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.040896,
+          "failure_type": "incorrect_or_runtime_error",
+          "generation_seconds": 41.26065166699982,
+          "input_tokens": 224,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 152944640,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 0.9780777389996729,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.0473285439998108
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.068512,
+          "failure_type": null,
+          "generation_seconds": 68.36676937499988,
+          "input_tokens": 358,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 212979712,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.681660858000214,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.749864543000058
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-032-etl-secondary-latency_tight-P",
+      "end_to_end_seconds": 112.42461412899956,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.109408,
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "provider_tokens": 582,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-032-etl-secondary-latency_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.063932,
+          "failure_type": null,
+          "generation_seconds": 70.81479379200027,
+          "input_tokens": 203,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 18501632,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.5359023709997928,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.642977127999984
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-033-numerical-primary-memory_tight-P",
+      "end_to_end_seconds": 72.45777092000026,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.063932,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 203,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-033-numerical-primary-memory_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.059736,
+          "failure_type": null,
+          "generation_seconds": 72.83746633300007,
+          "input_tokens": 129,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 90906624,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 5.048446897999838,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 5.135841470000287
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-034-numerical-secondary-memory_tight-R",
+      "end_to_end_seconds": 77.97330780300035,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.059736,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "provider_tokens": 129,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-034-numerical-secondary-memory_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.014744,
+          "failure_type": null,
+          "generation_seconds": 13.082341917000122,
+          "input_tokens": 221,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 8974336,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.335373991000324,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.4071024489999218
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-035-etl-primary-memory_tight-P",
+      "end_to_end_seconds": 15.489444366000043,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.014744,
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 221,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-035-etl-primary-memory_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.035164,
+          "failure_type": null,
+          "generation_seconds": 37.18855479199965,
+          "input_tokens": 166,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 104280064,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.384263750000173,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.4523899800001345
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-036-etl-primary-memory_tight-G",
+      "end_to_end_seconds": 39.640944771999784,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.035164,
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 166,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-036-etl-primary-memory_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.055456,
+          "failure_type": "timeout",
+          "generation_seconds": 58.03608808300032,
+          "input_tokens": 149,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 110370816,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 3.0422794299997804,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.11320215700016
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.059668,
+          "failure_type": null,
+          "generation_seconds": 68.63237416700031,
+          "input_tokens": 212,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 54849536,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.6884304899999734,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.763938962999873
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-037-numerical-secondary-latency_tight-G",
+      "end_to_end_seconds": 132.54560337000066,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.115124,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "provider_tokens": 361,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-037-numerical-secondary-latency_tight-G"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.050396,
+          "failure_type": null,
+          "generation_seconds": 52.185883958999966,
+          "input_tokens": 149,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 54890496,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.684869221000099,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.7618681670001024
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-038-numerical-secondary-memory_tight-G",
+      "end_to_end_seconds": 54.94775212600007,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.050396,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "provider_tokens": 149,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-038-numerical-secondary-memory_tight-G"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.020728,
+          "failure_type": null,
+          "generation_seconds": 21.29345083399994,
+          "input_tokens": 222,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4616192,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.3849518710003395,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.4618661719996453
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-039-etl-secondary-memory_tight-P",
+      "end_to_end_seconds": 23.755317005999586,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.020728,
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "provider_tokens": 222,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-039-etl-secondary-memory_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.077672,
+          "failure_type": null,
+          "generation_seconds": 76.59034812499976,
+          "input_tokens": 128,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 116809728,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 5.249135984000077,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "memory_map",
+              "triangular_symmetry"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 5.326380818999951
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-040-numerical-primary-memory_tight-R",
+      "end_to_end_seconds": 81.91672894399971,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.077672,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 128,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-040-numerical-primary-memory_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.006128,
+          "failure_type": "timeout",
+          "generation_seconds": 6.8740681669996775,
+          "input_tokens": 147,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4468736,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 4.036225237000053,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 4.118894705999992
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.04796,
+          "failure_type": "oom_kill",
+          "generation_seconds": 39.18393279199972,
+          "input_tokens": 210,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.5358276900001329,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.6213298229999964
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-041-etl-secondary-memory_tight-R",
+      "end_to_end_seconds": 51.79822548799939,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.054088000000000004,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "provider_tokens": 357,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-041-etl-secondary-memory_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.062636,
+          "failure_type": "timeout",
+          "generation_seconds": 67.34641554100017,
+          "input_tokens": 224,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 153260032,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.7783316219997687,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.887804966999738
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.071068,
+          "failure_type": "time_exceedance",
+          "generation_seconds": 80.42858462499998,
+          "input_tokens": 287,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 358023168,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.7150786510001126,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_eager",
+            "rationale": [
+              "read_csv has no explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.7841389139998682
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-042-etl-secondary-latency_tight-P",
+      "end_to_end_seconds": 151.44694404699976,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.133704,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "provider_tokens": 511,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-042-etl-secondary-latency_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.071132,
+          "failure_type": "timeout",
+          "generation_seconds": 74.43670187499993,
+          "input_tokens": 128,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 94793728,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 3.0369518379998226,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.1120963700000175
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.047424,
+          "failure_type": null,
+          "generation_seconds": 45.868571584000165,
+          "input_tokens": 191,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 80695296,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.837913148000098,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.9249856120000004
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-043-numerical-primary-latency_tight-R",
+      "end_to_end_seconds": 126.34235544100011,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.118556,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "provider_tokens": 319,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-043-numerical-primary-latency_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.073536,
+          "failure_type": null,
+          "generation_seconds": 76.10719591599991,
+          "input_tokens": 204,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 314028032,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.435205329999917,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.518240574000174
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-044-numerical-primary-latency_tight-P",
+      "end_to_end_seconds": 77.62543649000008,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.073536,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 204,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-044-numerical-primary-latency_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.066496,
+          "failure_type": null,
+          "generation_seconds": 70.35746124999969,
+          "input_tokens": 204,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 52772864,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.5395025770003485,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.6152943130000494
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-045-numerical-primary-latency_tight-P",
+      "end_to_end_seconds": 71.97275556299974,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.066496,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 204,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-045-numerical-primary-latency_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.045532,
+          "failure_type": null,
+          "generation_seconds": 54.505419832999905,
+          "input_tokens": 148,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 65073152,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.6854965869997613,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.7606368360002307
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-046-numerical-primary-memory_tight-G",
+      "end_to_end_seconds": 57.266056669000136,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.045532,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 148,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-046-numerical-primary-memory_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.072372,
+          "failure_type": "timeout",
+          "generation_seconds": 75.35511999999972,
+          "input_tokens": 128,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 90787840,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 3.0241437780000524,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.0989614479999545
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.056444,
+          "failure_type": null,
+          "generation_seconds": 56.006477542000084,
+          "input_tokens": 191,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 53665792,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.7026116739998542,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.7970279559999653
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-047-numerical-primary-latency_tight-R",
+      "end_to_end_seconds": 137.25758694599972,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.128816,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "provider_tokens": 319,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-047-numerical-primary-latency_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.056992,
+          "failure_type": "timeout",
+          "generation_seconds": 62.45923554199999,
+          "input_tokens": 128,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 104099840,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 3.0456188629996177,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.1197075219997714
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.063044,
+          "failure_type": null,
+          "generation_seconds": 65.22630400000025,
+          "input_tokens": 191,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 80396288,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.8404649639996933,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.9313793800001804
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-048-numerical-primary-latency_tight-R",
+      "end_to_end_seconds": 133.7366264440002,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.120036,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "provider_tokens": 319,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-048-numerical-primary-latency_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.005504,
+          "failure_type": "timeout",
+          "generation_seconds": 6.424745291999898,
+          "input_tokens": 146,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4431872,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 4.0396072419998745,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 4.120779050999772
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.052356,
+          "failure_type": "oom_kill",
+          "generation_seconds": 61.53968058300006,
+          "input_tokens": 209,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.5086353199999394,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.5926284050001414
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-049-etl-primary-memory_tight-R",
+      "end_to_end_seconds": 73.67783333099987,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.05786,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "provider_tokens": 355,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-049-etl-primary-memory_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.052232,
+          "failure_type": null,
+          "generation_seconds": 54.69377766700018,
+          "input_tokens": 128,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 111964160,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 4.8465731359997335,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 4.939241564999975
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-050-numerical-primary-memory_tight-R",
+      "end_to_end_seconds": 59.63301923200015,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.052232,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 128,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-050-numerical-primary-memory_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.04856,
+          "failure_type": null,
+          "generation_seconds": 52.524165708000055,
+          "input_tokens": 205,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 18370560,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.3318072570000368,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.4034873860000516
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-051-numerical-secondary-latency_tight-P",
+      "end_to_end_seconds": 53.92765309400011,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.04856,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "provider_tokens": 205,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-051-numerical-secondary-latency_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.026844,
+          "failure_type": null,
+          "generation_seconds": 26.211554959000296,
+          "input_tokens": 221,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4534272,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.386183107000761,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.4677438810003878
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-052-etl-primary-memory_tight-P",
+      "end_to_end_seconds": 28.679298840000683,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.026844,
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 221,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-052-etl-primary-memory_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.047956,
+          "failure_type": null,
+          "generation_seconds": 48.736829082999975,
+          "input_tokens": 149,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 88002560,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 5.304960150000625,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 5.391888178999579
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-053-numerical-secondary-memory_tight-G",
+      "end_to_end_seconds": 54.128717261999554,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.047956,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "provider_tokens": 149,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-053-numerical-secondary-memory_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.059716,
+          "failure_type": "timeout",
+          "generation_seconds": 68.39147095799945,
+          "input_tokens": 129,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 112988160,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 3.0241241840003568,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.096739071000229
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.064348,
+          "failure_type": null,
+          "generation_seconds": 69.0643292499999,
+          "input_tokens": 192,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 69038080,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.7369083099993077,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.820737920999818
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-054-numerical-secondary-latency_tight-R",
+      "end_to_end_seconds": 143.3732771999994,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.12406400000000001,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "provider_tokens": 321,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-054-numerical-secondary-latency_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.06748,
+          "failure_type": null,
+          "generation_seconds": 72.59599137499936,
+          "input_tokens": 205,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 63791104,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.3812902190002205,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.4586715969999204
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-055-numerical-secondary-latency_tight-P",
+      "end_to_end_seconds": 74.05466297199928,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.06748,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "provider_tokens": 205,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-055-numerical-secondary-latency_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.017784,
+          "failure_type": "timeout",
+          "generation_seconds": 18.353341750000254,
+          "input_tokens": 166,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4411392,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.4354490260002422,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5127602009997645
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.071076,
+          "failure_type": "timeout",
+          "generation_seconds": 63.27895483300017,
+          "input_tokens": 229,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 221765632,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.4412961689995427,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator",
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5145485249995545
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-056-etl-primary-latency_tight-G",
+      "end_to_end_seconds": 84.65960530899974,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.08886,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "provider_tokens": 395,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-056-etl-primary-latency_tight-G"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.037772,
+          "failure_type": null,
+          "generation_seconds": 41.90366783299942,
+          "input_tokens": 148,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 88199168,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.839853965999282,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.927279040999565
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-057-numerical-primary-latency_tight-G",
+      "end_to_end_seconds": 44.83094687399898,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.037772,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 148,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-057-numerical-primary-latency_tight-G"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.045372,
+          "failure_type": null,
+          "generation_seconds": 53.549753416000385,
+          "input_tokens": 148,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 77107200,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.7413515520001965,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.810435835000135
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-058-numerical-primary-memory_tight-G",
+      "end_to_end_seconds": 56.36018925100052,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.045372,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 148,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-058-numerical-primary-memory_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.063696,
+          "failure_type": "timeout",
+          "generation_seconds": 65.64161762499953,
+          "input_tokens": 224,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 153333760,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.7331466899995576,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8025777419998121
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.073328,
+          "failure_type": "timeout",
+          "generation_seconds": 73.27926158300033,
+          "input_tokens": 287,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 272596992,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.7365860709996923,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8228829609997774
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-059-etl-secondary-latency_tight-P",
+      "end_to_end_seconds": 142.54633991099945,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.137024,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "provider_tokens": 511,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-059-etl-secondary-latency_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.055856,
+          "failure_type": null,
+          "generation_seconds": 61.89113641699987,
+          "input_tokens": 204,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 78012416,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.155987467000159,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.307925336000153
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-060-numerical-primary-latency_tight-P",
+      "end_to_end_seconds": 64.19906175300002,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.055856,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 204,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-060-numerical-primary-latency_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.0606,
+          "failure_type": null,
+          "generation_seconds": 63.83347991699975,
+          "input_tokens": 205,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 78123008,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.3302826059998552,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.3989732700001696
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-061-numerical-secondary-latency_tight-P",
+      "end_to_end_seconds": 65.23245318699992,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.0606,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "provider_tokens": 205,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-061-numerical-secondary-latency_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.061776,
+          "failure_type": null,
+          "generation_seconds": 63.8322897500002,
+          "input_tokens": 204,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 18849792,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.3310698490004143,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.4022482740001578
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-062-numerical-secondary-memory_tight-P",
+      "end_to_end_seconds": 65.23453802400036,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.061776,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "provider_tokens": 204,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-062-numerical-secondary-memory_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.016628,
+          "failure_type": "timeout",
+          "generation_seconds": 15.054974415999823,
+          "input_tokens": 167,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4411392,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.7331558490004682,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.8080578450008034
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.09692,
+          "failure_type": null,
+          "generation_seconds": 95.01944733300024,
+          "input_tokens": 230,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 358256640,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.632713590000094,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_eager",
+            "rationale": [
+              "read_csv has no explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.7038460009998744
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-063-etl-secondary-latency_tight-G",
+      "end_to_end_seconds": 113.58632559500074,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.11354800000000001,
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "provider_tokens": 397,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-063-etl-secondary-latency_tight-G"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.074196,
+          "failure_type": null,
+          "generation_seconds": 84.88513158400019,
+          "input_tokens": 129,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 117477376,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 6.052400187000785,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 6.138202755000748
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-064-numerical-secondary-memory_tight-R",
+      "end_to_end_seconds": 91.02333433900094,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.074196,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "provider_tokens": 129,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-064-numerical-secondary-memory_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.063764,
+          "failure_type": "oom_kill",
+          "generation_seconds": 63.70425412500026,
+          "input_tokens": 166,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.859640507000222,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.9593284840002525
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.026656,
+          "failure_type": null,
+          "generation_seconds": 23.207177541999954,
+          "input_tokens": 229,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4513792,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.484967794000113,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.555839497999841
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-065-etl-primary-memory_tight-G",
+      "end_to_end_seconds": 91.42659964900031,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.09042,
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "provider_tokens": 395,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-065-etl-primary-memory_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.045116,
+          "failure_type": "timeout",
+          "generation_seconds": 42.72684845799995,
+          "input_tokens": 149,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 122523648,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 3.0244555350000155,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.094876428999669
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.059128,
+          "failure_type": null,
+          "generation_seconds": 63.13483295900005,
+          "input_tokens": 212,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 68648960,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.6919424220004657,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.7660099389995594
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-066-numerical-secondary-latency_tight-G",
+      "end_to_end_seconds": 111.72256778499923,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.104244,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "provider_tokens": 361,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-066-numerical-secondary-latency_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.018304,
+          "failure_type": "timeout",
+          "generation_seconds": 19.782814416999827,
+          "input_tokens": 166,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4431872,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.4331501770002433,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5178659639996113
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.056516,
+          "failure_type": "timeout",
+          "generation_seconds": 51.12540933299988,
+          "input_tokens": 229,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 207929344,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.4451222449997658,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5328151100002287
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-067-etl-primary-latency_tight-G",
+      "end_to_end_seconds": 73.95890482399955,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.07482,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "provider_tokens": 395,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-067-etl-primary-latency_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.008224,
+          "failure_type": "timeout",
+          "generation_seconds": 7.048483249999663,
+          "input_tokens": 146,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4329472,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.4316718489999403,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5008408829999098
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.052236,
+          "failure_type": "timeout",
+          "generation_seconds": 56.73890470800052,
+          "input_tokens": 209,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 202633216,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.4351500940001642,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator",
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5044544909997057
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-068-etl-primary-latency_tight-R",
+      "end_to_end_seconds": 66.7926833319998,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.06046,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "provider_tokens": 355,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-068-etl-primary-latency_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.037936,
+          "failure_type": "timeout",
+          "generation_seconds": 41.993973249999726,
+          "input_tokens": 129,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 109817856,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 3.02447854500042,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 3.0950336819996664
+        },
+        {
+          "attempt": 2,
+          "correct": true,
+          "estimated_cost_usd": 0.063848,
+          "failure_type": null,
+          "generation_seconds": 77.14957604199935,
+          "input_tokens": 192,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 68120576,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.6882529060003435,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.77920563600037
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-069-numerical-secondary-latency_tight-R",
+      "end_to_end_seconds": 125.01778860999912,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.101784,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": false,
+      "instance": "secondary",
+      "provider_tokens": 321,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-069-numerical-secondary-latency_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.048436,
+          "failure_type": null,
+          "generation_seconds": 58.28988829199989,
+          "input_tokens": 129,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 90951680,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 4.84251524299998,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 4.912467178000043
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-070-numerical-secondary-memory_tight-R",
+      "end_to_end_seconds": 63.20235546999993,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.048436,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "provider_tokens": 129,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-070-numerical-secondary-memory_tight-R"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.014012,
+          "failure_type": "timeout",
+          "generation_seconds": 14.433050958000422,
+          "input_tokens": 223,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4317184,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.437617421000141,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.517061919000298
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.077544,
+          "failure_type": "timeout",
+          "generation_seconds": 94.18870183299987,
+          "input_tokens": 286,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 5476352,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.4302691469993078,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5007408289993691
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-071-etl-primary-latency_tight-P",
+      "end_to_end_seconds": 111.63955553899996,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.091556,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "provider_tokens": 509,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-071-etl-primary-latency_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.051052,
+          "failure_type": "timeout",
+          "generation_seconds": 52.07330620800076,
+          "input_tokens": 223,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 186900480,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.4375298739996651,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5220202549999158
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.061504,
+          "failure_type": "timeout",
+          "generation_seconds": 71.1620010000006,
+          "input_tokens": 286,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 5566464,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.4281853709999268,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.499929355999484
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-072-etl-primary-latency_tight-P",
+      "end_to_end_seconds": 126.25725681900076,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.112556,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "provider_tokens": 509,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-072-etl-primary-latency_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.021364,
+          "failure_type": null,
+          "generation_seconds": 20.575451875,
+          "input_tokens": 221,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4485120,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.9878650029995697,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 3.073901495999962
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-073-etl-primary-memory_tight-P",
+      "end_to_end_seconds": 23.64935337099996,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.021364,
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 221,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-073-etl-primary-memory_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.048332,
+          "failure_type": null,
+          "generation_seconds": 56.73750995800037,
+          "input_tokens": 148,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 20697088,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.5333527259999755,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.606269146000159
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-074-numerical-primary-latency_tight-G",
+      "end_to_end_seconds": 59.34377910400053,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.048332,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 148,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-074-numerical-primary-latency_tight-G"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.008844,
+          "failure_type": "timeout",
+          "generation_seconds": 8.016863750000084,
+          "input_tokens": 146,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4362240,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 4.031029406999551,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 4.100430833999781
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.050236,
+          "failure_type": "oom_kill",
+          "generation_seconds": 62.15377545899992,
+          "input_tokens": 209,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 134217728,
+          "oom_killed": true,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.2058099460000449,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.284367117000329
+        }
+      ],
+      "condition": "R",
+      "effective_trajectory_id": "confirm-openai-sol-v1-075-etl-primary-memory_tight-R",
+      "end_to_end_seconds": 75.55543716000011,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.05908,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "provider_tokens": 355,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-075-etl-primary-memory_tight-R"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.068596,
+          "failure_type": null,
+          "generation_seconds": 72.36910654100029,
+          "input_tokens": 149,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 118472704,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 4.742653221999717,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 4.816186278000714
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-076-numerical-secondary-memory_tight-G",
+      "end_to_end_seconds": 77.185292819001,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.068596,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "provider_tokens": 149,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-076-numerical-secondary-memory_tight-G"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.059316,
+          "failure_type": null,
+          "generation_seconds": 65.84952945899931,
+          "input_tokens": 204,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 17780736,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.3322401030000037,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update",
+              "memory_map"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.4087427169997682
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-077-numerical-secondary-memory_tight-P",
+      "end_to_end_seconds": 67.25827217599908,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.059316,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "secondary",
+      "provider_tokens": 204,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-077-numerical-secondary-memory_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.045192,
+          "failure_type": null,
+          "generation_seconds": 54.89468012500038,
+          "input_tokens": 148,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 65396736,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.5852614389996234,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.6604032710001775
+        }
+      ],
+      "condition": "G",
+      "effective_trajectory_id": "confirm-openai-sol-v1-078-numerical-primary-memory_tight-G",
+      "end_to_end_seconds": 57.555083396000555,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.045192,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 148,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-078-numerical-primary-memory_tight-G"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.064376,
+          "failure_type": null,
+          "generation_seconds": 63.53351500000008,
+          "input_tokens": 204,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 50556928,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.280130619999909,
+          "strategy": {
+            "family": "numerical",
+            "features": [
+              "float32_explicit",
+              "in_place_update"
+            ],
+            "primary_strategy": "blocked_matrix_product",
+            "rationale": [
+              "matrix products occur in an explicit iteration structure"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 1.3493846880001001
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-079-numerical-primary-latency_tight-P",
+      "end_to_end_seconds": 64.88289968800018,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.064376,
+      "family": "numerical",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 204,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-079-numerical-primary-latency_tight-P"
+    },
+    {
+      "attempt_count": 1,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": true,
+          "estimated_cost_usd": 0.042644,
+          "failure_type": null,
+          "generation_seconds": 41.83159954100029,
+          "input_tokens": 221,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4513792,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 2.284665064999899,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": true,
+          "timed_out": false,
+          "within_memory": true,
+          "within_time": true,
+          "worker_time_seconds": 2.3577128599999924
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-080-etl-primary-memory_tight-P",
+      "end_to_end_seconds": 44.18931240100028,
+      "environment": "memory_tight",
+      "estimated_cost_usd": 0.042644,
+      "family": "etl",
+      "final_suitable": true,
+      "first_pass_suitable": true,
+      "instance": "primary",
+      "provider_tokens": 221,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-080-etl-primary-memory_tight-P"
+    },
+    {
+      "attempt_count": 2,
+      "attempts": [
+        {
+          "attempt": 1,
+          "correct": false,
+          "estimated_cost_usd": 0.017032,
+          "failure_type": "timeout",
+          "generation_seconds": 20.29494183299994,
+          "input_tokens": 223,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 4382720,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.4355852700000469,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "csv_iterator"
+            ],
+            "primary_strategy": "stdlib_streaming",
+            "rationale": [
+              "a CSV iterator is consumed by a loop without explicit materialization"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5291156920002322
+        },
+        {
+          "attempt": 2,
+          "correct": false,
+          "estimated_cost_usd": 0.069464,
+          "failure_type": "timeout",
+          "generation_seconds": 103.521391459,
+          "input_tokens": 286,
+          "memory_exceedance_bytes": 0,
+          "memory_peak_bytes": 202608640,
+          "oom_killed": false,
+          "output_tokens_including_thoughts": null,
+          "program_time_seconds": 1.433938641000168,
+          "strategy": {
+            "family": "etl",
+            "features": [
+              "explicit_chunksize",
+              "pandas"
+            ],
+            "primary_strategy": "dataframe_chunked",
+            "rationale": [
+              "read_csv supplies an explicit chunksize"
+            ],
+            "requires_adjudication": false,
+            "schema_version": "strategy-codebook/v0.1"
+          },
+          "suitable": false,
+          "timed_out": true,
+          "within_memory": true,
+          "within_time": false,
+          "worker_time_seconds": 1.5435164440004883
+        }
+      ],
+      "condition": "P",
+      "effective_trajectory_id": "confirm-openai-sol-v1-081-etl-primary-latency_tight-P",
+      "end_to_end_seconds": 126.88896542800066,
+      "environment": "latency_tight",
+      "estimated_cost_usd": 0.08649599999999999,
+      "family": "etl",
+      "final_suitable": false,
+      "first_pass_suitable": false,
+      "instance": "primary",
+      "provider_tokens": 509,
+      "scheduled_trajectory_id": "confirm-openai-sol-v1-081-etl-primary-latency_tight-P"
+    }
+  ],
+  "scheduled": 96,
+  "schema_version": "aamas-provider-cohort-audit/v1.1"
+}

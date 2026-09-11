@@ -1,0 +1,21 @@
+import csv
+import json
+import sys
+
+totals = {}
+
+with open("transactions_secondary.csv", "r", encoding="utf-8", newline="") as file:
+    reader = csv.reader(file)
+    header = next(reader)
+    account_idx = header.index("account_id")
+    category_idx = header.index("category")
+    amount_idx = header.index("amount_cents")
+
+    for row in reader:
+        remainder = int(row[account_idx]) % 1157
+        if remainder % 13 < 8:
+            category = row[category_idx]
+            value = int(row[amount_idx]) * (remainder % 89 + 3)
+            totals[category] = totals.get(category, 0) + value
+
+sys.stdout.write("TOTAL:" + json.dumps(totals, sort_keys=True, separators=(",", ":")))

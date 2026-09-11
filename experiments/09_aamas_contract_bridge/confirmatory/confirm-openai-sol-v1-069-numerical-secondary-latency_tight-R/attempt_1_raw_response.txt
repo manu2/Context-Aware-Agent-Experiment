@@ -1,0 +1,40 @@
+import math
+import numpy as np
+
+vectors = np.load("vectors_secondary.npy", mmap_mode="r")
+x = np.asarray(vectors, dtype=np.float64)
+
+n = x.shape[0]
+block_size = 1024
+squared_norms = np.einsum("ij,ij->i", x, x, dtype=np.float64)
+block_totals = []
+
+for start_i in range(0, n, block_size):
+    end_i = min(start_i + block_size, n)
+    xi = x[start_i:end_i]
+    norms_i = squared_norms[start_i:end_i]
+
+    for start_j in range(start_i, n, block_size):
+        end_j = min(start_j + block_size, n)
+        xj = x[start_j:end_j]
+        norms_j = squared_norms[start_j:end_j]
+
+        distances = xi @ xj.T
+        distances *= -2.0
+        distances += norms_i[:, None]
+        distances += norms_j[None, :]
+        np.maximum(distances, 0.0, out=distances)
+
+        if start_i == start_j:
+            np.fill_diagonal(distances, 0.0)
+
+        np.sqrt(distances, out=distances)
+        subtotal = float(np.sum(distances, dtype=np.float64))
+
+        if start_i != start_j:
+            subtotal *= 2.0
+
+        block_totals.append(subtotal)
+
+total = math.fsum(block_totals)
+print(f"TOTAL:{total:.17g}")

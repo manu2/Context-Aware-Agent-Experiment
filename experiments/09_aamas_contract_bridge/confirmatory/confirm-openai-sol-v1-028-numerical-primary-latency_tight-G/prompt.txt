@@ -1,0 +1,5 @@
+Write a complete Python program. The current directory contains vectors.npy, an 8000 by 1024 float32 NumPy array. CPython 3.11.2, NumPy 2.0.2, Pandas 2.2.3, and the Python standard library are available. Compute the sum of Euclidean distances over every ordered pair of rows, including the zero diagonal, and print exactly TOTAL:<decimal value>. Do not approximate or sample. Do not modify the input file. Do not invoke external programs. The program has no network access.
+
+Generate an efficient implementation. Balance memory use and execution time, and avoid unnecessary materialization or work.
+
+Return only one complete Python program.

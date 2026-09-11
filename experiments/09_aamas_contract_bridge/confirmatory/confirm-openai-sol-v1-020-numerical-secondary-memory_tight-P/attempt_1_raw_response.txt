@@ -1,0 +1,47 @@
+import os
+
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+
+import numpy as np
+
+vectors = np.load("vectors_secondary.npy", mmap_mode="r")
+n = vectors.shape[0]
+norms = np.einsum("ij,ij->i", vectors, vectors, dtype=np.float32)
+
+def block_sum(i0, i1, j0, j1, zero_diagonal=False):
+    gram = np.matmul(vectors[i0:i1], vectors[j0:j1].T)
+    gram *= np.float32(-2.0)
+    gram += norms[i0:i1, None]
+    gram += norms[None, j0:j1]
+    np.maximum(gram, np.float32(0.0), out=gram)
+    np.sqrt(gram, out=gram)
+    if zero_diagonal:
+        np.fill_diagonal(gram, np.float32(0.0))
+    return float(np.sum(gram, dtype=np.float64))
+
+def diagonal_sum(start, end):
+    size = end - start
+    if size <= 128:
+        return block_sum(start, end, start, end, True)
+    middle = start + size // 2
+    return (
+        diagonal_sum(start, middle)
+        + diagonal_sum(middle, end)
+        + 2.0 * block_sum(start, middle, middle, end)
+    )
+
+total = 0.0
+block_size = 512
+
+for i0 in range(0, n, block_size):
+    i1 = min(i0 + block_size, n)
+    total += diagonal_sum(i0, i1)
+    for j0 in range(i1, n, block_size):
+        j1 = min(j0 + block_size, n)
+        total += 2.0 * block_sum(i0, i1, j0, j1)
+
+print(f"TOTAL:{total:.17g}")
