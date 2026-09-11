@@ -244,6 +244,10 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   results independently replicate the first-pass advantage and retain the same
   latency-tight ETL boundary observed with Gemini. GPT-5.6 Sol is the final frozen
   provider cohort.
+  GPT's first already-randomized trajectory is now frozen as a one-trajectory
+  operational canary before any confirmatory GPT call. As with the earlier gates,
+  only provider, worker, or artifact integrity controls continuation; the selected
+  model outcome cannot do so.
 - **Preserved earlier FSE protocol:**
   [`docs/14_fse_contractbench_protocol.md`](docs/14_fse_contractbench_protocol.md)
   remains a future expansion reference and does not govern the AAMAS campaign.
