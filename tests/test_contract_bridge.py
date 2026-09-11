@@ -12,7 +12,12 @@ from aether_contract_bridge.agent_loop import AgentLoop
 from aether_contract_bridge.generation import ImportedResponseBackend, extract_python
 from aether_contract_bridge.models import RawSubstrateEvidence
 from aether_contract_bridge.rendering import ContractRenderer
-from aether_contract_bridge.provider import BudgetLedger, GeminiDirectAPIBackend
+from aether_contract_bridge.provider import (
+    AnthropicMessagesBackend,
+    BudgetLedger,
+    GeminiDirectAPIBackend,
+    OpenAIResponsesBackend,
+)
 
 
 def evidence() -> RawSubstrateEvidence:
@@ -87,6 +92,35 @@ class ContractBridgeTests(unittest.TestCase):
                     model="gemini-3.8-flash",
                     temperature=0.1,
                 )
+
+    def test_openai_uses_frozen_responses_configuration(self):
+        with tempfile.TemporaryDirectory() as directory:
+            backend = OpenAIResponsesBackend(
+                api_key="fixture",
+                ledger=BudgetLedger(Path(directory) / "budget.json", 1.0, 1),
+            )
+            self.assertEqual(
+                backend.request_body("task"),
+                {
+                    "model": "gpt-5.6-sol", "input": "task",
+                    "reasoning": {"effort": "medium"},
+                    "max_output_tokens": 32768, "store": False,
+                    "service_tier": "default",
+                },
+            )
+
+    def test_sonnet_5_uses_adaptive_thinking_without_sampling_controls(self):
+        with tempfile.TemporaryDirectory() as directory:
+            backend = AnthropicMessagesBackend(
+                api_key="fixture",
+                ledger=BudgetLedger(Path(directory) / "budget.json", 1.0, 1),
+            )
+            body = backend.request_body("task")
+            self.assertEqual(body["model"], "claude-sonnet-5")
+            self.assertEqual(body["thinking"], {"type": "adaptive"})
+            self.assertEqual(body["output_config"], {"effort": "medium"})
+            self.assertNotIn("temperature", body)
+            self.assertNotIn("top_p", body)
 
 
 if __name__ == "__main__":

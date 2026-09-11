@@ -51,6 +51,24 @@ class BudgetLedger:
         temp.replace(self.path)
 
 
+def _json_request(endpoint: str, body: dict, headers: dict[str, str], timeout: int = 300) -> tuple[dict, str | None, float]:
+    request = urllib.request.Request(
+        endpoint,
+        data=json.dumps(body).encode("utf-8"),
+        headers={**headers, "Content-Type": "application/json"},
+    )
+    started = time.monotonic()
+    with urllib.request.urlopen(request, timeout=timeout) as response:
+        raw_bytes = response.read()
+        request_id = response.headers.get("request-id") or response.headers.get("x-request-id") or response.headers.get("x-goog-request-id")
+    return json.loads(raw_bytes.decode("utf-8")), request_id, time.monotonic() - started
+
+
+def _prompt_token_projection(prompt: str) -> int:
+    """Conservative provider-neutral estimate used only for pre-call budget reservation."""
+    return max(1, (len(prompt) + 2) // 3)
+
+
 @dataclass
 class GeminiDirectAPIBackend:
     api_key: str
@@ -88,14 +106,9 @@ class GeminiDirectAPIBackend:
         endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent"
         body = {"contents": [{"parts": [{"text": prompt}]}],
                 "generationConfig": self.generation_config()}
-        request = urllib.request.Request(endpoint, data=json.dumps(body).encode("utf-8"),
-                                         headers={"x-goog-api-key": self.api_key, "Content-Type": "application/json"})
-        started = time.monotonic()
-        with urllib.request.urlopen(request, timeout=180) as response:
-            raw_bytes = response.read()
-            request_id = response.headers.get("x-request-id") or response.headers.get("x-goog-request-id")
-        elapsed = time.monotonic() - started
-        payload = json.loads(raw_bytes.decode("utf-8"))
+        payload, request_id, elapsed = _json_request(
+            endpoint, body, {"x-goog-api-key": self.api_key}, timeout=300
+        )
         candidates = payload.get("candidates", [])
         if not candidates:
             raise RuntimeError("Gemini returned no candidate")
@@ -120,6 +133,151 @@ class GeminiDirectAPIBackend:
             request_metadata={**entry, "generation_seconds": elapsed,
                               "development_only": self.development_only,
                               "generation_config": self.generation_config()},
+            raw_provider_payload=json.dumps(payload, indent=2, sort_keys=True),
+        )
+
+
+@dataclass
+class OpenAIResponsesBackend:
+    api_key: str
+    ledger: BudgetLedger
+    model: str = "gpt-5.6-sol"
+    reasoning_effort: str = "medium"
+    max_output_tokens: int = 32768
+    development_only: bool = False
+    input_usd_per_million: float = 4.0
+    cached_input_usd_per_million: float = 0.4
+    output_usd_per_million: float = 20.0
+
+    def __post_init__(self) -> None:
+        if self.reasoning_effort not in {"none", "low", "medium", "high", "xhigh", "max"}:
+            raise ValueError("unsupported OpenAI reasoning effort")
+
+    def request_body(self, prompt: str) -> dict:
+        return {
+            "model": self.model,
+            "input": prompt,
+            "reasoning": {"effort": self.reasoning_effort},
+            "max_output_tokens": self.max_output_tokens,
+            "store": False,
+            "service_tier": "default",
+        }
+
+    def generate(self, prompt: str) -> GenerationRecord:
+        if not self.api_key:
+            raise RuntimeError("OPENAI_API_KEY is not set")
+        projected = (
+            _prompt_token_projection(prompt) * self.input_usd_per_million
+            + self.max_output_tokens * self.output_usd_per_million
+        ) / 1_000_000
+        prompt_hash = sha256(prompt.encode()).hexdigest()
+        ledger_index = self.ledger.begin(projected, {
+            "provider": "openai", "model": self.model, "prompt_sha256": prompt_hash,
+        })
+        payload, request_id, elapsed = _json_request(
+            "https://api.openai.com/v1/responses",
+            self.request_body(prompt),
+            {"Authorization": f"Bearer {self.api_key}"},
+        )
+        texts = []
+        for item in payload.get("output", []):
+            if item.get("type") != "message":
+                continue
+            texts.extend(part.get("text", "") for part in item.get("content", []) if part.get("type") == "output_text")
+        response_text = "".join(texts)
+        if not response_text:
+            raise RuntimeError(f"OpenAI returned no output text (status={payload.get('status')})")
+        usage = payload.get("usage", {})
+        input_tokens = int(usage.get("input_tokens", 0))
+        cached_tokens = int(usage.get("input_tokens_details", {}).get("cached_tokens", 0))
+        output_tokens = int(usage.get("output_tokens", 0))
+        uncached_tokens = max(0, input_tokens - cached_tokens)
+        cost = (
+            uncached_tokens * self.input_usd_per_million
+            + cached_tokens * self.cached_input_usd_per_million
+            + output_tokens * self.output_usd_per_million
+        ) / 1_000_000
+        entry = {
+            "provider": "openai", "model": self.model, "input_tokens": input_tokens,
+            "cached_input_tokens": cached_tokens, "output_tokens_including_reasoning": output_tokens,
+            "reasoning_tokens": int(usage.get("output_tokens_details", {}).get("reasoning_tokens", 0)),
+            "estimated_cost_usd": cost, "status_code": payload.get("status"),
+            "incomplete_reason": payload.get("incomplete_details"), "request_id": request_id,
+            "prompt_sha256": prompt_hash,
+        }
+        self.ledger.settle(ledger_index, entry)
+        return GenerationRecord(
+            backend="openai-responses/v1", model=self.model, raw_response=response_text,
+            extracted_program=extract_python(response_text),
+            request_metadata={**entry, "generation_seconds": elapsed,
+                              "development_only": self.development_only,
+                              "reasoning_effort": self.reasoning_effort,
+                              "max_output_tokens": self.max_output_tokens},
+            raw_provider_payload=json.dumps(payload, indent=2, sort_keys=True),
+        )
+
+
+@dataclass
+class AnthropicMessagesBackend:
+    api_key: str
+    ledger: BudgetLedger
+    model: str = "claude-sonnet-5"
+    effort: str = "medium"
+    max_tokens: int = 32768
+    development_only: bool = False
+    input_usd_per_million: float = 2.0
+    output_usd_per_million: float = 10.0
+
+    def __post_init__(self) -> None:
+        if self.effort not in {"low", "medium", "high", "xhigh", "max"}:
+            raise ValueError("unsupported Anthropic effort")
+
+    def request_body(self, prompt: str) -> dict:
+        return {
+            "model": self.model,
+            "max_tokens": self.max_tokens,
+            "thinking": {"type": "adaptive"},
+            "output_config": {"effort": self.effort},
+            "messages": [{"role": "user", "content": prompt}],
+        }
+
+    def generate(self, prompt: str) -> GenerationRecord:
+        if not self.api_key:
+            raise RuntimeError("ANTHROPIC_API_KEY is not set")
+        projected = (
+            _prompt_token_projection(prompt) * self.input_usd_per_million
+            + self.max_tokens * self.output_usd_per_million
+        ) / 1_000_000
+        prompt_hash = sha256(prompt.encode()).hexdigest()
+        ledger_index = self.ledger.begin(projected, {
+            "provider": "anthropic", "model": self.model, "prompt_sha256": prompt_hash,
+        })
+        payload, request_id, elapsed = _json_request(
+            "https://api.anthropic.com/v1/messages",
+            self.request_body(prompt),
+            {"x-api-key": self.api_key, "anthropic-version": "2023-06-01"},
+        )
+        response_text = "".join(block.get("text", "") for block in payload.get("content", []) if block.get("type") == "text")
+        if not response_text:
+            raise RuntimeError(f"Anthropic returned no text (stop_reason={payload.get('stop_reason')})")
+        usage = payload.get("usage", {})
+        input_tokens = int(usage.get("input_tokens", 0))
+        output_tokens = int(usage.get("output_tokens", 0))
+        cost = (input_tokens * self.input_usd_per_million + output_tokens * self.output_usd_per_million) / 1_000_000
+        entry = {
+            "provider": "anthropic", "model": self.model, "input_tokens": input_tokens,
+            "output_tokens_including_thinking": output_tokens, "estimated_cost_usd": cost,
+            "stop_reason": payload.get("stop_reason"), "request_id": request_id,
+            "prompt_sha256": prompt_hash,
+        }
+        self.ledger.settle(ledger_index, entry)
+        return GenerationRecord(
+            backend="anthropic-messages/v1", model=self.model, raw_response=response_text,
+            extracted_program=extract_python(response_text),
+            request_metadata={**entry, "generation_seconds": elapsed,
+                              "development_only": self.development_only,
+                              "effort": self.effort, "thinking": "adaptive",
+                              "max_tokens": self.max_tokens},
             raw_provider_payload=json.dumps(payload, indent=2, sort_keys=True),
         )
 

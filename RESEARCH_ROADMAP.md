@@ -162,8 +162,11 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   subset; otherwise compilation is presented as normalization, provenance,
   precedence-resolution, and disclosure-safety infrastructure.
 - **Confirmatory model set:** GPT-5.6 Sol, Claude Sonnet 5, and Gemini 3.8 Flash
-  each run the complete frozen matrix (360 trajectories at `N=5`). The API spend
-  is fail-closed at $30; GCP execution is tracked separately against free credits.
+  are the candidate confirmatory configurations. The Gemini pilot replaced the
+  planning token assumptions with observed usage. The final fixed N and matrix
+  are frozen only after one development-only cost canary for each remaining
+  provider; the runner remains fail-closed at the declared API cap and GCP
+  execution is tracked separately against free credits.
 - **Protected delivery time:** September 25–October 1 is reserved for internal/IP
   review and October 2–8 for contingency and submission. No new empirical scope
   enters the primary matrix after the pilot gate.
@@ -180,6 +183,10 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   The resulting 24-trajectory non-pooled Gemini 3.8 pilot completed for $1.099:
   proactive disclosure achieved 7/8 first-pass and 8/8 final suitability versus
   3/8 and 4/8 for reactive discovery and 4/8 and 4/8 for generic efficiency.
+  Authenticated read-only model lookups now also confirm access to the exact
+  `gpt-5.6-sol` and `claude-sonnet-5` identifiers. Production-shaped backends for
+  both current APIs are implemented with explicit effort and complete billing
+  metadata; minimal development-only execution canaries remain before E4 freeze.
 - **Preserved earlier FSE protocol:**
   [`docs/14_fse_contractbench_protocol.md`](docs/14_fse_contractbench_protocol.md)
   remains a future expansion reference and does not govern the AAMAS campaign.

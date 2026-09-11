@@ -324,6 +324,14 @@ Freeze model IDs/settings, task instances, conditions, sample size, stopping rul
 endpoints, exclusions, replacements, analysis, and maximum spend. No result-driven
 prompt or threshold changes are allowed after this gate.
 
+**Status: in progress September 11.** Authenticated read-only lookups confirm
+access to `gpt-5.6-sol` and `claude-sonnet-5`. Their current provider interfaces
+are implemented with explicit medium effort, no unsupported sampling controls,
+raw response/usage retention, and fail-closed ledgers. One development-only
+end-to-end canary per provider is frozen and remains to be executed. The Gemini
+pilot's observed billing supersedes the pre-pilot token assumptions below; fixed
+N and the total campaign cap will be selected after these two cost observations.
+
 Both instances per task family must have frozen generators, task text, oracles,
 hashes, container image, package policy, and calibrated envelopes at this gate.
 
@@ -386,7 +394,8 @@ executable deliverable. Never rerun a valid but inconvenient outcome.
 
 ### 8.1 Planning estimate before the pilot
 
-For budgeting only, assume an average trajectory consumes 2,300 input tokens and
+The following is retained as the **superseded pre-pilot planning estimate**. For
+budgeting only, it assumed an average trajectory consumes 2,300 input tokens and
 2,800 output/reasoning tokens, while the two-attempt ceiling consumes 4,300 input
 and 4,000 output/reasoning tokens. The manifest caps each generation at 4,096
 output tokens. As of September 11, 2026, the standard per-million-token input/output
@@ -406,7 +415,7 @@ are retained below only as planning provenance:
 | GPT-5.6 Sol + Claude Sonnet 5 | about $12 | about $18 |
 | GPT-5.6 Sol + Claude Opus 5 | about $18 | about $27 |
 
-The 12-trajectory canary, 24-trajectory pilot, and six U diagnostics add modest
+The 12-trajectory canary and 24-trajectory pilot added modest
 volume when run on the economical model. The approved end-to-end API **hard cap is
 $30**, including those gates and contingency. Optional Q, any confirmatory U
 subset, or additional models require a separately declared budget before calls.
@@ -480,8 +489,8 @@ Do not rescue the submission by adding uncontrolled conditions.
 
 ## 13. Immediate next action
 
-No provider generation is authorized by this plan alone. First select and verify
-the persistent Linux execution route, then implement the Section 3 schemas and
-narrow interfaces. Calibrate one instance from each family through that backend;
-context-isolated imported responses use the same path. The first direct-API canary
-begins only after E0a, E0b, and E1 pass.
+Complete one predeclared, development-only end-to-end canary for GPT-5.6 Sol and
+Claude Sonnet 5, then stop the worker and use actual billed usage to set the fixed
+sample size and hard cap. In parallel, freeze the strategy codebook and complete
+model-free calibration of the second numerical and ETL instances. Only those
+validity-critical E4 items precede confirmatory generation.

@@ -1,0 +1,27 @@
+{
+  "schema_version": "aamas-provider-canary/v0.1",
+  "report_schema": "aamas-provider-canary-report/v0.1",
+  "status": "frozen_before_calls",
+  "archive_subdir": "api_provider_canary",
+  "run_id_prefix": "provider-canary-anthropic-sonnet-v1",
+  "budget_ledger_file": "anthropic_sonnet_budget_ledger.json",
+  "development_only": true,
+  "purpose": "Minimal end-to-end access, response-shape, usage, execution, and cost canary. Never pooled with confirmatory evidence.",
+  "model": {
+    "provider": "anthropic",
+    "id": "claude-sonnet-5",
+    "effort": "medium",
+    "thinking": "adaptive",
+    "max_output_tokens": 32768,
+    "pricing_usd_per_million_tokens": {
+      "input": 2.0,
+      "output_including_thinking": 10.0
+    },
+    "pricing_verified_at_utc": "2026-09-11T16:00:00Z",
+    "documentation": "https://platform.claude.com/docs/en/about-claude/models/whats-new-sonnet-5"
+  },
+  "maximum_attempts_per_trajectory": 2,
+  "maximum_provider_calls": 2,
+  "budget_usd": 0.75,
+  "execution_order": [["numerical", "memory_tight", "P"]]
+}

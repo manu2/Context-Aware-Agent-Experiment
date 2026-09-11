@@ -17,7 +17,13 @@ sys.path.insert(0, str(ROOT / "src"))
 from aether_contract_bridge.execution import SSHLinuxExecutionBackend
 from aether_contract_bridge.models import RawSubstrateEvidence
 from aether_contract_bridge.pipeline import run_trajectory
-from aether_contract_bridge.provider import BudgetLedger, GeminiDirectAPIBackend, load_dotenv
+from aether_contract_bridge.provider import (
+    AnthropicMessagesBackend,
+    BudgetLedger,
+    GeminiDirectAPIBackend,
+    OpenAIResponsesBackend,
+    load_dotenv,
+)
 
 
 EXPECTED_ETL = {"A": 584859984000, "B": 582445702800, "C": 584178107400, "D": 585658510500,
@@ -38,6 +44,38 @@ def etl_oracle(output: str) -> bool:
         return prefix == "TOTAL" and json.loads(value) == EXPECTED_ETL
     except (ValueError, json.JSONDecodeError):
         return False
+
+
+def generation_backend(manifest: dict, ledger: BudgetLedger):
+    model = manifest["model"]
+    common = {"ledger": ledger, "model": model["id"],
+              "development_only": manifest.get("development_only", False)}
+    if model["provider"] == "google":
+        return GeminiDirectAPIBackend(
+            api_key=os.environ.get("GEMINI_API_KEY", ""), **common,
+            temperature=model.get("temperature"), top_p=model.get("top_p"),
+            thinking_level=model.get("thinking_level"),
+            max_output_tokens=model["max_output_tokens"],
+        )
+    if model["provider"] == "openai":
+        prices = model["pricing_usd_per_million_tokens"]
+        return OpenAIResponsesBackend(
+            api_key=os.environ.get("OPENAI_API_KEY", ""), **common,
+            reasoning_effort=model["reasoning_effort"],
+            max_output_tokens=model["max_output_tokens"],
+            input_usd_per_million=prices["input"],
+            cached_input_usd_per_million=prices.get("cached_input", prices["input"]),
+            output_usd_per_million=prices["output_including_reasoning"],
+        )
+    if model["provider"] == "anthropic":
+        prices = model["pricing_usd_per_million_tokens"]
+        return AnthropicMessagesBackend(
+            api_key=os.environ.get("ANTHROPIC_API_KEY", ""), **common,
+            effort=model["effort"], max_tokens=model["max_output_tokens"],
+            input_usd_per_million=prices["input"],
+            output_usd_per_million=prices["output_including_thinking"],
+        )
+    raise ValueError(f"unsupported provider: {model['provider']}")
 
 
 def main() -> int:
@@ -61,12 +99,7 @@ def main() -> int:
         parser.error("manifest must declare budget_usd")
     ledger = BudgetLedger(canary_root / manifest["budget_ledger_file"], hard_cap_usd=budget_usd,
                           max_calls=manifest["maximum_provider_calls"])
-    generation = GeminiDirectAPIBackend(api_key=os.environ.get("GEMINI_API_KEY", ""), ledger=ledger,
-                                        model=manifest["model"]["id"], temperature=manifest["model"].get("temperature"),
-                                        top_p=manifest["model"].get("top_p"),
-                                        thinking_level=manifest["model"].get("thinking_level"),
-                                        max_output_tokens=manifest["model"]["max_output_tokens"],
-                                        development_only=manifest.get("development_only", False))
+    generation = generation_backend(manifest, ledger)
     prefix = manifest["run_id_prefix"]
     attempted = []
     for index, (family, environment, condition) in enumerate(manifest["execution_order"], 1):
