@@ -1,0 +1,187 @@
+{
+  "branch": "L",
+  "execution_index": 31,
+  "source_first_attempt_execution_sha256": "80ae523c856f6dc7e94e4848930d65a82eb6418501b1a30a0ee2c4708aaba726",
+  "source_first_attempt_program_sha256": "69a7e054169b6402cc62d786118edeafd327ea8b651ec3841747d274867381aa",
+  "source_trajectory_id": "confirm-anthropic-sonnet-v1-096-numerical-secondary-memory_tight-R",
+  "study_manifest": {
+    "archive_subdir": "late_disclosure",
+    "budget_ledger_file": "anthropic_sonnet_late_v1_budget_ledger.json",
+    "budget_usd": 1.0,
+    "development_only": false,
+    "execution_order": [
+      [
+        "confirm-anthropic-sonnet-v1-001-etl-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-002-numerical-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-003-etl-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-007-etl-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-009-etl-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-011-numerical-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-021-numerical-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-023-numerical-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-030-etl-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-032-etl-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-033-numerical-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-036-etl-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-038-numerical-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-040-numerical-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-045-etl-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-048-numerical-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-049-etl-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-056-numerical-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-058-etl-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-066-numerical-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-067-etl-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-069-numerical-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-070-etl-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-074-etl-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-075-etl-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-076-etl-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-086-numerical-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-087-numerical-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-092-numerical-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-095-numerical-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-096-numerical-secondary-memory_tight-R",
+        "L"
+      ]
+    ],
+    "maximum_provider_calls": 31,
+    "model": {
+      "documentation": "https://platform.claude.com/docs/en/about-claude/models/whats-new-sonnet-5",
+      "effort": "medium",
+      "id": "claude-sonnet-5",
+      "max_output_tokens": 32768,
+      "pricing_usd_per_million_tokens": {
+        "input": 2.0,
+        "output_including_thinking": 10.0
+      },
+      "provider": "anthropic",
+      "thinking": "adaptive"
+    },
+    "run_id_prefix": "late-anthropic-sonnet-v1",
+    "schema_version": "aamas-late-disclosure/v1.0",
+    "source_archive_subdir": "confirmatory",
+    "status": "frozen_before_calls",
+    "stopping_rule": "Run all 31 late-disclosure recovery branches unless the provider budget cap, call cap, or a validity-critical infrastructure fault stops the campaign. Never stop for an inconvenient result.",
+    "worker_host_key_alias": "compute.2103735328891846055",
+    "worker_user": "manuagrawal"
+  },
+  "task_spec": {
+    "asset": {
+      "bytes": 32768128,
+      "generator": "NumPy 2.0.2 default_rng(314159).standard_normal((8000, 1024), dtype=float32)",
+      "name": "vectors_secondary.npy",
+      "sha256": "75525cd7fdaba7b2f4d87dbbfcada9b66c4f4092ed4a91520690ead608917410"
+    },
+    "environments": {
+      "latency_tight": {
+        "cpu_cores": 1,
+        "memory_mib": 1024,
+        "wall_seconds": 3.0
+      },
+      "memory_tight": {
+        "cpu_cores": 1,
+        "memory_mib": 128,
+        "wall_seconds": 8
+      }
+    },
+    "oracle": {
+      "absolute_tolerance": 0.001,
+      "expected_approximately": 2896000776.569578,
+      "relative_tolerance": 1e-06
+    },
+    "prompt": "Write a complete Python program. The current directory contains vectors_secondary.npy, an 8000 by 1024 float32 NumPy array. CPython 3.11.2, NumPy 2.0.2, Pandas 2.2.3, and the Python standard library are available. Compute the sum of Euclidean distances over every ordered pair of rows, including the zero diagonal, and print exactly TOTAL:<decimal value>. Do not approximate or sample. Do not modify the input file. Do not invoke external programs. The program has no network access.",
+    "schema_version": "aamas-task/v0.1",
+    "task_id": "numerical_pairwise_distance_secondary"
+  }
+}

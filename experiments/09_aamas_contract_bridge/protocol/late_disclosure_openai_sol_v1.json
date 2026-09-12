@@ -1,0 +1,53 @@
+{
+  "archive_subdir": "late_disclosure",
+  "budget_ledger_file": "openai_sol_late_v1_budget_ledger.json",
+  "budget_usd": 3.0,
+  "development_only": false,
+  "execution_order": [
+    ["confirm-openai-sol-v1-006-etl-secondary-memory_tight-R", "L"],
+    ["confirm-openai-sol-v1-008-etl-secondary-latency_tight-R", "L"],
+    ["confirm-openai-sol-v1-010-etl-primary-latency_tight-R", "L"],
+    ["confirm-openai-sol-v1-018-numerical-secondary-latency_tight-R", "L"],
+    ["confirm-openai-sol-v1-024-etl-primary-memory_tight-R", "L"],
+    ["confirm-openai-sol-v1-026-numerical-secondary-latency_tight-R", "L"],
+    ["confirm-openai-sol-v1-029-etl-secondary-memory_tight-R", "L"],
+    ["confirm-openai-sol-v1-030-etl-primary-latency_tight-R", "L"],
+    ["confirm-openai-sol-v1-031-etl-secondary-memory_tight-R", "L"],
+    ["confirm-openai-sol-v1-041-etl-secondary-memory_tight-R", "L"],
+    ["confirm-openai-sol-v1-043-numerical-primary-latency_tight-R", "L"],
+    ["confirm-openai-sol-v1-047-numerical-primary-latency_tight-R", "L"],
+    ["confirm-openai-sol-v1-048-numerical-primary-latency_tight-R", "L"],
+    ["confirm-openai-sol-v1-049-etl-primary-memory_tight-R", "L"],
+    ["confirm-openai-sol-v1-054-numerical-secondary-latency_tight-R", "L"],
+    ["confirm-openai-sol-v1-068-etl-primary-latency_tight-R", "L"],
+    ["confirm-openai-sol-v1-069-numerical-secondary-latency_tight-R", "L"],
+    ["confirm-openai-sol-v1-075-etl-primary-memory_tight-R", "L"],
+    ["confirm-openai-sol-v1-082-etl-primary-latency_tight-R", "L"],
+    ["confirm-openai-sol-v1-084-etl-secondary-latency_tight-R", "L"],
+    ["confirm-openai-sol-v1-086-etl-secondary-latency_tight-R", "L"],
+    ["confirm-openai-sol-v1-090-etl-primary-memory_tight-R", "L"],
+    ["confirm-openai-sol-v1-092-numerical-primary-latency_tight-R", "L"],
+    ["confirm-openai-sol-v1-094-etl-secondary-latency_tight-R", "L"]
+  ],
+  "maximum_provider_calls": 24,
+  "model": {
+    "cached_input_usd_per_million": 0.4,
+    "documentation": "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
+    "id": "gpt-5.6-sol",
+    "max_output_tokens": 32768,
+    "pricing_usd_per_million_tokens": {
+      "cached_input": 0.4,
+      "input": 4.0,
+      "output_including_reasoning": 20.0
+    },
+    "provider": "openai",
+    "reasoning_effort": "medium"
+  },
+  "run_id_prefix": "late-openai-sol-v1",
+  "schema_version": "aamas-late-disclosure/v1.0",
+  "source_archive_subdir": "confirmatory",
+  "status": "frozen_before_calls",
+  "stopping_rule": "Run all 24 late-disclosure recovery branches unless the provider budget cap, call cap, or a validity-critical infrastructure fault stops the campaign. Never stop for an inconvenient result.",
+  "worker_host_key_alias": "compute.2103735328891846055",
+  "worker_user": "manuagrawal"
+}

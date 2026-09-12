@@ -1,0 +1,37 @@
+import numpy as np
+
+# Load vectors array (8000 x 1024, float32)
+X = np.load("vectors.npy")
+n_rows = X.shape[0]
+
+# Precompute squared L2 norms for each row without allocating extra large matrices
+sq_norms = np.einsum("ij,ij->i", X, X)
+
+total_upper = 0.0
+batch_size = 500
+
+for i in range(0, n_rows, batch_size):
+    X_i = X[i : i + batch_size]
+    len_i = len(X_i)
+
+    # Compute dot products with all rows j >= i using optimized SGEMM
+    dots = X_i @ X[i:].T
+
+    # Compute squared Euclidean distance in-place: ||x_i||^2 + ||x_j||^2 - 2 * (x_i . x_j)
+    dots *= np.float32(-2.0)
+    dots += sq_norms[i : i + batch_size, None]
+    dots += sq_norms[None, i:]
+
+    np.maximum(dots, 0.0, out=dots)
+    np.sqrt(dots, out=dots)
+
+    # Upper triangular part of the diagonal block (j > i within block)
+    total_upper += float(np.sum(np.triu(dots[:, :len_i], k=1), dtype=np.float64))
+
+    # All pairs in off-diagonal blocks (j >= i + len_i)
+    if n_rows - i > len_i:
+        total_upper += float(np.sum(dots[:, len_i:], dtype=np.float64))
+
+# Sum over all ordered pairs (including zero diagonal): symmetric pairs have equal distance
+total = total_upper * 2.0
+print(f"TOTAL:{total}")

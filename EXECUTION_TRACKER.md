@@ -282,3 +282,91 @@ statistical sample.
   `p = 1.99998e-05`). The deterministic analysis, report, embedded-font vector
   figures, and anonymous AAMAS manuscript draft are generated. The only release
   placeholder is the OpenReview submission ID.
+- **AAMAS manuscript gap and interpretation audit (2026-09-12):** The completed
+  paper was rated against the current AAMAS criteria and the frozen evidence was
+  re-examined for additional defensible findings. The audit records the remaining
+  manuscript work, confident-tone rules, page-budget plan, and secondary-analysis
+  boundary in `docs/30_aamas_manuscript_gaps_and_results_interpretation.md`.
+  Newly surfaced descriptive findings include: P first-pass yield (64/96)
+  exceeds R and G even after their recovery attempt (33/96 and 43/96). The
+  superficially similar 23--25% conditional recovery rates are not comparative
+  evidence: R/G receive failure symptoms but never the hidden numeric contract,
+  and conditioning on failure selects materially different cases across
+  conditions. First-pass
+  OOM kills are 2 under P versus 24 under R and 27 under G; and P's explicit
+  context overhead is offset by 21--30% lower total token use. No new provider
+  generation is authorized or required. The next step is deterministic secondary
+  analysis followed by manuscript expansion within the eight-page allowance.
+- **Late-disclosure recovery canary (2026-09-12):** Added a separately versioned
+  L branch that reuses an archived R first-attempt failure and authentic execution
+  observation, then reveals the exact contract only for recovery. A four-call
+  Gemini 3.8 Flash canary covered one OOM and one timeout source with fresh
+  R-replay/L branches. L recovered the OOM case (96.05 MiB, 3.34 s, correct)
+  while R-replay was OOM-killed; neither branch recovered the latency-tight ETL
+  case. Result: R-replay 0/2, L 1/2; estimated provider cost $0.159798. The canary
+  is non-pooled. Full extension design will generate only the missing L branch
+  for each archived R failure and compare it with the already archived R recovery;
+  it will not rerun the completed 288-trajectory primary matrix.
+- **Gemini late-disclosure extension (2026-09-12; complete):** Frozen and ran a 27-call,
+  L-only manifest spanning every archived Gemini R first-attempt failure. Each
+  recovery receives the identical archived execution observation plus the exact
+  contract. The canary is excluded, the primary 288 trajectories remain
+  immutable, and provider spend was fail-closed at $2.00. Archived symptom-only
+  recovery was suitable in 3/27 states versus 25/27 under late exact-contract
+  disclosure; matched transitions were 23 improvements, one regression, two
+  shared successes, and one shared failure (descriptive exact McNemar
+  `p = 2.9802322e-06`). All 27 ledgers and trajectory artifact sets pass the
+  deterministic audit; actual estimated provider cost was $1.206229. The worker
+  was stopped after completion. See `docs/31_aamas_gemini_late_disclosure_report.md`.
+- **Claude late-disclosure extension (2026-09-12; complete):** All 31 archived
+  Claude R first-attempt failures received one L-only recovery branch. Archived
+  symptom-only recovery was suitable in 8/31 states versus 13/31 with late exact
+  contract disclosure: five improvements, zero regressions, eight shared
+  successes, and 18 shared failures (descriptive exact McNemar `p = 0.0625`).
+  The deterministic provenance audit passes; estimated provider cost was
+  $0.572114. See `docs/32_aamas_claude_late_disclosure_report.md`.
+- **GPT late-disclosure extension (2026-09-12; complete):** All 24 archived GPT
+  R first-attempt failures received one L-only recovery branch. Archived
+  symptom-only recovery was suitable in 8/24 states versus 15/24 with late exact
+  contract disclosure: seven improvements, zero regressions, eight shared
+  successes, and nine shared failures (descriptive exact McNemar `p = 0.015625`).
+  The deterministic provenance audit passes; estimated provider cost was
+  $1.519272. See `docs/33_aamas_gpt_late_disclosure_report.md`.
+- **Cross-model late-disclosure completion (2026-09-12):** All 82 frozen R
+  failure states now have integrity-passing L branches. Exact contract disclosure
+  at recovery increased suitable outcomes from 19/82 with symptom-only feedback
+  to 53/82: 35 improvements, one regression, 18 shared successes, and 28 shared
+  failures (descriptive exact McNemar `p = 1.0768417e-09`). L recovered 18/24
+  OOM-origin states and 35/58 timeout-origin states; no L execution was
+  OOM-killed. The proactive P workflow used 128 provider calls, versus 178 for
+  the workflow that reveals the contract only after an R failure. Primary L
+  branch cost was $3.297615; the separate non-pooled canary cost $0.159798. The
+  worker was stopped. See `docs/34_aamas_late_disclosure_combined_report.md`.
+- **AAMAS evidence integration and robustness pass (2026-09-12):** The anonymous
+  manuscript now integrates the separately frozen 82-state matched recovery
+  extension, a formal state/timing model, the exact four-cell contract matrix,
+  vector bridge and recovery figures, PeakBench/LEVER related work, and
+  deterministic removal analyses. P-R remains +48.4 to +54.7 percentage points
+  after leaving out any model; both primary contrasts remain positive after every
+  model, instance, family, environment, and full-stratum removal. The anonymous
+  supplement now includes all 82 non-canary L branches and declares them in its
+  integrity manifest. The arXiv preprint is cited neutrally in the third person,
+  while a copy-ready confidential OpenReview disclosure identifies the
+  relationship and the substantive extension for the chairs.
+- **AAMAS full-evidence manuscript pass (2026-09-12):** Expanded the anonymous
+  manuscript from a compact result summary into a seven-page paper including
+  references. It now contains four explicit research questions, the formal
+  contract-state model, exact environment table, strategy--suitability and
+  operational-yield tables, token decomposition, all 82 matched recovery states,
+  removal robustness, expanded contract-centered related work, and a concrete
+  artifact statement. The 162,901-token workflow difference is contextualized as
+  25.8% of the 632,269-token late-disclosure workflow and paired with 50 fewer
+  calls. The draft PDF compiles with embedded fonts, passes the submission
+  verifier and 18 tests, and has been visually reviewed page by page.
+- **Public-release reproducibility cleanup (2026-09-12):** Removed wall-clock
+  generation timestamps from the derived late-disclosure JSON analyses so the
+  anonymous supplement is byte-for-byte reproducible. Two consecutive builds
+  produced 3,556 members, 4,135,502 bytes, and SHA-256
+  `0bd338d5157678815991f18f0d02213bfa2313bd09e88b7f7c97cce8e0ca8562`.
+  The published arXiv manuscript and experiments 01--08 remain unchanged; the
+  conference evidence is maintained as an additive study layer.

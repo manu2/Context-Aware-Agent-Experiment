@@ -1,0 +1,93 @@
+{
+  "branch": "L",
+  "environment": "latency_tight",
+  "execution": {
+    "backend": "gcp-cgroupv2/v0.1",
+    "cpu_stat": {
+      "burst_usec": 0,
+      "nr_bursts": 0,
+      "nr_periods": 15,
+      "nr_throttled": 2,
+      "system_usec": 284228,
+      "throttled_usec": 108037,
+      "usage_usec": 1500996,
+      "user_usec": 1216768
+    },
+    "exit_code": 0,
+    "memory_events_after": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_events_before": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_peak_bytes": 207912960,
+    "oom_killed": false,
+    "platform": "Linux 6.1.0-53-cloud-amd64",
+    "program_time_seconds": 1.5310596320000514,
+    "psi_cpu": "some avg10=0.18 avg60=0.07 avg300=0.07 total=40766096\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=41\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=32\n",
+    "stderr": "",
+    "stderr_truncated": false,
+    "stdout": "TOTAL:{\"A\":648680640000,\"B\":652368124250,\"C\":650606168000,\"D\":649541606000,\"E\":653919836000,\"F\":646851415000,\"G\":651602830500,\"H\":648969748750}",
+    "stdout_truncated": false,
+    "timed_out": false,
+    "worker_time_seconds": 1.6091635759999008
+  },
+  "family": "etl",
+  "generation": {
+    "backend": "openai-responses/v1",
+    "request_metadata": {
+      "cached_input_tokens": 0,
+      "development_only": false,
+      "estimated_cost_usd": 0.066428,
+      "generation_seconds": 73.2332668749998,
+      "incomplete_reason": null,
+      "input_tokens": 292,
+      "max_output_tokens": 32768,
+      "model": "gpt-5.6-sol",
+      "output_tokens_including_reasoning": 3263,
+      "prompt_sha256": "c1c0a8861e4c8727a30312735575d333408cfef2827461f8a4f29a22401a2993",
+      "provider": "openai",
+      "reasoning_effort": "medium",
+      "reasoning_tokens": 2986,
+      "request_id": "req_ffa0167fdd37487dabe2983366c406dd",
+      "status_code": "completed"
+    }
+  },
+  "instance": "secondary",
+  "model": "gpt-5.6-sol",
+  "schema_version": "aamas-late-disclosure-summary/v1.0",
+  "score": {
+    "correct": true,
+    "memory_exceedance_bytes": 0,
+    "suitable": true,
+    "within_memory": true,
+    "within_time": true
+  },
+  "source_trajectory_id": "confirm-openai-sol-v1-084-etl-secondary-latency_tight-R",
+  "status": "complete",
+  "strategy": {
+    "family": "etl",
+    "features": [
+      "explicit_chunksize",
+      "pandas"
+    ],
+    "primary_strategy": "dataframe_chunked",
+    "rationale": [
+      "read_csv supplies an explicit chunksize"
+    ],
+    "requires_adjudication": false,
+    "schema_version": "strategy-codebook/v0.1"
+  },
+  "trajectory_id": "late-openai-sol-v1-020-L"
+}

@@ -1,0 +1,46 @@
+An optimized, robust Python program designed to meet the strict execution contract (single CPU core, 1.7-second wall-time limit, and 512 MiB memory limit):
+
+```python
+from collections import defaultdict
+import json
+import numpy as np
+import pandas as pd
+
+
+def main():
+    totals = defaultdict(int)
+
+    # Process in chunks to bound memory usage well below 512 MiB while
+    # maintaining maximum C-level parsing throughput.
+    chunk_size = 500_000
+    for chunk in pd.read_csv(
+        "transactions_secondary.csv",
+        usecols=["account_id", "category", "amount_cents"],
+        dtype={"account_id": np.int64, "amount_cents": np.int64},
+        chunksize=chunk_size,
+    ):
+        acc = chunk["account_id"].to_numpy()
+        mask = (acc % 13) < 8
+        if not np.any(mask):
+            continue
+
+        chunk_filtered = chunk[mask]
+        acc_filtered = chunk_filtered["account_id"].to_numpy()
+        amt_filtered = chunk_filtered["amount_cents"].to_numpy()
+
+        # Compute amount_cents * ((account_id % 89) + 3)
+        mult = (acc_filtered % 89) + 3
+        vals = amt_filtered * mult
+
+        # Aggregate sums per category within the chunk
+        grouped = vals.groupby(chunk_filtered["category"]).sum()
+        for cat, s in grouped.items():
+            totals[str(cat)] += int(s)
+
+    output = json.dumps(totals, sort_keys=True)
+    print(f"TOTAL:{output}")
+
+
+if __name__ == "__main__":
+    main()
+```

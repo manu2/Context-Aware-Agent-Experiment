@@ -1,0 +1,95 @@
+{
+  "branch": "L",
+  "environment": "latency_tight",
+  "execution": {
+    "backend": "gcp-cgroupv2/v0.1",
+    "cpu_stat": {
+      "burst_usec": 0,
+      "nr_bursts": 0,
+      "nr_periods": 10,
+      "nr_throttled": 3,
+      "system_usec": 143613,
+      "throttled_usec": 124071,
+      "usage_usec": 885421,
+      "user_usec": 741807
+    },
+    "exit_code": 0,
+    "memory_events_after": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_events_before": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_peak_bytes": 284340224,
+    "oom_killed": false,
+    "platform": "Linux 6.1.0-53-cloud-amd64",
+    "program_time_seconds": 0.9255195220000587,
+    "psi_cpu": "some avg10=0.12 avg60=0.78 avg300=0.37 total=4360957\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "stderr": "",
+    "stderr_truncated": false,
+    "stdout": "TOTAL:{\"A\": 584859984000, \"B\": 582445702800, \"C\": 584178107400, \"D\": 585658510500, \"E\": 584768685600, \"F\": 583789773900, \"G\": 584327166000, \"H\": 585146828400}\n",
+    "stdout_truncated": false,
+    "timed_out": false,
+    "worker_time_seconds": 0.9814715139999635
+  },
+  "family": "etl",
+  "generation": {
+    "backend": "google-generative-language/v1beta",
+    "request_metadata": {
+      "candidate_tokens": 521,
+      "development_only": false,
+      "estimated_cost_usd": 0.0456,
+      "finish_reason": "STOP",
+      "generation_config": {
+        "maxOutputTokens": 32768,
+        "thinkingConfig": {
+          "thinkingLevel": "medium"
+        }
+      },
+      "generation_seconds": 40.012247291999984,
+      "input_tokens": 300,
+      "model": "gemini-3.8-flash",
+      "output_tokens_including_thoughts": 12100,
+      "prompt_sha256": "5c7bb928bc35c4a5c6f6ad738f27df909bad796123b12e5ba8d1258f56078a75",
+      "provider": "google",
+      "request_id": null,
+      "thinking_tokens": 11579
+    }
+  },
+  "instance": "primary",
+  "model": "gemini-3.8-flash",
+  "schema_version": "aamas-late-disclosure-summary/v1.0",
+  "score": {
+    "correct": true,
+    "memory_exceedance_bytes": 0,
+    "suitable": true,
+    "within_memory": true,
+    "within_time": true
+  },
+  "source_trajectory_id": "confirm-gemini38-v1-064-etl-primary-latency_tight-R",
+  "status": "complete",
+  "strategy": {
+    "family": "etl",
+    "features": [
+      "pandas"
+    ],
+    "primary_strategy": "dataframe_eager",
+    "rationale": [
+      "read_csv has no explicit chunksize"
+    ],
+    "requires_adjudication": false,
+    "schema_version": "strategy-codebook/v0.1"
+  },
+  "trajectory_id": "late-gemini38-v1-018-L"
+}

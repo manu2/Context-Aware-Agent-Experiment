@@ -1,0 +1,63 @@
+{
+  "calls": 4,
+  "entries": [
+    {
+      "candidate_tokens": 419,
+      "estimated_cost_usd": 0.040101,
+      "finish_reason": "STOP",
+      "input_tokens": 193,
+      "model": "gemini-3.8-flash",
+      "output_tokens_including_thoughts": 10655,
+      "prompt_sha256": "163d1fa6d30063fcb7274d4b97124f06672f7c11485aeb4db15f211c7589ecb0",
+      "provider": "google",
+      "request_id": null,
+      "reserved_cost_usd": 0.1230245625,
+      "status": "complete",
+      "thinking_tokens": 10236
+    },
+    {
+      "candidate_tokens": 655,
+      "estimated_cost_usd": 0.03165225,
+      "finish_reason": "STOP",
+      "input_tokens": 278,
+      "model": "gemini-3.8-flash",
+      "output_tokens_including_thoughts": 8385,
+      "prompt_sha256": "c6544afe5ecc506a1847a9d6c1cd2ee18c0f25290e5061b3e6616d4344a93b31",
+      "provider": "google",
+      "request_id": null,
+      "reserved_cost_usd": 0.12307575,
+      "status": "complete",
+      "thinking_tokens": 7730
+    },
+    {
+      "candidate_tokens": 567,
+      "estimated_cost_usd": 0.05930475,
+      "finish_reason": "STOP",
+      "input_tokens": 213,
+      "model": "gemini-3.8-flash",
+      "output_tokens_including_thoughts": 15772,
+      "prompt_sha256": "b9b3ee1b57fb1bd3eaf58e821f8cc3a76eaa78898bb179d0172b64357804cc0b",
+      "provider": "google",
+      "request_id": null,
+      "reserved_cost_usd": 0.12303825,
+      "status": "complete",
+      "thinking_tokens": 15205
+    },
+    {
+      "candidate_tokens": 332,
+      "estimated_cost_usd": 0.02874,
+      "finish_reason": "STOP",
+      "input_tokens": 300,
+      "model": "gemini-3.8-flash",
+      "output_tokens_including_thoughts": 7604,
+      "prompt_sha256": "5c7bb928bc35c4a5c6f6ad738f27df909bad796123b12e5ba8d1258f56078a75",
+      "provider": "google",
+      "request_id": null,
+      "reserved_cost_usd": 0.1230898125,
+      "status": "complete",
+      "thinking_tokens": 7272
+    }
+  ],
+  "estimated_cost_usd": 0.159798,
+  "schema_version": "api-budget-ledger/v0.1"
+}

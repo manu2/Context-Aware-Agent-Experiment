@@ -1,0 +1,169 @@
+{
+  "branch": "L",
+  "execution_index": 9,
+  "source_first_attempt_execution_sha256": "a037544bbc6ace4dac2e5c28311aff7275e9517609c9799c07292231298e9d39",
+  "source_first_attempt_program_sha256": "96f7cbf5613ade1bc8e88ed2e1ea9ea4f328857b0cd10cdfa0089c8110435941",
+  "source_trajectory_id": "confirm-openai-sol-v1-031-etl-secondary-memory_tight-R",
+  "study_manifest": {
+    "archive_subdir": "late_disclosure",
+    "budget_ledger_file": "openai_sol_late_v1_budget_ledger.json",
+    "budget_usd": 3.0,
+    "development_only": false,
+    "execution_order": [
+      [
+        "confirm-openai-sol-v1-006-etl-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-008-etl-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-010-etl-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-018-numerical-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-024-etl-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-026-numerical-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-029-etl-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-030-etl-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-031-etl-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-041-etl-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-043-numerical-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-047-numerical-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-048-numerical-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-049-etl-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-054-numerical-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-068-etl-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-069-numerical-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-075-etl-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-082-etl-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-084-etl-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-086-etl-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-090-etl-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-092-numerical-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-094-etl-secondary-latency_tight-R",
+        "L"
+      ]
+    ],
+    "maximum_provider_calls": 24,
+    "model": {
+      "cached_input_usd_per_million": 0.4,
+      "documentation": "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
+      "id": "gpt-5.6-sol",
+      "max_output_tokens": 32768,
+      "pricing_usd_per_million_tokens": {
+        "cached_input": 0.4,
+        "input": 4.0,
+        "output_including_reasoning": 20.0
+      },
+      "provider": "openai",
+      "reasoning_effort": "medium"
+    },
+    "run_id_prefix": "late-openai-sol-v1",
+    "schema_version": "aamas-late-disclosure/v1.0",
+    "source_archive_subdir": "confirmatory",
+    "status": "frozen_before_calls",
+    "stopping_rule": "Run all 24 late-disclosure recovery branches unless the provider budget cap, call cap, or a validity-critical infrastructure fault stops the campaign. Never stop for an inconvenient result.",
+    "worker_host_key_alias": "compute.2103735328891846055",
+    "worker_user": "manuagrawal"
+  },
+  "task_spec": {
+    "asset": {
+      "bytes": 39444783,
+      "generator": "deterministic modular sequence in benchmarks/setup_aamas_worker.sh",
+      "name": "transactions_secondary.csv",
+      "rows": 3000000,
+      "sha256": "8bd326864973b149f76995d6714bc50546b19208ea5fa9ff5e34750a6c8f7aba"
+    },
+    "environments": {
+      "latency_tight": {
+        "cpu_cores": 1,
+        "memory_mib": 512,
+        "wall_seconds": 1.7
+      },
+      "memory_tight": {
+        "cpu_cores": 1,
+        "memory_mib": 128,
+        "wall_seconds": 4
+      }
+    },
+    "oracle": {
+      "comparison": "exact parsed JSON integer mapping",
+      "expected": {
+        "A": 648680640000,
+        "B": 652368124250,
+        "C": 650606168000,
+        "D": 649541606000,
+        "E": 653919836000,
+        "F": 646851415000,
+        "G": 651602830500,
+        "H": 648969748750
+      }
+    },
+    "prompt": "Write a complete Python program. The current directory contains transactions_secondary.csv with columns account_id, category, and amount_cents. CPython 3.11.2, NumPy 2.0.2, Pandas 2.2.3, and the Python standard library are available. For rows whose account_id modulo 13 is less than 8, compute for each category the exact sum of amount_cents multiplied by ((account_id modulo 89) + 3). Print exactly TOTAL:<JSON object>, with category keys sorted and no extra output. Do not modify the input file. Do not invoke external programs. The program has no network access.",
+    "schema_version": "aamas-task/v0.1",
+    "task_id": "etl_category_aggregation_secondary"
+  }
+}

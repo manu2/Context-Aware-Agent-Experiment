@@ -59,10 +59,18 @@ class SSHLinuxExecutionBackend:
     worker_remote_path: str = "/home/manuagrawal/aether_execution_worker.py"
     remote_python: str = "/opt/aether-runtime/bin/python"
     assets: dict[str, str] | None = None
+    host_key_alias: str | None = None
+    known_hosts_file: Path | None = None
 
     def _ssh_options(self) -> list[str]:
-        return ["-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=yes",
-                "-o", "ConnectTimeout=15", "-i", str(self.identity_file)]
+        options = ["-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=yes",
+                   "-o", "ConnectTimeout=15", "-o", "IdentitiesOnly=yes",
+                   "-i", str(self.identity_file)]
+        if self.host_key_alias:
+            options.extend(["-o", f"HostKeyAlias={self.host_key_alias}", "-o", "CheckHostIP=no"])
+        if self.known_hosts_file:
+            options.extend(["-o", f"UserKnownHostsFile={self.known_hosts_file}"])
+        return options
 
     def deploy(self) -> None:
         subprocess.run(

@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "EpMLCpABCBEYAipAvCFOKUrTxFRGaWAbcjlyrjZYhu0Ql/702l18zLhXnxSmSVb+C25oIauVF3y4ydxDq80nGUMEOktjaalgea+LKTIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQxOTI4YjBmYi05OWI4LTRkODEtOTFlMS1jMmZkNzhkOWZjNmOoAfaek9UGEgyc4gPqbPaDtoAWb34aDFn5ne9ETIKf+Wzh5yIwsGFL4iY4zT+mrxmuRoq4KQKtwIFlaWRcUd/ingFHgBnHF1/oQFUWS9cndo5pydLDKq8JB76UPdpEPHA5Db0IraTizKBF5Ge9oCYWKXpAXCQeTq3eY/roXVDlOscVakfMovISOYmbe65T37JK7mnJ3okYr9fh2x2VW8JgNx04OYs9a7Mkz+ubiwQj8y7FI5igqWligdfSJy/Lt1MGceZ5wuTzo5qJrb0i5/pLzIGxuKMxTZMVeOH8Tv2vZagcw+SYhNLnXdNys6KRAmshyXvkZ5+XRZSHld4i2+95XQKW0OqmJgMsC4pPuYvYVvHkE5yM5vGxWNCvttoQrpo+eROrEcHGhN6YbqzLnq55LBei6jNV0mWjMIqoOnS18wPCVBllGLO6ALP7MN2haA+yUjj3gw1afzERgMBvxz+4xRC1AWiOVUQk5GzYjCiQgEntX++pZxS4krMJJIxloHF+dt4SF11XLFBY6ArGS02JdQErXXI1BcaaksZifL3znLi3PKLVBClE9jsf5OlAOo5k05CtoXgOcimIPiCBkRvNQQZelsfN9eTAB01e8Ga9C2EbT9YiYvZZ8WWrNiTjQtD/WLuDEg7bxTMyqe4k8TPJhC1JsybJXznQ0znjZbksoRG93iRvVpz8o+Ncacac/aiy1kgTxjP3rLZk0WsX9wgsUAwjKQpnnUZwMbGLtFKmbIM2wLr75nx1kU0aRDapnDUqwoIzlZPXEi2ruw6G3vmBN0glTe5YNplr8PpW7JZ1wmO1ZaObQ/Mgg+zFlBMNU+AtrTGUCyM3lFnBr/wfo2WKExPQ7xjXubkJqLYtn+RBcXEhVeIpa07T086emsBdiuIHRdjC2BSmp4NCcHzzjfYen6N0DA7gmoMP06da1J5frgEW5Ml2ebf3tUu0oQrq4/u4wHsN7hIN2HLJSFYdMYsKr2z1Y8k8RoOebBSOsofO23Q2qcLtqqrh5Y9AOKyuEpM3dh86j1+DfVtX9MQ13BHYVgfpc3+1V5+gJIy+wQ92HkeT0dSuM1Lfs8ERFRVmWNlRX39T2EuTbV84V3/FTKAz7zwEfHKFb6yBO/bYrkI3zKT+Uxru31ib0ulBWrrBi5+h1rQ41UmWEb1PgWcaPK0KVEG38RLhx+DsQjTH/3xUCHQ/H6StUIWevIyXGjRH74N58FSKNm9ZIQIhc512QxsPXGfSjC95foMqc0Y0UqLyLbX/zPoAmWHnIN31IdwFaAkoGg2jRMsAr4cX61ziNDuLrRwiKvk35gVP9d7SpmdJj8F8Z4q3vX3YQo0kpJzzIKcAXEEXDf9LkIMz6rZs5eOAdL6QucR1UIhcbBusW6BZJZZEcYCUzNFOHWS+th+dWJP0DvShXWBFkzlouTQhP7aYqc2K63Iocwmy5iUhPNoq2DKSK9a+vBXt/D3eqPPbZiH078jZqYa07O6BRbEBQIuzde9G+RSHrZ8161QmS6s0QKBzR88IF8wiSESW7cfGBVk4P8yHl+gcArvlvAALVu9Ab8IXv4covQeUq3bZRmEtjS2u21ybVT2KufzvQbop/urtn50v+IzOHcSl7p/mDqUQ7NtRB6bps8EcMEuM/pAfDLt7zkC6ko1Wl/45QEG8QlIcDafY2QwHPdmiieUCrr3np5CZ4yYxHwy7NV7ffhlxv4ywCbEBtyIYAQ==",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef main():\n    # Load data (memory-mapped to avoid loading everything at once,\n    # though the file itself is only ~32MB so full load is fine too).\n    X = np.load(\"vectors_secondary.npy\", mmap_mode=\"r\")\n    n = X.shape[0]\n    d = X.shape[1]\n\n    # Precompute squared norms of all rows (float64 for accuracy)\n    # Do this in chunks to limit peak memory.\n    norm_block = 1000\n    norms = np.empty(n, dtype=np.float64)\n    for start in range(0, n, norm_block):\n        end = min(start + norm_block, n)\n        block = np.asarray(X[start:end], dtype=np.float32)\n        norms[start:end] = np.einsum('ij,ij->i', block, block, dtype=np.float64)\n\n    total = 0.0\n\n    # Process in blocks of rows to keep memory bounded.\n    block_size = 250  # rows per block for the \"A\" side\n    Xfull = None  # will load full array once (only needed for dot products)\n\n    # Load full array once as float32 (about 32MB) - needed for dot products\n    Xfull = np.asarray(X, dtype=np.float32)\n\n    for start in range(0, n, block_size):\n        end = min(start + block_size, n)\n        A = Xfull[start:end]                      # (b, d) float32\n        # Compute dot products A @ Xfull.T -> (b, n) float64 for precision\n        dots = A.astype(np.float64) @ Xfull.astype(np.float64).T\n        # squared distances: normA[i] + normB[j] - 2*dot\n        normA = norms[start:end].reshape(-1, 1)\n        normB = norms.reshape(1, -1)\n        sq = normA + normB - 2.0 * dots\n        np.maximum(sq, 0.0, out=sq)  # avoid tiny negative values due to floating error\n        dist = np.sqrt(sq)\n        total += dist.sum(dtype=np.float64)\n\n        # free memory explicitly\n        del A, dots, sq, dist\n\n    # Format total as decimal value without scientific notation\n    print(f\"TOTAL:{total:.10f}\")\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CextCfeJFyxTxAMuz3CoQ",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 434,
+    "output_tokens": 1227,
+    "output_tokens_details": {
+      "thinking_tokens": 478
+    },
+    "service_tier": "standard"
+  }
+}

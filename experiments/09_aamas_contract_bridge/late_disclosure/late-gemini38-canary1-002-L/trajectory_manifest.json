@@ -1,0 +1,81 @@
+{
+  "branch": "L",
+  "execution_index": 2,
+  "source_first_attempt_execution_sha256": "5afecb1575cbbff44f5b70d6d9ccc019730dfe32cd3f95a5a1df416b63fdf960",
+  "source_first_attempt_program_sha256": "3ca0319c49422c665e831e8261adc2c28cc490adbb22a8882245767437e21e08",
+  "source_trajectory_id": "confirm-gemini38-v1-025-numerical-secondary-memory_tight-R",
+  "study_manifest": {
+    "archive_subdir": "late_disclosure",
+    "budget_ledger_file": "gemini38_late_canary1_budget_ledger.json",
+    "budget_usd": 0.5,
+    "development_only": false,
+    "execution_order": [
+      [
+        "confirm-gemini38-v1-025-numerical-secondary-memory_tight-R",
+        "R_replay"
+      ],
+      [
+        "confirm-gemini38-v1-025-numerical-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-v1-018-etl-primary-latency_tight-R",
+        "R_replay"
+      ],
+      [
+        "confirm-gemini38-v1-018-etl-primary-latency_tight-R",
+        "L"
+      ]
+    ],
+    "maximum_provider_calls": 4,
+    "model": {
+      "documentation": "https://ai.google.dev/gemini-api/docs/latest-model",
+      "id": "gemini-3.8-flash",
+      "max_output_tokens": 32768,
+      "pricing_usd_per_million_tokens": {
+        "input": 0.75,
+        "output_including_thinking": 3.75
+      },
+      "pricing_verified_at_utc": "2026-09-11T14:42:00Z",
+      "provider": "google",
+      "temperature": null,
+      "thinking_level": "medium",
+      "top_p": null
+    },
+    "run_id_prefix": "late-gemini38-canary1",
+    "schema_version": "aamas-late-disclosure/v1.0",
+    "source_archive_subdir": "confirmatory",
+    "status": "frozen_before_calls",
+    "stopping_rule": "Run all four matched recovery branches unless the provider budget cap, call cap, or a validity-critical infrastructure fault stops the canary.",
+    "worker_host_key_alias": "compute.2103735328891846055",
+    "worker_user": "manuagrawal"
+  },
+  "task_spec": {
+    "asset": {
+      "bytes": 32768128,
+      "generator": "NumPy 2.0.2 default_rng(314159).standard_normal((8000, 1024), dtype=float32)",
+      "name": "vectors_secondary.npy",
+      "sha256": "75525cd7fdaba7b2f4d87dbbfcada9b66c4f4092ed4a91520690ead608917410"
+    },
+    "environments": {
+      "latency_tight": {
+        "cpu_cores": 1,
+        "memory_mib": 1024,
+        "wall_seconds": 3.0
+      },
+      "memory_tight": {
+        "cpu_cores": 1,
+        "memory_mib": 128,
+        "wall_seconds": 8
+      }
+    },
+    "oracle": {
+      "absolute_tolerance": 0.001,
+      "expected_approximately": 2896000776.569578,
+      "relative_tolerance": 1e-06
+    },
+    "prompt": "Write a complete Python program. The current directory contains vectors_secondary.npy, an 8000 by 1024 float32 NumPy array. CPython 3.11.2, NumPy 2.0.2, Pandas 2.2.3, and the Python standard library are available. Compute the sum of Euclidean distances over every ordered pair of rows, including the zero diagonal, and print exactly TOTAL:<decimal value>. Do not approximate or sample. Do not modify the input file. Do not invoke external programs. The program has no network access.",
+    "schema_version": "aamas-task/v0.1",
+    "task_id": "numerical_pairwise_distance_secondary"
+  }
+}

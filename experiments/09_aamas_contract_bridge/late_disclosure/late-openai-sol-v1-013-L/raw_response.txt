@@ -1,0 +1,39 @@
+import os
+
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
+import numpy as np
+
+x = np.load("vectors.npy", allow_pickle=False)
+norms = np.einsum("ij,ij->i", x, x, optimize=True)
+
+n = x.shape[0]
+block_size = 512
+total = 0.0
+
+for i in range(0, n, block_size):
+    i_end = min(i + block_size, n)
+    a = x[i:i_end]
+    ni = norms[i:i_end]
+
+    for j in range(i, n, block_size):
+        j_end = min(j + block_size, n)
+        g = a @ x[j:j_end].T
+        g *= np.float32(-2.0)
+        g += ni[:, None]
+        g += norms[j:j_end][None, :]
+
+        if i == j:
+            np.fill_diagonal(g, np.float32(0.0))
+
+        np.maximum(g, np.float32(0.0), out=g)
+        np.sqrt(g, out=g)
+
+        block_sum = g.sum(dtype=np.float64)
+        total += block_sum if i == j else 2.0 * block_sum
+
+print(f"TOTAL:{total:.17g}")

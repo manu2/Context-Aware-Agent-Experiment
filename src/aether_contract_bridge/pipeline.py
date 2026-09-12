@@ -71,7 +71,9 @@ def run_trajectory(
                              "decision": {"stop": decision.stop, "reason": decision.reason}})
             if decision.stop:
                 break
-            active_prompt = _recovery_prompt(prompt, observation)
+            active_prompt = recovery_prompt(
+                prompt, observation, contract=contract if condition == "L" else None
+            )
             recorder.artifact("attempt_2_prompt.txt", active_prompt)
     except Exception as exc:
         recorder.event("trajectory_failure", {"error_type": type(exc).__name__, "error": str(exc)})
@@ -91,10 +93,16 @@ def run_trajectory(
     })
 
 
-def _recovery_prompt(original_prompt: str, observation) -> str:
+def recovery_prompt(original_prompt: str, observation, contract=None) -> str:
+    """Render symptom-only recovery or the late-disclosure treatment.
+
+    Passing ``contract`` adds the sole L-versus-R treatment difference after an
+    identical first execution observation. Existing P/R/G prompt bytes remain
+    unchanged when ``contract`` is omitted.
+    """
     stderr = observation.stderr[-2000:]
     stdout = observation.stdout[-2000:]
-    return (
+    prompt = (
         original_prompt.rstrip()
         + "\n\nAUTHENTIC FIRST EXECUTION OBSERVATION\n"
         + f"- Exit code: {observation.exit_code}\n"
@@ -102,5 +110,13 @@ def _recovery_prompt(original_prompt: str, observation) -> str:
         + f"- Kernel OOM kill observed: {str(observation.oom_killed).lower()}\n"
         + f"- Stdout (tail): {stdout!r}\n"
         + f"- Stderr (tail): {stderr!r}\n"
-        + "Revise the implementation using this execution evidence. Return only one complete Python program.\n"
     )
+    if contract is not None:
+        prompt += "\n" + ContractRenderer.contract_block(
+            contract, heading="LATE-DISCLOSED TARGET EXECUTION CONTRACT"
+        ) + "\n"
+    return prompt + "Revise the implementation using this execution evidence. Return only one complete Python program.\n"
+
+
+# Backward-compatible private name for any external development tooling.
+_recovery_prompt = recovery_prompt

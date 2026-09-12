@@ -1,0 +1,91 @@
+{
+  "branch": "L",
+  "environment": "latency_tight",
+  "execution": {
+    "backend": "gcp-cgroupv2/v0.1",
+    "cpu_stat": {
+      "burst_usec": 0,
+      "nr_bursts": 0,
+      "nr_periods": 30,
+      "nr_throttled": 29,
+      "system_usec": 151572,
+      "throttled_usec": 2763759,
+      "usage_usec": 3032752,
+      "user_usec": 2881179
+    },
+    "exit_code": 124,
+    "memory_events_after": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_events_before": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_peak_bytes": 191422464,
+    "oom_killed": false,
+    "platform": "Linux 6.1.0-53-cloud-amd64",
+    "program_time_seconds": 3.0388984150000624,
+    "psi_cpu": "some avg10=4.35 avg60=1.67 avg300=2.62 total=27058100\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "stderr": "",
+    "stderr_truncated": false,
+    "stdout": "",
+    "stdout_truncated": false,
+    "timed_out": true,
+    "worker_time_seconds": 3.1136315319999994
+  },
+  "family": "numerical",
+  "generation": {
+    "backend": "anthropic-messages/v1",
+    "request_metadata": {
+      "development_only": false,
+      "effort": "medium",
+      "estimated_cost_usd": 0.027,
+      "generation_seconds": 27.03006054100001,
+      "input_tokens": 435,
+      "max_tokens": 32768,
+      "model": "claude-sonnet-5",
+      "output_tokens_including_thinking": 2613,
+      "prompt_sha256": "396369d35497a3c3c7da76f72c2a7148d9abce7505c3fd0bd81780988ae11050",
+      "provider": "anthropic",
+      "request_id": "req_011CexthHkjFPASWKJDeyQmN",
+      "stop_reason": "end_turn",
+      "thinking": "adaptive"
+    }
+  },
+  "instance": "secondary",
+  "model": "claude-sonnet-5",
+  "schema_version": "aamas-late-disclosure-summary/v1.0",
+  "score": {
+    "correct": false,
+    "memory_exceedance_bytes": 0,
+    "suitable": false,
+    "within_memory": true,
+    "within_time": false
+  },
+  "source_trajectory_id": "confirm-anthropic-sonnet-v1-087-numerical-secondary-latency_tight-R",
+  "status": "complete",
+  "strategy": {
+    "family": "numerical",
+    "features": [
+      "float32_explicit",
+      "in_place_update"
+    ],
+    "primary_strategy": "blocked_matrix_product",
+    "rationale": [
+      "matrix products occur in an explicit iteration structure"
+    ],
+    "requires_adjudication": false,
+    "schema_version": "strategy-codebook/v0.1"
+  },
+  "trajectory_id": "late-anthropic-sonnet-v1-028-L"
+}

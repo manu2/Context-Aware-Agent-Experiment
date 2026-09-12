@@ -16,9 +16,11 @@
 | Complete confirmatory matrix | Three complete provider audits; `docs/26_aamas_confirmatory_completion_gate.md` | 288/288 effective trajectories |
 | Outcome-neutral infrastructure recovery | `docs/23_aamas_e5_infrastructure_interruption.md`; `docs/27_aamas_gpt_infrastructure_interruption.md` | Preserved and audited |
 | Frozen confirmatory analysis | `experiments/09_aamas_contract_bridge/analysis/confirmatory_analysis.json`; `docs/28_aamas_confirmatory_results.md` | Reproduces deterministically |
-| Anonymous AAMAS manuscript | `paper/aamas2027/main.tex`; locally generated `main.pdf` | Five pages; verifier passes |
-| Anonymous reproducibility supplement | `benchmarks/build_aamas_supplement.py`; local `paper/aamas2027/aamas2027_anonymous_supplement.zip` | 3.43 MB; deterministic; verifier passes |
-| Tests and release checks | `tests/test_contract_bridge.py`; `tests/test_aamas_submission.py`; `benchmarks/verify_aamas_submission.py` | 15/15 tests pass |
+| Matched late-disclosure recovery extension | 82 exact archived R failure states; `docs/34_aamas_late_disclosure_combined_report.md` | 19/82 symptom-only to 53/82 exact-contract recovery; audit passes |
+| Removal-robustness analysis | `experiments/09_aamas_contract_bridge/analysis/aamas_secondary_analysis.json`; `docs/35_aamas_secondary_analysis.md` | Both primary effects remain positive under every structural removal |
+| Anonymous AAMAS manuscript | `paper/aamas2027/main.tex`; locally generated `main.pdf` | Seven pages including references; verifier passes |
+| Anonymous reproducibility supplement | `benchmarks/build_aamas_supplement.py`; local `paper/aamas2027/aamas2027_anonymous_supplement.zip` | 4.14 MB; deterministic; verifier passes |
+| Tests and release checks | `tests/test_contract_bridge.py`; `tests/test_aamas_submission.py`; `benchmarks/verify_aamas_submission.py` | Verification suite passes |
 
 ## Frozen headline evidence
 
@@ -27,17 +29,23 @@ compared with 14/96 for reactive feedback and 27/96 for generic efficiency
 guidance. Equal-stratum improvements are +52.1 and +38.5 percentage points;
 both Holm-adjusted randomization p-values are 1.99998e-05. The result reproduces
 across all three provider-configured models and three of four task-environment
-regimes. Latency-tight ETL is the retained boundary case.
+regimes. Latency-tight ETL is the retained boundary case. In the matched extension,
+adding the exact contract to the same failed program and authentic observation
+raises recovery from 19/82 to 53/82 (35 improvements, one regression; exact
+McNemar p = 1.0768417e-09). P-R remains +48.4 to +54.7 points after removing any
+one model; both primary contrasts remain positive after every model, instance,
+family, environment, and full-stratum removal.
 
 ## Anonymous supplement record
 
 - Filename: `aamas2027_anonymous_supplement.zip`
-- Members: 2,967
+- Members: 3,556
 - Effective trajectories declared: 288
+- Matched late-disclosure states: 82
 - Archived trajectory slots: 320, including 32 preserved pre-generation Gemini
   quota-interruption slots
-- Size: 3,432,057 bytes
-- SHA-256: `db181f1c92ca2862b88c6fb50da21beaf64dd5cd6245b0c724ab535fe231cef3`
+- Size: 4,135,502 bytes
+- SHA-256: `0bd338d5157678815991f18f0d02213bfa2313bd09e88b7f7c97cce8e0ca8562`
 - Provider transport envelopes are omitted; exact textual generations, programs,
   prompts, execution records, summaries, analyses, and hashes are retained.
 - Local worker identifiers are normalized only in packaged copies; the manifest
@@ -58,16 +66,20 @@ regimes. Latency-tight ETL is the retained boundary case.
    ```
 
 5. Upload the verified PDF and optional anonymous supplement. Select GAAI. Do not
-   cite or link the public arXiv preprint or public repository in the anonymous
-   submission.
+   identify the public arXiv preprint as the authors' own work or link the
+   identifying development repository inside the anonymous PDF. Cite the
+   precursor neutrally in the third person and disclose the relationship to
+   chairs.
+   Disclose arXiv:2609.05232 and the substantial research delta in the confidential
+   prior-work field using `OPENREVIEW_CHECKLIST.md`.
 
 ## Remaining release controls
 
 - **OpenReview submission ID:** not yet assigned; this is the only current
   fail-closed verifier error.
-- **Public Git synchronization:** local `main` contains the raw GPT archive and
-  final documentation/supplement tooling commits. Publishing those provider
-  responses requires the repository owner's explicit approval.
+- **Public artifact boundary:** the development repository is public, but its URL
+  remains excluded from the double-blind PDF and supplement. The authored
+  preprint appears only as an ordinary third-person related-work citation.
 
 The official AAMAS 2027 call permits prior non-archival preprints, requires a
 double-blind submission, and evaluates originality, significance, soundness,

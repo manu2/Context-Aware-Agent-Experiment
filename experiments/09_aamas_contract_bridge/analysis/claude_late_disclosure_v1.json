@@ -1,0 +1,2893 @@
+{
+  "archived_R_final_suitable": 8,
+  "estimated_cost_usd": 0.5721139999999998,
+  "exact_mcnemar_two_sided_p": 0.0625,
+  "integrity_issues": [],
+  "late_L_suitable": 13,
+  "manifest": "late_disclosure_anthropic_sonnet_v1.json",
+  "model": "claude-sonnet-5",
+  "n": 31,
+  "nonpooled_canary_excluded": false,
+  "passed": true,
+  "provider_calls": 31,
+  "rows": [
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 17,
+          "nr_throttled": 1,
+          "system_usec": 132144,
+          "throttled_usec": 10861,
+          "usage_usec": 712580,
+          "user_usec": 580435
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 80080896,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.733802169999997,
+        "psi_cpu": "some avg10=0.45 avg60=1.73 avg300=0.59 total=2241730\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 1.8572420289999982
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.005374,
+          "generation_seconds": 4.9193085,
+          "input_tokens": 457,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 446,
+          "prompt_sha256": "c1c0a8861e4c8727a30312735575d333408cfef2827461f8a4f29a22401a2993",
+          "provider": "anthropic",
+          "request_id": "req_011Cexstmt6Kmjan3td6uxgY",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "L_strategy": {
+        "family": "etl",
+        "features": [
+          "pandas"
+        ],
+        "primary_strategy": "dataframe_eager",
+        "rationale": [
+          "read_csv has no explicit chunksize"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-001-etl-secondary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "etl",
+      "instance": "secondary",
+      "late_L_suitable": false,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-001-etl-secondary-latency_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-001-L",
+      "transition": "00"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 23,
+          "nr_throttled": 0,
+          "system_usec": 178646,
+          "throttled_usec": 0,
+          "usage_usec": 1995236,
+          "user_usec": 1816590
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 145838080,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 2.2864388229999975,
+        "psi_cpu": "some avg10=0.15 avg60=0.92 avg300=0.52 total=2296686\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:835795650.0266836\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 2.365997937000003
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.032522,
+          "generation_seconds": 33.147125,
+          "input_tokens": 431,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 3166,
+          "prompt_sha256": "53248bc8f9bb708f522fc3f07941f9c51d99f2f7752b6d8fb2339868c410bdba",
+          "provider": "anthropic",
+          "request_id": "req_011CexsuYh87HkFbP7Hib6Uq",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": true,
+        "memory_exceedance_bytes": 0,
+        "suitable": true,
+        "within_memory": true,
+        "within_time": true
+      },
+      "L_strategy": {
+        "family": "numerical",
+        "features": [
+          "float32_explicit",
+          "in_place_update",
+          "triangular_symmetry"
+        ],
+        "primary_strategy": "blocked_matrix_product",
+        "rationale": [
+          "matrix products occur in an explicit iteration structure"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-002-numerical-primary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "instance": "primary",
+      "late_L_suitable": true,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-002-numerical-primary-latency_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-002-L",
+      "transition": "01"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 34,
+          "nr_throttled": 12,
+          "system_usec": 40099,
+          "throttled_usec": 258,
+          "usage_usec": 3280653,
+          "user_usec": 3240554
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 43008000,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.3367345500000027,
+        "psi_cpu": "some avg10=0.05 avg60=0.77 avg300=0.50 total=2312222\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\": 584859984000, \"B\": 582445702800, \"C\": 584178107400, \"D\": 585658510500, \"E\": 584768685600, \"F\": 583789773900, \"G\": 584327166000, \"H\": 585146828400}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 3.414429076999994
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.004942,
+          "generation_seconds": 3.9339280000000016,
+          "input_tokens": 451,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 404,
+          "prompt_sha256": "4b0d55fb2a37ed4e537555f274e589457badb144ba666f6e90600548d6b710ca",
+          "provider": "anthropic",
+          "request_id": "req_011CexsxRaKu5gcN4ESCMRtV",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": true,
+        "memory_exceedance_bytes": 0,
+        "suitable": true,
+        "within_memory": true,
+        "within_time": true
+      },
+      "L_strategy": {
+        "family": "etl",
+        "features": [
+          "csv_iterator"
+        ],
+        "primary_strategy": "stdlib_streaming",
+        "rationale": [
+          "a CSV iterator is consumed by a loop without explicit materialization"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": true,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-003-etl-primary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "etl",
+      "instance": "primary",
+      "late_L_suitable": true,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-003-etl-primary-memory_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-003-L",
+      "transition": "11"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 17,
+          "nr_throttled": 2,
+          "system_usec": 351610,
+          "throttled_usec": 116176,
+          "usage_usec": 1544127,
+          "user_usec": 1192517
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 397365248,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.742299236000008,
+        "psi_cpu": "some avg10=0.56 avg60=0.75 avg300=0.50 total=2402434\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 1.8172765719999973
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.005084,
+          "generation_seconds": 4.460038042000008,
+          "input_tokens": 457,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 417,
+          "prompt_sha256": "c1c0a8861e4c8727a30312735575d333408cfef2827461f8a4f29a22401a2993",
+          "provider": "anthropic",
+          "request_id": "req_011CexsyCrsm9LcG15ZhDjTF",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "L_strategy": {
+        "family": "etl",
+        "features": [
+          "pandas"
+        ],
+        "primary_strategy": "dataframe_eager",
+        "rationale": [
+          "read_csv has no explicit chunksize"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-007-etl-secondary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "etl",
+      "instance": "secondary",
+      "late_L_suitable": false,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-007-etl-secondary-latency_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-004-L",
+      "transition": "00"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 34,
+          "nr_throttled": 0,
+          "system_usec": 23933,
+          "throttled_usec": 0,
+          "usage_usec": 3328120,
+          "user_usec": 3304186
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 4501504,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.3893831240000054,
+        "psi_cpu": "some avg10=0.20 avg60=0.64 avg300=0.48 total=2416507\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\": 648680640000, \"B\": 652368124250, \"C\": 650606168000, \"D\": 649541606000, \"E\": 653919836000, \"F\": 646851415000, \"G\": 651602830500, \"H\": 648969748750}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 3.4797267650000094
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.00459,
+          "generation_seconds": 3.910610625000004,
+          "input_tokens": 455,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 368,
+          "prompt_sha256": "92f81483fd223f53304362124f14914ccffbb3387b7534a5c39db04ea1557b02",
+          "provider": "anthropic",
+          "request_id": "req_011CexsyvxSJuwhWXMPR11FB",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": true,
+        "memory_exceedance_bytes": 0,
+        "suitable": true,
+        "within_memory": true,
+        "within_time": true
+      },
+      "L_strategy": {
+        "family": "etl",
+        "features": [
+          "csv_iterator"
+        ],
+        "primary_strategy": "stdlib_streaming",
+        "rationale": [
+          "a CSV iterator is consumed by a loop without explicit materialization"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": true,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-009-etl-secondary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "etl",
+      "instance": "secondary",
+      "late_L_suitable": true,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-009-etl-secondary-memory_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-005-L",
+      "transition": "11"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 80,
+          "nr_throttled": 79,
+          "system_usec": 607515,
+          "throttled_usec": 7836432,
+          "usage_usec": 8064981,
+          "user_usec": 7457465
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 46854144,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 8.042344624999998,
+        "psi_cpu": "some avg10=26.11 avg60=6.24 avg300=1.71 total=6409385\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 8.118910417000023
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.01624,
+          "generation_seconds": 15.460964333999996,
+          "input_tokens": 430,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 1538,
+          "prompt_sha256": "6964e4bb77c01f76b5a3a39883f875445c29aadce8074d69719948822a3c0734",
+          "provider": "anthropic",
+          "request_id": "req_011CexszjLDmeyBWjmdwbBiW",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "L_strategy": {
+        "family": "numerical",
+        "features": [
+          "float32_explicit",
+          "in_place_update",
+          "memory_map"
+        ],
+        "primary_strategy": "blocked_matrix_product",
+        "rationale": [
+          "matrix products occur in an explicit iteration structure"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-011-numerical-primary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "instance": "primary",
+      "late_L_suitable": false,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-011-numerical-primary-memory_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-006-L",
+      "transition": "00"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 19,
+          "nr_throttled": 0,
+          "system_usec": 76049,
+          "throttled_usec": 0,
+          "usage_usec": 1810107,
+          "user_usec": 1734058
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 313913344,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.8817892900000004,
+        "psi_cpu": "some avg10=0.93 avg60=3.71 avg300=1.57 total=6454187\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:835795682.8433135\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.957192665000008
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.029642,
+          "generation_seconds": 28.94803458300001,
+          "input_tokens": 431,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 2878,
+          "prompt_sha256": "53248bc8f9bb708f522fc3f07941f9c51d99f2f7752b6d8fb2339868c410bdba",
+          "provider": "anthropic",
+          "request_id": "req_011Cext2j7PCX9AqyXGDRxXE",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": true,
+        "memory_exceedance_bytes": 0,
+        "suitable": true,
+        "within_memory": true,
+        "within_time": true
+      },
+      "L_strategy": {
+        "family": "numerical",
+        "features": [
+          "float32_explicit",
+          "in_place_update"
+        ],
+        "primary_strategy": "eager_global_matrix",
+        "rationale": [
+          "global matrix/broadcast distance construction has no explicit outer blocking loop"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-021-numerical-primary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "instance": "primary",
+      "late_L_suitable": true,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-021-numerical-primary-latency_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-007-L",
+      "transition": "01"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 80,
+          "nr_throttled": 77,
+          "system_usec": 738420,
+          "throttled_usec": 7521888,
+          "usage_usec": 7859382,
+          "user_usec": 7120962
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 134160384,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 8.026013239999997,
+        "psi_cpu": "some avg10=22.65 avg60=7.35 avg300=2.48 total=10323877\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 8.100399650000014
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.012118,
+          "generation_seconds": 11.457880250000017,
+          "input_tokens": 434,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 1125,
+          "prompt_sha256": "c6544afe5ecc506a1847a9d6c1cd2ee18c0f25290e5061b3e6616d4344a93b31",
+          "provider": "anthropic",
+          "request_id": "req_011Cext5GHB9rM3GznKq8RUW",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "L_strategy": {
+        "family": "numerical",
+        "features": [
+          "float32_explicit",
+          "in_place_update",
+          "memory_map"
+        ],
+        "primary_strategy": "blocked_matrix_product",
+        "rationale": [
+          "matrix products occur in an explicit iteration structure"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-023-numerical-secondary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "instance": "secondary",
+      "late_L_suitable": false,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-023-numerical-secondary-memory_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-008-L",
+      "transition": "00"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 14,
+          "nr_throttled": 3,
+          "system_usec": 253160,
+          "throttled_usec": 172077,
+          "usage_usec": 1376958,
+          "user_usec": 1123798
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 369106944,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.436548383999991,
+        "psi_cpu": "some avg10=11.51 avg60=7.34 avg300=2.65 total=10447016\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 1.5085328790000005
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.006376,
+          "generation_seconds": 5.218538875000007,
+          "input_tokens": 453,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 547,
+          "prompt_sha256": "5c7bb928bc35c4a5c6f6ad738f27df909bad796123b12e5ba8d1258f56078a75",
+          "provider": "anthropic",
+          "request_id": "req_011Cext6xDnBLbH5sfDjbVMv",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "L_strategy": {
+        "family": "etl",
+        "features": [
+          "pandas"
+        ],
+        "primary_strategy": "dataframe_eager",
+        "rationale": [
+          "read_csv has no explicit chunksize"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-030-etl-primary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "etl",
+      "instance": "primary",
+      "late_L_suitable": false,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-030-etl-primary-latency_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-009-L",
+      "transition": "00"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 17,
+          "nr_throttled": 2,
+          "system_usec": 327469,
+          "throttled_usec": 108049,
+          "usage_usec": 1621572,
+          "user_usec": 1294103
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 96194560,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.6816945129999965,
+        "psi_cpu": "some avg10=4.28 avg60=6.21 avg300=2.59 total=10516226\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "/tmp/aether-run-81bvckt_/program.py:27: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.\n  grouped = pd.Series(weighted, index=sub[\"category\"]).groupby(level=0).sum()\n/tmp/aether-run-81bvckt_/program.py:27: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.\n  grouped = pd.Series(weighted, index=sub[\"category\"]).groupby(level=0).sum()\n/tmp/aether-run-81bvckt_/program.py:27: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.\n  grouped = pd.Series(weighted, index=sub[\"category\"]).groupby(level=0).sum()\n/tmp/aether-run-81bvckt_/program.py:27: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.\n  grouped = pd.Series(weighted, index=sub[\"category\"]).groupby(level=0).sum()\n/tmp/aether-run-81bvckt_/program.py:27: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.\n  grouped = pd.Series(weighted, index=sub[\"category\"]).groupby(level=0).sum()\n/tmp/aether-run-81bvckt_/program.py:27: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.\n  grouped = pd.Series(weighted, index=sub[\"category\"]).groupby(level=0).sum()\n/tmp/aether-run-81bvckt_/program.py:27: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.\n  grouped = pd.Series(weighted, index=sub[\"category\"]).groupby(level=0).sum()\n/tmp/aether-run-81bvckt_/program.py:27: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.\n  grouped = pd.Series(weighted, index=sub[\"category\"]).groupby(level=0).sum()\n/tmp/aether-run-81bvckt_/program.py:27: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.\n  grouped = pd.Series(weighted, index=sub[\"category\"]).groupby(level=0).sum()\n/tmp/aether-run-81bvckt_/program.py:27: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.\n  grouped = pd.Series(weighted, index=sub[\"category\"]).groupby(level=0).sum()\n/tmp/aether-run-81bvckt_/program.py:27: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.\n  grouped = pd.Series(weighted, index=sub[\"category\"]).groupby(level=0).sum()\n/tmp/aether-run-81bvckt_/program.py:27: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.\n  grouped = pd.Series(weighted, index=sub[\"category\"]).groupby(level=0).sum()\n/tmp/aether-run-81bvckt_/program.py:27: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.\n  grouped = pd.Series(weighted, index=sub[\"category\"]).groupby(level=0).sum()\n/tmp/aether-run-81bvckt_/program.py:27: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.\n  grouped = pd.Series(weighted, index=sub[\"category\"]).groupby(level=0).sum()\n/tmp/aether-run-81bvckt_/program.py:27: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.\n  grouped = pd.Series(weighted, index=sub[\"category\"]).groupby(level=0).sum()\n",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\": 584859984000, \"B\": 582445702800, \"C\": 584178107400, \"D\": 585658510500, \"E\": 584768685600, \"F\": 583789773900, \"G\": 584327166000, \"H\": 585146828400}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.7553885089999994
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.007222,
+          "generation_seconds": 6.227014167000021,
+          "input_tokens": 451,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 632,
+          "prompt_sha256": "4b0d55fb2a37ed4e537555f274e589457badb144ba666f6e90600548d6b710ca",
+          "provider": "anthropic",
+          "request_id": "req_011Cext7iVorK4GAc3qfGJst",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": true,
+        "memory_exceedance_bytes": 0,
+        "suitable": true,
+        "within_memory": true,
+        "within_time": true
+      },
+      "L_strategy": {
+        "family": "etl",
+        "features": [
+          "explicit_chunksize",
+          "pandas"
+        ],
+        "primary_strategy": "dataframe_chunked",
+        "rationale": [
+          "read_csv supplies an explicit chunksize"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": true,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-032-etl-primary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "etl",
+      "instance": "primary",
+      "late_L_suitable": true,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-032-etl-primary-memory_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-010-L",
+      "transition": "11"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 30,
+          "nr_throttled": 29,
+          "system_usec": 123707,
+          "throttled_usec": 2778242,
+          "usage_usec": 3018773,
+          "user_usec": 2895065
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 116256768,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.025325582999983,
+        "psi_cpu": "some avg10=11.32 avg60=5.00 avg300=2.65 total=11994586\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 3.098190004999992
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.040692,
+          "generation_seconds": 38.43703812499999,
+          "input_tokens": 431,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 3983,
+          "prompt_sha256": "53248bc8f9bb708f522fc3f07941f9c51d99f2f7752b6d8fb2339868c410bdba",
+          "provider": "anthropic",
+          "request_id": "req_011Cext8Z3pA7gUauPrhQLDS",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "L_strategy": {
+        "family": "numerical",
+        "features": [
+          "float32_explicit",
+          "in_place_update",
+          "triangular_symmetry"
+        ],
+        "primary_strategy": "blocked_matrix_product",
+        "rationale": [
+          "matrix products occur in an explicit iteration structure"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-033-numerical-primary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "instance": "primary",
+      "late_L_suitable": false,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-033-numerical-primary-latency_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-011-L",
+      "transition": "00"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 14,
+          "nr_throttled": 2,
+          "system_usec": 251709,
+          "throttled_usec": 120056,
+          "usage_usec": 1401724,
+          "user_usec": 1150015
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 354701312,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.4387386719999995,
+        "psi_cpu": "some avg10=5.28 avg60=4.53 avg300=2.63 total=12112460\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 1.5134470450000208
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.006146,
+          "generation_seconds": 5.778806542000012,
+          "input_tokens": 453,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 524,
+          "prompt_sha256": "5c7bb928bc35c4a5c6f6ad738f27df909bad796123b12e5ba8d1258f56078a75",
+          "provider": "anthropic",
+          "request_id": "req_011CextBsnmSdFgbjJyr5Pcg",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "L_strategy": {
+        "family": "etl",
+        "features": [
+          "pandas"
+        ],
+        "primary_strategy": "dataframe_eager",
+        "rationale": [
+          "read_csv has no explicit chunksize"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-036-etl-primary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "etl",
+      "instance": "primary",
+      "late_L_suitable": false,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-036-etl-primary-latency_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-012-L",
+      "transition": "00"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 80,
+          "nr_throttled": 79,
+          "system_usec": 671344,
+          "throttled_usec": 7821606,
+          "usage_usec": 8050719,
+          "user_usec": 7379374
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 104062976,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 8.042775365000011,
+        "psi_cpu": "some avg10=24.11 avg60=8.14 avg300=3.52 total=16093276\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 8.117251778000025
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.013138,
+          "generation_seconds": 12.829157167000005,
+          "input_tokens": 434,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 1227,
+          "prompt_sha256": "c6544afe5ecc506a1847a9d6c1cd2ee18c0f25290e5061b3e6616d4344a93b31",
+          "provider": "anthropic",
+          "request_id": "req_011CextCfSQA4XJmZ7bnfaSu",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "L_strategy": {
+        "family": "numerical",
+        "features": [
+          "float32_explicit",
+          "in_place_update",
+          "memory_map"
+        ],
+        "primary_strategy": "blocked_matrix_product",
+        "rationale": [
+          "matrix products occur in an explicit iteration structure"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-038-numerical-secondary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "instance": "secondary",
+      "late_L_suitable": false,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-038-numerical-secondary-memory_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-013-L",
+      "transition": "00"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 19,
+          "nr_throttled": 0,
+          "system_usec": 96240,
+          "throttled_usec": 0,
+          "usage_usec": 1774945,
+          "user_usec": 1678705
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 204427264,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.8341607319999866,
+        "psi_cpu": "some avg10=0.35 avg60=3.92 avg300=3.13 total=16152150\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:2896000717.019814\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 1.9177380120000294
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.04845,
+          "generation_seconds": 46.83406083400001,
+          "input_tokens": 435,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 4758,
+          "prompt_sha256": "396369d35497a3c3c7da76f72c2a7148d9abce7505c3fd0bd81780988ae11050",
+          "provider": "anthropic",
+          "request_id": "req_011CextEUFFeKgcnJwzapoud",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": true,
+        "memory_exceedance_bytes": 0,
+        "suitable": true,
+        "within_memory": true,
+        "within_time": true
+      },
+      "L_strategy": {
+        "family": "numerical",
+        "features": [
+          "float32_explicit",
+          "in_place_update",
+          "triangular_symmetry"
+        ],
+        "primary_strategy": "blocked_matrix_product",
+        "rationale": [
+          "matrix products occur in an explicit iteration structure"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-040-numerical-secondary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "instance": "secondary",
+      "late_L_suitable": true,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-040-numerical-secondary-latency_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-014-L",
+      "transition": "01"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 18,
+          "nr_throttled": 11,
+          "system_usec": 335404,
+          "throttled_usec": 100286,
+          "usage_usec": 1717448,
+          "user_usec": 1382044
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 355241984,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.7365327340000363,
+        "psi_cpu": "some avg10=0.46 avg60=3.27 avg300=3.02 total=16222306\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 1.8109632719999809
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.006044,
+          "generation_seconds": 5.9527808749999735,
+          "input_tokens": 457,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 513,
+          "prompt_sha256": "c1c0a8861e4c8727a30312735575d333408cfef2827461f8a4f29a22401a2993",
+          "provider": "anthropic",
+          "request_id": "req_011CextJKG7xPtRbB5TNRtPY",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "L_strategy": {
+        "family": "etl",
+        "features": [
+          "pandas"
+        ],
+        "primary_strategy": "dataframe_eager",
+        "rationale": [
+          "read_csv has no explicit chunksize"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-045-etl-secondary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "etl",
+      "instance": "secondary",
+      "late_L_suitable": false,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-045-etl-secondary-latency_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-015-L",
+      "transition": "00"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 31,
+          "nr_throttled": 30,
+          "system_usec": 243203,
+          "throttled_usec": 2645700,
+          "usage_usec": 3063910,
+          "user_usec": 2820706
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 339431424,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.044673176999993,
+        "psi_cpu": "some avg10=5.65 avg60=3.21 avg300=2.99 total=17615555\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 3.1200768330000415
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.01955,
+          "generation_seconds": 18.01923224999996,
+          "input_tokens": 435,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 1868,
+          "prompt_sha256": "396369d35497a3c3c7da76f72c2a7148d9abce7505c3fd0bd81780988ae11050",
+          "provider": "anthropic",
+          "request_id": "req_011CextK9byZ24c35L2Le8Ds",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "L_strategy": {
+        "family": "numerical",
+        "features": [
+          "float32_explicit",
+          "in_place_update"
+        ],
+        "primary_strategy": "blocked_matrix_product",
+        "rationale": [
+          "matrix products occur in an explicit iteration structure"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-048-numerical-secondary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "instance": "secondary",
+      "late_L_suitable": false,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-048-numerical-secondary-latency_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-016-L",
+      "transition": "00"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 35,
+          "nr_throttled": 0,
+          "system_usec": 28021,
+          "throttled_usec": 0,
+          "usage_usec": 3426353,
+          "user_usec": 3398331
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 4489216,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.48558970900001,
+        "psi_cpu": "some avg10=4.10 avg60=3.62 avg300=3.11 total=17630309\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\": 648680640000, \"B\": 652368124250, \"C\": 650606168000, \"D\": 649541606000, \"E\": 653919836000, \"F\": 646851415000, \"G\": 651602830500, \"H\": 648969748750}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 3.559309442999961
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.00441,
+          "generation_seconds": 3.6347327909999763,
+          "input_tokens": 455,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 350,
+          "prompt_sha256": "92f81483fd223f53304362124f14914ccffbb3387b7534a5c39db04ea1557b02",
+          "provider": "anthropic",
+          "request_id": "req_011CextLyzakpiMUatDyzL1i",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": true,
+        "memory_exceedance_bytes": 0,
+        "suitable": true,
+        "within_memory": true,
+        "within_time": true
+      },
+      "L_strategy": {
+        "family": "etl",
+        "features": [
+          "csv_iterator"
+        ],
+        "primary_strategy": "stdlib_streaming",
+        "rationale": [
+          "a CSV iterator is consumed by a loop without explicit materialization"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": true,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-049-etl-secondary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "etl",
+      "instance": "secondary",
+      "late_L_suitable": true,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-049-etl-secondary-memory_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-017-L",
+      "transition": "11"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 80,
+          "nr_throttled": 79,
+          "system_usec": 691041,
+          "throttled_usec": 7804650,
+          "usage_usec": 7931432,
+          "user_usec": 7240391
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 97062912,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 8.00607241399996,
+        "psi_cpu": "some avg10=24.34 avg60=6.64 avg300=3.67 total=21594795\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:2896000781.397812\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 8.083173646999967
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.045958,
+          "generation_seconds": 49.62996916700001,
+          "input_tokens": 434,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 4509,
+          "prompt_sha256": "c6544afe5ecc506a1847a9d6c1cd2ee18c0f25290e5061b3e6616d4344a93b31",
+          "provider": "anthropic",
+          "request_id": "req_011CextMmZzsveSLuVcFZwv8",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": true,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "L_strategy": {
+        "family": "numerical",
+        "features": [
+          "float32_explicit",
+          "in_place_update"
+        ],
+        "primary_strategy": "blocked_matrix_product",
+        "rationale": [
+          "matrix products occur in an explicit iteration structure"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-056-numerical-secondary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "instance": "secondary",
+      "late_L_suitable": false,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-056-numerical-secondary-memory_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-018-L",
+      "transition": "00"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 33,
+          "nr_throttled": 13,
+          "system_usec": 16003,
+          "throttled_usec": 225,
+          "usage_usec": 3299262,
+          "user_usec": 3283258
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 4485120,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.3350249580000195,
+        "psi_cpu": "some avg10=10.99 avg60=6.33 avg300=3.71 total=21615015\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\": 648680640000, \"B\": 652368124250, \"C\": 650606168000, \"D\": 649541606000, \"E\": 653919836000, \"F\": 646851415000, \"G\": 651602830500, \"H\": 648969748750}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 3.4088180880000323
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.0044,
+          "generation_seconds": 3.784381042000007,
+          "input_tokens": 455,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 349,
+          "prompt_sha256": "92f81483fd223f53304362124f14914ccffbb3387b7534a5c39db04ea1557b02",
+          "provider": "anthropic",
+          "request_id": "req_011CextSGacSK8KkpXxPT3mg",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": true,
+        "memory_exceedance_bytes": 0,
+        "suitable": true,
+        "within_memory": true,
+        "within_time": true
+      },
+      "L_strategy": {
+        "family": "etl",
+        "features": [
+          "csv_iterator"
+        ],
+        "primary_strategy": "stdlib_streaming",
+        "rationale": [
+          "a CSV iterator is consumed by a loop without explicit materialization"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": true,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-058-etl-secondary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "etl",
+      "instance": "secondary",
+      "late_L_suitable": true,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-058-etl-secondary-memory_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-019-L",
+      "transition": "11"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 38,
+          "nr_throttled": 37,
+          "system_usec": 44007,
+          "throttled_usec": 3480937,
+          "usage_usec": 3776857,
+          "user_usec": 3732850
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 74403840,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.7886296639999273,
+        "psi_cpu": "some avg10=11.30 avg60=4.29 avg300=3.42 total=23486959\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:835795650.037243\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 3.8663193840000076
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.05541,
+          "generation_seconds": 55.86999916599996,
+          "input_tokens": 430,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 5455,
+          "prompt_sha256": "6964e4bb77c01f76b5a3a39883f875445c29aadce8074d69719948822a3c0734",
+          "provider": "anthropic",
+          "request_id": "req_011CextT4Qf4pVhDwDQ2wEhw",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": true,
+        "memory_exceedance_bytes": 0,
+        "suitable": true,
+        "within_memory": true,
+        "within_time": true
+      },
+      "L_strategy": {
+        "family": "numerical",
+        "features": [
+          "float32_explicit",
+          "in_place_update",
+          "memory_map",
+          "triangular_symmetry"
+        ],
+        "primary_strategy": "blocked_matrix_product",
+        "rationale": [
+          "matrix products occur in an explicit iteration structure"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-066-numerical-primary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "instance": "primary",
+      "late_L_suitable": true,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-066-numerical-primary-memory_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-020-L",
+      "transition": "01"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 26,
+          "nr_throttled": 3,
+          "system_usec": 220112,
+          "throttled_usec": 120039,
+          "usage_usec": 2579184,
+          "user_usec": 2359072
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 111915008,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 2.642146552999975,
+        "psi_cpu": "some avg10=4.82 avg60=4.17 avg300=3.44 total=23610706\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\": 584859984000, \"B\": 582445702800, \"C\": 584178107400, \"D\": 585658510500, \"E\": 584768685600, \"F\": 583789773900, \"G\": 584327166000, \"H\": 585146828400}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 2.725489578000065
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.009932,
+          "generation_seconds": 8.390404042,
+          "input_tokens": 451,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 903,
+          "prompt_sha256": "4b0d55fb2a37ed4e537555f274e589457badb144ba666f6e90600548d6b710ca",
+          "provider": "anthropic",
+          "request_id": "req_011CextXjbxR9iS46onsMLsn",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": true,
+        "memory_exceedance_bytes": 0,
+        "suitable": true,
+        "within_memory": true,
+        "within_time": true
+      },
+      "L_strategy": {
+        "family": "etl",
+        "features": [
+          "explicit_chunksize",
+          "pandas"
+        ],
+        "primary_strategy": "dataframe_chunked",
+        "rationale": [
+          "read_csv supplies an explicit chunksize"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": true,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-067-etl-primary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "etl",
+      "instance": "primary",
+      "late_L_suitable": true,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-067-etl-primary-memory_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-021-L",
+      "transition": "11"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 30,
+          "nr_throttled": 29,
+          "system_usec": 127762,
+          "throttled_usec": 2621844,
+          "usage_usec": 3009486,
+          "user_usec": 2881723
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 194990080,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.0279397279999785,
+        "psi_cpu": "some avg10=5.86 avg60=3.11 avg300=3.19 total=25079458\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 3.104034521000017
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.033862,
+          "generation_seconds": 35.199540875000025,
+          "input_tokens": 431,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 3300,
+          "prompt_sha256": "53248bc8f9bb708f522fc3f07941f9c51d99f2f7752b6d8fb2339868c410bdba",
+          "provider": "anthropic",
+          "request_id": "req_011CextYpk3sV7o9vFbUV4JB",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "L_strategy": {
+        "family": "numerical",
+        "features": [
+          "float32_explicit",
+          "in_place_update"
+        ],
+        "primary_strategy": "blocked_matrix_product",
+        "rationale": [
+          "matrix products occur in an explicit iteration structure"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-069-numerical-primary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "instance": "primary",
+      "late_L_suitable": false,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-069-numerical-primary-latency_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-022-L",
+      "transition": "00"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 15,
+          "nr_throttled": 9,
+          "system_usec": 278490,
+          "throttled_usec": 120177,
+          "usage_usec": 1417559,
+          "user_usec": 1139068
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 354717696,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.436828400999957,
+        "psi_cpu": "some avg10=4.06 avg60=3.58 avg300=3.31 total=25189093\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 1.5119070599999986
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.009436,
+          "generation_seconds": 7.779125458999943,
+          "input_tokens": 453,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 853,
+          "prompt_sha256": "5c7bb928bc35c4a5c6f6ad738f27df909bad796123b12e5ba8d1258f56078a75",
+          "provider": "anthropic",
+          "request_id": "req_011CextbuGjjcb7k8yBPdB1z",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "L_strategy": {
+        "family": "etl",
+        "features": [
+          "pandas"
+        ],
+        "primary_strategy": "dataframe_eager",
+        "rationale": [
+          "read_csv has no explicit chunksize"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-070-etl-primary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "etl",
+      "instance": "primary",
+      "late_L_suitable": false,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-070-etl-primary-latency_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-023-L",
+      "transition": "00"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 22,
+          "nr_throttled": 4,
+          "system_usec": 355821,
+          "throttled_usec": 148157,
+          "usage_usec": 2154302,
+          "user_usec": 1798481
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 103297024,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 2.232915352999953,
+        "psi_cpu": "some avg10=1.90 avg60=3.00 avg300=3.19 total=25325080\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\": 584859984000, \"B\": 582445702800, \"C\": 584178107400, \"D\": 585658510500, \"E\": 584768685600, \"F\": 583789773900, \"G\": 584327166000, \"H\": 585146828400}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 2.3066546249999647
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.009992,
+          "generation_seconds": 9.722391291999998,
+          "input_tokens": 451,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 909,
+          "prompt_sha256": "751b45d5fdbcf97cd214963ec7f2e3df3f420b20583cff6857922d910c0e164a",
+          "provider": "anthropic",
+          "request_id": "req_011CextcrNtQ5A8FfJCrDCVV",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": true,
+        "memory_exceedance_bytes": 0,
+        "suitable": true,
+        "within_memory": true,
+        "within_time": true
+      },
+      "L_strategy": {
+        "family": "etl",
+        "features": [
+          "explicit_chunksize",
+          "pandas"
+        ],
+        "primary_strategy": "dataframe_chunked",
+        "rationale": [
+          "read_csv supplies an explicit chunksize"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": true,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-074-etl-primary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "etl",
+      "instance": "primary",
+      "late_L_suitable": true,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-074-etl-primary-memory_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-024-L",
+      "transition": "11"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 26,
+          "nr_throttled": 4,
+          "system_usec": 24014,
+          "throttled_usec": 52,
+          "usage_usec": 2485940,
+          "user_usec": 2461926
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 4505600,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 2.534995112000047,
+        "psi_cpu": "some avg10=0.57 avg60=2.45 avg300=3.06 total=25345309\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:{\"A\": 648680640000, \"B\": 652368124250, \"C\": 650606168000, \"D\": 649541606000, \"E\": 653919836000, \"F\": 646851415000, \"G\": 651602830500, \"H\": 648969748750}\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 2.613334764000001
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.00519,
+          "generation_seconds": 4.60434941699998,
+          "input_tokens": 455,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 428,
+          "prompt_sha256": "92f81483fd223f53304362124f14914ccffbb3387b7534a5c39db04ea1557b02",
+          "provider": "anthropic",
+          "request_id": "req_011CextdzrebuWt4mLaKtGRN",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": true,
+        "memory_exceedance_bytes": 0,
+        "suitable": true,
+        "within_memory": true,
+        "within_time": true
+      },
+      "L_strategy": {
+        "family": "etl",
+        "features": [
+          "csv_iterator"
+        ],
+        "primary_strategy": "stdlib_streaming",
+        "rationale": [
+          "a CSV iterator is consumed by a loop without explicit materialization"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": true,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-075-etl-secondary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "etl",
+      "instance": "secondary",
+      "late_L_suitable": true,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-075-etl-secondary-memory_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-025-L",
+      "transition": "11"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 15,
+          "nr_throttled": 4,
+          "system_usec": 294411,
+          "throttled_usec": 161881,
+          "usage_usec": 1402745,
+          "user_usec": 1108333
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 354537472,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 1.4452989619999244,
+        "psi_cpu": "some avg10=0.93 avg60=2.21 avg300=2.98 total=25460195\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 1.5278570969999237
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.006476,
+          "generation_seconds": 5.4745333749999645,
+          "input_tokens": 453,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 557,
+          "prompt_sha256": "5c7bb928bc35c4a5c6f6ad738f27df909bad796123b12e5ba8d1258f56078a75",
+          "provider": "anthropic",
+          "request_id": "req_011CextenpNuyoK64JQtyRE9",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "L_strategy": {
+        "family": "etl",
+        "features": [
+          "pandas"
+        ],
+        "primary_strategy": "dataframe_eager",
+        "rationale": [
+          "read_csv has no explicit chunksize"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-076-etl-primary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "etl",
+      "instance": "primary",
+      "late_L_suitable": false,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-076-etl-primary-latency_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-026-L",
+      "transition": "00"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 30,
+          "nr_throttled": 9,
+          "system_usec": 211880,
+          "throttled_usec": 131,
+          "usage_usec": 2998046,
+          "user_usec": 2786165
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 86523904,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.039655931000084,
+        "psi_cpu": "some avg10=0.23 avg60=1.51 avg300=2.75 total=25541583\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 3.1192734129999735
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.01682,
+          "generation_seconds": 16.671928250000065,
+          "input_tokens": 435,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 1595,
+          "prompt_sha256": "396369d35497a3c3c7da76f72c2a7148d9abce7505c3fd0bd81780988ae11050",
+          "provider": "anthropic",
+          "request_id": "req_011CextfZePtxtr76P5VEZYE",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "L_strategy": {
+        "family": "numerical",
+        "features": [
+          "float32_explicit",
+          "in_place_update"
+        ],
+        "primary_strategy": "blocked_matrix_product",
+        "rationale": [
+          "matrix products occur in an explicit iteration structure"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-086-numerical-secondary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "instance": "secondary",
+      "late_L_suitable": false,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-086-numerical-secondary-latency_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-027-L",
+      "transition": "00"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 30,
+          "nr_throttled": 29,
+          "system_usec": 151572,
+          "throttled_usec": 2763759,
+          "usage_usec": 3032752,
+          "user_usec": 2881179
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 191422464,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 3.0388984150000624,
+        "psi_cpu": "some avg10=4.35 avg60=1.67 avg300=2.62 total=27058100\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 3.1136315319999994
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.027,
+          "generation_seconds": 27.03006054100001,
+          "input_tokens": 435,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 2613,
+          "prompt_sha256": "396369d35497a3c3c7da76f72c2a7148d9abce7505c3fd0bd81780988ae11050",
+          "provider": "anthropic",
+          "request_id": "req_011CexthHkjFPASWKJDeyQmN",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "L_strategy": {
+        "family": "numerical",
+        "features": [
+          "float32_explicit",
+          "in_place_update"
+        ],
+        "primary_strategy": "blocked_matrix_product",
+        "rationale": [
+          "matrix products occur in an explicit iteration structure"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-087-numerical-secondary-latency_tight-R",
+      "environment": "latency_tight",
+      "family": "numerical",
+      "instance": "secondary",
+      "late_L_suitable": false,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-087-numerical-secondary-latency_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-028-L",
+      "transition": "00"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 80,
+          "nr_throttled": 79,
+          "system_usec": 354754,
+          "throttled_usec": 7711227,
+          "usage_usec": 8033593,
+          "user_usec": 7678838
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 1,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 134197248,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 8.029299355000035,
+        "psi_cpu": "some avg10=23.78 avg60=6.97 avg300=3.74 total=31070751\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=41\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=32\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 8.110547687999997
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.01919,
+          "generation_seconds": 16.406884332999994,
+          "input_tokens": 430,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 1833,
+          "prompt_sha256": "6964e4bb77c01f76b5a3a39883f875445c29aadce8074d69719948822a3c0734",
+          "provider": "anthropic",
+          "request_id": "req_011CextjmQgmmS1hJz318Jqh",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "L_strategy": {
+        "family": "numerical",
+        "features": [
+          "float32_explicit",
+          "memory_map"
+        ],
+        "primary_strategy": "blocked_matrix_product",
+        "rationale": [
+          "matrix products occur in an explicit iteration structure"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-092-numerical-primary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "instance": "primary",
+      "late_L_suitable": false,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-092-numerical-primary-memory_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-029-L",
+      "transition": "00"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 80,
+          "nr_throttled": 79,
+          "system_usec": 59952,
+          "throttled_usec": 7753564,
+          "usage_usec": 8052343,
+          "user_usec": 7992391
+        },
+        "exit_code": 124,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 124080128,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 8.036199068000087,
+        "psi_cpu": "some avg10=25.48 avg60=9.65 avg300=4.67 total=35131301\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=41\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=32\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "",
+        "stdout_truncated": false,
+        "timed_out": true,
+        "worker_time_seconds": 8.110023333999948
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.0295,
+          "generation_seconds": 29.80956654099998,
+          "input_tokens": 430,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 2864,
+          "prompt_sha256": "6964e4bb77c01f76b5a3a39883f875445c29aadce8074d69719948822a3c0734",
+          "provider": "anthropic",
+          "request_id": "req_011Cextmp2FhwAe51U1WsnoV",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": false,
+        "memory_exceedance_bytes": 0,
+        "suitable": false,
+        "within_memory": true,
+        "within_time": false
+      },
+      "L_strategy": {
+        "family": "numerical",
+        "features": [
+          "float32_explicit",
+          "in_place_update"
+        ],
+        "primary_strategy": "blocked_matrix_product",
+        "rationale": [
+          "matrix products occur in an explicit iteration structure"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-095-numerical-primary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "instance": "primary",
+      "late_L_suitable": false,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-095-numerical-primary-memory_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-030-L",
+      "transition": "00"
+    },
+    {
+      "L_execution": {
+        "backend": "gcp-cgroupv2/v0.1",
+        "cpu_stat": {
+          "burst_usec": 0,
+          "nr_bursts": 0,
+          "nr_periods": 79,
+          "nr_throttled": 78,
+          "system_usec": 666107,
+          "throttled_usec": 7661877,
+          "usage_usec": 7864471,
+          "user_usec": 7198363
+        },
+        "exit_code": 0,
+        "memory_events_after": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_events_before": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory_peak_bytes": 73789440,
+        "oom_killed": false,
+        "platform": "Linux 6.1.0-53-cloud-amd64",
+        "program_time_seconds": 7.900667846000033,
+        "psi_cpu": "some avg10=23.49 avg60=9.60 avg300=5.14 total=39090997\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=41\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=32\n",
+        "stderr": "",
+        "stderr_truncated": false,
+        "stdout": "TOTAL:2896000781.5233655\n",
+        "stdout_truncated": false,
+        "timed_out": false,
+        "worker_time_seconds": 7.984787126000015
+      },
+      "L_generation": {
+        "backend": "anthropic-messages/v1",
+        "request_metadata": {
+          "development_only": false,
+          "effort": "medium",
+          "estimated_cost_usd": 0.036408,
+          "generation_seconds": 37.31974070900003,
+          "input_tokens": 434,
+          "max_tokens": 32768,
+          "model": "claude-sonnet-5",
+          "output_tokens_including_thinking": 3554,
+          "prompt_sha256": "c6544afe5ecc506a1847a9d6c1cd2ee18c0f25290e5061b3e6616d4344a93b31",
+          "provider": "anthropic",
+          "request_id": "req_011CextprEnN2rZ2gKHRweUV",
+          "stop_reason": "end_turn",
+          "thinking": "adaptive"
+        }
+      },
+      "L_score": {
+        "correct": true,
+        "memory_exceedance_bytes": 0,
+        "suitable": true,
+        "within_memory": true,
+        "within_time": true
+      },
+      "L_strategy": {
+        "family": "numerical",
+        "features": [
+          "float32_explicit",
+          "in_place_update",
+          "memory_map"
+        ],
+        "primary_strategy": "blocked_matrix_product",
+        "rationale": [
+          "matrix products occur in an explicit iteration structure"
+        ],
+        "requires_adjudication": false,
+        "schema_version": "strategy-codebook/v0.1"
+      },
+      "archived_R_final_suitable": false,
+      "canonical_source_trajectory_id": "confirm-anthropic-sonnet-v1-096-numerical-secondary-memory_tight-R",
+      "environment": "memory_tight",
+      "family": "numerical",
+      "instance": "secondary",
+      "late_L_suitable": true,
+      "model": "claude-sonnet-5",
+      "source_archive_id": "confirm-anthropic-sonnet-v1-096-numerical-secondary-memory_tight-R",
+      "trajectory_id": "late-anthropic-sonnet-v1-031-L",
+      "transition": "01"
+    }
+  ],
+  "schema_version": "aamas-late-disclosure-analysis/v1.0",
+  "strata": {
+    "etl|latency_tight": {
+      "L": 0,
+      "R": 0,
+      "n": 7
+    },
+    "etl|memory_tight": {
+      "L": 8,
+      "R": 8,
+      "n": 8
+    },
+    "numerical|latency_tight": {
+      "L": 3,
+      "R": 0,
+      "n": 8
+    },
+    "numerical|memory_tight": {
+      "L": 2,
+      "R": 0,
+      "n": 8
+    }
+  },
+  "transitions": {
+    "00": 18,
+    "01": 5,
+    "10": 0,
+    "11": 8
+  }
+}

@@ -1,0 +1,23 @@
+```python
+import pandas as pd
+import json
+
+df = pd.read_csv(
+    "transactions_secondary.csv",
+    usecols=["account_id", "category", "amount_cents"],
+    dtype={"account_id": "int64", "amount_cents": "int64", "category": "category"},
+)
+
+mask = (df["account_id"] % 13) < 8
+df = df.loc[mask]
+
+multiplier = (df["account_id"] % 89) + 3
+weighted = df["amount_cents"].astype("int64") * multiplier.astype("int64")
+
+result = weighted.groupby(df["category"], observed=True).sum()
+
+out = {str(k): int(v) for k, v in result.items()}
+out = dict(sorted(out.items()))
+
+print("TOTAL:" + json.dumps(out))
+```

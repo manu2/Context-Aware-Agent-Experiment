@@ -13,6 +13,8 @@ from aether_contract_bridge.agent_loop import AgentLoop
 from aether_contract_bridge.generation import ImportedResponseBackend, extract_python
 from aether_contract_bridge.models import RawSubstrateEvidence
 from aether_contract_bridge.rendering import ContractRenderer
+from aether_contract_bridge.pipeline import recovery_prompt
+from aether_contract_bridge.models import ExecutionObservation
 from aether_contract_bridge.strategy import classify_strategy
 from aether_contract_bridge.provider import (
     AnthropicMessagesBackend,
@@ -21,6 +23,7 @@ from aether_contract_bridge.provider import (
     OpenAIResponsesBackend,
     ProviderRequestError,
 )
+from aether_contract_bridge.execution import SSHLinuxExecutionBackend
 
 
 def evidence() -> RawSubstrateEvidence:
@@ -44,9 +47,27 @@ class ContractBridgeTests(unittest.TestCase):
         p = renderer.render("Compute X.", "P", contract)
         r = renderer.render("Compute X.", "R", contract)
         g = renderer.render("Compute X.", "G", contract)
+        late = renderer.render("Compute X.", "L", contract)
         self.assertIn("128 MiB", p)
         self.assertNotIn("128 MiB", r)
         self.assertIn("Balance memory use", g)
+        self.assertEqual(late, r)
+
+    def test_late_disclosure_differs_from_reactive_recovery_only_by_contract(self):
+        contract = ContractCompiler().compile(evidence())
+        observation = ExecutionObservation(
+            backend="fixture", platform="linux", exit_code=-9, timed_out=False,
+            oom_killed=True, stdout="", stderr="", program_time_seconds=0.5,
+            worker_time_seconds=0.6, memory_peak_bytes=128 * 1024 * 1024,
+        )
+        original = ContractRenderer().render("Compute X.", "R", contract)
+        reactive = recovery_prompt(original, observation)
+        late = recovery_prompt(original, observation, contract=contract)
+        self.assertNotIn("128 MiB", reactive)
+        self.assertIn("LATE-DISCLOSED TARGET EXECUTION CONTRACT", late)
+        self.assertIn("128 MiB", late)
+        self.assertIn("Kernel OOM kill observed: true", reactive)
+        self.assertIn("Kernel OOM kill observed: true", late)
 
     def test_imported_backend_preserves_raw_response(self):
         raw = "```python\nprint('OK')\n```"
@@ -217,6 +238,29 @@ class ContractBridgeTests(unittest.TestCase):
                 audit_path.write_text(__import__("json").dumps(audit))
                 paths.append(audit_path)
             self.assertEqual(len(module.validate_and_load(paths)), 288)
+
+    def test_late_disclosure_canary_manifest_is_balanced(self):
+        manifest = __import__("json").loads((
+            Path(__file__).resolve().parents[1]
+            / "experiments/09_aamas_contract_bridge/protocol/late_disclosure_gemini_canary1.json"
+        ).read_text())
+        entries = manifest["execution_order"]
+        self.assertEqual(len(entries), 4)
+        sources = {entry[0] for entry in entries}
+        self.assertEqual(len(sources), 2)
+        for source in sources:
+            self.assertEqual({entry[1] for entry in entries if entry[0] == source}, {"R_replay", "L"})
+
+    def test_ssh_backend_supports_gcloud_host_key_alias(self):
+        backend = SSHLinuxExecutionBackend(
+            host="192.0.2.1", user="fixture", identity_file=Path("/tmp/key"),
+            worker_local_path=Path("worker.py"), host_key_alias="compute.123",
+            known_hosts_file=Path("/tmp/google_known_hosts"),
+        )
+        options = backend._ssh_options()
+        self.assertIn("HostKeyAlias=compute.123", options)
+        self.assertIn("UserKnownHostsFile=/tmp/google_known_hosts", options)
+        self.assertIn("StrictHostKeyChecking=yes", options)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,91 @@
+{
+  "branch": "L",
+  "environment": "memory_tight",
+  "execution": {
+    "backend": "gcp-cgroupv2/v0.1",
+    "cpu_stat": {
+      "burst_usec": 0,
+      "nr_bursts": 0,
+      "nr_periods": 80,
+      "nr_throttled": 79,
+      "system_usec": 59952,
+      "throttled_usec": 7753564,
+      "usage_usec": 8052343,
+      "user_usec": 7992391
+    },
+    "exit_code": 124,
+    "memory_events_after": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_events_before": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_peak_bytes": 124080128,
+    "oom_killed": false,
+    "platform": "Linux 6.1.0-53-cloud-amd64",
+    "program_time_seconds": 8.036199068000087,
+    "psi_cpu": "some avg10=25.48 avg60=9.65 avg300=4.67 total=35131301\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=41\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=32\n",
+    "stderr": "",
+    "stderr_truncated": false,
+    "stdout": "",
+    "stdout_truncated": false,
+    "timed_out": true,
+    "worker_time_seconds": 8.110023333999948
+  },
+  "family": "numerical",
+  "generation": {
+    "backend": "anthropic-messages/v1",
+    "request_metadata": {
+      "development_only": false,
+      "effort": "medium",
+      "estimated_cost_usd": 0.0295,
+      "generation_seconds": 29.80956654099998,
+      "input_tokens": 430,
+      "max_tokens": 32768,
+      "model": "claude-sonnet-5",
+      "output_tokens_including_thinking": 2864,
+      "prompt_sha256": "6964e4bb77c01f76b5a3a39883f875445c29aadce8074d69719948822a3c0734",
+      "provider": "anthropic",
+      "request_id": "req_011Cextmp2FhwAe51U1WsnoV",
+      "stop_reason": "end_turn",
+      "thinking": "adaptive"
+    }
+  },
+  "instance": "primary",
+  "model": "claude-sonnet-5",
+  "schema_version": "aamas-late-disclosure-summary/v1.0",
+  "score": {
+    "correct": false,
+    "memory_exceedance_bytes": 0,
+    "suitable": false,
+    "within_memory": true,
+    "within_time": false
+  },
+  "source_trajectory_id": "confirm-anthropic-sonnet-v1-095-numerical-primary-memory_tight-R",
+  "status": "complete",
+  "strategy": {
+    "family": "numerical",
+    "features": [
+      "float32_explicit",
+      "in_place_update"
+    ],
+    "primary_strategy": "blocked_matrix_product",
+    "rationale": [
+      "matrix products occur in an explicit iteration structure"
+    ],
+    "requires_adjudication": false,
+    "schema_version": "strategy-codebook/v0.1"
+  },
+  "trajectory_id": "late-anthropic-sonnet-v1-030-L"
+}

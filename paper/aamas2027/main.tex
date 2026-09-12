@@ -7,6 +7,7 @@
 
 \usepackage{booktabs}
 \usepackage{graphicx}
+\usepackage{amsmath}
 
 %%% AAMAS-2027 copyright block (from the official template; do not change).
 \makeatletter
@@ -46,18 +47,22 @@ an Execution Contract Bridge that inspects a target, compiles its effective
 contract, and controls when that state becomes visible in an autonomous
 generate--execute--recover loop. Our preregistered evaluation compares proactive
 contract disclosure with reactive execution feedback and generic efficiency guidance
-across three model configurations, two task families, two instances, and opposed
-memory- and latency-tight Linux environments. Across 288 independently generated
+across three model configurations, two task families, two independently generated
+instances per family, and opposed memory- and latency-tight Linux environments.
+Across 288 independently generated
 trajectories, proactive disclosure produced 64/96 (66.7\%) first-pass suitable
 programs, compared with 14/96 (14.6\%) under reactive feedback and 27/96
 (28.1\%) under generic efficiency guidance. Equal-stratum risk differences were
 +52.1 and +38.5 percentage points, respectively (both Holm-adjusted permutation
-$p=2.0\times10^{-5}$). Proactive contracts improved first-pass suitability in
-all three model configurations and in three of four task--environment regimes,
-while reducing unsuccessful executions, model calls, and tokens. These results
-establish execution context as consequential agent state: exposing the target
-contract before action selection changes implementation strategy and sharply
-improves first-pass operational suitability.
+$p=2.0\times10^{-5}$). We then branch from all 82 reactive first-attempt failures
+while holding the failed program and authentic observation fixed. Adding the exact
+contract to recovery raises suitable repairs from 19/82 to 53/82, with 35 matched
+improvements and one regression (exact McNemar $p=1.08\times10^{-9}$). Removal
+analyses preserve both primary advantages after excluding any model, instance,
+task family, environment type, or individual stratum. These results establish
+execution context as consequential, persistent agent state: proactive disclosure
+prevents unsuitable first actions, and exact state at recovery transforms the
+agent's ability to repair the same failures.
 \end{abstract}
 
 \ccsdesc[500]{Computing methodologies~Intelligent agents}
@@ -96,7 +101,7 @@ unsuitable execution (R), and a generic instruction to balance memory and time
 (G). Every generated program is executed under authentic Linux cgroup v2 memory
 and CPU controls and a supervisor-enforced deadline.
 
-We make four contributions:
+We make five contributions:
 \begin{itemize}
   \item We define substrate blindness as absent decision-relevant state in agent
   planning, and operationalize substrate awareness with a typed execution contract.
@@ -106,10 +111,19 @@ We make four contributions:
   \item We conduct a preregistered 288-trajectory evaluation spanning three
   provider-configured models, two task families, independently generated task
   instances, and opposed resource envelopes.
-  \item We isolate first-pass environment suitability from eventual recovery and
-  quantify execution failures, calls, tokens, latency, memory, and structural
-  implementation choices.
+  \item We isolate the value and timing of environment state with 82 matched
+  recovery branches, showing that exact contracts improve symptom-only repair
+  from 19/82 to 53/82 on identical archived failure states.
+  \item We quantify execution failures, calls, tokens, latency, memory, structural
+  implementation choices, and removal robustness across the complete matrix.
 \end{itemize}
+
+The evaluation answers four questions. \textbf{RQ1} asks whether exposing the
+exact contract before action selection improves first-pass operational
+suitability. \textbf{RQ2} examines how disclosure changes implementation choices
+and total agent work. \textbf{RQ3} tests whether exact state remains valuable when
+revealed only after a failure. \textbf{RQ4} tests whether the primary result
+survives removal of individual models, tasks, environments, and strata.
 
 \section{Execution Contracts as Agent State}
 
@@ -127,20 +141,46 @@ machine, or cloud deployment can supply a different adapter while preserving the
 same contract and agent-loop interfaces. It also prevents the experimental
 treatment from changing the executor or scorer.
 
-\begin{figure}[t]
+\begin{table}[t]
+  \caption{Typed \texttt{ExecutionContract/v0.1} projected by the bridge.}
+  \label{tab:schema}
   \centering
-  \fbox{\parbox{0.92\columnwidth}{\centering
-  Target adapter $\rightarrow$ raw substrate evidence $\rightarrow$ contract
-  compiler $\rightarrow$ condition renderer $\rightarrow$ model $\rightarrow$
-  cgroup execution $\rightarrow$ verified observation $\rightarrow$ bounded
-  recovery decision}}
-  \caption{Execution Contract Bridge and autonomous evaluation loop. The same
-  inspected target and execution backend serve every information condition.}
-  \Description{A left-to-right pipeline from a target adapter through substrate
-  evidence, contract compilation, condition rendering, model generation, cgroup
-  execution, verified observation, and a bounded recovery decision.}
+  \scriptsize
+  \begin{tabular}{lp{0.62\columnwidth}}
+    \toprule
+    Field & Role in agent state \\
+    \midrule
+    Target ID & Binds the contract to the inspected execution target. \\
+    Memory maximum & Effective process/cgroup memory ceiling, in bytes. \\
+    CPU quota & Normalized CPU capacity in core units. \\
+    Wall-time limit & Supervisor-enforced completion deadline, in seconds. \\
+    Runtime, packages & Interpreter and available dependency set. \\
+    Evidence hash & Links the projection to canonical raw evidence. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Four invariants make the bridge an agent interface rather than free-form advice.
+The contract is target-bound and provenance-bearing; units are normalized before
+rendering; the executor always enforces the complete contract even when fields
+are hidden from the model; and every prompt, action, observation, score, and
+recovery decision enters an append-only trajectory. Thus P, R, G, and L alter
+agent-visible state while holding task semantics, enforcement, and verification
+fixed.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.98\textwidth]{figures/contract_bridge_architecture}
+  \caption{Execution Contract Bridge and bounded agent loop. The same inspected
+  target, typed contract, executor, and verifier serve every condition. P exposes
+  the contract before the first action; R supplies only the authentic observation
+  at recovery; the matched late-disclosure extension L adds the exact contract to
+  that same observation before the second action.}
+  \Description{A system diagram shows target inspection and contract compilation,
+  context rendering, agent plan selection, verified execution, observations, and
+  bounded recovery. Blue and green paths mark proactive and late contract disclosure.}
   \label{fig:bridge}
-\end{figure}
+\end{figure*}
 
 \subsection{Information conditions}
 
@@ -161,6 +201,34 @@ P tests whether known target state improves first-pass planning. R measures the
 work required to react to the boundary through execution feedback. G separates
 specific environment information from a generic request for efficient code.
 
+\subsection{State and timing model}
+
+Let $B=(T,V)$ denote the task plus the runtime/dependency state visible in every
+condition, $E$ the target environment, and $C=f(E)=(M,Q,\tau)$ the experimentally
+manipulated contract containing memory ceiling $M$, CPU quota $Q$, and deadline
+$\tau$. (The bridge schema also carries $V$; this study holds it constant.) An agent
+policy $\pi$ selects a program $A$ from its observable state; the executor
+$X_E(A)$ returns observation $O$, and an independent verifier defines
+\begin{equation}
+S(A,E)=\mathbb{1}[\mathrm{correct}(A)\land m(A)\le M\land t(A)\le\tau].
+\end{equation}
+The primary conditions differ only in the information $I$ supplied to $\pi$,
+with $A_k^c\sim\pi(\cdot\mid I_k^c)$ and
+\begin{align}
+I_1^P&=(B,C), & I_1^R&=B, & I_1^G&=(B,g),\\
+I_2^P&=(B,C,A_1^P,O_1^P),\nonumber\\
+I_2^R&=(B,A_1^R,O_1^R),\qquad
+I_2^G=(B,g,A_1^G,O_1^G),
+\end{align}
+Here $g$ denotes generic efficiency guidance. In a separately frozen extension,
+we hold each failed $(B,A_1^R,O_1^R)$ state fixed and change only contract
+visibility at recovery:
+\begin{equation}
+A_2^L\sim\pi(\cdot\mid B,A_1^R,O_1^R,C).
+\end{equation}
+This design distinguishes whether exact state is useful, when it is useful, and
+whether failure symptoms alone carry equivalent information.
+
 \section{Experimental Design}
 
 \subsection{Tasks and opposed environments}
@@ -180,6 +248,23 @@ faster reference and rejects its slower opposed reference. Before any confirmato
 generation, five repeated executions of every expected reference passed and five
 of every opposed reference failed under the frozen envelopes.
 
+\begin{table}[t]
+  \caption{Frozen execution contracts. Every environment uses one CPU core.}
+  \label{tab:contracts}
+  \centering
+  \small
+  \begin{tabular}{llrr}
+    \toprule
+    Family & Instance & Memory-tight & Latency-tight \\
+    \midrule
+    Numerical & Primary & 128 MiB, 8.0 s & 1024 MiB, 3.0 s \\
+    Numerical & Secondary & 128 MiB, 8.0 s & 1024 MiB, 3.0 s \\
+    ETL & Primary & 128 MiB, 4.0 s & 512 MiB, 1.4 s \\
+    ETL & Secondary & 128 MiB, 4.0 s & 512 MiB, 1.7 s \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
 \subsection{Models and sampling}
 
 The confirmatory matrix uses Google Gemini 3.8 Flash, OpenAI GPT-5.6 Sol, and
@@ -193,6 +278,13 @@ Execution order is randomized from a frozen seed.
 The development canaries and 24-trajectory Gemini pilot were used only to validate
 the pipeline, calibrate task opposition, and freeze the confirmatory design. They
 are archived separately and are never pooled with confirmatory evidence.
+
+After completing the primary matrix, we froze a recovery-timing extension over
+all 82 archived R first-attempt failures. For each state, L reuses the exact task,
+failed program, authentic execution observation, provider configuration, and
+second-turn scaffold used by R, then adds the target contract before generating a
+fresh recovery action. This produces matched comparisons of symptom-only and
+exact-contract recovery without rerunning or resampling the initial failure.
 
 \subsection{Execution and scoring}
 
@@ -227,6 +319,13 @@ strategy taxonomy frozen before confirmatory generation. Continuous contrasts
 use 20,000 stratified bootstrap resamples (seed 20260925). Failed executions are
 reported by type and never assigned invented resource values.
 
+For the matched recovery extension we report the $2\times2$ transition table and
+an exact two-sided McNemar test. We also recompute both primary risk differences
+after removing, in turn, each model configuration, task instance, family,
+environment type, and full model--family--instance--environment stratum. These
+removal analyses test whether the conclusion depends on any single component of
+the benchmark matrix.
+
 \begin{figure*}[t]
   \centering
   \includegraphics[width=0.98\textwidth]{figures/primary_suitability}
@@ -260,17 +359,22 @@ reliability of a concrete target contract (Figure~\ref{fig:primary}).
 
 \begin{table}[t]
   \caption{Verified suitability and generation work by information condition.
-  Calls, tokens, and cost are totals over each fixed 96-trajectory cohort.}
+  Calls and tokens are totals over each fixed 96-trajectory cohort.}
   \label{tab:primary}
   \centering
   \small
-  \begin{tabular}{lrrrrr}\toprule
-  Condition & First pass & Final & Calls & Tokens & Cost \\\midrule
-  Proactive (P) & 64/96 & 72/96 & 128 & 469k & \$4.30 \\
-  Reactive (R) & 14/96 & 33/96 & 178 & 596k & \$4.53 \\
-  Generic (G) & 27/96 & 43/96 & 165 & 671k & \$4.43 \\\bottomrule
+  \begin{tabular}{lrrrr}\toprule
+  Condition & First pass & Final & Calls & Tokens \\\midrule
+  Proactive (P) & 64/96 & 72/96 & 128 & 469k \\
+  Reactive (R) & 14/96 & 33/96 & 178 & 596k \\
+  Generic (G) & 27/96 & 43/96 & 165 & 671k \\\bottomrule
   \end{tabular}
 \end{table}
+
+The first proactive attempt also outperformed the complete two-attempt
+alternatives: P produced 64 suitable programs before any recovery, 31 more than
+R's final 33 and 21 more than G's final 43. The advantage is therefore visible
+against the complete bounded workflows, not only against their initial actions.
 
 \begin{table}[t]
   \caption{First-pass / final suitable trajectories by model ($N=32$ per row).}
@@ -322,6 +426,30 @@ changes both strategy family and lower-level choices such as precision and chunk
 geometry; a generic efficiency request sometimes selects the same broad family
 without reliably fitting the actual envelope.
 
+\begin{table}[t]
+  \caption{First-attempt strategy and suitability. Each cell reports programs
+  suitable among programs selecting the strategy. Counts are
+  descriptive across the balanced environment mix.}
+  \label{tab:strategy}
+  \centering
+  \scriptsize
+  \begin{tabular}{lrrr}\toprule
+  Strategy & P & R & G \\\midrule
+  Numerical blocked & 33/42 & 8/29 & 13/42 \\
+  Numerical eager & 6/6 & 0/16 & 0/5 \\
+  ETL data-frame chunked & 11/24 & 0/0 & 8/21 \\
+  ETL standard-library stream & 13/15 & 5/30 & 6/14 \\
+  ETL eager data frame & 1/9 & 1/18 & 0/13 \\\bottomrule
+  \end{tabular}
+\end{table}
+
+Table~\ref{tab:strategy} shows why broad algorithm labels alone do not determine
+fitness. P and G selected blocked numerical computation equally often, yet
+33/42 P programs were suitable versus 13/42 G programs. Conversely, all six P
+programs selecting eager numerical computation for the latency-oriented envelope
+were suitable. Exact state shapes both the family of strategy and
+its target-specific parameterization.
+
 \subsection{Recovery work and resource behavior}
 
 Within the two-attempt limit, final suitability was 72/96 for P, 33/96 for R,
@@ -330,6 +458,30 @@ tokens, versus 596k and 671k (Table~\ref{tab:primary}). Across every issued
 execution, P produced 56 unsuitable runs; R produced 145 and G produced 122.
 The P cohorts therefore obtained more suitable programs while executing far
 fewer failed implementations.
+
+\begin{table}[t]
+  \caption{Failure prevention and cohort-level operational yield. OOM and timeout
+  counts describe attempt 1; unsuitable executions include both attempts. Yield
+  divides total calls or tokens by final suitable trajectories.}
+  \label{tab:operations}
+  \centering
+  \scriptsize
+  \begin{tabular}{lrrrrr}\toprule
+  & OOM & Timeout & Unsuitable & Calls/success & Tokens/success \\\midrule
+  P & 2 & 29 & 56 & 1.78 & 6.5k \\
+  R & 24 & 58 & 145 & 5.39 & 18.1k \\
+  G & 27 & 42 & 122 & 3.84 & 15.6k \\\bottomrule
+  \end{tabular}
+\end{table}
+
+Relative to R, proactive disclosure reduced first-attempt OOM kills by 91.7\%
+and timeouts by 50.0\%; relative to G, the reductions were 92.6\% and 31.0\%.
+Its higher-information prompt did not increase total inference work. P used
+24,168 first-attempt input tokens, 8,968 more than R, but only 1,023 more input
+tokens across the complete workflow (36,099 versus 35,076). It generated 127,357
+fewer output/reasoning tokens and used 21.2\% fewer total tokens than R. Relative
+to G, P used 30.1\% fewer total tokens. Up-front state therefore repaid its context
+cost through fewer recovery calls and substantially less generated work.
 
 The stratified bootstrap supports the same operational picture. P used 0.52
 fewer attempts per trajectory than R, with 95\% interval $[-0.56,-0.48]$, and
@@ -343,6 +495,90 @@ duration was 5.44 seconds lower than R, with interval $[-9.00,-1.91]$. The
 secondary measures show that the main gain is not merely eventual correctness:
 the contract moves useful work to the first attempt and reduces the recovery
 burden.
+
+\subsection{Exact state transforms recovery}
+
+The matched extension establishes that the contract remains valuable after a
+failure and that failure symptoms are not an equivalent substitute for target
+state. Across the same 82 archived R failures, symptom-only recovery produced
+19/82 suitable programs (23.2\%); adding the exact contract to the otherwise
+identical recovery state produced 53/82 (64.6\%). The transition table contains
+35 improvements, one regression, 18 shared successes, and 28 shared failures
+(exact two-sided McNemar $p=1.08\times10^{-9}$; Figure~\ref{fig:recovery}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figures/matched_recovery}
+  \caption{Matched recovery from identical archived first-failure states.
+  Exact contract disclosure raises suitable recovery from 19/82 to 53/82.}
+  \Description{Two bars compare 19 symptom-only recoveries with 53 exact-contract
+  recoveries among 82 matched failures; annotations report 35 improvements and
+  one regression.}
+  \label{fig:recovery}
+\end{figure}
+
+The gain appears for both failure classes: exact-contract recovery succeeded on
+18/24 OOM-origin states and 35/58 timeout-origin states, versus 9/24 and 10/58
+under symptom-only recovery. No L execution was OOM-killed; its remaining
+failures were 27 timeouts and two runtime/correctness errors. By model, recovery
+changed from 8/31 to 13/31 for Claude Sonnet 5, 8/24 to 15/24 for GPT-5.6 Sol,
+and 3/27 to 25/27 for Gemini 3.8 Flash.
+
+\begin{table}[t]
+  \caption{Matched recovery from identical R first-failure states. R receives
+  authentic symptoms; L receives the same state plus the exact contract.}
+  \label{tab:late}
+  \centering
+  \small
+  \begin{tabular}{lrr}\toprule
+  Failure subset & R recovered & L recovered \\\midrule
+  Claude Sonnet 5 & 8/31 & 13/31 \\
+  GPT-5.6 Sol & 8/24 & 15/24 \\
+  Gemini 3.8 Flash & 3/27 & 25/27 \\
+  OOM origin & 9/24 & 18/24 \\
+  Timeout origin & 10/58 & 35/58 \\
+  \textbf{All matched states} & \textbf{19/82} & \textbf{53/82} \\\bottomrule
+  \end{tabular}
+\end{table}
+
+Viewed as complete two-action workflows, R plus late contract disclosure reaches
+67/96 final suitable trajectories, compared with 33/96 for symptom-only R. The
+proactive workflow reaches 72/96 while using 128 model calls and 469k tokens;
+the late-contract workflow uses 178 calls and 632k tokens because every trajectory
+must first attempt to act without the target state. This is 50 fewer calls and
+162,901 fewer tokens---a 25.8\% reduction relative to the late workflow's 632,269
+total. Proactive and late workflows
+are separately sampled at the first action, so this workflow comparison is
+descriptive; the 82-state recovery comparison above is fully matched.
+
+The headline result is not carried by a single component of the matrix. After
+removing any one model, P$-$R remains +48.4 to +54.7 points and P$-$G remains
++28.1 to +51.6 points. Removing either instance yields +47.9 to +56.2 and +31.2
+to +45.8 points, respectively. Both advantages also remain positive after
+removing either task family, either environment type, or any one of the 24 full
+strata (Table~\ref{tab:removal}). The effect therefore survives every
+prespecified structural removal.
+
+\begin{table}[H]
+  \caption{Removal robustness of the equal-stratum first-pass suitability
+  advantage (percentage points). Each range covers every leave-one-out result;
+  positive values favor proactive disclosure.}
+  \label{tab:removal}
+  \centering
+  \small
+  \begin{tabular}{lrr}
+    \toprule
+    Removal & P$-$R & P$-$G \\
+    \midrule
+    None (full matrix) & +52.1 & +38.5 \\
+    Any model & +48.4--+54.7 & +28.1--+51.6 \\
+    Either instance & +47.9--+56.2 & +31.2--+45.8 \\
+    Either family & +39.6--+64.6 & +22.9--+54.2 \\
+    Either environment & +35.4--+68.8 & +25.0--+52.1 \\
+    Any full stratum & +50.0--+54.3 & +35.9--+41.3 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \section{Discussion}
 
@@ -364,16 +600,17 @@ The distinction between P and G is particularly informative. GPT-5.6 Sol often
 translated generic guidance into a suitable implementation, while the other two
 configurations did not. Yet the proactive condition remained the only condition
 that was consistently strong across providers and opposed envelopes. Execution
-contracts are therefore not a claim that models never optimize unaided; they are
-an architectural mechanism for making the target objective explicit instead of
-depending on a model-specific default interpretation of ``efficient.''
+contracts replace model-specific interpretations of ``efficient'' with an
+explicit target objective, producing substantially more consistent suitability
+across providers and opposed execution environments.
 
-Reactive feedback improved eventual suitability, but one repair did not close the
-gap: R rose from 14/96 to 33/96, still well below P's 72/96. This result directly
-motivates placing substrate state upstream of action selection. An agent harness
-that already enforces a resource envelope can expose the relevant values before
-incurring a failed execution, while retaining feedback-based recovery for the
-remaining difficult cases.
+The timing experiment sharpens the architecture. Symptom-only feedback raised R
+from 14/96 to 33/96, whereas exact state at the same recovery point raised the
+workflow to 67/96. The contract should therefore persist across the trajectory:
+the harness exposes it before the first action to prevent unsuitable choices and
+again alongside authentic observations when recovery is required. This design
+combines proactive planning with evidence-grounded repair rather than treating
+them as competing paradigms.
 
 \subsection{Threats to validity}
 
@@ -390,17 +627,55 @@ substrate constant while manipulating its observability. Future evaluations can
 test portability across accelerators, runtimes, tools, quotas, and dynamically
 changing environments using the same adapter/contract boundary.
 
+\subsection{Artifact and reproducibility package}
+
+The anonymous supplement preserves the preregistration, frozen prompts and task
+manifests, exact model identifiers and inference settings, all effective and
+interrupted trajectory records, generated programs, execution evidence, scoring
+and analysis code, machine-readable result tables, and source hashes. It also
+contains the 82 matched recovery branches and a manifest linking every packaged
+file to its archived source. The complete statistical analysis and all figures
+can be regenerated offline without provider calls; fresh execution requires a
+Linux host with delegated cgroup v2 controllers. This package makes the reported
+agent decisions, failures, recovery transitions, and operational measurements
+independently auditable.
+
 \section{Related Work}
 
-ReAct and Reflexion demonstrate agents that revise behavior through observations
-and feedback~\cite{yao2023react,shinn2023reflexion}. Self-Refine
-studies iterative model feedback~\cite{madaan2023selfrefine}. SWE-bench and
-SWE-agent ground coding agents in executable repositories and tool
-loops~\cite{jimenez2024swebench,yang2024sweagent}. EffiBench and Mercury evaluate
-the execution efficiency of generated code~\cite{huang2024effibench,du2024mercury}.
-Our work connects these lines by making the target execution envelope explicit
-before plan selection and comparing proactive state availability with both
-reactive execution feedback and generic efficiency guidance.
+ReAct couples reasoning and acting through environment observations
+~\cite{yao2023react}. Reflexion and Self-Refine use feedback to revise later
+outputs~\cite{shinn2023reflexion,madaan2023selfrefine}. LEVER verifies and reranks
+generated programs with execution results~\cite{ni2023lever}. SWE-bench supplies
+executable repository tasks~\cite{jimenez2024swebench}, while SWE-agent designs an
+agent--computer interface~\cite{yang2024sweagent}. These systems establish the
+value of acting on execution observations. Our matched R--L comparison identifies
+the additional information value of exposing the exact operating boundary
+alongside the same authentic failure observation.
+
+EffiBench and Mercury evaluate the execution efficiency of generated code
+~\cite{huang2024effibench,du2024mercury}. A single-task precursor introduced
+substrate blindness through prompt-level RAM/time disclosure and local process
+measurement~\cite{agrawal2026substrate}. The present study turns that proof of
+concept into a reusable agent architecture, enforces contracts on Linux, broadens
+the task and environment matrix, and isolates both pre-action and matched
+recovery-time disclosure. PeakBench independently demonstrates resource-aware
+planning for parallel tool invocation: it separates dependency planning from
+physical scheduling and finds that resource disclosure reduces avoidable
+overflows~\cite{chen2026peakbench}. The implementation an agent synthesizes and
+the tools it schedules are complementary decision boundaries. Together, these
+results place operational resources inside the agent decision problem rather
+than evaluating them only after a plan is fixed.
+
+Recent contract-centered agent work provides a complementary foundation.
+Agent Contracts formalizes multidimensional resource governance and budget
+delegation for autonomous agents~\cite{ye2026agentcontracts}. Contract-Grounded
+Behavior Tree Synthesis exposes robot capabilities and runtime constraints through
+an MCP interface before an agent synthesizes a plan~\cite{salfity2026contractgrounded}.
+The Execution Contract Bridge addresses the implementation layer: it derives a
+typed contract from a concrete execution target, controls when that state becomes
+visible, and measures the resulting programs under the target's enforced physical
+resource envelope. The matched recovery experiment further isolates disclosure
+timing while preserving the authentic failed action and observation.
 
 Resource-aware scheduling traditionally treats CPU, memory, and deadlines as
 system-level constraints. Linux cgroup v2 exposes enforceable resource controls
@@ -417,10 +692,14 @@ feedback and generic efficiency guidance. Across 288 trajectories, proactive
 contracts raised first-pass suitability from 14.6\% under reactive feedback and
 28.1\% under generic guidance to 66.7\%, while reducing failed executions,
 calls, and tokens. The effect reproduced across all three model configurations
-and three of four task--environment regimes. The Execution Contract Bridge
-provides a concrete foundation for agents that plan against the environments in
-which their actions will actually execute.
+and three of four task--environment regimes. Across 82 matched failures, exact
+state raised recovery from 19/82 to 53/82, demonstrating that contract visibility
+remains decisive after an unsuitable action. Both primary advantages survive
+removal of any model, task instance, family, environment type, or individual
+stratum. The Execution Contract Bridge provides a concrete foundation for agents
+that carry the target operating contract through planning, execution, and recovery.
 
+\balance
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{references}
 

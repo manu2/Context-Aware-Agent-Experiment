@@ -41,12 +41,15 @@ proactive disclosure produced 64/96 (66.7%) first-pass suitable programs, compar
 with 14/96 (14.6%) under reactive feedback and 27/96 (28.1%) under generic
 efficiency guidance. Equal-stratum risk differences were +52.1 and +38.5
 percentage points, respectively (both Holm-adjusted permutation p = 2.0 x 10^-5).
-Proactive contracts improved first-pass suitability in all three model
-configurations and in three of four task-environment regimes, while reducing
-unsuccessful executions, model calls, and tokens. These results establish
-execution context as consequential agent state: exposing the target contract
-before action selection changes implementation strategy and sharply improves
-first-pass operational suitability.
+We then branch from all 82 reactive first-attempt failures while holding the failed
+program and authentic observation fixed. Adding the exact contract to recovery
+raises suitable repairs from 19/82 to 53/82, with 35 matched improvements and one
+regression (exact McNemar p = 1.08 x 10^-9). Removal analyses preserve both primary
+advantages after excluding any model, instance, task family, environment type, or
+individual stratum. These results establish execution context as consequential,
+persistent agent state: proactive disclosure prevents unsuitable first actions,
+and exact state at recovery transforms the agent's ability to repair the same
+failures.
 
 **Keywords**
 
@@ -60,8 +63,9 @@ execution contracts; empirical evaluation
 - Affiliation: use the affiliation approved for this independent work; do not add
   an employer affiliation without that employer's publication approval.
 - Prior preprint: answer accurately if the form asks. AAMAS permits prior
-  non-archival arXiv preprints. Do not cite or link the preprint in the anonymous
-  manuscript.
+  non-archival arXiv preprints. The manuscript cites the precursor neutrally in
+  the third person and never labels it as the authors' own work. The confidential
+  field additionally states the relationship and the substantive research delta.
 - Reciprocal reviewer: designate the author only if the AAMAS reviewer eligibility
   criteria are met. Otherwise select the published exemption that no author is
   qualified and complete the requested exemption declaration.
@@ -71,6 +75,28 @@ execution contracts; empirical evaluation
 - Findings consideration: leave enabled unless the author intentionally wants to
   opt out of an archival Findings publication if the paper is not selected for
   the main proceedings.
+
+## Confidential prior-preprint disclosure
+
+If OpenReview provides a prior-work or confidential-comments field, enter:
+
+> Related non-archival preprint: Manu Agrawal, “Substrate-Aware AI Agents:
+> Execution Context as a First-Class Input,” arXiv:2609.05232 (2026). The present
+> submission is a substantial extension: it introduces the Execution Contract
+> Bridge and an autonomous generate-execute-recover architecture; executes under
+> Linux cgroup enforcement; expands to two task families, two independent
+> instances, and opposed memory/latency environments; reports a preregistered
+> 288-trajectory P/R/G evaluation and an 82-state matched late-disclosure recovery
+> extension; and adds workflow, strategy, and removal-robustness analyses. The
+> preprint's earlier single-task macOS study is non-archival and is not under
+> simultaneous archival review.
+
+Keep this disclosure in the chair-visible submission field. The anonymous PDF
+contains an ordinary third-person citation to the precursor, without identifying
+it as the authors' work; the confidential disclosure makes the relationship and
+research delta explicit to the chairs. This follows the current AAMAS reviewer
+guidance that guessability from citations or prior work is not itself an anonymity
+violation unless the submission explicitly reveals author identity.
 
 ## Upload sequence
 

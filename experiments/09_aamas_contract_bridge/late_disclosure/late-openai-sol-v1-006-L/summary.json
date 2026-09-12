@@ -1,0 +1,93 @@
+{
+  "branch": "L",
+  "environment": "latency_tight",
+  "execution": {
+    "backend": "gcp-cgroupv2/v0.1",
+    "cpu_stat": {
+      "burst_usec": 0,
+      "nr_bursts": 0,
+      "nr_periods": 16,
+      "nr_throttled": 10,
+      "system_usec": 56103,
+      "throttled_usec": 149,
+      "usage_usec": 1565995,
+      "user_usec": 1509892
+    },
+    "exit_code": 0,
+    "memory_events_after": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_events_before": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_peak_bytes": 78258176,
+    "oom_killed": false,
+    "platform": "Linux 6.1.0-53-cloud-amd64",
+    "program_time_seconds": 1.6315423529999862,
+    "psi_cpu": "some avg10=0.14 avg60=0.03 avg300=0.90 total=39715857\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=41\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=32\n",
+    "stderr": "",
+    "stderr_truncated": false,
+    "stdout": "TOTAL:2896000717.0175247\n",
+    "stdout_truncated": false,
+    "timed_out": false,
+    "worker_time_seconds": 1.7068893539999408
+  },
+  "family": "numerical",
+  "generation": {
+    "backend": "openai-responses/v1",
+    "request_metadata": {
+      "cached_input_tokens": 0,
+      "development_only": false,
+      "estimated_cost_usd": 0.058672,
+      "generation_seconds": 65.15645275000003,
+      "incomplete_reason": null,
+      "input_tokens": 273,
+      "max_output_tokens": 32768,
+      "model": "gpt-5.6-sol",
+      "output_tokens_including_reasoning": 2879,
+      "prompt_sha256": "396369d35497a3c3c7da76f72c2a7148d9abce7505c3fd0bd81780988ae11050",
+      "provider": "openai",
+      "reasoning_effort": "medium",
+      "reasoning_tokens": 2563,
+      "request_id": "req_f28caae251ad4e33942dab68c8b32236",
+      "status_code": "completed"
+    }
+  },
+  "instance": "secondary",
+  "model": "gpt-5.6-sol",
+  "schema_version": "aamas-late-disclosure-summary/v1.0",
+  "score": {
+    "correct": true,
+    "memory_exceedance_bytes": 0,
+    "suitable": true,
+    "within_memory": true,
+    "within_time": true
+  },
+  "source_trajectory_id": "confirm-openai-sol-v1-026-numerical-secondary-latency_tight-R",
+  "status": "complete",
+  "strategy": {
+    "family": "numerical",
+    "features": [
+      "float32_explicit",
+      "in_place_update"
+    ],
+    "primary_strategy": "blocked_matrix_product",
+    "rationale": [
+      "matrix products occur in an explicit iteration structure"
+    ],
+    "requires_adjudication": false,
+    "schema_version": "strategy-codebook/v0.1"
+  },
+  "trajectory_id": "late-openai-sol-v1-006-L"
+}

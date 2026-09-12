@@ -1,0 +1,33 @@
+import os
+
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["BLIS_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
+import numpy as np
+
+
+def main():
+    X = np.load("vectors_secondary.npy")
+    q = np.einsum("ij,ij->i", X, X)
+
+    G = X @ X.T
+    del X
+
+    G *= -2.0
+    G += q[:, None]
+    G += q[None, :]
+
+    np.fill_diagonal(G, 0.0)
+    np.maximum(G, 0.0, out=G)
+    np.sqrt(G, out=G)
+
+    total = float(np.sum(G, dtype=np.float64))
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()

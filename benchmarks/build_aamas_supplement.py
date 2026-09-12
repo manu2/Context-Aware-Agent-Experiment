@@ -28,6 +28,11 @@ EXACT_FILES = (
     "docs/26_aamas_confirmatory_completion_gate.md",
     "docs/27_aamas_gpt_infrastructure_interruption.md",
     "docs/28_aamas_confirmatory_results.md",
+    "docs/31_aamas_gemini_late_disclosure_report.md",
+    "docs/32_aamas_claude_late_disclosure_report.md",
+    "docs/33_aamas_gpt_late_disclosure_report.md",
+    "docs/34_aamas_late_disclosure_combined_report.md",
+    "docs/35_aamas_secondary_analysis.md",
 )
 
 TREE_ROOTS = (
@@ -58,6 +63,16 @@ TRAJECTORY_PATTERNS = (
     "trajectory_manifest.json",
 )
 
+LATE_TRAJECTORY_FILES = (
+    "events.jsonl",
+    "program.py",
+    "prompt.txt",
+    "raw_response.txt",
+    "strategy.json",
+    "summary.json",
+    "trajectory_manifest.json",
+)
+
 FORBIDDEN = {
     "author identity": re.compile(r"\bManu\s+Agrawal\b|manuagrawal|@gmail\.com", re.I),
     "public repository identity": re.compile(r"\bmanu2\b|Context-Aware-Agent-Experiment", re.I),
@@ -78,6 +93,10 @@ def selected_files() -> list[Path]:
     confirmatory = ROOT / "experiments/09_aamas_contract_bridge/confirmatory"
     for pattern in TRAJECTORY_PATTERNS:
         files.update(path for path in confirmatory.rglob(pattern) if path.is_file())
+    late = ROOT / "experiments/09_aamas_contract_bridge/late_disclosure"
+    for prefix in ("late-gemini38-v1-", "late-anthropic-sonnet-v1-", "late-openai-sol-v1-"):
+        for directory in late.glob(prefix + "*-L"):
+            files.update(directory / name for name in LATE_TRAJECTORY_FILES)
     return sorted(files, key=lambda path: path.relative_to(ROOT).as_posix())
 
 
@@ -138,11 +157,19 @@ def main() -> int:
     )
     if archived_slots != 320:
         raise ValueError(f"unexpected archived trajectory-slot count: {archived_slots}")
+    late_states = sum(
+        1 for name, _ in members
+        if name.startswith("experiments/09_aamas_contract_bridge/late_disclosure/")
+        and name.endswith("/summary.json")
+    )
+    if late_states != 82:
+        raise ValueError(f"unexpected matched late-disclosure state count: {late_states}")
 
     manifest = {
         "schema_version": "aamas-anonymous-supplement/v1.0",
         "trajectory_count": trajectory_count,
         "archived_trajectory_slots": archived_slots,
+        "matched_late_disclosure_states": late_states,
         "files": manifest_files,
     }
     manifest_data = (json.dumps(manifest, indent=2, sort_keys=True) + "\n").encode()

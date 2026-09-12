@@ -1,0 +1,95 @@
+{
+  "branch": "L",
+  "environment": "latency_tight",
+  "execution": {
+    "backend": "gcp-cgroupv2/v0.1",
+    "cpu_stat": {
+      "burst_usec": 0,
+      "nr_bursts": 0,
+      "nr_periods": 10,
+      "nr_throttled": 0,
+      "system_usec": 43975,
+      "throttled_usec": 0,
+      "usage_usec": 1027931,
+      "user_usec": 983955
+    },
+    "exit_code": 0,
+    "memory_events_after": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_events_before": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_peak_bytes": 312799232,
+    "oom_killed": false,
+    "platform": "Linux 6.1.0-53-cloud-amd64",
+    "program_time_seconds": 1.0755411899999672,
+    "psi_cpu": "some avg10=0.18 avg60=0.27 avg300=0.30 total=4438182\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "stderr": "",
+    "stderr_truncated": false,
+    "stdout": "TOTAL:835795648.801918\n",
+    "stdout_truncated": false,
+    "timed_out": false,
+    "worker_time_seconds": 1.1269672690000334
+  },
+  "family": "numerical",
+  "generation": {
+    "backend": "google-generative-language/v1beta",
+    "request_metadata": {
+      "candidate_tokens": 252,
+      "development_only": false,
+      "estimated_cost_usd": 0.0545655,
+      "finish_reason": "STOP",
+      "generation_config": {
+        "maxOutputTokens": 32768,
+        "thinkingConfig": {
+          "thinkingLevel": "medium"
+        }
+      },
+      "generation_seconds": 48.34376733299996,
+      "input_tokens": 279,
+      "model": "gemini-3.8-flash",
+      "output_tokens_including_thoughts": 14495,
+      "prompt_sha256": "53248bc8f9bb708f522fc3f07941f9c51d99f2f7752b6d8fb2339868c410bdba",
+      "provider": "google",
+      "request_id": null,
+      "thinking_tokens": 14243
+    }
+  },
+  "instance": "primary",
+  "model": "gemini-3.8-flash",
+  "schema_version": "aamas-late-disclosure-summary/v1.0",
+  "score": {
+    "correct": true,
+    "memory_exceedance_bytes": 0,
+    "suitable": true,
+    "within_memory": true,
+    "within_time": true
+  },
+  "source_trajectory_id": "confirm-gemini38-resume1-004-numerical-primary-latency_tight-R",
+  "status": "complete",
+  "strategy": {
+    "family": "numerical",
+    "features": [
+      "in_place_update"
+    ],
+    "primary_strategy": "eager_global_matrix",
+    "rationale": [
+      "global matrix/broadcast distance construction has no explicit outer blocking loop"
+    ],
+    "requires_adjudication": false,
+    "schema_version": "strategy-codebook/v0.1"
+  },
+  "trajectory_id": "late-gemini38-v1-020-L"
+}

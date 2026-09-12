@@ -1,0 +1,63 @@
+import sys
+import json
+import csv
+from collections import defaultdict
+
+def main():
+    totals = defaultdict(int)
+    
+    with open('transactions_secondary.csv', 'rb') as f:
+        header_line = f.readline()
+        if not header_line:
+            print("TOTAL:" + json.dumps({}))
+            return
+        
+        header_str = header_line.decode('utf-8', errors='replace').strip()
+        header = next(csv.reader([header_str]))
+        col_map = {col.strip(): i for i, col in enumerate(header)}
+        
+        acc_idx = col_map['account_id']
+        cat_idx = col_map['category']
+        amt_idx = col_map['amount_cents']
+        num_cols = len(header)
+        
+        if acc_idx == 0 and cat_idx == 1 and amt_idx == 2 and num_cols == 3:
+            for line in f:
+                line = line.rstrip(b'\r\n')
+                if not line:
+                    continue
+                if b'"' in line:
+                    row = next(csv.reader([line.decode('utf-8', errors='replace')]))
+                    acc = int(row[0])
+                    if acc % 13 < 8:
+                        totals[row[1].encode('utf-8')] += int(row[2]) * ((acc % 89) + 3)
+                else:
+                    parts = line.split(b',')
+                    acc = int(parts[0])
+                    if acc % 13 < 8:
+                        totals[parts[1]] += int(parts[2]) * ((acc % 89) + 3)
+        else:
+            for line in f:
+                line = line.rstrip(b'\r\n')
+                if not line:
+                    continue
+                if b'"' in line:
+                    row = next(csv.reader([line.decode('utf-8', errors='replace')]))
+                    acc = int(row[acc_idx])
+                    if acc % 13 < 8:
+                        totals[row[cat_idx].encode('utf-8')] += int(row[amt_idx]) * ((acc % 89) + 3)
+                else:
+                    parts = line.split(b',')
+                    acc = int(parts[acc_idx])
+                    if acc % 13 < 8:
+                        totals[parts[cat_idx]] += int(parts[amt_idx]) * ((acc % 89) + 3)
+
+    result = {
+        (k.decode('utf-8', errors='replace') if isinstance(k, bytes) else k): v
+        for k, v in totals.items()
+    }
+    
+    print("TOTAL:" + json.dumps(result, sort_keys=True, separators=(',', ':')))
+
+if __name__ == '__main__':
+    main()

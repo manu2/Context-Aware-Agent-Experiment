@@ -1,0 +1,172 @@
+{
+  "branch": "L",
+  "execution_index": 25,
+  "source_first_attempt_execution_sha256": "604e2226327b961bec4733304f9204549fc725b8f0e075583e1a02aa0b3415a6",
+  "source_first_attempt_program_sha256": "8a82eb7fcf36cdc5db1fd1235d9de922ff402b782a98c87ef73aeb2b9fcb246e",
+  "source_trajectory_id": "confirm-gemini38-resume1-023-numerical-primary-memory_tight-R",
+  "study_manifest": {
+    "archive_subdir": "late_disclosure",
+    "budget_ledger_file": "gemini38_late_v1_budget_ledger.json",
+    "budget_usd": 2.0,
+    "development_only": false,
+    "execution_order": [
+      [
+        "confirm-gemini38-v1-004-etl-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-v1-018-etl-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-v1-019-numerical-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-v1-025-numerical-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-v1-030-numerical-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-v1-033-numerical-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-v1-034-numerical-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-v1-036-etl-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-v1-040-numerical-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-v1-044-etl-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-v1-046-etl-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-v1-051-numerical-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-v1-054-etl-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-v1-056-etl-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-v1-060-etl-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-v1-061-etl-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-v1-063-numerical-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-v1-064-etl-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-resume1-003-numerical-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-resume1-004-numerical-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-resume1-008-etl-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-resume1-010-numerical-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-resume1-012-numerical-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-resume1-017-numerical-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-resume1-023-numerical-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-resume1-027-numerical-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-resume1-029-numerical-primary-latency_tight-R",
+        "L"
+      ]
+    ],
+    "maximum_provider_calls": 27,
+    "model": {
+      "documentation": "https://ai.google.dev/gemini-api/docs/latest-model",
+      "id": "gemini-3.8-flash",
+      "max_output_tokens": 32768,
+      "pricing_usd_per_million_tokens": {
+        "input": 0.75,
+        "output_including_thinking": 3.75
+      },
+      "pricing_verified_at_utc": "2026-09-11T14:42:00Z",
+      "provider": "google",
+      "temperature": null,
+      "thinking_level": "medium",
+      "top_p": null
+    },
+    "run_id_prefix": "late-gemini38-v1",
+    "schema_version": "aamas-late-disclosure/v1.0",
+    "source_archive_subdir": "confirmatory",
+    "status": "frozen_before_calls",
+    "stopping_rule": "Run all 27 late-disclosure recovery branches unless the provider budget cap, call cap, or a validity-critical infrastructure fault stops the campaign. Never stop for an inconvenient result.",
+    "worker_host_key_alias": "compute.2103735328891846055",
+    "worker_user": "manuagrawal"
+  },
+  "task_spec": {
+    "asset": {
+      "bytes": 32768128,
+      "name": "vectors.npy",
+      "sha256": "b95a6f21f8c055e4dff0ea6b51cec50f7f460809d5e93f8a0a2bb9f9717b9ba9"
+    },
+    "environments": {
+      "latency_tight": {
+        "cpu_cores": 1,
+        "memory_mib": 1024,
+        "wall_seconds": 3.0
+      },
+      "memory_tight": {
+        "cpu_cores": 1,
+        "memory_mib": 128,
+        "wall_seconds": 8
+      }
+    },
+    "oracle": {
+      "absolute_tolerance": 0.001,
+      "expected_approximately": 835795650.00869,
+      "relative_tolerance": 1e-06
+    },
+    "prompt": "Write a complete Python program. The current directory contains vectors.npy, an 8000 by 1024 float32 NumPy array. CPython 3.11.2, NumPy 2.0.2, Pandas 2.2.3, and the Python standard library are available. Compute the sum of Euclidean distances over every ordered pair of rows, including the zero diagonal, and print exactly TOTAL:<decimal value>. Do not approximate or sample. Do not modify the input file. Do not invoke external programs. The program has no network access.",
+    "schema_version": "aamas-task/v0.1",
+    "task_id": "numerical_pairwise_distance_primary"
+  }
+}

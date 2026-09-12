@@ -1,0 +1,42 @@
+import os
+
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+
+import math
+import numpy as np
+
+x = np.load("vectors.npy", mmap_mode="r")
+n = x.shape[0]
+norms = np.einsum("ij,ij->i", x, x, dtype=np.float32)
+
+block = 512
+parts = []
+
+for i in range(0, n, block):
+    i_end = min(i + block, n)
+    xi = x[i:i_end]
+    ni = norms[i:i_end]
+
+    for j in range(i, n, block):
+        j_end = min(j + block, n)
+        xj = x[j:j_end]
+
+        distances = np.matmul(xi, xj.T)
+        distances *= np.float32(-2.0)
+        distances += ni[:, None]
+        distances += norms[j:j_end][None, :]
+        np.maximum(distances, np.float32(0.0), out=distances)
+
+        if i == j:
+            np.fill_diagonal(distances, np.float32(0.0))
+
+        np.sqrt(distances, out=distances)
+        subtotal = float(np.sum(distances, dtype=np.float64))
+        parts.append(subtotal if i == j else 2.0 * subtotal)
+
+total = math.fsum(parts)
+print(f"TOTAL:{total}")

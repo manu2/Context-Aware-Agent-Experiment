@@ -1,0 +1,90 @@
+{
+  "branch": "L",
+  "environment": "latency_tight",
+  "execution": {
+    "backend": "gcp-cgroupv2/v0.1",
+    "cpu_stat": {
+      "burst_usec": 0,
+      "nr_bursts": 0,
+      "nr_periods": 14,
+      "nr_throttled": 2,
+      "system_usec": 251709,
+      "throttled_usec": 120056,
+      "usage_usec": 1401724,
+      "user_usec": 1150015
+    },
+    "exit_code": 124,
+    "memory_events_after": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_events_before": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_peak_bytes": 354701312,
+    "oom_killed": false,
+    "platform": "Linux 6.1.0-53-cloud-amd64",
+    "program_time_seconds": 1.4387386719999995,
+    "psi_cpu": "some avg10=5.28 avg60=4.53 avg300=2.63 total=12112460\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "stderr": "",
+    "stderr_truncated": false,
+    "stdout": "",
+    "stdout_truncated": false,
+    "timed_out": true,
+    "worker_time_seconds": 1.5134470450000208
+  },
+  "family": "etl",
+  "generation": {
+    "backend": "anthropic-messages/v1",
+    "request_metadata": {
+      "development_only": false,
+      "effort": "medium",
+      "estimated_cost_usd": 0.006146,
+      "generation_seconds": 5.778806542000012,
+      "input_tokens": 453,
+      "max_tokens": 32768,
+      "model": "claude-sonnet-5",
+      "output_tokens_including_thinking": 524,
+      "prompt_sha256": "5c7bb928bc35c4a5c6f6ad738f27df909bad796123b12e5ba8d1258f56078a75",
+      "provider": "anthropic",
+      "request_id": "req_011CextBsnmSdFgbjJyr5Pcg",
+      "stop_reason": "end_turn",
+      "thinking": "adaptive"
+    }
+  },
+  "instance": "primary",
+  "model": "claude-sonnet-5",
+  "schema_version": "aamas-late-disclosure-summary/v1.0",
+  "score": {
+    "correct": false,
+    "memory_exceedance_bytes": 0,
+    "suitable": false,
+    "within_memory": true,
+    "within_time": false
+  },
+  "source_trajectory_id": "confirm-anthropic-sonnet-v1-036-etl-primary-latency_tight-R",
+  "status": "complete",
+  "strategy": {
+    "family": "etl",
+    "features": [
+      "pandas"
+    ],
+    "primary_strategy": "dataframe_eager",
+    "rationale": [
+      "read_csv has no explicit chunksize"
+    ],
+    "requires_adjudication": false,
+    "schema_version": "strategy-codebook/v0.1"
+  },
+  "trajectory_id": "late-anthropic-sonnet-v1-012-L"
+}

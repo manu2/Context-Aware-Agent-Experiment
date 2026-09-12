@@ -34,8 +34,10 @@ complete LaTeX installation containing the packages loaded by the official
 class (including `hyperxmp`). The generated charts are vector PDFs with embedded
 fonts; the compiled manuscript is intentionally ignored as a build product.
 
-All three 96-trajectory provider cohorts now pass their evidence audits, and the
-manuscript contains the frozen 288-trajectory analysis. The release verifier
+All three 96-trajectory provider cohorts and all 82 matched late-disclosure
+branches pass their evidence audits. The manuscript contains the frozen
+288-trajectory primary analysis, matched recovery analysis, and removal-robustness
+checks. The release verifier
 continues to block unresolved placeholders, missing submission metadata,
 identity leaks, or package drift.
 
@@ -52,9 +54,10 @@ python benchmarks/build_aamas_supplement.py
 ```
 
 The resulting `paper/aamas2027/aamas2027_anonymous_supplement.zip` is a local
-submission artifact and is not committed. It contains 288 effective trajectories
-plus the preserved 32 pre-generation Gemini quota-interruption slots, omits
-provider transport envelopes, and records per-member source and packaged hashes.
+submission artifact and is not committed. It contains 288 effective trajectories,
+82 matched recovery branches, plus the preserved 32 pre-generation Gemini
+quota-interruption slots. It omits provider transport envelopes and records
+per-member source and packaged hashes.
 
 Final release verification (fail-closed on placeholders, submission ID, identity,
 page limit, official-template hashes, PDF metadata, and supplementary ZIP size):
@@ -66,8 +69,10 @@ python benchmarks/verify_aamas_submission.py --release --pdf paper/aamas2027/mai
 ## Anonymity and publication
 
 The review PDF and supplementary ZIP must remain anonymous even though the
-related arXiv preprint and development repository are public. The camera-ready
-version may restore the author block and cite the public artifact. Do not include
+related arXiv preprint and development repository are public. The review PDF
+cites the precursor neutrally in the third person; it never identifies it as the
+authors' prior work. The camera-ready version may restore the author block and
+cite the public artifact. Do not include
 raw credentials, local paths, API account identifiers, git remotes, or chat
 exports in either package.
 

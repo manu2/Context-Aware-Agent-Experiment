@@ -1,0 +1,46 @@
+{
+  "archive_subdir": "late_disclosure",
+  "budget_ledger_file": "gemini38_late_canary1_budget_ledger.json",
+  "budget_usd": 0.5,
+  "development_only": false,
+  "execution_order": [
+    [
+      "confirm-gemini38-v1-025-numerical-secondary-memory_tight-R",
+      "R_replay"
+    ],
+    [
+      "confirm-gemini38-v1-025-numerical-secondary-memory_tight-R",
+      "L"
+    ],
+    [
+      "confirm-gemini38-v1-018-etl-primary-latency_tight-R",
+      "R_replay"
+    ],
+    [
+      "confirm-gemini38-v1-018-etl-primary-latency_tight-R",
+      "L"
+    ]
+  ],
+  "maximum_provider_calls": 4,
+  "model": {
+    "documentation": "https://ai.google.dev/gemini-api/docs/latest-model",
+    "id": "gemini-3.8-flash",
+    "max_output_tokens": 32768,
+    "pricing_usd_per_million_tokens": {
+      "input": 0.75,
+      "output_including_thinking": 3.75
+    },
+    "pricing_verified_at_utc": "2026-09-11T14:42:00Z",
+    "provider": "google",
+    "temperature": null,
+    "thinking_level": "medium",
+    "top_p": null
+  },
+  "run_id_prefix": "late-gemini38-canary1",
+  "schema_version": "aamas-late-disclosure/v1.0",
+  "source_archive_subdir": "confirmatory",
+  "status": "frozen_before_calls",
+  "stopping_rule": "Run all four matched recovery branches unless the provider budget cap, call cap, or a validity-critical infrastructure fault stops the canary.",
+  "worker_host_key_alias": "compute.2103735328891846055",
+  "worker_user": "manuagrawal"
+}

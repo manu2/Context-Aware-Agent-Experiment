@@ -3,10 +3,11 @@
 This archive accompanies the anonymous manuscript **Execution Contracts as Agent
 State: Proactive Substrate Awareness for Autonomous Code Generation**. It contains
 the frozen protocol, reusable Execution Contract Bridge implementation, exact
-experimental prompts and generated programs, execution-derived summaries, and the
-  deterministic confirmatory analysis for all 288 effective trajectories. The
-  archive also preserves 32 original pre-generation Gemini quota-interruption
-  slots so the outcome-neutral replacement ledger can be audited.
+experimental prompts and generated programs, execution-derived summaries, the
+deterministic confirmatory analysis for all 288 effective trajectories, and all
+82 matched late-disclosure recovery branches. The archive also preserves 32
+original pre-generation Gemini quota-interruption
+slots so the outcome-neutral replacement ledger can be audited.
 
 ## What is included
 
@@ -20,7 +21,10 @@ experimental prompts and generated programs, execution-derived summaries, and th
   generations, extracted programs, execution events, trajectory manifests,
   strategy labels, and summaries for the confirmatory cohort;
 - `experiments/09_aamas_contract_bridge/analysis/`: complete cohort audits and the
-  machine-readable confirmatory analysis;
+  machine-readable confirmatory, matched-recovery, and removal-robustness analyses;
+- `experiments/09_aamas_contract_bridge/late_disclosure/`: exact prompts, programs,
+  observations, and summaries for the 82 matched recovery branches (development
+  canaries excluded);
 - `docs/`: protocol-freeze, interruption, completion-gate, strategy-codebook, and
   generated result reports;
 - `manifest.json`: SHA-256 digest and byte size for every other archive member.
@@ -44,6 +48,8 @@ From the extracted archive root:
 python3 -m venv .venv
 .venv/bin/python3 -m pip install -r requirements.txt
 .venv/bin/python3 benchmarks/analyze_aamas_confirmatory.py
+.venv/bin/python3 benchmarks/analyze_aamas_late_disclosure_combined.py
+.venv/bin/python3 benchmarks/analyze_aamas_secondary.py
 .venv/bin/python3 benchmarks/generate_aamas_figures.py
 .venv/bin/python3 -m unittest tests.test_contract_bridge
 ```

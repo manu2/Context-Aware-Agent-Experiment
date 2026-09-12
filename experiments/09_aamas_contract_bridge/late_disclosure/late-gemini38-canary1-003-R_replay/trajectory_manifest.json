@@ -1,0 +1,89 @@
+{
+  "branch": "R_replay",
+  "execution_index": 3,
+  "source_first_attempt_execution_sha256": "d5f7a891f2e9fe0ca49fe000abd12e962f566e96ef3d10d08d961cb0b27c067f",
+  "source_first_attempt_program_sha256": "2bca6653f01b8699229ca7ef75c42ef6aa61d014c1c6aae1e86477e8e7eb7d15",
+  "source_trajectory_id": "confirm-gemini38-v1-018-etl-primary-latency_tight-R",
+  "study_manifest": {
+    "archive_subdir": "late_disclosure",
+    "budget_ledger_file": "gemini38_late_canary1_budget_ledger.json",
+    "budget_usd": 0.5,
+    "development_only": false,
+    "execution_order": [
+      [
+        "confirm-gemini38-v1-025-numerical-secondary-memory_tight-R",
+        "R_replay"
+      ],
+      [
+        "confirm-gemini38-v1-025-numerical-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-gemini38-v1-018-etl-primary-latency_tight-R",
+        "R_replay"
+      ],
+      [
+        "confirm-gemini38-v1-018-etl-primary-latency_tight-R",
+        "L"
+      ]
+    ],
+    "maximum_provider_calls": 4,
+    "model": {
+      "documentation": "https://ai.google.dev/gemini-api/docs/latest-model",
+      "id": "gemini-3.8-flash",
+      "max_output_tokens": 32768,
+      "pricing_usd_per_million_tokens": {
+        "input": 0.75,
+        "output_including_thinking": 3.75
+      },
+      "pricing_verified_at_utc": "2026-09-11T14:42:00Z",
+      "provider": "google",
+      "temperature": null,
+      "thinking_level": "medium",
+      "top_p": null
+    },
+    "run_id_prefix": "late-gemini38-canary1",
+    "schema_version": "aamas-late-disclosure/v1.0",
+    "source_archive_subdir": "confirmatory",
+    "status": "frozen_before_calls",
+    "stopping_rule": "Run all four matched recovery branches unless the provider budget cap, call cap, or a validity-critical infrastructure fault stops the canary.",
+    "worker_host_key_alias": "compute.2103735328891846055",
+    "worker_user": "manuagrawal"
+  },
+  "task_spec": {
+    "asset": {
+      "bytes": 38333733,
+      "name": "transactions.csv",
+      "rows": 3000000,
+      "sha256": "26c0b06bb123664d48b08243b30b48a5c1a5bd1e4df68bed75d9f06e0069313b"
+    },
+    "environments": {
+      "latency_tight": {
+        "cpu_cores": 1,
+        "memory_mib": 512,
+        "wall_seconds": 1.4
+      },
+      "memory_tight": {
+        "cpu_cores": 1,
+        "memory_mib": 128,
+        "wall_seconds": 4
+      }
+    },
+    "oracle": {
+      "comparison": "exact parsed JSON integer mapping",
+      "expected": {
+        "A": 584859984000,
+        "B": 582445702800,
+        "C": 584178107400,
+        "D": 585658510500,
+        "E": 584768685600,
+        "F": 583789773900,
+        "G": 584327166000,
+        "H": 585146828400
+      }
+    },
+    "prompt": "Write a complete Python program. The current directory contains transactions.csv with columns account_id, category, and amount_cents. CPython 3.11.2, NumPy 2.0.2, Pandas 2.2.3, and the Python standard library are available. For rows whose account_id modulo 11 is less than 7, compute for each category the exact sum of amount_cents multiplied by ((account_id modulo 97) + 1). Print exactly TOTAL:<JSON object>, with category keys sorted and no extra output. Do not modify the input file. Do not invoke external programs. The program has no network access.",
+    "schema_version": "aamas-task/v0.1",
+    "task_id": "etl_category_aggregation_primary"
+  }
+}

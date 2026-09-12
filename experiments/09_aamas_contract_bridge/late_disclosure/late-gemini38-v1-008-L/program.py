@@ -1,0 +1,45 @@
+from collections import defaultdict
+import json
+import numpy as np
+import pandas as pd
+
+
+def main():
+    totals = defaultdict(int)
+    filename = "transactions_secondary.csv"
+
+    # Process in chunks to maintain a minimal memory footprint (< 50 MiB)
+    # and achieve fast parsing via pandas C engine.
+    chunksize = 250_000
+    for chunk in pd.read_csv(
+        filename,
+        usecols=["account_id", "category", "amount_cents"],
+        dtype={"account_id": np.int64, "amount_cents": np.int64},
+        chunksize=chunksize,
+        engine="c",
+    ):
+        # Filter rows where account_id % 13 < 8
+        mask = (chunk["account_id"] % 13) < 8
+        filtered = chunk[mask]
+        if filtered.empty:
+            continue
+
+        weights = (filtered["account_id"] % 89) + 3
+
+        # Guard against 64-bit integer overflow if amounts are extremely large
+        max_possible = filtered["amount_cents"].abs().max() * 92 * len(filtered)
+        if max_possible > 9_000_000_000_000_000_000:
+            vals = filtered["amount_cents"].astype(object) * weights.astype(object)
+        else:
+            vals = filtered["amount_cents"] * weights
+
+        chunk_totals = vals.groupby(filtered["category"], observed=True).sum()
+        for cat, val in chunk_totals.items():
+            totals[str(cat)] += int(val)
+
+    sorted_result = dict(sorted(totals.items()))
+    print(f"TOTAL:{json.dumps(sorted_result, sort_keys=True)}")
+
+
+if __name__ == "__main__":
+    main()

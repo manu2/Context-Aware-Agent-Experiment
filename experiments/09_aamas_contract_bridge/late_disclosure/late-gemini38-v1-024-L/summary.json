@@ -1,0 +1,96 @@
+{
+  "branch": "L",
+  "environment": "latency_tight",
+  "execution": {
+    "backend": "gcp-cgroupv2/v0.1",
+    "cpu_stat": {
+      "burst_usec": 0,
+      "nr_bursts": 0,
+      "nr_periods": 12,
+      "nr_throttled": 0,
+      "system_usec": 92076,
+      "throttled_usec": 0,
+      "usage_usec": 1157185,
+      "user_usec": 1065108
+    },
+    "exit_code": 0,
+    "memory_events_after": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_events_before": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_peak_bytes": 290402304,
+    "oom_killed": false,
+    "platform": "Linux 6.1.0-53-cloud-amd64",
+    "program_time_seconds": 1.2264587219999612,
+    "psi_cpu": "some avg10=0.38 avg60=1.76 avg300=1.05 total=8129137\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "stderr": "",
+    "stderr_truncated": false,
+    "stdout": "TOTAL:2896000717.021019\n",
+    "stdout_truncated": false,
+    "timed_out": false,
+    "worker_time_seconds": 1.2800322749999395
+  },
+  "family": "numerical",
+  "generation": {
+    "backend": "google-generative-language/v1beta",
+    "request_metadata": {
+      "candidate_tokens": 501,
+      "development_only": false,
+      "estimated_cost_usd": 0.0444945,
+      "finish_reason": "STOP",
+      "generation_config": {
+        "maxOutputTokens": 32768,
+        "thinkingConfig": {
+          "thinkingLevel": "medium"
+        }
+      },
+      "generation_seconds": 38.95530699999995,
+      "input_tokens": 281,
+      "model": "gemini-3.8-flash",
+      "output_tokens_including_thoughts": 11809,
+      "prompt_sha256": "396369d35497a3c3c7da76f72c2a7148d9abce7505c3fd0bd81780988ae11050",
+      "provider": "google",
+      "request_id": null,
+      "thinking_tokens": 11308
+    }
+  },
+  "instance": "secondary",
+  "model": "gemini-3.8-flash",
+  "schema_version": "aamas-late-disclosure-summary/v1.0",
+  "score": {
+    "correct": true,
+    "memory_exceedance_bytes": 0,
+    "suitable": true,
+    "within_memory": true,
+    "within_time": true
+  },
+  "source_trajectory_id": "confirm-gemini38-resume1-017-numerical-secondary-latency_tight-R",
+  "status": "complete",
+  "strategy": {
+    "family": "numerical",
+    "features": [
+      "in_place_update",
+      "triangular_symmetry"
+    ],
+    "primary_strategy": "blocked_matrix_product",
+    "rationale": [
+      "matrix products occur in an explicit iteration structure"
+    ],
+    "requires_adjudication": false,
+    "schema_version": "strategy-codebook/v0.1"
+  },
+  "trajectory_id": "late-gemini38-v1-024-L"
+}

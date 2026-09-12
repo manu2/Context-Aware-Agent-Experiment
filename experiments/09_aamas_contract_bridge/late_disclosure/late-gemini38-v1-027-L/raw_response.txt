@@ -1,0 +1,40 @@
+```python
+import os
+
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
+try:
+    from threadpoolctl import threadpool_limits
+
+    threadpool_limits(limits=1)
+except Exception:
+    pass
+
+import numpy as np
+
+
+def main():
+    vectors = np.load("vectors.npy")
+
+    sq = np.einsum("ij,ij->i", vectors, vectors)
+
+    G = vectors @ vectors.T
+    G *= -2.0
+    G += sq[:, None]
+    G += sq[None, :]
+
+    np.fill_diagonal(G, 0.0)
+    np.maximum(G, 0.0, out=G)
+    np.sqrt(G, out=G)
+
+    total = float(G.sum(dtype=np.float64))
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()
+```

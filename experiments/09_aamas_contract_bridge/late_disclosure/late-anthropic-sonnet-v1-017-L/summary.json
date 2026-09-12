@@ -1,0 +1,90 @@
+{
+  "branch": "L",
+  "environment": "memory_tight",
+  "execution": {
+    "backend": "gcp-cgroupv2/v0.1",
+    "cpu_stat": {
+      "burst_usec": 0,
+      "nr_bursts": 0,
+      "nr_periods": 35,
+      "nr_throttled": 0,
+      "system_usec": 28021,
+      "throttled_usec": 0,
+      "usage_usec": 3426353,
+      "user_usec": 3398331
+    },
+    "exit_code": 0,
+    "memory_events_after": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_events_before": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "memory_peak_bytes": 4489216,
+    "oom_killed": false,
+    "platform": "Linux 6.1.0-53-cloud-amd64",
+    "program_time_seconds": 3.48558970900001,
+    "psi_cpu": "some avg10=4.10 avg60=3.62 avg300=3.11 total=17630309\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "psi_memory": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "stderr": "",
+    "stderr_truncated": false,
+    "stdout": "TOTAL:{\"A\": 648680640000, \"B\": 652368124250, \"C\": 650606168000, \"D\": 649541606000, \"E\": 653919836000, \"F\": 646851415000, \"G\": 651602830500, \"H\": 648969748750}\n",
+    "stdout_truncated": false,
+    "timed_out": false,
+    "worker_time_seconds": 3.559309442999961
+  },
+  "family": "etl",
+  "generation": {
+    "backend": "anthropic-messages/v1",
+    "request_metadata": {
+      "development_only": false,
+      "effort": "medium",
+      "estimated_cost_usd": 0.00441,
+      "generation_seconds": 3.6347327909999763,
+      "input_tokens": 455,
+      "max_tokens": 32768,
+      "model": "claude-sonnet-5",
+      "output_tokens_including_thinking": 350,
+      "prompt_sha256": "92f81483fd223f53304362124f14914ccffbb3387b7534a5c39db04ea1557b02",
+      "provider": "anthropic",
+      "request_id": "req_011CextLyzakpiMUatDyzL1i",
+      "stop_reason": "end_turn",
+      "thinking": "adaptive"
+    }
+  },
+  "instance": "secondary",
+  "model": "claude-sonnet-5",
+  "schema_version": "aamas-late-disclosure-summary/v1.0",
+  "score": {
+    "correct": true,
+    "memory_exceedance_bytes": 0,
+    "suitable": true,
+    "within_memory": true,
+    "within_time": true
+  },
+  "source_trajectory_id": "confirm-anthropic-sonnet-v1-049-etl-secondary-memory_tight-R",
+  "status": "complete",
+  "strategy": {
+    "family": "etl",
+    "features": [
+      "csv_iterator"
+    ],
+    "primary_strategy": "stdlib_streaming",
+    "rationale": [
+      "a CSV iterator is consumed by a loop without explicit materialization"
+    ],
+    "requires_adjudication": false,
+    "schema_version": "strategy-codebook/v0.1"
+  },
+  "trajectory_id": "late-anthropic-sonnet-v1-017-L"
+}

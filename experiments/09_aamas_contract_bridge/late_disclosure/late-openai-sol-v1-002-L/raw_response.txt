@@ -1,0 +1,39 @@
+import json
+import sys
+
+totals = {}
+
+with open("transactions_secondary.csv", "rb", buffering=1024 * 1024) as f:
+    next(f, None)  # Header
+
+    for line in f:
+        first = line.find(b",")
+        if first < 0:
+            continue
+        last = line.rfind(b",")
+        if last == first:
+            continue
+
+        account_raw = line[:first]
+        category = line[first + 1:last]
+        amount_raw = line[last + 1:]
+
+        if account_raw.startswith(b'"'):
+            account_raw = account_raw[1:-1]
+
+        account_id = int(account_raw)
+        if account_id % 13 >= 8:
+            continue
+
+        if category.startswith(b'"') and category.endswith(b'"'):
+            category = category[1:-1].replace(b'""', b'"')
+
+        if amount_raw.startswith(b'"'):
+            amount_raw = amount_raw.strip()
+            amount_raw = amount_raw[1:-1]
+
+        value = int(amount_raw) * ((account_id % 89) + 3)
+        totals[category] = totals.get(category, 0) + value
+
+result = {key.decode("utf-8"): value for key, value in totals.items()}
+sys.stdout.write("TOTAL:" + json.dumps(result, sort_keys=True, separators=(",", ":")))

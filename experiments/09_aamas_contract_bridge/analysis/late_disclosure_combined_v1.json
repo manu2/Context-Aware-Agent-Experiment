@@ -1,0 +1,74 @@
+{
+  "archived_R_symptom_only_recovered": 19,
+  "estimated_provider_cost_usd": 3.29761475,
+  "exact_mcnemar_two_sided_p": 1.076841726899147e-09,
+  "late_contract_recovered": 53,
+  "late_residual_failure_types": {
+    "runtime_or_wrong": 2,
+    "timeout": 27
+  },
+  "matched_R_failure_states": 82,
+  "passed": true,
+  "provider_calls": {
+    "P_workflow": 128,
+    "late_contract_workflow": 178
+  },
+  "recovery_by_initial_failure": {
+    "oom": {
+      "L_recovered": 18,
+      "R_recovered": 9,
+      "n": 24
+    },
+    "timeout": {
+      "L_recovered": 35,
+      "R_recovered": 10,
+      "n": 58
+    }
+  },
+  "schema_version": "aamas-late-disclosure-combined/v1.0",
+  "source_analyses": [
+    "gemini_late_disclosure_v1.json",
+    "claude_late_disclosure_v1.json",
+    "gpt_late_disclosure_v1.json"
+  ],
+  "transitions": {
+    "00": 28,
+    "01": 35,
+    "10": 1,
+    "11": 18
+  },
+  "workflow_by_model": {
+    "claude-sonnet-5": {
+      "P_final": 22,
+      "P_first": 16,
+      "R_final_late_contract": 14,
+      "R_final_symptom_only": 9,
+      "R_first": 1,
+      "n": 32
+    },
+    "gemini-3.8-flash": {
+      "P_final": 25,
+      "P_first": 24,
+      "R_final_late_contract": 30,
+      "R_final_symptom_only": 8,
+      "R_first": 5,
+      "n": 32
+    },
+    "gpt-5.6-sol": {
+      "P_final": 25,
+      "P_first": 24,
+      "R_final_late_contract": 23,
+      "R_final_symptom_only": 16,
+      "R_first": 8,
+      "n": 32
+    }
+  },
+  "workflow_total": {
+    "P_final": 72,
+    "P_first": 64,
+    "R_final_late_contract": 67,
+    "R_final_symptom_only": 33,
+    "R_first": 14,
+    "n": 96
+  }
+}

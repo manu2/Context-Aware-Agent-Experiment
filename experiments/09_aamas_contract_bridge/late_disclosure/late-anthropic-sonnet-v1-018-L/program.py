@@ -1,0 +1,49 @@
+import numpy as np
+
+# Load the data (float32, ~32 MB) without ever materializing the full 8000x8000 matrix.
+data = np.load('vectors_secondary.npy')
+if data.dtype != np.float32:
+    data = data.astype(np.float32)
+
+n = data.shape[0]
+
+# Compute squared norms in float64 precision, in chunks to keep memory low.
+norms = np.empty(n, dtype=np.float64)
+norm_chunk = 1000
+for start in range(0, n, norm_chunk):
+    end = min(start + norm_chunk, n)
+    block64 = data[start:end].astype(np.float64)
+    norms[start:end] = np.einsum('ij,ij->i', block64, block64)
+    del block64
+
+# Precompute the transpose once (no copy, just a view) for use in matrix multiplication.
+data_T = data.T  # shape (1024, n), still float32, no extra big allocation
+
+total = 0.0
+
+block_size = 200
+for start in range(0, n, block_size):
+    end = min(start + block_size, n)
+    block = data[start:end]  # (bs, 1024) float32
+
+    # Dot products between this block and all rows: (bs, n), float32 BLAS matmul (fast).
+    dots = block @ data_T  # float32
+
+    # Convert to float64 for the distance formula to keep good precision.
+    dots64 = dots.astype(np.float64)
+    del dots
+
+    # sq_dist[i,j] = norm_i + norm_j - 2*dot(i,j)
+    sq = norms[start:end, None] + norms[None, :] - 2.0 * dots64
+    del dots64
+
+    # Numerical noise can make values slightly negative; clip to zero.
+    np.maximum(sq, 0.0, out=sq)
+
+    np.sqrt(sq, out=sq)
+
+    total += float(np.sum(sq))
+
+    del sq
+
+print(f"TOTAL:{total}")

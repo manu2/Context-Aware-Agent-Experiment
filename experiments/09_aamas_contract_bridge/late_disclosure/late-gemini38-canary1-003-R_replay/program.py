@@ -1,0 +1,52 @@
+import json
+from collections import defaultdict
+import numpy as np
+import pandas as pd
+
+
+def main():
+    totals = defaultdict(int)
+    chunksize = 1_000_000
+
+    for chunk in pd.read_csv(
+        "transactions.csv",
+        chunksize=chunksize,
+        usecols=["account_id", "category", "amount_cents"],
+        dtype={"account_id": np.int64, "category": str, "amount_cents": np.int64},
+        keep_default_na=False,
+        encoding="utf-8-sig",
+        engine="c",
+    ):
+        acc = chunk["account_id"].to_numpy()
+        mask = (acc % 11) < 7
+        if not np.any(mask):
+            continue
+
+        filtered_chunk = chunk[mask]
+        filtered_acc = acc[mask]
+        w = (filtered_acc % 97) + 1
+        filtered_amt = filtered_chunk["amount_cents"].to_numpy()
+
+        # Guard against potential 64-bit integer overflow during multiplication / aggregation
+        min_val = int(filtered_amt.min())
+        max_val = int(filtered_amt.max())
+        peak = max(abs(min_val), abs(max_val))
+
+        if peak * 98 * len(filtered_amt) < 9_223_372_036_854_775_807:
+            val = filtered_amt * w
+        else:
+            val = filtered_amt.astype(object) * w.astype(object)
+
+        sub_df = pd.DataFrame(
+            {"category": filtered_chunk["category"].to_numpy(), "val": val}
+        )
+        grouped = sub_df.groupby("category", observed=True)["val"].sum()
+
+        for cat, s in grouped.items():
+            totals[str(cat)] += int(s)
+
+    print(f"TOTAL:{json.dumps(totals, sort_keys=True)}")
+
+
+if __name__ == "__main__":
+    main()

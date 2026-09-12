@@ -1,0 +1,39 @@
+import numpy as np
+
+def main():
+    data = np.load("vectors_secondary.npy", mmap_mode="r")
+    n = data.shape[0]
+    # Load into memory as float32 (about 32MB for 8000x1024)
+    data = np.asarray(data, dtype=np.float32)
+
+    # Precompute squared norms once (float64 for accuracy)
+    sq_norms = np.einsum('ij,ij->i', data, data, dtype=np.float64)
+
+    total = 0.0
+    chunk_size = 200  # tune to keep memory usage low
+
+    data_T = data.T  # view, no copy (1024 x 8000)
+
+    for start in range(0, n, chunk_size):
+        end = min(start + chunk_size, n)
+        chunk = data[start:end]  # (C, 1024) float32
+
+        # dot products: (C, 1024) @ (1024, n) -> (C, n)
+        dots = chunk.astype(np.float64) @ data_T.astype(np.float64)
+
+        # squared distances: ||a||^2 + ||b||^2 - 2*a.b
+        d2 = sq_norms[start:end, None] + sq_norms[None, :] - 2.0 * dots
+
+        # Numerical noise may cause tiny negatives; clip
+        np.maximum(d2, 0.0, out=d2)
+
+        d = np.sqrt(d2)
+        total += d.sum()
+
+        del dots, d2, d
+
+    # Format as decimal value
+    print(f"TOTAL:{total:.10f}")
+
+if __name__ == "__main__":
+    main()

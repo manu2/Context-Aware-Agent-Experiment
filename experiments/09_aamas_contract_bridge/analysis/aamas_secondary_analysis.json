@@ -1,0 +1,657 @@
+{
+  "contract_matrix": [
+    {
+      "asset_bytes": 38333733,
+      "asset_sha256": "26c0b06bb123664d48b08243b30b48a5c1a5bd1e4df68bed75d9f06e0069313b",
+      "cpu_cores": 1,
+      "environment": "memory_tight",
+      "family": "etl",
+      "instance": "primary",
+      "memory_mib": 128,
+      "wall_seconds": 4
+    },
+    {
+      "asset_bytes": 38333733,
+      "asset_sha256": "26c0b06bb123664d48b08243b30b48a5c1a5bd1e4df68bed75d9f06e0069313b",
+      "cpu_cores": 1,
+      "environment": "latency_tight",
+      "family": "etl",
+      "instance": "primary",
+      "memory_mib": 512,
+      "wall_seconds": 1.4
+    },
+    {
+      "asset_bytes": 39444783,
+      "asset_sha256": "8bd326864973b149f76995d6714bc50546b19208ea5fa9ff5e34750a6c8f7aba",
+      "cpu_cores": 1,
+      "environment": "memory_tight",
+      "family": "etl",
+      "instance": "secondary",
+      "memory_mib": 128,
+      "wall_seconds": 4
+    },
+    {
+      "asset_bytes": 39444783,
+      "asset_sha256": "8bd326864973b149f76995d6714bc50546b19208ea5fa9ff5e34750a6c8f7aba",
+      "cpu_cores": 1,
+      "environment": "latency_tight",
+      "family": "etl",
+      "instance": "secondary",
+      "memory_mib": 512,
+      "wall_seconds": 1.7
+    },
+    {
+      "asset_bytes": 32768128,
+      "asset_sha256": "b95a6f21f8c055e4dff0ea6b51cec50f7f460809d5e93f8a0a2bb9f9717b9ba9",
+      "cpu_cores": 1,
+      "environment": "memory_tight",
+      "family": "numerical",
+      "instance": "primary",
+      "memory_mib": 128,
+      "wall_seconds": 8
+    },
+    {
+      "asset_bytes": 32768128,
+      "asset_sha256": "b95a6f21f8c055e4dff0ea6b51cec50f7f460809d5e93f8a0a2bb9f9717b9ba9",
+      "cpu_cores": 1,
+      "environment": "latency_tight",
+      "family": "numerical",
+      "instance": "primary",
+      "memory_mib": 1024,
+      "wall_seconds": 3.0
+    },
+    {
+      "asset_bytes": 32768128,
+      "asset_sha256": "75525cd7fdaba7b2f4d87dbbfcada9b66c4f4092ed4a91520690ead608917410",
+      "cpu_cores": 1,
+      "environment": "memory_tight",
+      "family": "numerical",
+      "instance": "secondary",
+      "memory_mib": 128,
+      "wall_seconds": 8
+    },
+    {
+      "asset_bytes": 32768128,
+      "asset_sha256": "75525cd7fdaba7b2f4d87dbbfcada9b66c4f4092ed4a91520690ead608917410",
+      "cpu_cores": 1,
+      "environment": "latency_tight",
+      "family": "numerical",
+      "instance": "secondary",
+      "memory_mib": 1024,
+      "wall_seconds": 3.0
+    }
+  ],
+  "late_disclosure": {
+    "archived_R_symptom_only_recovered": 19,
+    "exact_mcnemar_two_sided_p": 1.076841726899147e-09,
+    "late_contract_recovered": 53,
+    "late_residual_failure_types": {
+      "runtime_or_wrong": 2,
+      "timeout": 27
+    },
+    "provider_calls": {
+      "P_workflow": 128,
+      "late_contract_workflow": 178
+    },
+    "recovery_by_initial_failure": {
+      "oom": {
+        "L_recovered": 18,
+        "R_recovered": 9,
+        "n": 24
+      },
+      "timeout": {
+        "L_recovered": 35,
+        "R_recovered": 10,
+        "n": 58
+      }
+    },
+    "transitions": {
+      "00": 28,
+      "01": 35,
+      "10": 1,
+      "11": 18
+    },
+    "workflow_by_model": {
+      "claude-sonnet-5": {
+        "P_final": 22,
+        "P_first": 16,
+        "R_final_late_contract": 14,
+        "R_final_symptom_only": 9,
+        "R_first": 1,
+        "n": 32
+      },
+      "gemini-3.8-flash": {
+        "P_final": 25,
+        "P_first": 24,
+        "R_final_late_contract": 30,
+        "R_final_symptom_only": 8,
+        "R_first": 5,
+        "n": 32
+      },
+      "gpt-5.6-sol": {
+        "P_final": 25,
+        "P_first": 24,
+        "R_final_late_contract": 23,
+        "R_final_symptom_only": 16,
+        "R_first": 8,
+        "n": 32
+      }
+    },
+    "workflow_tokens": {
+      "L_recovery_branches": 348424,
+      "R_initial_attempts": 283845,
+      "R_plus_L_total": 632269
+    },
+    "workflow_total": {
+      "P_final": 72,
+      "P_first": 64,
+      "R_final_late_contract": 67,
+      "R_final_symptom_only": 33,
+      "R_first": 14,
+      "n": 96
+    }
+  },
+  "matched_late_disclosure_states": 82,
+  "robustness": {
+    "P_minus_G": {
+      "full": 0.3854166666666667,
+      "leave_one_environment": [
+        {
+          "remaining_n": 144,
+          "removed": "latency_tight",
+          "risk_difference": 0.5208333333333334
+        },
+        {
+          "remaining_n": 144,
+          "removed": "memory_tight",
+          "risk_difference": 0.25
+        }
+      ],
+      "leave_one_family": [
+        {
+          "remaining_n": 144,
+          "removed": "etl",
+          "risk_difference": 0.5416666666666666
+        },
+        {
+          "remaining_n": 144,
+          "removed": "numerical",
+          "risk_difference": 0.22916666666666666
+        }
+      ],
+      "leave_one_full_stratum": {
+        "all_positive": true,
+        "maximum": {
+          "removed": "gemini-3.8-flash|etl|secondary|latency_tight",
+          "risk_difference": 0.41304347826086957
+        },
+        "minimum": {
+          "removed": "claude-sonnet-5|numerical|secondary|memory_tight",
+          "risk_difference": 0.358695652173913
+        },
+        "results": [
+          {
+            "removed": "claude-sonnet-5|etl|primary|latency_tight",
+            "risk_difference": 0.40217391304347827
+          },
+          {
+            "removed": "claude-sonnet-5|etl|primary|memory_tight",
+            "risk_difference": 0.3695652173913043
+          },
+          {
+            "removed": "claude-sonnet-5|etl|secondary|latency_tight",
+            "risk_difference": 0.391304347826087
+          },
+          {
+            "removed": "claude-sonnet-5|etl|secondary|memory_tight",
+            "risk_difference": 0.3695652173913043
+          },
+          {
+            "removed": "claude-sonnet-5|numerical|primary|latency_tight",
+            "risk_difference": 0.40217391304347827
+          },
+          {
+            "removed": "claude-sonnet-5|numerical|primary|memory_tight",
+            "risk_difference": 0.3804347826086957
+          },
+          {
+            "removed": "claude-sonnet-5|numerical|secondary|latency_tight",
+            "risk_difference": 0.391304347826087
+          },
+          {
+            "removed": "claude-sonnet-5|numerical|secondary|memory_tight",
+            "risk_difference": 0.358695652173913
+          },
+          {
+            "removed": "gemini-3.8-flash|etl|primary|latency_tight",
+            "risk_difference": 0.40217391304347827
+          },
+          {
+            "removed": "gemini-3.8-flash|etl|primary|memory_tight",
+            "risk_difference": 0.391304347826087
+          },
+          {
+            "removed": "gemini-3.8-flash|etl|secondary|latency_tight",
+            "risk_difference": 0.41304347826086957
+          },
+          {
+            "removed": "gemini-3.8-flash|etl|secondary|memory_tight",
+            "risk_difference": 0.3695652173913043
+          },
+          {
+            "removed": "gemini-3.8-flash|numerical|primary|latency_tight",
+            "risk_difference": 0.358695652173913
+          },
+          {
+            "removed": "gemini-3.8-flash|numerical|primary|memory_tight",
+            "risk_difference": 0.358695652173913
+          },
+          {
+            "removed": "gemini-3.8-flash|numerical|secondary|latency_tight",
+            "risk_difference": 0.358695652173913
+          },
+          {
+            "removed": "gemini-3.8-flash|numerical|secondary|memory_tight",
+            "risk_difference": 0.358695652173913
+          },
+          {
+            "removed": "gpt-5.6-sol|etl|primary|latency_tight",
+            "risk_difference": 0.40217391304347827
+          },
+          {
+            "removed": "gpt-5.6-sol|etl|primary|memory_tight",
+            "risk_difference": 0.391304347826087
+          },
+          {
+            "removed": "gpt-5.6-sol|etl|secondary|latency_tight",
+            "risk_difference": 0.40217391304347827
+          },
+          {
+            "removed": "gpt-5.6-sol|etl|secondary|memory_tight",
+            "risk_difference": 0.40217391304347827
+          },
+          {
+            "removed": "gpt-5.6-sol|numerical|primary|latency_tight",
+            "risk_difference": 0.40217391304347827
+          },
+          {
+            "removed": "gpt-5.6-sol|numerical|primary|memory_tight",
+            "risk_difference": 0.40217391304347827
+          },
+          {
+            "removed": "gpt-5.6-sol|numerical|secondary|latency_tight",
+            "risk_difference": 0.3695652173913043
+          },
+          {
+            "removed": "gpt-5.6-sol|numerical|secondary|memory_tight",
+            "risk_difference": 0.40217391304347827
+          }
+        ]
+      },
+      "leave_one_instance": [
+        {
+          "remaining_n": 144,
+          "removed": "primary",
+          "risk_difference": 0.4583333333333333
+        },
+        {
+          "remaining_n": 144,
+          "removed": "secondary",
+          "risk_difference": 0.3125
+        }
+      ],
+      "leave_one_model": [
+        {
+          "remaining_n": 192,
+          "removed": "claude-sonnet-5",
+          "risk_difference": 0.359375
+        },
+        {
+          "remaining_n": 192,
+          "removed": "gemini-3.8-flash",
+          "risk_difference": 0.28125
+        },
+        {
+          "remaining_n": 192,
+          "removed": "gpt-5.6-sol",
+          "risk_difference": 0.515625
+        }
+      ]
+    },
+    "P_minus_R": {
+      "full": 0.5208333333333334,
+      "leave_one_environment": [
+        {
+          "remaining_n": 144,
+          "removed": "latency_tight",
+          "risk_difference": 0.6875
+        },
+        {
+          "remaining_n": 144,
+          "removed": "memory_tight",
+          "risk_difference": 0.3541666666666667
+        }
+      ],
+      "leave_one_family": [
+        {
+          "remaining_n": 144,
+          "removed": "etl",
+          "risk_difference": 0.6458333333333334
+        },
+        {
+          "remaining_n": 144,
+          "removed": "numerical",
+          "risk_difference": 0.3958333333333333
+        }
+      ],
+      "leave_one_full_stratum": {
+        "all_positive": true,
+        "maximum": {
+          "removed": "claude-sonnet-5|etl|primary|latency_tight",
+          "risk_difference": 0.5434782608695652
+        },
+        "minimum": {
+          "removed": "claude-sonnet-5|etl|primary|memory_tight",
+          "risk_difference": 0.5
+        },
+        "results": [
+          {
+            "removed": "claude-sonnet-5|etl|primary|latency_tight",
+            "risk_difference": 0.5434782608695652
+          },
+          {
+            "removed": "claude-sonnet-5|etl|primary|memory_tight",
+            "risk_difference": 0.5
+          },
+          {
+            "removed": "claude-sonnet-5|etl|secondary|latency_tight",
+            "risk_difference": 0.5434782608695652
+          },
+          {
+            "removed": "claude-sonnet-5|etl|secondary|memory_tight",
+            "risk_difference": 0.5
+          },
+          {
+            "removed": "claude-sonnet-5|numerical|primary|latency_tight",
+            "risk_difference": 0.5434782608695652
+          },
+          {
+            "removed": "claude-sonnet-5|numerical|primary|memory_tight",
+            "risk_difference": 0.5217391304347826
+          },
+          {
+            "removed": "claude-sonnet-5|numerical|secondary|latency_tight",
+            "risk_difference": 0.532608695652174
+          },
+          {
+            "removed": "claude-sonnet-5|numerical|secondary|memory_tight",
+            "risk_difference": 0.5
+          },
+          {
+            "removed": "gemini-3.8-flash|etl|primary|latency_tight",
+            "risk_difference": 0.5434782608695652
+          },
+          {
+            "removed": "gemini-3.8-flash|etl|primary|memory_tight",
+            "risk_difference": 0.532608695652174
+          },
+          {
+            "removed": "gemini-3.8-flash|etl|secondary|latency_tight",
+            "risk_difference": 0.5434782608695652
+          },
+          {
+            "removed": "gemini-3.8-flash|etl|secondary|memory_tight",
+            "risk_difference": 0.5217391304347826
+          },
+          {
+            "removed": "gemini-3.8-flash|numerical|primary|latency_tight",
+            "risk_difference": 0.5
+          },
+          {
+            "removed": "gemini-3.8-flash|numerical|primary|memory_tight",
+            "risk_difference": 0.5
+          },
+          {
+            "removed": "gemini-3.8-flash|numerical|secondary|latency_tight",
+            "risk_difference": 0.5
+          },
+          {
+            "removed": "gemini-3.8-flash|numerical|secondary|memory_tight",
+            "risk_difference": 0.5
+          },
+          {
+            "removed": "gpt-5.6-sol|etl|primary|latency_tight",
+            "risk_difference": 0.5434782608695652
+          },
+          {
+            "removed": "gpt-5.6-sol|etl|primary|memory_tight",
+            "risk_difference": 0.5
+          },
+          {
+            "removed": "gpt-5.6-sol|etl|secondary|latency_tight",
+            "risk_difference": 0.5434782608695652
+          },
+          {
+            "removed": "gpt-5.6-sol|etl|secondary|memory_tight",
+            "risk_difference": 0.5
+          },
+          {
+            "removed": "gpt-5.6-sol|numerical|primary|latency_tight",
+            "risk_difference": 0.5
+          },
+          {
+            "removed": "gpt-5.6-sol|numerical|primary|memory_tight",
+            "risk_difference": 0.5434782608695652
+          },
+          {
+            "removed": "gpt-5.6-sol|numerical|secondary|latency_tight",
+            "risk_difference": 0.5
+          },
+          {
+            "removed": "gpt-5.6-sol|numerical|secondary|memory_tight",
+            "risk_difference": 0.5434782608695652
+          }
+        ]
+      },
+      "leave_one_instance": [
+        {
+          "remaining_n": 144,
+          "removed": "primary",
+          "risk_difference": 0.5625
+        },
+        {
+          "remaining_n": 144,
+          "removed": "secondary",
+          "risk_difference": 0.4791666666666667
+        }
+      ],
+      "leave_one_model": [
+        {
+          "remaining_n": 192,
+          "removed": "claude-sonnet-5",
+          "risk_difference": 0.546875
+        },
+        {
+          "remaining_n": 192,
+          "removed": "gemini-3.8-flash",
+          "risk_difference": 0.484375
+        },
+        {
+          "remaining_n": 192,
+          "removed": "gpt-5.6-sol",
+          "risk_difference": 0.53125
+        }
+      ]
+    }
+  },
+  "schema_version": "aamas-secondary-analysis/v1.0",
+  "source_trajectory_count": 288,
+  "strategy_suitability": [
+    {
+      "condition": "G",
+      "family": "etl",
+      "n": 21,
+      "strategy": "dataframe_chunked",
+      "suitability_rate": 0.38095238095238093,
+      "suitable": 8
+    },
+    {
+      "condition": "G",
+      "family": "etl",
+      "n": 13,
+      "strategy": "dataframe_eager",
+      "suitability_rate": 0.0,
+      "suitable": 0
+    },
+    {
+      "condition": "G",
+      "family": "etl",
+      "n": 14,
+      "strategy": "stdlib_streaming",
+      "suitability_rate": 0.42857142857142855,
+      "suitable": 6
+    },
+    {
+      "condition": "G",
+      "family": "numerical",
+      "n": 42,
+      "strategy": "blocked_matrix_product",
+      "suitability_rate": 0.30952380952380953,
+      "suitable": 13
+    },
+    {
+      "condition": "G",
+      "family": "numerical",
+      "n": 5,
+      "strategy": "eager_global_matrix",
+      "suitability_rate": 0.0,
+      "suitable": 0
+    },
+    {
+      "condition": "G",
+      "family": "numerical",
+      "n": 1,
+      "strategy": "rowwise_or_scalar_streaming",
+      "suitability_rate": 0.0,
+      "suitable": 0
+    },
+    {
+      "condition": "P",
+      "family": "etl",
+      "n": 24,
+      "strategy": "dataframe_chunked",
+      "suitability_rate": 0.4583333333333333,
+      "suitable": 11
+    },
+    {
+      "condition": "P",
+      "family": "etl",
+      "n": 9,
+      "strategy": "dataframe_eager",
+      "suitability_rate": 0.1111111111111111,
+      "suitable": 1
+    },
+    {
+      "condition": "P",
+      "family": "etl",
+      "n": 15,
+      "strategy": "stdlib_streaming",
+      "suitability_rate": 0.8666666666666667,
+      "suitable": 13
+    },
+    {
+      "condition": "P",
+      "family": "numerical",
+      "n": 42,
+      "strategy": "blocked_matrix_product",
+      "suitability_rate": 0.7857142857142857,
+      "suitable": 33
+    },
+    {
+      "condition": "P",
+      "family": "numerical",
+      "n": 6,
+      "strategy": "eager_global_matrix",
+      "suitability_rate": 1.0,
+      "suitable": 6
+    },
+    {
+      "condition": "R",
+      "family": "etl",
+      "n": 18,
+      "strategy": "dataframe_eager",
+      "suitability_rate": 0.05555555555555555,
+      "suitable": 1
+    },
+    {
+      "condition": "R",
+      "family": "etl",
+      "n": 30,
+      "strategy": "stdlib_streaming",
+      "suitability_rate": 0.16666666666666666,
+      "suitable": 5
+    },
+    {
+      "condition": "R",
+      "family": "numerical",
+      "n": 29,
+      "strategy": "blocked_matrix_product",
+      "suitability_rate": 0.27586206896551724,
+      "suitable": 8
+    },
+    {
+      "condition": "R",
+      "family": "numerical",
+      "n": 16,
+      "strategy": "eager_global_matrix",
+      "suitability_rate": 0.0,
+      "suitable": 0
+    },
+    {
+      "condition": "R",
+      "family": "numerical",
+      "n": 3,
+      "strategy": "rowwise_or_scalar_streaming",
+      "suitability_rate": 0.0,
+      "suitable": 0
+    }
+  ],
+  "token_decomposition": {
+    "G": {
+      "1": {
+        "calls": 96,
+        "input_tokens": 17728,
+        "output_tokens_including_thoughts": 315134
+      },
+      "2": {
+        "calls": 69,
+        "input_tokens": 19299,
+        "output_tokens_including_thoughts": 318913
+      }
+    },
+    "P": {
+      "1": {
+        "calls": 96,
+        "input_tokens": 24168,
+        "output_tokens_including_thoughts": 325250
+      },
+      "2": {
+        "calls": 32,
+        "input_tokens": 11931,
+        "output_tokens_including_thoughts": 108019
+      }
+    },
+    "R": {
+      "1": {
+        "calls": 96,
+        "input_tokens": 15200,
+        "output_tokens_including_thoughts": 268645
+      },
+      "2": {
+        "calls": 82,
+        "input_tokens": 19876,
+        "output_tokens_including_thoughts": 291981
+      }
+    }
+  }
+}

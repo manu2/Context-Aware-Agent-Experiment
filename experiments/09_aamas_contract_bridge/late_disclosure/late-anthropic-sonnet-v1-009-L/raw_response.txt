@@ -1,0 +1,37 @@
+```python
+import pandas as pd
+import json
+import sys
+
+def main():
+    df = pd.read_csv(
+        "transactions.csv",
+        usecols=["account_id", "category", "amount_cents"],
+        dtype={"account_id": "int64", "amount_cents": "int64", "category": "category"},
+        engine="c",
+        memory_map=True,
+    )
+
+    acc = df["account_id"].to_numpy()
+    mask = (acc % 11) < 7
+    if not mask.any():
+        print("TOTAL:" + json.dumps({}))
+        return
+
+    acc_f = acc[mask]
+    amt_f = df["amount_cents"].to_numpy()[mask]
+    weight = (acc_f % 97) + 1
+    contrib = amt_f * weight
+
+    cats = df["category"].to_numpy()[mask]
+
+    sums = pd.Series(contrib).groupby(cats, sort=False).sum()
+
+    result = {str(k): int(v) for k, v in sums.items()}
+    result = dict(sorted(result.items()))
+
+    print("TOTAL:" + json.dumps(result))
+
+if __name__ == "__main__":
+    main()
+```

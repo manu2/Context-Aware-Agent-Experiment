@@ -1,0 +1,64 @@
+import os
+
+# Set single thread execution to prevent context-switching overhead under 1-core quota
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
+import numpy as np
+
+
+def main():
+    vectors = np.load("vectors.npy")
+    N = vectors.shape[0]
+    B = 1000
+
+    # Compute squared norms in float64 block-by-block to minimize peak memory
+    norms = np.empty(N, dtype=np.float64)
+    for k in range(0, N, B):
+        k_end = min(k + B, N)
+        norms[k:k_end] = np.sum(vectors[k:k_end].astype(np.float64) ** 2, axis=1)
+
+    sum_upper = 0.0
+    num_blocks = (N + B - 1) // B
+
+    for i in range(num_blocks):
+        i_start = i * B
+        i_end = min((i + 1) * B, N)
+        X_i = vectors[i_start:i_end].astype(np.float64)
+        norms_i = norms[i_start:i_end]
+
+        # Diagonal block: sum only pairs where row < col
+        G = X_i @ X_i.T
+        G *= -2.0
+        G += norms_i[:, None]
+        G += norms_i[None, :]
+        np.maximum(G, 0.0, out=G)
+        np.sqrt(G, out=G)
+        triu_idx = np.triu_indices(i_end - i_start, k=1)
+        sum_upper += np.sum(G[triu_idx])
+
+        # Off-diagonal blocks: all elements belong to the upper triangle of the full matrix
+        for j in range(i + 1, num_blocks):
+            j_start = j * B
+            j_end = min((j + 1) * B, N)
+            X_j = vectors[j_start:j_end].astype(np.float64)
+            norms_j = norms[j_start:j_end]
+
+            G = X_i @ X_j.T
+            G *= -2.0
+            G += norms_i[:, None]
+            G += norms_j[None, :]
+            np.maximum(G, 0.0, out=G)
+            np.sqrt(G, out=G)
+            sum_upper += np.sum(G)
+
+    # By symmetry: Total = 2 * sum_{i < j} D_ij + sum_{i == j} D_ii (diagonal is 0)
+    total = 2.0 * sum_upper
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()

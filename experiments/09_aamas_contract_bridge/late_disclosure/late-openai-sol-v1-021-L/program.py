@@ -1,0 +1,85 @@
+import json
+import sys
+
+import numpy as np
+import pandas as pd
+
+
+INT64_MAX = (1 << 63) - 1
+PRODUCT_LIMIT = INT64_MAX // 91
+totals = {}
+
+reader = pd.read_csv(
+    "transactions_secondary.csv",
+    usecols=["account_id", "category", "amount_cents"],
+    dtype={
+        "account_id": "int64",
+        "category": "category",
+        "amount_cents": "int64",
+    },
+    engine="c",
+    chunksize=2_000_000,
+    keep_default_na=False,
+    na_filter=False,
+    memory_map=True,
+)
+
+for frame in reader:
+    accounts = frame["account_id"].to_numpy(copy=False)
+    selected = np.remainder(accounts, 13) < 8
+    if not selected.any():
+        continue
+
+    accounts = accounts[selected]
+    amounts = frame["amount_cents"].to_numpy(copy=False)[selected]
+    factors = np.remainder(accounts, 89) + 3
+
+    categorical = frame["category"]
+    codes = categorical.cat.codes.to_numpy(copy=False)[selected]
+    labels = [str(value) for value in categorical.cat.categories.tolist()]
+    category_count = len(labels)
+
+    present = np.zeros(category_count, dtype=np.bool_)
+    present[codes] = True
+    for code in np.flatnonzero(present):
+        totals.setdefault(labels[int(code)], 0)
+
+    dangerous = (amounts > PRODUCT_LIMIT) | (amounts < -PRODUCT_LIMIT)
+    if dangerous.any():
+        for code, amount, factor in zip(
+            codes[dangerous], amounts[dangerous], factors[dangerous]
+        ):
+            key = labels[int(code)]
+            totals[key] += int(amount) * int(factor)
+
+        keep = ~dangerous
+        amounts = amounts[keep]
+        factors = factors[keep]
+        codes = codes[keep]
+
+    if amounts.size == 0:
+        continue
+
+    minimum = int(amounts.min())
+    maximum = int(amounts.max())
+    max_abs = max(abs(minimum), abs(maximum))
+
+    if max_abs == 0:
+        continue
+
+    block_size = max(1, INT64_MAX // (max_abs * 91))
+    block_size = min(block_size, amounts.size)
+
+    for start in range(0, amounts.size, block_size):
+        stop = min(start + block_size, amounts.size)
+        products = amounts[start:stop] * factors[start:stop]
+        local = np.zeros(category_count, dtype=np.int64)
+        np.add.at(local, codes[start:stop], products)
+
+        for code in np.flatnonzero(local):
+            key = labels[int(code)]
+            totals[key] += int(local[code])
+
+sys.stdout.write(
+    "TOTAL:" + json.dumps(totals, sort_keys=True, separators=(",", ":"))
+)

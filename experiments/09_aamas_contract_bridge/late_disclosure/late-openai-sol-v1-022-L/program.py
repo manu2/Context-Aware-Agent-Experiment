@@ -1,0 +1,50 @@
+import csv
+import json.encoder
+import sys
+
+sys.set_int_max_str_digits(0)
+
+totals = {}
+
+with open("transactions.csv", "r", encoding="utf-8-sig", newline="", buffering=1024 * 1024) as f:
+    reader = csv.reader(f)
+    header = next(reader)
+    account_idx = header.index("account_id")
+    category_idx = header.index("category")
+    amount_idx = header.index("amount_cents")
+
+    get_total = totals.get
+    to_int = int
+
+    for row in reader:
+        if not row:
+            continue
+        account_id = to_int(row[account_idx])
+        if account_id % 11 < 7:
+            category = row[category_idx]
+            weighted = to_int(row[amount_idx]) * ((account_id % 97) + 1)
+            totals[category] = get_total(category, 0) + weighted
+
+encode_key = json.encoder.encode_basestring_ascii
+write = sys.stdout.write
+parts = ["TOTAL:{"]
+size = 7
+first = True
+
+for category in sorted(totals):
+    entry = (
+        ("" if first else ",")
+        + encode_key(category)
+        + ":"
+        + str(totals[category])
+    )
+    first = False
+    parts.append(entry)
+    size += len(entry)
+    if size >= 65536:
+        write("".join(parts))
+        parts.clear()
+        size = 0
+
+parts.append("}")
+write("".join(parts))

@@ -1,0 +1,33 @@
+import json
+import pandas as pd
+
+def main():
+    df = pd.read_csv('transactions.csv', na_filter=False)
+    
+    mask = (df['account_id'] % 11) < 7
+    df = df[mask]
+    
+    if not df.empty:
+        weight = (df['account_id'] % 97) + 1
+        
+        # Check if 64-bit int arithmetic is guaranteed not to overflow
+        safe = False
+        if pd.api.types.is_integer_dtype(df['amount_cents']):
+            max_possible = int(df['amount_cents'].abs().max()) * 97 * len(df)
+            if max_possible < 9_000_000_000_000_000_000:
+                safe = True
+                
+        if safe:
+            val = df['amount_cents'] * weight
+        else:
+            val = df['amount_cents'].astype(object) * weight.astype(object)
+            
+        res = val.groupby(df['category']).sum().to_dict()
+        res = {str(k): int(v) for k, v in res.items()}
+    else:
+        res = {}
+        
+    print(f"TOTAL:{json.dumps(res, sort_keys=True)}")
+
+if __name__ == '__main__':
+    main()

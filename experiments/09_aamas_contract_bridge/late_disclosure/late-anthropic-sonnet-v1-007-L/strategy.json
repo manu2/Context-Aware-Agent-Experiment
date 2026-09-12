@@ -1,0 +1,13 @@
+{
+  "family": "numerical",
+  "features": [
+    "float32_explicit",
+    "in_place_update"
+  ],
+  "primary_strategy": "eager_global_matrix",
+  "rationale": [
+    "global matrix/broadcast distance construction has no explicit outer blocking loop"
+  ],
+  "requires_adjudication": false,
+  "schema_version": "strategy-codebook/v0.1"
+}

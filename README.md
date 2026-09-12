@@ -108,6 +108,10 @@ cohort because their provenance and protocol precede the frozen direct-API desig
 `benchmarks/run_peer_reviewer.py` is retained solely as a historical checker for
 the old canonical draft; it is not evidence validation for the working revision.
 
+The exact manuscript release published as arXiv:2609.05232 is preserved in Git as
+the annotated tag `arxiv-2609.05232-v1`. Subsequent conference work is additive:
+it does not rewrite the preprint manuscript or its experiments 01--08.
+
 ## AAMAS study
 
 The completed AAMAS-oriented study evaluates a reusable Execution Contract Bridge
@@ -116,15 +120,22 @@ proactive contract availability versus reactive discovery versus generic
 efficiency guidance across calibrated numerical and streaming-ETL environments.
 The confirmatory matrix contains 288 trajectories: 96 per condition, balanced
 across three provider-configured models, two task families, two instances, two
-operating environments, and four repetitions. The authoritative protocol and
-frozen results are in
+operating environments, and four repetitions. A separately frozen matched
+extension branches from all 82 reactive first-attempt failures and compares the
+archived symptom-only repair with a repair that also receives the exact contract;
+the original 288 trajectories remain unchanged. The authoritative protocol and
+results are in
 [`docs/12_aamas_2027_hardened_research_plan.md`](docs/12_aamas_2027_hardened_research_plan.md)
-and [`docs/28_aamas_confirmatory_results.md`](docs/28_aamas_confirmatory_results.md).
+and [`docs/28_aamas_confirmatory_results.md`](docs/28_aamas_confirmatory_results.md),
+with the matched extension in
+[`docs/34_aamas_late_disclosure_combined_report.md`](docs/34_aamas_late_disclosure_combined_report.md).
 
 To regenerate the confirmatory analysis and AAMAS figures without provider calls:
 
 ```bash
 .venv/bin/python3 benchmarks/analyze_aamas_confirmatory.py
+.venv/bin/python3 benchmarks/analyze_aamas_late_disclosure_combined.py
+.venv/bin/python3 benchmarks/analyze_aamas_secondary.py
 .venv/bin/python3 benchmarks/generate_aamas_figures.py
 .venv/bin/python3 benchmarks/verify_aamas_submission.py
 ```

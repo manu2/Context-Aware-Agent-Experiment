@@ -1,0 +1,38 @@
+import numpy as np
+
+def main():
+    # Load the array (float32, 8000x1024, ~32MB)
+    v = np.load('vectors.npy')
+
+    # Convert to float64 for accurate distance computation.
+    # This creates a new array; the old float32 array becomes
+    # garbage-collectible once reassigned, keeping peak memory low.
+    v = v.astype(np.float64)
+
+    n = v.shape[0]
+
+    # Precompute squared norms of each row (cheap, O(n) memory)
+    sq_norms = np.einsum('ij,ij->i', v, v)
+
+    total = 0.0
+    B = 200  # block size chosen to keep per-iteration memory small
+
+    vT = v.T  # transpose view, no copy
+
+    for start in range(0, n, B):
+        end = min(start + B, n)
+        A = v[start:end]                      # view, no copy
+        dot = A @ vT                           # shape (b, n), float64
+        # squared distances: ||a||^2 + ||b||^2 - 2*a.b
+        dist_sq = sq_norms[start:end, None] + sq_norms[None, :] - 2.0 * dot
+        np.maximum(dist_sq, 0.0, out=dist_sq)  # guard against tiny negative values
+        np.sqrt(dist_sq, out=dist_sq)
+        total += dist_sq.sum()
+
+        # free block memory promptly
+        del A, dot, dist_sq
+
+    print(f"TOTAL:{total}")
+
+if __name__ == "__main__":
+    main()

@@ -145,6 +145,28 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
 - **Core task families:** bounded numerical computation for graded adaptation and
   streaming ETL for calibrated opposed environments. Runtime compatibility and
   additional task families are deferred until after the primary submission.
+- **Post-freeze extensions:** (1) the matched late-disclosure recovery branch is
+  complete; (2) a locked-container runtime/dependency compatibility family that
+  varies interpreter and dependency versions separately remains a candidate.
+  Both are distinct from the frozen 288-trajectory primary matrix.
+- **Late-disclosure extension complete (2026-09-12):** All 82 archived R
+  first-attempt failure states received an integrity-passing L branch with the
+  identical authentic failure observation plus the exact execution contract.
+  Suitable recovery increased from 19/82 under symptom-only feedback to 53/82
+  under late disclosure (35 improvements, one regression; descriptive exact
+  McNemar `p = 1.0768417e-09`). The effect replicated with different magnitude:
+  Gemini 3/27 to 25/27, Claude 8/31 to 13/31, and GPT 8/24 to 15/24. No L branch
+  was OOM-killed; residual failures were dominated by tight latency. The result
+  establishes that exact substrate state remains actionable after failure while
+  proactive disclosure retains a 50-call workflow advantage. See
+  `docs/34_aamas_late_disclosure_combined_report.md`.
+- **Late-disclosure canary passed (2026-09-12):** The reusable branch runner and
+  prompt treatment passed regression tests against all 183 archived recovery
+  prompts and completed a two-source Gemini canary. One of two L branches
+  recovered successfully versus zero of two fresh symptom-only replays. The
+  cost-optimized full design adds only L to archived R failures; no primary
+  trajectory is regenerated. Runtime compatibility remains the subsequent,
+  separately frozen family.
 - **Minimal reusable system:** Linux/Docker target adapter, versioned evidence and
   contract schemas, deterministic compiler/renderer, provider/import backends,
   cgroup execution, agent loop, scorer, and immutable trajectory recorder.
@@ -269,6 +291,40 @@ token-economy, or dynamic-telemetry dimensions; those are planned future studies
   guidance. The manuscript and vector figures now consume only the deterministic
   frozen analysis. Remaining work is submission engineering and scholarly
   revision; no additional primary trials are planned.
+- **AAMAS manuscript-strengthening phase (2026-09-12):** The empirical campaign
+  remains frozen. The conference revision will use existing evidence to add an
+  exact environment matrix, formalize the execution-contract state transition,
+  replace the placeholder architecture diagram, expand AAMAS-specific related
+  work, and report selected secondary findings on proactive suitability,
+  recovery transitions, token decomposition, and strategy--suitability
+  relationships. Recovery-rate comparisons will remain descriptive because R/G
+  receive failure symptoms rather than the hidden numeric contract and the
+  failed subsets differ by condition.
+  These analyses are explicitly secondary/exploratory and will not be relabeled
+  as preregistered primary endpoints. Canonical plan:
+  `docs/30_aamas_manuscript_gaps_and_results_interpretation.md`.
+- **AAMAS conference manuscript integrated (2026-09-12):** The formal execution-
+  contract state model now covers proactive, symptom-only, generic, and matched
+  late-disclosure recovery states. The 82-state extension, exact contract table,
+  removal robustness, vector system/recovery figures, and adjacent PeakBench and
+  LEVER scholarship are integrated without changing the frozen 288-trajectory
+  primary estimands. The prior arXiv proof of concept is cited neutrally in the
+  third person, and its relationship is also disclosed confidentially to chairs
+  with an explicit substantive delta.
+- **AAMAS manuscript evidence expansion complete (2026-09-12):** The main paper
+  now uses the highest-value analyses from the frozen evidence rather than
+  relegating them to planning notes: proactive-versus-complete-workflow yield,
+  failure prevention, strategy fit, provider-token decomposition, matched late
+  disclosure, and leave-one-component robustness. The raw 162,901-token difference
+  is presented as a 25.8% reduction from 632,269 tokens, avoiding a task-free
+  magnitude claim. Near-miss completion times remain unestimated because timeout
+  executions are right-censored at the supervisor deadline; fixed one-core CPU
+  control remains an execution control rather than a separate treatment claim.
+- **Release boundary and deterministic packaging (2026-09-12):** The arXiv v1
+  manuscript and experiments 01--08 are preserved as an immutable Git release
+  boundary. AAMAS sources, raw trajectories, and derived analyses are additive.
+  Late-disclosure analyses omit build-time metadata, allowing consecutive
+  anonymous-supplement builds from the same evidence to produce identical bytes.
 
 ### Phase 6: Dynamic Agent Harness Telemetry (Design complete; implementation planned)
 

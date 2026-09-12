@@ -1,0 +1,50 @@
+import os
+os.environ.setdefault("OMP_NUM_THREADS", "1")
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
+os.environ.setdefault("MKL_NUM_THREADS", "1")
+os.environ.setdefault("NUMEXPR_NUM_THREADS", "1")
+
+import numpy as np
+
+def main():
+    A = np.load("vectors.npy")
+    if A.dtype != np.float32:
+        A = A.astype(np.float32)
+    n = A.shape[0]
+
+    # squared norms computed in double precision for accuracy
+    norms = np.einsum('ij,ij->i', A, A, dtype=np.float64)
+
+    total = 0.0
+    B = 1000  # block size
+
+    for i0 in range(0, n, B):
+        i1 = min(i0 + B, n)
+        Ai = A[i0:i1]
+        ni = norms[i0:i1]
+        for j0 in range(i0, n, B):
+            j1 = min(j0 + B, n)
+            Aj = A[j0:j1]
+            nj = norms[j0:j1]
+
+            # dot products via float32 matmul (BLAS), cast to float64
+            G = np.dot(Ai, Aj.T).astype(np.float64)
+
+            dist2 = ni[:, None] + nj[None, :] - 2.0 * G
+            np.maximum(dist2, 0.0, out=dist2)
+            dist = np.sqrt(dist2)
+
+            if i0 == j0:
+                # same block: take strictly upper triangle, count each pair twice
+                iu = np.triu_indices(i1 - i0, k=1)
+                block_sum = dist[iu].sum()
+                total += 2.0 * block_sum
+            else:
+                # distinct blocks: all entries counted, and symmetric block (j,i)
+                # contributes the same values, so multiply by 2
+                total += 2.0 * dist.sum()
+
+    print(f"TOTAL:{total:.10f}".rstrip('0').rstrip('.') if False else f"TOTAL:{total}")
+
+if __name__ == "__main__":
+    main()

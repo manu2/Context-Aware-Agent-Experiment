@@ -1,0 +1,10 @@
+{
+  "family": "etl",
+  "features": [],
+  "primary_strategy": "other",
+  "rationale": [
+    "no frozen ETL strategy signature matched"
+  ],
+  "requires_adjudication": true,
+  "schema_version": "strategy-codebook/v0.1"
+}

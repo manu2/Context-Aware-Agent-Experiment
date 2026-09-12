@@ -1,0 +1,36 @@
+{
+  "container": null,
+  "content": [
+    {
+      "signature": "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",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef main():\n    X = np.load(\"vectors.npy\", mmap_mode=\"r\")  # (8000, 1024) float32\n    n = X.shape[0]\n\n    # Precompute squared norms in float64 for accuracy\n    # Process in chunks to keep norms computation cheap\n    sq_norms = np.empty(n, dtype=np.float64)\n    norm_chunk = 1000\n    for start in range(0, n, norm_chunk):\n        end = min(start + norm_chunk, n)\n        block = X[start:end].astype(np.float64)\n        sq_norms[start:end] = np.einsum('ij,ij->i', block, block)\n\n    total = 0.0\n    chunk_size = 250  # tuned to keep memory usage low\n\n    Xf = X  # memmap, will be sliced and cast per-chunk\n\n    for start in range(0, n, chunk_size):\n        end = min(start + chunk_size, n)\n        A = Xf[start:end].astype(np.float64)  # (c, 1024)\n        # dot products between A and all rows\n        dots = A @ Xf[:].astype(np.float64).T  # This would be too big; avoid full cast\n        # Not used; replaced below\n        pass\n\n    print(f\"TOTAL:{total}\")\n\nif __name__ == \"__main__\":\n    main()\n```\n\nWait, the above draft casts the entire array to float64 inside the loop, which would blow memory. Let me provide the correct, memory-safe final version.\n\n```python\nimport numpy as np\n\ndef main():\n    X = np.load(\"vectors.npy\", mmap_mode=\"r\")  # (8000, 1024) float32, ~32MB on disk\n    n, d = X.shape\n\n    # Compute squared norms once, in float64, using small chunks to bound memory\n    sq_norms = np.empty(n, dtype=np.float64)\n    norm_chunk = 1000\n    for start in range(0, n, norm_chunk):\n        end = min(start + norm_chunk, n)\n        block = np.asarray(X[start:end], dtype=np.float64)\n        sq_norms[start:end] = np.einsum('ij,ij->i', block, block)\n\n    total = 0.0\n    row_chunk = 200   # number of rows processed against full dataset at once\n    col_chunk = 2000  # number of columns (other rows) processed at once\n\n    for i_start in range(0, n, row_chunk):\n        i_end = min(i_start + row_chunk, n)\n        A = np.asarray(X[i_start:i_end], dtype=np.float64)  # (r, d)\n        A_norms = sq_norms[i_start:i_end]  # (r,)\n\n        row_total = np.zeros(A.shape[0], dtype=np.float64)\n\n        for j_start in range(0, n, col_chunk):\n            j_end = min(j_start + col_chunk, n)\n            B = np.asarray(X[j_start:j_end], dtype=np.float64)  # (c, d)\n            B_norms = sq_norms[j_start:j_end]  # (c,)\n\n            # squared distances: ||a||^2 + ||b||^2 - 2 a.b\n            dots = A @ B.T  # (r, c)\n            sq_dist = A_norms[:, None] + B_norms[None, :] - 2.0 * dots\n            np.maximum(sq_dist, 0.0, out=sq_dist)  # guard tiny negatives from rounding\n            dist = np.sqrt(sq_dist)\n\n            row_total += dist.sum(axis=1)\n\n        total += row_total.sum()\n\n    # total currently a numpy float64 scalar; format as decimal\n    print(f\"TOTAL:{total:.10f}\")\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "type": "text"
+    }
+  ],
+  "id": "msg_011CextjmiY1c7UCAC2hjLT2",
+  "model": "claude-sonnet-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 430,
+    "output_tokens": 1833,
+    "output_tokens_details": {
+      "thinking_tokens": 601
+    },
+    "service_tier": "standard"
+  }
+}

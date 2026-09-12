@@ -1,0 +1,46 @@
+```python
+import os
+
+# Ensure single-threaded execution to prevent thread contention under 1-core CPU quota
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["BLIS_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
+import numpy as np
+
+
+def main():
+    vectors = np.load("vectors.npy")
+
+    # Compute squared L2 norms for each row
+    sq_norms = np.sum(vectors * vectors, axis=1)
+
+    # Compute Gram matrix using optimized BLAS SGEMM
+    # G[i, j] = x_i . x_j
+    d2 = vectors @ vectors.T
+
+    # In-place transform d2 into squared Euclidean distance matrix:
+    # ||x_i - x_j||^2 = ||x_i||^2 + ||x_j||^2 - 2 * (x_i . x_j)
+    d2 *= -2.0
+    d2 += sq_norms[:, None]
+    d2 += sq_norms[None, :]
+
+    # Clamp numerical precision artifacts and zero out diagonal
+    np.fill_diagonal(d2, 0.0)
+    np.maximum(d2, 0.0, out=d2)
+
+    # Compute Euclidean distances
+    np.sqrt(d2, out=d2)
+
+    # Accumulate into float64 to avoid loss of precision
+    total = float(np.sum(d2, dtype=np.float64))
+
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()
+```

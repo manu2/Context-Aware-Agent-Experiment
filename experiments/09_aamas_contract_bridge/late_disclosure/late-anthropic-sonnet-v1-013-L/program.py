@@ -1,0 +1,48 @@
+import numpy as np
+
+def main():
+    # Load data (memory-mapped to avoid loading everything at once,
+    # though the file itself is only ~32MB so full load is fine too).
+    X = np.load("vectors_secondary.npy", mmap_mode="r")
+    n = X.shape[0]
+    d = X.shape[1]
+
+    # Precompute squared norms of all rows (float64 for accuracy)
+    # Do this in chunks to limit peak memory.
+    norm_block = 1000
+    norms = np.empty(n, dtype=np.float64)
+    for start in range(0, n, norm_block):
+        end = min(start + norm_block, n)
+        block = np.asarray(X[start:end], dtype=np.float32)
+        norms[start:end] = np.einsum('ij,ij->i', block, block, dtype=np.float64)
+
+    total = 0.0
+
+    # Process in blocks of rows to keep memory bounded.
+    block_size = 250  # rows per block for the "A" side
+    Xfull = None  # will load full array once (only needed for dot products)
+
+    # Load full array once as float32 (about 32MB) - needed for dot products
+    Xfull = np.asarray(X, dtype=np.float32)
+
+    for start in range(0, n, block_size):
+        end = min(start + block_size, n)
+        A = Xfull[start:end]                      # (b, d) float32
+        # Compute dot products A @ Xfull.T -> (b, n) float64 for precision
+        dots = A.astype(np.float64) @ Xfull.astype(np.float64).T
+        # squared distances: normA[i] + normB[j] - 2*dot
+        normA = norms[start:end].reshape(-1, 1)
+        normB = norms.reshape(1, -1)
+        sq = normA + normB - 2.0 * dots
+        np.maximum(sq, 0.0, out=sq)  # avoid tiny negative values due to floating error
+        dist = np.sqrt(sq)
+        total += dist.sum(dtype=np.float64)
+
+        # free memory explicitly
+        del A, dots, sq, dist
+
+    # Format total as decimal value without scientific notation
+    print(f"TOTAL:{total:.10f}")
+
+if __name__ == "__main__":
+    main()

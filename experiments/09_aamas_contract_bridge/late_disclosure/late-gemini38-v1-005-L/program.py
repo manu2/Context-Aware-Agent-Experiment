@@ -1,0 +1,54 @@
+import os
+
+# Constrain BLAS implementations to 1 thread before importing NumPy to avoid
+# CPU thread thrashing and synchronization overhead under a 1-core cgroup quota.
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
+import numpy as np
+
+
+def main():
+    vectors = np.load("vectors.npy")
+    n = vectors.shape[0]
+
+    # Precompute squared L2 norms for each row
+    norms_sq = np.sum(vectors * vectors, axis=1)
+
+    total = 0.0
+    block_size = 2000
+    blocks = [(i, min(i + block_size, n)) for i in range(0, n, block_size)]
+
+    # Compute diagonal blocks: only strictly upper-triangular pairs (i < j)
+    # The diagonal itself contributes 0 distance.
+    for i1, i2 in blocks:
+        dot_ii = np.dot(vectors[i1:i2], vectors[i1:i2].T)
+        dot_ii *= -2.0
+        dot_ii += norms_sq[i1:i2, None]
+        dot_ii += norms_sq[None, i1:i2]
+        np.maximum(dot_ii, 0.0, out=dot_ii)
+        np.sqrt(dot_ii, out=dot_ii)
+
+        r, c = np.triu_indices(i2 - i1, k=1)
+        total += 2.0 * float(np.sum(dot_ii[r, c], dtype=np.float64))
+
+    # Compute off-diagonal blocks (i < j), exploiting distance symmetry dist(u, v) == dist(v, u)
+    for idx, (i1, i2) in enumerate(blocks):
+        for j1, j2 in blocks[idx + 1 :]:
+            dot_ij = np.dot(vectors[i1:i2], vectors[j1:j2].T)
+            dot_ij *= -2.0
+            dot_ij += norms_sq[i1:i2, None]
+            dot_ij += norms_sq[None, j1:j2]
+            np.maximum(dot_ij, 0.0, out=dot_ij)
+            np.sqrt(dot_ij, out=dot_ij)
+
+            total += 2.0 * float(np.sum(dot_ij, dtype=np.float64))
+
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()

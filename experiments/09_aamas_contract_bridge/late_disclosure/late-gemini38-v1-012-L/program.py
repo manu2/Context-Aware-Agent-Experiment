@@ -1,0 +1,64 @@
+import os
+
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
+import numpy as np
+
+
+def main():
+    file_path = "vectors_secondary.npy"
+    X = np.load(file_path, mmap_mode="r")
+    N = X.shape[0]
+
+    chunk_size = 2000
+    norms_sq = np.empty(N, dtype=np.float64)
+    for i in range(0, N, chunk_size):
+        chunk = np.array(X[i : i + chunk_size], dtype=np.float64)
+        norms_sq[i : i + chunk_size] = np.sum(chunk**2, axis=1)
+        del chunk
+
+    total = 0.0
+    num_chunks = (N + chunk_size - 1) // chunk_size
+
+    for a in range(num_chunks):
+        start_a = a * chunk_size
+        end_a = min((a + 1) * chunk_size, N)
+        A = np.array(X[start_a:end_a], dtype=np.float64)
+        n_A = norms_sq[start_a:end_a]
+
+        for b in range(a, num_chunks):
+            start_b = b * chunk_size
+            end_b = min((b + 1) * chunk_size, N)
+
+            if a == b:
+                G = A @ A.T
+                G *= -2.0
+                G += n_A[:, None]
+                G += n_A[None, :]
+                np.maximum(G, 0.0, out=G)
+                np.sqrt(G, out=G)
+                np.fill_diagonal(G, 0.0)
+                total += float(np.sum(G))
+                del G
+            else:
+                B = np.array(X[start_b:end_b], dtype=np.float64)
+                n_B = norms_sq[start_b:end_b]
+                G = A @ B.T
+                G *= -2.0
+                G += n_A[:, None]
+                G += n_B[None, :]
+                np.maximum(G, 0.0, out=G)
+                np.sqrt(G, out=G)
+                total += 2.0 * float(np.sum(G))
+                del G, B
+        del A
+
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()

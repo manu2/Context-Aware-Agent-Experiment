@@ -1,0 +1,50 @@
+import numpy as np
+
+
+def main():
+    # Load vectors (8000 x 1024, float32)
+    X = np.load("vectors_secondary.npy", mmap_mode="r")
+    n, d = X.shape
+
+    # Precompute squared norms in chunks to conserve memory
+    block_size = 1000
+    sq_norms = np.empty(n, dtype=np.float32)
+    for i in range(0, n, block_size):
+        i_end = min(i + block_size, n)
+        sq_norms[i:i_end] = np.sum(X[i:i_end] ** 2, axis=1)
+
+    total_half = 0.0
+
+    # Compute pairwise Euclidean distances for i < j in blocks
+    for i in range(0, n, block_size):
+        i_end = min(i + block_size, n)
+        X_i = X[i:i_end]
+        r_i = sq_norms[i:i_end]
+
+        # Diagonal block (within block i)
+        G_ii = X_i @ X_i.T
+        D2 = r_i[:, None] + r_i[None, :] - 2.0 * G_ii
+        np.maximum(D2, 0.0, out=D2)
+        np.sqrt(D2, out=D2)
+        iu = np.triu_indices(i_end - i, k=1)
+        total_half += float(np.sum(D2[iu], dtype=np.float64))
+
+        # Off-diagonal blocks (block i with block j, where j > i)
+        for j in range(i + block_size, n, block_size):
+            j_end = min(j + block_size, n)
+            X_j = X[j:j_end]
+            r_j = sq_norms[j:j_end]
+
+            G_ij = X_i @ X_j.T
+            D2 = r_i[:, None] + r_j[None, :] - 2.0 * G_ij
+            np.maximum(D2, 0.0, out=D2)
+            np.sqrt(D2, out=D2)
+            total_half += float(np.sum(D2, dtype=np.float64))
+
+    # All ordered pairs sum: sum_{i,j} d(x_i, x_j) = 2 * sum_{i < j} d(x_i, x_j) (diagonal is 0)
+    total = 2.0 * total_half
+    print(f"TOTAL:{total}")
+
+
+if __name__ == "__main__":
+    main()

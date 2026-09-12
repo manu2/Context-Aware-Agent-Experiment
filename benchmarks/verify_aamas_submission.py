@@ -27,9 +27,12 @@ IDENTITY_PATTERNS = {
     "local user path": re.compile(r"/Users/[^/\s]+|file://", re.I),
 }
 ANALYSIS = ROOT / "experiments/09_aamas_contract_bridge/analysis/confirmatory_analysis.json"
+SECONDARY = ROOT / "experiments/09_aamas_contract_bridge/analysis/aamas_secondary_analysis.json"
 FIGURES = (
     PACKAGE / "figures/primary_suitability.pdf",
     PACKAGE / "figures/effect_by_task_environment.pdf",
+    PACKAGE / "figures/contract_bridge_architecture.pdf",
+    PACKAGE / "figures/matched_recovery.pdf",
 )
 
 
@@ -51,7 +54,10 @@ def source_issues(release: bool) -> list[str]:
         if not path.exists() or digest(path) != expected:
             issues.append(f"official template asset changed or missing: {filename}")
 
-    scanned = [PACKAGE / "main.tex", PACKAGE / "references.bib"]
+    # Author names may appear in ordinary third-person bibliography entries in a
+    # double-blind paper. Scan the manuscript body for explicit identity leaks;
+    # do not reject a properly formatted citation to related prior work.
+    scanned = [PACKAGE / "main.tex"]
     for path in scanned:
         text = path.read_text(errors="replace")
         for label, pattern in IDENTITY_PATTERNS.items():
@@ -98,13 +104,33 @@ def evidence_issues() -> list[str]:
         "P_minus_R": 0.5208333333333334,
     }:
         issues.append("co-primary risk differences changed")
+    if not SECONDARY.exists():
+        issues.append("secondary analysis is missing")
+    else:
+        secondary = json.loads(SECONDARY.read_text())
+        late = secondary.get("late_disclosure", {})
+        if secondary.get("source_trajectory_count") != 288 or secondary.get("matched_late_disclosure_states") != 82:
+            issues.append("secondary analysis has unexpected sample counts")
+        if late.get("transitions") != {"00": 28, "01": 35, "10": 1, "11": 18}:
+            issues.append("matched recovery transition table changed")
+        if late.get("archived_R_symptom_only_recovered") != 19 or late.get("late_contract_recovered") != 53:
+            issues.append("matched recovery totals changed")
+        if not all(
+            secondary["robustness"][contrast]["leave_one_full_stratum"]["all_positive"]
+            for contrast in ("P_minus_R", "P_minus_G")
+        ):
+            issues.append("a leave-one-stratum primary contrast is not positive")
     manuscript = re.sub(r"\s+", " ", (PACKAGE / "main.tex").read_text())
     required_claims = (
         "proactive disclosure produced 64/96 (66.7\\%) first-pass suitable",
         "compared with 14/96 (14.6\\%) under reactive feedback and 27/96",
-        "Proactive (P) & 64/96 & 72/96 & 128 & 469k & \\$4.30",
-        "Reactive (R) & 14/96 & 33/96 & 178 & 596k & \\$4.53",
-        "Generic (G) & 27/96 & 43/96 & 165 & 671k & \\$4.43",
+        "Proactive (P) & 64/96 & 72/96 & 128 & 469k",
+        "Reactive (R) & 14/96 & 33/96 & 178 & 596k",
+        "Generic (G) & 27/96 & 43/96 & 165 & 671k",
+        "symptom-only recovery produced 19/82 suitable programs",
+        "35 improvements, one regression, 18 shared successes, and 28 shared failures",
+        "162,901 fewer tokens---a 25.8\\% reduction relative to the late workflow's 632,269",
+        "Relative to G, P used 30.1\\% fewer total tokens",
     )
     for claim in required_claims:
         if claim not in manuscript:
@@ -126,20 +152,28 @@ def pdf_issues(pdf: Path, release: bool) -> list[str]:
         return issues
     pages = int(match.group(1))
     reference_page = None
+    page_text: dict[int, str] = {}
     for page in range(1, pages + 1):
         text = subprocess.run(
             ["pdftotext", "-f", str(page), "-l", str(page), str(pdf), "-"],
             check=True, capture_output=True, text=True,
         ).stdout
-        for label, pattern in IDENTITY_PATTERNS.items():
-            if pattern.search(text):
-                issues.append(f"{label} appears in PDF page {page}")
+        page_text[page] = text
         if reference_page is None and re.search(r"^REFERENCES\s*$", text, re.M | re.I):
             reference_page = page
     if reference_page is None:
         issues.append("REFERENCES heading not found in compiled PDF")
     elif reference_page > 9:
         issues.append(f"references begin on page {reference_page}; content exceeds eight pages")
+    for page, text in page_text.items():
+        for label, pattern in IDENTITY_PATTERNS.items():
+            # A normal third-person bibliography may name the author of related
+            # prior work. Keep scanning the manuscript body and every page for
+            # emails, repositories, and local paths.
+            if label == "author name" and reference_page is not None and page >= reference_page:
+                continue
+            if pattern.search(text):
+                issues.append(f"{label} appears in PDF page {page}")
     if release:
         metadata = info.lower()
         for token in ("manu", "agrawal", "gmail", "manu2"):
@@ -170,7 +204,11 @@ def supplement_issues(require: bool = False) -> list[str]:
                 "paper/aamas2027/SUPPLEMENT_README.md",
                 "paper/aamas2027/AI_ASSISTANCE_DISCLOSURE.md",
                 "experiments/09_aamas_contract_bridge/analysis/confirmatory_analysis.json",
+                "experiments/09_aamas_contract_bridge/analysis/aamas_secondary_analysis.json",
+                "experiments/09_aamas_contract_bridge/analysis/late_disclosure_combined_v1.json",
                 "docs/28_aamas_confirmatory_results.md",
+                "docs/34_aamas_late_disclosure_combined_report.md",
+                "docs/35_aamas_secondary_analysis.md",
             }
             for name in sorted(required - set(names)):
                 issues.append(f"required supplement member missing: {name}")
@@ -198,6 +236,8 @@ def supplement_issues(require: bool = False) -> list[str]:
                         issues.append("supplement manifest does not declare 288 effective trajectories")
                     if manifest.get("archived_trajectory_slots") != 320:
                         issues.append("supplement manifest does not declare 320 archived trajectory slots")
+                    if manifest.get("matched_late_disclosure_states") != 82:
+                        issues.append("supplement manifest does not declare 82 matched late-disclosure states")
                     rows = manifest.get("files", [])
                     listed = {row.get("path") for row in rows}
                     actual = set(names) - {"manifest.json"}

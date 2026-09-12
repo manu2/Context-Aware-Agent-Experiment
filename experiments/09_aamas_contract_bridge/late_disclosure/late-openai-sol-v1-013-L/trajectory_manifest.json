@@ -1,0 +1,159 @@
+{
+  "branch": "L",
+  "execution_index": 13,
+  "source_first_attempt_execution_sha256": "c6e54402f6b3c73d6cc83bd66dc183a641f4fab738acdb329fec249103f609ad",
+  "source_first_attempt_program_sha256": "036834c5344758a26ba4c71dcbd0e81b2aaedc245d0167b8d478d68984152e83",
+  "source_trajectory_id": "confirm-openai-sol-v1-048-numerical-primary-latency_tight-R",
+  "study_manifest": {
+    "archive_subdir": "late_disclosure",
+    "budget_ledger_file": "openai_sol_late_v1_budget_ledger.json",
+    "budget_usd": 3.0,
+    "development_only": false,
+    "execution_order": [
+      [
+        "confirm-openai-sol-v1-006-etl-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-008-etl-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-010-etl-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-018-numerical-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-024-etl-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-026-numerical-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-029-etl-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-030-etl-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-031-etl-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-041-etl-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-043-numerical-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-047-numerical-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-048-numerical-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-049-etl-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-054-numerical-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-068-etl-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-069-numerical-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-075-etl-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-082-etl-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-084-etl-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-086-etl-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-090-etl-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-092-numerical-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-openai-sol-v1-094-etl-secondary-latency_tight-R",
+        "L"
+      ]
+    ],
+    "maximum_provider_calls": 24,
+    "model": {
+      "cached_input_usd_per_million": 0.4,
+      "documentation": "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
+      "id": "gpt-5.6-sol",
+      "max_output_tokens": 32768,
+      "pricing_usd_per_million_tokens": {
+        "cached_input": 0.4,
+        "input": 4.0,
+        "output_including_reasoning": 20.0
+      },
+      "provider": "openai",
+      "reasoning_effort": "medium"
+    },
+    "run_id_prefix": "late-openai-sol-v1",
+    "schema_version": "aamas-late-disclosure/v1.0",
+    "source_archive_subdir": "confirmatory",
+    "status": "frozen_before_calls",
+    "stopping_rule": "Run all 24 late-disclosure recovery branches unless the provider budget cap, call cap, or a validity-critical infrastructure fault stops the campaign. Never stop for an inconvenient result.",
+    "worker_host_key_alias": "compute.2103735328891846055",
+    "worker_user": "manuagrawal"
+  },
+  "task_spec": {
+    "asset": {
+      "bytes": 32768128,
+      "name": "vectors.npy",
+      "sha256": "b95a6f21f8c055e4dff0ea6b51cec50f7f460809d5e93f8a0a2bb9f9717b9ba9"
+    },
+    "environments": {
+      "latency_tight": {
+        "cpu_cores": 1,
+        "memory_mib": 1024,
+        "wall_seconds": 3.0
+      },
+      "memory_tight": {
+        "cpu_cores": 1,
+        "memory_mib": 128,
+        "wall_seconds": 8
+      }
+    },
+    "oracle": {
+      "absolute_tolerance": 0.001,
+      "expected_approximately": 835795650.00869,
+      "relative_tolerance": 1e-06
+    },
+    "prompt": "Write a complete Python program. The current directory contains vectors.npy, an 8000 by 1024 float32 NumPy array. CPython 3.11.2, NumPy 2.0.2, Pandas 2.2.3, and the Python standard library are available. Compute the sum of Euclidean distances over every ordered pair of rows, including the zero diagonal, and print exactly TOTAL:<decimal value>. Do not approximate or sample. Do not modify the input file. Do not invoke external programs. The program has no network access.",
+    "schema_version": "aamas-task/v0.1",
+    "task_id": "numerical_pairwise_distance_primary"
+  }
+}

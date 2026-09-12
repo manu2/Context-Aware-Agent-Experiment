@@ -1,0 +1,196 @@
+{
+  "branch": "L",
+  "execution_index": 1,
+  "source_first_attempt_execution_sha256": "be6b87a457700cd9ae68e997666705ff2d7c9d028a2d44d6f211eec6ee127695",
+  "source_first_attempt_program_sha256": "17b5aaebdfd002e884313f58b86cdeeaf6e6a286e9a1c2c1bb28399407693e73",
+  "source_trajectory_id": "confirm-anthropic-sonnet-v1-001-etl-secondary-latency_tight-R",
+  "study_manifest": {
+    "archive_subdir": "late_disclosure",
+    "budget_ledger_file": "anthropic_sonnet_late_v1_budget_ledger.json",
+    "budget_usd": 1.0,
+    "development_only": false,
+    "execution_order": [
+      [
+        "confirm-anthropic-sonnet-v1-001-etl-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-002-numerical-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-003-etl-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-007-etl-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-009-etl-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-011-numerical-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-021-numerical-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-023-numerical-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-030-etl-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-032-etl-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-033-numerical-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-036-etl-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-038-numerical-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-040-numerical-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-045-etl-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-048-numerical-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-049-etl-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-056-numerical-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-058-etl-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-066-numerical-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-067-etl-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-069-numerical-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-070-etl-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-074-etl-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-075-etl-secondary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-076-etl-primary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-086-numerical-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-087-numerical-secondary-latency_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-092-numerical-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-095-numerical-primary-memory_tight-R",
+        "L"
+      ],
+      [
+        "confirm-anthropic-sonnet-v1-096-numerical-secondary-memory_tight-R",
+        "L"
+      ]
+    ],
+    "maximum_provider_calls": 31,
+    "model": {
+      "documentation": "https://platform.claude.com/docs/en/about-claude/models/whats-new-sonnet-5",
+      "effort": "medium",
+      "id": "claude-sonnet-5",
+      "max_output_tokens": 32768,
+      "pricing_usd_per_million_tokens": {
+        "input": 2.0,
+        "output_including_thinking": 10.0
+      },
+      "provider": "anthropic",
+      "thinking": "adaptive"
+    },
+    "run_id_prefix": "late-anthropic-sonnet-v1",
+    "schema_version": "aamas-late-disclosure/v1.0",
+    "source_archive_subdir": "confirmatory",
+    "status": "frozen_before_calls",
+    "stopping_rule": "Run all 31 late-disclosure recovery branches unless the provider budget cap, call cap, or a validity-critical infrastructure fault stops the campaign. Never stop for an inconvenient result.",
+    "worker_host_key_alias": "compute.2103735328891846055",
+    "worker_user": "manuagrawal"
+  },
+  "task_spec": {
+    "asset": {
+      "bytes": 39444783,
+      "generator": "deterministic modular sequence in benchmarks/setup_aamas_worker.sh",
+      "name": "transactions_secondary.csv",
+      "rows": 3000000,
+      "sha256": "8bd326864973b149f76995d6714bc50546b19208ea5fa9ff5e34750a6c8f7aba"
+    },
+    "environments": {
+      "latency_tight": {
+        "cpu_cores": 1,
+        "memory_mib": 512,
+        "wall_seconds": 1.7
+      },
+      "memory_tight": {
+        "cpu_cores": 1,
+        "memory_mib": 128,
+        "wall_seconds": 4
+      }
+    },
+    "oracle": {
+      "comparison": "exact parsed JSON integer mapping",
+      "expected": {
+        "A": 648680640000,
+        "B": 652368124250,
+        "C": 650606168000,
+        "D": 649541606000,
+        "E": 653919836000,
+        "F": 646851415000,
+        "G": 651602830500,
+        "H": 648969748750
+      }
+    },
+    "prompt": "Write a complete Python program. The current directory contains transactions_secondary.csv with columns account_id, category, and amount_cents. CPython 3.11.2, NumPy 2.0.2, Pandas 2.2.3, and the Python standard library are available. For rows whose account_id modulo 13 is less than 8, compute for each category the exact sum of amount_cents multiplied by ((account_id modulo 89) + 3). Print exactly TOTAL:<JSON object>, with category keys sorted and no extra output. Do not modify the input file. Do not invoke external programs. The program has no network access.",
+    "schema_version": "aamas-task/v0.1",
+    "task_id": "etl_category_aggregation_secondary"
+  }
+}
